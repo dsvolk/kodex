@@ -3,16 +3,11 @@ class Kodex < Formula
   homepage "https://github.com/dsvolk/kodex"
   version "@VERSION@"
   license "Apache-2.0"
+  depends_on :macos
+  depends_on arch: :arm64
 
-  on_macos do
-    if Hardware::CPU.arm?
-      url "https://github.com/dsvolk/kodex/releases/download/@TAG@/@ARM_ARCHIVE@"
-      sha256 "@ARM_SHA@"
-    else
-      url "https://github.com/dsvolk/kodex/releases/download/@TAG@/@INTEL_ARCHIVE@"
-      sha256 "@INTEL_SHA@"
-    end
-  end
+  url "https://github.com/dsvolk/kodex/releases/download/@TAG@/@ARM_ARCHIVE@"
+  sha256 "@ARM_SHA@"
 
   def install
     bin.install "kodex"

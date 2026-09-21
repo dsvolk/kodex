@@ -14,14 +14,10 @@ concurrency:
 
 jobs:
   build:
-    name: Build ${{ matrix.target }}
+    name: Build Apple Silicon
     runs-on: macos-14
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-          - aarch64-apple-darwin
-          - x86_64-apple-darwin
+    env:
+      TARGET: aarch64-apple-darwin
     defaults:
       run:
         working-directory: kodex-rs
@@ -31,11 +27,11 @@ jobs:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582 # 1.95.0
         with:
-          targets: ${{ matrix.target }}
+          targets: aarch64-apple-darwin
       - name: Configure rusty_v8
         uses: ./.github/actions/setup-rusty-v8
         with:
-          target: ${{ matrix.target }}
+          target: aarch64-apple-darwin
       - name: Verify release version
         run: |
           set -euo pipefail
@@ -43,12 +39,8 @@ jobs:
           manifest_version="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -1)"
           test "$tag_version" = "$manifest_version"
       - name: Build
-        env:
-          TARGET: ${{ matrix.target }}
         run: cargo build --locked --release --target "$TARGET" --bin kodex
       - name: Package
-        env:
-          TARGET: ${{ matrix.target }}
         run: |
           set -euo pipefail
           mkdir -p dist/package
@@ -56,7 +48,7 @@ jobs:
           tar -C dist/package -czf "dist/kodex-${GITHUB_REF_NAME}-${TARGET}.tar.gz" kodex
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
-          name: kodex-${{ matrix.target }}
+          name: kodex-aarch64-apple-darwin
           path: kodex-rs/dist/*.tar.gz
           if-no-files-found: error
 
@@ -89,17 +81,13 @@ jobs:
 
           version="${GITHUB_REF_NAME#v}"
           arm_archive="kodex-${GITHUB_REF_NAME}-aarch64-apple-darwin.tar.gz"
-          intel_archive="kodex-${GITHUB_REF_NAME}-x86_64-apple-darwin.tar.gz"
           arm_sha="$(sha256sum "dist/$arm_archive" | cut -d' ' -f1)"
-          intel_sha="$(sha256sum "dist/$intel_archive" | cut -d' ' -f1)"
           mkdir -p tap/Formula
           sed \
             -e "s/@VERSION@/$version/g" \
             -e "s/@TAG@/$GITHUB_REF_NAME/g" \
             -e "s/@ARM_ARCHIVE@/$arm_archive/g" \
             -e "s/@ARM_SHA@/$arm_sha/g" \
-            -e "s/@INTEL_ARCHIVE@/$intel_archive/g" \
-            -e "s/@INTEL_SHA@/$intel_sha/g" \
             formula/kodex.rb.tmpl > tap/Formula/kodex.rb
 
           git -C tap config user.name github-actions[bot]
