@@ -18,6 +18,7 @@ jobs:
     runs-on: macos-14
     env:
       TARGET: aarch64-apple-darwin
+      RUSTFLAGS: -C link-arg=-Wl,-no_order_inits
     defaults:
       run:
         working-directory: kodex-rs
