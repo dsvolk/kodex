@@ -18,7 +18,9 @@ jobs:
     runs-on: macos-14
     env:
       TARGET: aarch64-apple-darwin
-      RUSTFLAGS: -C link-arg=-Wl,-no_order_inits
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 1
+      CARGO_PROFILE_RELEASE_LTO: fat
+      CARGO_PROFILE_RELEASE_OPT_LEVEL: z
     defaults:
       run:
         working-directory: kodex-rs
