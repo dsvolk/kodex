@@ -1,0 +1,35 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-analytics"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_analytics"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-app-server-protocol = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-state = { workspace = true }
+os_info = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha1 = { workspace = true }
+tokio = { workspace = true, features = [
+    "macros",
+    "rt-multi-thread",
+] }
+tracing = { workspace = true, features = ["log"] }
+
+[dev-dependencies]
+kodex-utils-absolute-path = { workspace = true }
+pretty_assertions = { workspace = true }

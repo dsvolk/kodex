@@ -1,0 +1,68 @@
+[package]
+name = "kodex-app-server-transport"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "kodex_app_server_transport"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+axum = { workspace = true, default-features = false, features = [
+    "http1",
+    "json",
+    "tokio",
+    "ws",
+] }
+base64 = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+kodex-api = { workspace = true }
+kodex-app-server-protocol = { workspace = true }
+kodex-core = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-state = { workspace = true }
+kodex-uds = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-rustls-provider = { workspace = true }
+constant_time_eq = { workspace = true }
+futures = { workspace = true }
+gethostname = { workspace = true }
+hmac = { workspace = true }
+httpdate = { workspace = true }
+jsonwebtoken = { workspace = true }
+owo-colors = { workspace = true, features = ["supports-colors"] }
+rand = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+time = { workspace = true }
+tokio = { workspace = true, features = [
+    "io-std",
+    "macros",
+    "process",
+    "rt-multi-thread",
+] }
+tokio-tungstenite = { workspace = true }
+tokio-util = { workspace = true }
+tracing = { workspace = true, features = ["log"] }
+url = { workspace = true }
+uuid = { workspace = true, features = ["serde", "v7"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = { workspace = true }
+signal-hook = { workspace = true }
+
+[dev-dependencies]
+chrono = { workspace = true }
+kodex-config = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }

@@ -1,0 +1,38 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-image-generation-extension"
+version.workspace = true
+
+[lib]
+name = "kodex_image_generation_extension"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+kodex-api = { workspace = true }
+kodex-core = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-extension-items = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-tools = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-image = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+http = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt"] }

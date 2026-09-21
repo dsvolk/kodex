@@ -1,0 +1,27 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-rollout-trace"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_rollout_trace"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-code-mode = { workspace = true }
+kodex-protocol = { workspace = true }
+http = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }

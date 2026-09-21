@@ -1,0 +1,40 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-hooks"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_hooks"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+async-channel = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+kodex-config = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-output-truncation = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+futures = { workspace = true, features = ["alloc"] }
+regex = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["fs", "io-util", "process", "sync", "time"] }
+tracing = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
+
+[target.'cfg(any(unix, windows))'.dependencies]
+kodex-utils-pty = { workspace = true }

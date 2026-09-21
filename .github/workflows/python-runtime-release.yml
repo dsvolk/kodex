@@ -23,7 +23,7 @@ jobs:
 
   # PyPI must trust this top-level workflow for manual runtime publication.
   publish-python-runtime:
-    if: github.repository == 'openai/codex'
+    if: github.repository == 'openai/kodex'
     name: publish-python-runtime
     needs: prepare-python-runtime
     runs-on: ubuntu-latest
@@ -60,4 +60,4 @@ jobs:
           PYTHON_RUNTIME_VERSION: ${{ needs.prepare-python-runtime.outputs.python_version }}
         run: |
           uv run --no-project --with packaging==26.2 python .github/scripts/verify_pypi_release.py \
-            openai-codex-cli-bin "$PYTHON_RUNTIME_VERSION"
+            openai-kodex-cli-bin "$PYTHON_RUNTIME_VERSION"

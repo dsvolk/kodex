@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "user-verification",
+    crate_name = "kodex_user_verification",
+)

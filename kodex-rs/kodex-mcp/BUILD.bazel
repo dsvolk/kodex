@@ -1,0 +1,7 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "kodex-mcp",
+    crate_name = "kodex_mcp",
+    test_data_extra = glob(["src/**/snapshots/**"]),
+)

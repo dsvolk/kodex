@@ -1,0 +1,156 @@
+[package]
+name = "kodex-app-server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "kodex-app-server"
+path = "src/main.rs"
+
+[[bin]]
+name = "kodex-app-server-test-notify-capture"
+path = "src/bin/notify_capture.rs"
+
+[[bin]]
+name = "exec-server"
+path = "src/bin/exec_server.rs"
+
+[lib]
+name = "kodex_app_server"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+base64 = { workspace = true }
+axum = { workspace = true, default-features = false, features = [
+    "http1",
+    "json",
+    "tokio",
+    "ws",
+] }
+kodex-analytics = { workspace = true }
+kodex-agent-extension = { workspace = true }
+kodex-arg0 = { workspace = true }
+kodex-aws-auth = { workspace = true }
+kodex-cloud-config = { workspace = true }
+kodex-code-mode = { workspace = true }
+kodex-config = { workspace = true }
+kodex-network-proxy = { workspace = true }
+kodex-connectors = { workspace = true }
+kodex-core = { workspace = true }
+kodex-core-plugins = { workspace = true }
+kodex-diagnostics = { workspace = true }
+kodex-home = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-external-agent-migration = { workspace = true }
+kodex-features = { workspace = true }
+kodex-goal-extension = { workspace = true }
+kodex-git-attribution = { workspace = true }
+kodex-guardian-v2 = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-file-watcher = { workspace = true }
+kodex-hooks = { workspace = true }
+kodex-history-notes-extension = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-shell-command = { workspace = true }
+kodex-skills = { workspace = true }
+kodex-skills-extension = { workspace = true }
+kodex-utils-cli = { workspace = true }
+kodex-user-verification = { workspace = true }
+kodex-utils-pty = { workspace = true }
+kodex-backend-client = { workspace = true }
+kodex-file-search = { workspace = true }
+kodex-chatgpt = { workspace = true }
+kodex-login = { workspace = true }
+kodex-image-generation-extension = { workspace = true }
+kodex-memories-extension = { workspace = true }
+kodex-web-search-extension = { workspace = true }
+kodex-memories-write = { workspace = true }
+kodex-mcp = { workspace = true }
+kodex-mcp-extension = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-models-manager = { workspace = true }
+kodex-prompts = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-queue-extension = { workspace = true }
+kodex-app-server-protocol = { workspace = true }
+kodex-app-server-transport = { workspace = true }
+kodex-feedback = { workspace = true }
+kodex-rmcp-client = { workspace = true }
+kodex-rollout = { workspace = true }
+kodex-sandboxing = { workspace = true }
+kodex-state = { workspace = true }
+kodex-thread-store = { workspace = true }
+kodex-tools = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-json-to-toml = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+futures = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+tempfile = { workspace = true }
+thiserror = { workspace = true }
+time = { workspace = true }
+toml = { workspace = true }
+toml_edit = { workspace = true }
+tokio = { workspace = true, features = [
+    "io-std",
+    "macros",
+    "process",
+    "rt-multi-thread",
+    "signal",
+] }
+tokio-util = { workspace = true }
+tracing = { workspace = true, features = ["log"] }
+tracing-subscriber = { workspace = true, features = ["env-filter", "fmt", "json"] }
+url = { workspace = true }
+uuid = { workspace = true, features = ["serde", "v7"] }
+
+[target.'cfg(all(target_os = "linux", target_env = "musl", any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
+tikv-jemallocator = { workspace = true }
+
+[target.'cfg(windows)'.dependencies]
+kodex-windows-sandbox = { workspace = true }
+
+[dev-dependencies]
+kodex-uds = { workspace = true }
+app_test_support = { workspace = true }
+axum = { workspace = true, default-features = false, features = [
+    "http1",
+    "json",
+    "tokio",
+] }
+base64 = { workspace = true }
+kodex-utils-cargo-bin = { workspace = true }
+core_test_support = { workspace = true }
+flate2 = { workspace = true }
+hmac = { workspace = true }
+http = { workspace = true }
+opentelemetry = { workspace = true }
+opentelemetry_sdk = { workspace = true }
+pretty_assertions = { workspace = true }
+rmcp = { workspace = true, default-features = false, features = [
+    "elicitation",
+    "server",
+    "transport-streamable-http-server",
+] }
+serial_test = { workspace = true }
+shlex = { workspace = true }
+sqlx = { workspace = true }
+tar = { workspace = true }
+test-case = "3.3.1"
+tokio-tungstenite = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+wiremock = { workspace = true }

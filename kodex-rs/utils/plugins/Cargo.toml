@@ -1,0 +1,26 @@
+
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-utils-plugins"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_utils_plugins"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-exec-server = { workspace = true }
+kodex-exec-server-protocol = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt"] }

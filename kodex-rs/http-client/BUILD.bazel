@@ -1,0 +1,7 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "http-client",
+    compile_data = glob(["tests/fixtures/**"]),
+    crate_name = "kodex_http_client",
+)

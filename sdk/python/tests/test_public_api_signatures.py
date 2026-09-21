@@ -5,23 +5,23 @@ import inspect
 from pathlib import Path
 from typing import Any
 
-import openai_codex
-import openai_codex.types as public_types
-from openai_codex import (
+import openai_kodex
+import openai_kodex.types as public_types
+from openai_kodex import (
     ApprovalMode,
-    AsyncCodex,
+    AsyncKodex,
     AsyncThread,
     AsyncTurnHandle,
-    Codex,
-    CodexConfig,
     ExternalMessage,
+    Kodex,
+    KodexConfig,
     Sandbox,
     Thread,
     TurnHandle,
     TurnResult,
 )
-from openai_codex._initialize_metadata import validate_initialize_metadata
-from openai_codex.types import InitializeResponse
+from openai_kodex._initialize_metadata import validate_initialize_metadata
+from openai_kodex.types import InitializeResponse
 
 try:
     import tomllib
@@ -30,9 +30,9 @@ except ModuleNotFoundError:
 
 EXPECTED_ROOT_EXPORTS = [
     "__version__",
-    "CodexConfig",
-    "Codex",
-    "AsyncCodex",
+    "KodexConfig",
+    "Kodex",
+    "AsyncKodex",
     "ApprovalMode",
     "Sandbox",
     "ChatgptLoginHandle",
@@ -54,10 +54,10 @@ EXPECTED_ROOT_EXPORTS = [
     "SkillInput",
     "MentionInput",
     "retry_on_overload",
-    "CodexError",
+    "KodexError",
     "TransportClosedError",
     "JsonRpcError",
-    "CodexRpcError",
+    "KodexRpcError",
     "ParseError",
     "InvalidRequestError",
     "MethodNotFoundError",
@@ -134,9 +134,9 @@ def _assert_no_any_annotations(fn: object) -> None:
         raise AssertionError(f"{fn} has public return annotation typed as Any")
 
 
-def test_root_exports_codex_config() -> None:
+def test_root_exports_kodex_config() -> None:
     """The root package should expose the process configuration object."""
-    assert CodexConfig.__name__ == "CodexConfig"
+    assert KodexConfig.__name__ == "KodexConfig"
 
 
 def test_root_exports_turn_result() -> None:
@@ -214,17 +214,17 @@ def test_package_and_default_client_versions_follow_project_version() -> None:
     pyproject_path = Path(__file__).resolve().parents[1] / "pyproject.toml"
     pyproject = tomllib.loads(pyproject_path.read_text())
 
-    assert openai_codex.__version__ == pyproject["project"]["version"]
-    assert CodexConfig().client_version == openai_codex.__version__
+    assert openai_kodex.__version__ == pyproject["project"]["version"]
+    assert KodexConfig().client_version == openai_kodex.__version__
 
 
 def test_curated_public_api_has_builtin_help_documentation() -> None:
     """The package's normal ``help()`` surface should explain common first-use APIs."""
     documented = {
-        "module": openai_codex,
-        "Codex": Codex,
-        "AsyncCodex": AsyncCodex,
-        "CodexConfig": CodexConfig,
+        "module": openai_kodex,
+        "Kodex": Kodex,
+        "AsyncKodex": AsyncKodex,
+        "KodexConfig": KodexConfig,
         "Thread": Thread,
         "AsyncThread": AsyncThread,
         "TurnHandle": TurnHandle,
@@ -232,8 +232,8 @@ def test_curated_public_api_has_builtin_help_documentation() -> None:
         "TurnResult": TurnResult,
         "ExternalMessage": ExternalMessage,
         "Sandbox": Sandbox,
-        "thread_start": Codex.thread_start,
-        "thread_resume": Codex.thread_resume,
+        "thread_start": Kodex.thread_start,
+        "thread_resume": Kodex.thread_resume,
         "thread_run": Thread.run,
         "thread_turn": Thread.turn,
     }
@@ -245,27 +245,27 @@ def test_curated_public_api_has_builtin_help_documentation() -> None:
 
 def test_package_includes_py_typed_marker() -> None:
     """The wheel should advertise that inline type information is available."""
-    marker = resources.files("openai_codex").joinpath("py.typed")
+    marker = resources.files("openai_kodex").joinpath("py.typed")
     assert marker.is_file()
 
 
 def test_package_root_exports_only_public_api() -> None:
     """The package root should expose the supported SDK surface, not internals."""
-    assert openai_codex.__all__ == EXPECTED_ROOT_EXPORTS
-    assert {name: hasattr(openai_codex, name) for name in EXPECTED_ROOT_EXPORTS} == dict.fromkeys(
+    assert openai_kodex.__all__ == EXPECTED_ROOT_EXPORTS
+    assert {name: hasattr(openai_kodex, name) for name in EXPECTED_ROOT_EXPORTS} == dict.fromkeys(
         EXPECTED_ROOT_EXPORTS, True
     )
     assert {
-        "CodexClient": hasattr(openai_codex, "CodexClient"),
-        "AsyncCodexClient": hasattr(openai_codex, "AsyncCodexClient"),
-        "InitializeResponse": hasattr(openai_codex, "InitializeResponse"),
-        "ThreadStartParams": hasattr(openai_codex, "ThreadStartParams"),
-        "TurnStartParams": hasattr(openai_codex, "TurnStartParams"),
-        "TurnCompletedNotification": hasattr(openai_codex, "TurnCompletedNotification"),
-        "TurnStatus": hasattr(openai_codex, "TurnStatus"),
+        "KodexClient": hasattr(openai_kodex, "KodexClient"),
+        "AsyncKodexClient": hasattr(openai_kodex, "AsyncKodexClient"),
+        "InitializeResponse": hasattr(openai_kodex, "InitializeResponse"),
+        "ThreadStartParams": hasattr(openai_kodex, "ThreadStartParams"),
+        "TurnStartParams": hasattr(openai_kodex, "TurnStartParams"),
+        "TurnCompletedNotification": hasattr(openai_kodex, "TurnCompletedNotification"),
+        "TurnStatus": hasattr(openai_kodex, "TurnStatus"),
     } == {
-        "CodexClient": False,
-        "AsyncCodexClient": False,
+        "KodexClient": False,
+        "AsyncKodexClient": False,
         "InitializeResponse": False,
         "ThreadStartParams": False,
         "TurnStartParams": False,
@@ -277,14 +277,14 @@ def test_package_root_exports_only_public_api() -> None:
 def test_package_star_import_matches_public_api() -> None:
     """Star imports should follow the same explicit public API list."""
     namespace: dict[str, object] = {}
-    exec("from openai_codex import *", namespace)
+    exec("from openai_kodex import *", namespace)
 
     exported = set(namespace) - {"__builtins__"}
     assert exported == set(EXPECTED_ROOT_EXPORTS)
 
 
 def test_types_module_exports_curated_public_types() -> None:
-    """The public type module should expose Codex protocol models."""
+    """The public type module should expose Kodex protocol models."""
     assert public_types.__all__ == EXPECTED_TYPES_EXPORTS
     assert {name: hasattr(public_types, name) for name in EXPECTED_TYPES_EXPORTS} == dict.fromkeys(
         EXPECTED_TYPES_EXPORTS, True
@@ -294,7 +294,7 @@ def test_types_module_exports_curated_public_types() -> None:
 def test_types_star_import_matches_public_types() -> None:
     """Star imports from the type module should match its explicit export list."""
     namespace: dict[str, object] = {}
-    exec("from openai_codex.types import *", namespace)
+    exec("from openai_kodex.types import *", namespace)
 
     exported = set(namespace) - {"__builtins__"}
     assert exported == set(EXPECTED_TYPES_EXPORTS)
@@ -304,11 +304,11 @@ def test_examples_use_public_import_surfaces() -> None:
     """Examples should teach users the public root and type-module imports only."""
     examples_root = Path(__file__).resolve().parents[1] / "examples"
     private_import_markers = [
-        "openai_codex.api",
-        "openai_codex.client",
-        "openai_codex.generated",
-        "openai_codex.models",
-        "openai_codex.retry",
+        "openai_kodex.api",
+        "openai_kodex.client",
+        "openai_kodex.generated",
+        "openai_kodex.models",
+        "openai_kodex.retry",
     ]
 
     offenders = {
@@ -324,7 +324,7 @@ def test_examples_use_public_import_surfaces() -> None:
 def test_generated_public_signatures_are_snake_case_and_typed() -> None:
     """Generated convenience methods should expose typed Pythonic keyword names."""
     expected = {
-        Codex.thread_start: [
+        Kodex.thread_start: [
             "approval_mode",
             "base_instructions",
             "config",
@@ -340,7 +340,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "session_start_source",
             "thread_source",
         ],
-        Codex.thread_list: [
+        Kodex.thread_list: [
             "archived",
             "cursor",
             "cwd",
@@ -353,7 +353,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "source_kinds",
             "use_state_db_only",
         ],
-        Codex.thread_resume: [
+        Kodex.thread_resume: [
             "approval_mode",
             "base_instructions",
             "config",
@@ -366,7 +366,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "sandbox",
             "service_tier",
         ],
-        Codex.thread_fork: [
+        Kodex.thread_fork: [
             "approval_mode",
             "base_instructions",
             "config",
@@ -406,7 +406,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "summary",
             "turn_service_tier",
         ],
-        AsyncCodex.thread_start: [
+        AsyncKodex.thread_start: [
             "approval_mode",
             "base_instructions",
             "config",
@@ -422,7 +422,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "session_start_source",
             "thread_source",
         ],
-        AsyncCodex.thread_list: [
+        AsyncKodex.thread_list: [
             "archived",
             "cursor",
             "cwd",
@@ -435,7 +435,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "source_kinds",
             "use_state_db_only",
         ],
-        AsyncCodex.thread_resume: [
+        AsyncKodex.thread_resume: [
             "approval_mode",
             "base_instructions",
             "config",
@@ -448,7 +448,7 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
             "sandbox",
             "service_tier",
         ],
-        AsyncCodex.thread_fork: [
+        AsyncKodex.thread_fork: [
             "approval_mode",
             "base_instructions",
             "config",
@@ -502,8 +502,8 @@ def test_generated_public_signatures_are_snake_case_and_typed() -> None:
 def test_new_thread_methods_default_to_auto_review() -> None:
     """New threads should start with auto-review unless callers opt out."""
     funcs = [
-        Codex.thread_start,
-        AsyncCodex.thread_start,
+        Kodex.thread_start,
+        AsyncKodex.thread_start,
     ]
 
     assert {fn: _keyword_default(fn, "approval_mode") for fn in funcs} == dict.fromkeys(
@@ -514,12 +514,12 @@ def test_new_thread_methods_default_to_auto_review() -> None:
 def test_existing_thread_methods_default_to_preserving_approval_settings() -> None:
     """Existing thread operations should not serialize approval overrides by default."""
     funcs = [
-        Codex.thread_resume,
-        Codex.thread_fork,
+        Kodex.thread_resume,
+        Kodex.thread_fork,
         Thread.turn,
         Thread.run,
-        AsyncCodex.thread_resume,
-        AsyncCodex.thread_fork,
+        AsyncKodex.thread_resume,
+        AsyncKodex.thread_fork,
         AsyncThread.turn,
         AsyncThread.run,
     ]
@@ -527,18 +527,18 @@ def test_existing_thread_methods_default_to_preserving_approval_settings() -> No
     assert {fn: _keyword_default(fn, "approval_mode") for fn in funcs} == dict.fromkeys(funcs)
 
 
-def test_lifecycle_methods_are_codex_scoped() -> None:
+def test_lifecycle_methods_are_kodex_scoped() -> None:
     """Lifecycle operations should hang off the client rather than thread objects."""
-    assert hasattr(Codex, "thread_resume")
-    assert hasattr(Codex, "thread_fork")
-    assert hasattr(Codex, "thread_archive")
-    assert hasattr(Codex, "thread_unarchive")
-    assert hasattr(AsyncCodex, "thread_resume")
-    assert hasattr(AsyncCodex, "thread_fork")
-    assert hasattr(AsyncCodex, "thread_archive")
-    assert hasattr(AsyncCodex, "thread_unarchive")
-    assert not hasattr(Codex, "thread")
-    assert not hasattr(AsyncCodex, "thread")
+    assert hasattr(Kodex, "thread_resume")
+    assert hasattr(Kodex, "thread_fork")
+    assert hasattr(Kodex, "thread_archive")
+    assert hasattr(Kodex, "thread_unarchive")
+    assert hasattr(AsyncKodex, "thread_resume")
+    assert hasattr(AsyncKodex, "thread_fork")
+    assert hasattr(AsyncKodex, "thread_archive")
+    assert hasattr(AsyncKodex, "thread_unarchive")
+    assert not hasattr(Kodex, "thread")
+    assert not hasattr(AsyncKodex, "thread")
 
     assert not hasattr(Thread, "resume")
     assert not hasattr(Thread, "fork")
@@ -550,22 +550,22 @@ def test_lifecycle_methods_are_codex_scoped() -> None:
     assert not hasattr(AsyncThread, "unarchive")
 
     for fn in (
-        Codex.thread_archive,
-        Codex.thread_unarchive,
-        AsyncCodex.thread_archive,
-        AsyncCodex.thread_unarchive,
+        Kodex.thread_archive,
+        Kodex.thread_unarchive,
+        AsyncKodex.thread_archive,
+        AsyncKodex.thread_unarchive,
     ):
         _assert_no_any_annotations(fn)
 
 
 def test_initialize_metadata_parses_user_agent_shape() -> None:
     """Initialize metadata should accept the legacy user-agent-only payload shape."""
-    payload = InitializeResponse.model_validate({"userAgent": "codex-cli/1.2.3"})
+    payload = InitializeResponse.model_validate({"userAgent": "kodex-cli/1.2.3"})
     parsed = validate_initialize_metadata(payload)
     assert parsed is payload
-    assert parsed.userAgent == "codex-cli/1.2.3"
+    assert parsed.userAgent == "kodex-cli/1.2.3"
     assert parsed.serverInfo is not None
-    assert parsed.serverInfo.name == "codex-cli"
+    assert parsed.serverInfo.name == "kodex-cli"
     assert parsed.serverInfo.version == "1.2.3"
 
 

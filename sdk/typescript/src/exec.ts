@@ -4,10 +4,10 @@ import path from "node:path";
 import readline from "node:readline";
 import { createRequire } from "node:module";
 
-import type { CodexConfigObject, CodexConfigValue } from "./codexOptions";
+import type { KodexConfigObject, KodexConfigValue } from "./kodexOptions";
 import { SandboxMode, ModelReasoningEffort, ApprovalMode, WebSearchMode } from "./threadOptions";
 
-export type CodexExecArgs = {
+export type KodexExecArgs = {
   input: string;
 
   baseUrl?: string;
@@ -42,44 +42,44 @@ export type CodexExecArgs = {
   approvalPolicy?: ApprovalMode;
 };
 
-const INTERNAL_ORIGINATOR_ENV = "CODEX_INTERNAL_ORIGINATOR_OVERRIDE";
-const TYPESCRIPT_SDK_ORIGINATOR = "codex_sdk_ts";
-const CODEX_NPM_NAME = "@openai/codex";
+const INTERNAL_ORIGINATOR_ENV = "KODEX_INTERNAL_ORIGINATOR_OVERRIDE";
+const TYPESCRIPT_SDK_ORIGINATOR = "kodex_sdk_ts";
+const KODEX_NPM_NAME = "@openai/kodex";
 
 const PLATFORM_PACKAGE_BY_TARGET: Record<string, string> = {
-  "x86_64-unknown-linux-musl": "@openai/codex-linux-x64",
-  "aarch64-unknown-linux-musl": "@openai/codex-linux-arm64",
-  "x86_64-apple-darwin": "@openai/codex-darwin-x64",
-  "aarch64-apple-darwin": "@openai/codex-darwin-arm64",
-  "x86_64-pc-windows-msvc": "@openai/codex-win32-x64",
-  "aarch64-pc-windows-msvc": "@openai/codex-win32-arm64",
+  "x86_64-unknown-linux-musl": "@openai/kodex-linux-x64",
+  "aarch64-unknown-linux-musl": "@openai/kodex-linux-arm64",
+  "x86_64-apple-darwin": "@openai/kodex-darwin-x64",
+  "aarch64-apple-darwin": "@openai/kodex-darwin-arm64",
+  "x86_64-pc-windows-msvc": "@openai/kodex-win32-x64",
+  "aarch64-pc-windows-msvc": "@openai/kodex-win32-arm64",
 };
 
 const moduleRequire = createRequire(import.meta.url);
 
-type CodexPathResolution = {
+type KodexPathResolution = {
   executablePath: string;
   pathDirs: string[];
 };
 
-export class CodexExec {
+export class KodexExec {
   private executablePath: string;
   private pathDirs: string[];
   private envOverride?: Record<string, string>;
-  private configOverrides?: CodexConfigObject;
+  private configOverrides?: KodexConfigObject;
   private rawConfigOverrides?: string[];
 
   constructor(
     executablePath: string | null = null,
     env?: Record<string, string>,
-    configOverrides?: CodexConfigObject,
+    configOverrides?: KodexConfigObject,
     rawConfigOverrides?: string[],
   ) {
     if (executablePath) {
       this.executablePath = executablePath;
       this.pathDirs = [];
     } else {
-      const resolved = findCodexPath();
+      const resolved = findKodexPath();
       this.executablePath = resolved.executablePath;
       this.pathDirs = resolved.pathDirs;
     }
@@ -88,7 +88,7 @@ export class CodexExec {
     this.rawConfigOverrides = rawConfigOverrides;
   }
 
-  async *run(args: CodexExecArgs): AsyncGenerator<string> {
+  async *run(args: KodexExecArgs): AsyncGenerator<string> {
     const commandArgs: string[] = ["exec", "--experimental-json"];
 
     if (this.configOverrides) {
@@ -187,7 +187,7 @@ export class CodexExec {
       env[INTERNAL_ORIGINATOR_ENV] = TYPESCRIPT_SDK_ORIGINATOR;
     }
     if (args.apiKey) {
-      env.CODEX_API_KEY = args.apiKey;
+      env.KODEX_API_KEY = args.apiKey;
     }
     if (this.pathDirs.length > 0) {
       prependPathDirs(env, this.pathDirs);
@@ -244,7 +244,7 @@ export class CodexExec {
       if (code !== 0 || signal) {
         const stderrBuffer = Buffer.concat(stderrChunks);
         const detail = signal ? `signal ${signal}` : `code ${code ?? 1}`;
-        throw new Error(`Codex Exec exited with ${detail}: ${stderrBuffer.toString("utf8")}`);
+        throw new Error(`Kodex Exec exited with ${detail}: ${stderrBuffer.toString("utf8")}`);
       }
     } finally {
       rl.close();
@@ -258,14 +258,14 @@ export class CodexExec {
   }
 }
 
-function serializeConfigOverrides(configOverrides: CodexConfigObject): string[] {
+function serializeConfigOverrides(configOverrides: KodexConfigObject): string[] {
   const overrides: string[] = [];
   flattenConfigOverrides(configOverrides, "", overrides);
   return overrides;
 }
 
 function flattenConfigOverrides(
-  value: CodexConfigValue,
+  value: KodexConfigValue,
   prefix: string,
   overrides: string[],
 ): void {
@@ -274,7 +274,7 @@ function flattenConfigOverrides(
       overrides.push(`${prefix}=${toTomlValue(value, prefix)}`);
       return;
     } else {
-      throw new Error("Codex config overrides must be a plain object");
+      throw new Error("Kodex config overrides must be a plain object");
     }
   }
 
@@ -290,7 +290,7 @@ function flattenConfigOverrides(
 
   for (const [key, child] of entries) {
     if (!key) {
-      throw new Error("Codex config override keys must be non-empty strings");
+      throw new Error("Kodex config override keys must be non-empty strings");
     }
     if (child === undefined) {
       continue;
@@ -304,12 +304,12 @@ function flattenConfigOverrides(
   }
 }
 
-function toTomlValue(value: CodexConfigValue, path: string): string {
+function toTomlValue(value: KodexConfigValue, path: string): string {
   if (typeof value === "string") {
     return JSON.stringify(value);
   } else if (typeof value === "number") {
     if (!Number.isFinite(value)) {
-      throw new Error(`Codex config override at ${path} must be a finite number`);
+      throw new Error(`Kodex config override at ${path} must be a finite number`);
     }
     return `${value}`;
   } else if (typeof value === "boolean") {
@@ -321,7 +321,7 @@ function toTomlValue(value: CodexConfigValue, path: string): string {
     const parts: string[] = [];
     for (const [key, child] of Object.entries(value)) {
       if (!key) {
-        throw new Error("Codex config override keys must be non-empty strings");
+        throw new Error("Kodex config override keys must be non-empty strings");
       }
       if (child === undefined) {
         continue;
@@ -330,10 +330,10 @@ function toTomlValue(value: CodexConfigValue, path: string): string {
     }
     return `{${parts.join(", ")}}`;
   } else if (value === null) {
-    throw new Error(`Codex config override at ${path} cannot be null`);
+    throw new Error(`Kodex config override at ${path} cannot be null`);
   } else {
     const typeName = typeof value;
-    throw new Error(`Unsupported Codex config override value at ${path}: ${typeName}`);
+    throw new Error(`Unsupported Kodex config override value at ${path}: ${typeName}`);
   }
 }
 
@@ -342,11 +342,11 @@ function formatTomlKey(key: string): string {
   return TOML_BARE_KEY.test(key) ? key : JSON.stringify(key);
 }
 
-function isPlainObject(value: unknown): value is CodexConfigObject {
+function isPlainObject(value: unknown): value is KodexConfigObject {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function findCodexPath(): CodexPathResolution {
+function findKodexPath(): KodexPathResolution {
   const { platform, arch } = process;
 
   let targetTriple = null;
@@ -403,21 +403,21 @@ function findCodexPath(): CodexPathResolution {
 
   let vendorRoot: string;
   try {
-    const codexPackageJsonPath = moduleRequire.resolve(`${CODEX_NPM_NAME}/package.json`);
-    const codexRequire = createRequire(codexPackageJsonPath);
-    const platformPackageJsonPath = codexRequire.resolve(`${platformPackage}/package.json`);
+    const kodexPackageJsonPath = moduleRequire.resolve(`${KODEX_NPM_NAME}/package.json`);
+    const kodexRequire = createRequire(kodexPackageJsonPath);
+    const platformPackageJsonPath = kodexRequire.resolve(`${platformPackage}/package.json`);
     vendorRoot = path.join(path.dirname(platformPackageJsonPath), "vendor");
   } catch {
     throw new Error(
-      `Unable to locate Codex CLI binaries. Ensure ${CODEX_NPM_NAME} is installed with optional dependencies.`,
+      `Unable to locate Kodex CLI binaries. Ensure ${KODEX_NPM_NAME} is installed with optional dependencies.`,
     );
   }
 
-  const codexBinaryName = process.platform === "win32" ? "codex.exe" : "codex";
-  const nativePackage = resolveNativePackage(vendorRoot, targetTriple, codexBinaryName);
+  const kodexBinaryName = process.platform === "win32" ? "kodex.exe" : "kodex";
+  const nativePackage = resolveNativePackage(vendorRoot, targetTriple, kodexBinaryName);
   if (!nativePackage) {
     throw new Error(
-      `Unable to locate Codex CLI binaries for ${targetTriple}. Ensure ${CODEX_NPM_NAME} is installed with optional dependencies.`,
+      `Unable to locate Kodex CLI binaries for ${targetTriple}. Ensure ${KODEX_NPM_NAME} is installed with optional dependencies.`,
     );
   }
 
@@ -427,18 +427,18 @@ function findCodexPath(): CodexPathResolution {
 export function resolveNativePackage(
   vendorRoot: string,
   targetTriple: string,
-  codexBinaryName: string,
-): CodexPathResolution | null {
+  kodexBinaryName: string,
+): KodexPathResolution | null {
   const packageRoot = path.join(vendorRoot, targetTriple);
-  const packageBinaryPath = path.join(packageRoot, "bin", codexBinaryName);
-  if (isFile(packageBinaryPath) && isFile(path.join(packageRoot, "codex-package.json"))) {
+  const packageBinaryPath = path.join(packageRoot, "bin", kodexBinaryName);
+  if (isFile(packageBinaryPath) && isFile(path.join(packageRoot, "kodex-package.json"))) {
     return {
       executablePath: packageBinaryPath,
-      pathDirs: existingDirs(path.join(packageRoot, "codex-path")),
+      pathDirs: existingDirs(path.join(packageRoot, "kodex-path")),
     };
   }
 
-  const legacyBinaryPath = path.join(packageRoot, "codex", codexBinaryName);
+  const legacyBinaryPath = path.join(packageRoot, "kodex", kodexBinaryName);
   if (isFile(legacyBinaryPath)) {
     return {
       executablePath: legacyBinaryPath,

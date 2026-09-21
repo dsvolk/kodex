@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 env:
-  WINDOWS_BINARIES: "codex codex-code-mode-host codex-responses-api-proxy codex-windows-sandbox-setup codex-windows-sandbox-service codex-command-runner codex-app-server"
+  WINDOWS_BINARIES: "kodex kodex-code-mode-host kodex-responses-api-proxy kodex-windows-sandbox-setup kodex-windows-sandbox-service kodex-command-runner kodex-app-server"
 
 jobs:
   build-windows-binaries:
@@ -17,7 +17,7 @@ jobs:
       contents: read
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: kodex-rs
     strategy:
       fail-fast: false
       matrix:
@@ -25,42 +25,42 @@ jobs:
           - runner: windows-x64
             target: x86_64-pc-windows-msvc
             bundle: primary
-            binaries: "codex codex-code-mode-host codex-responses-api-proxy"
+            binaries: "kodex kodex-code-mode-host kodex-responses-api-proxy"
             runs_on:
               group: ${{ github.event.repository.name }}-runners
               labels: ${{ github.event.repository.name }}-windows-x64
           - runner: windows-arm64
             target: aarch64-pc-windows-msvc
             bundle: primary
-            binaries: "codex codex-code-mode-host codex-responses-api-proxy"
+            binaries: "kodex kodex-code-mode-host kodex-responses-api-proxy"
             runs_on:
               group: ${{ github.event.repository.name }}-runners
               labels: ${{ github.event.repository.name }}-windows-arm64
           - runner: windows-x64
             target: x86_64-pc-windows-msvc
             bundle: helpers
-            binaries: "codex-windows-sandbox-setup codex-windows-sandbox-service codex-command-runner"
+            binaries: "kodex-windows-sandbox-setup kodex-windows-sandbox-service kodex-command-runner"
             runs_on:
               group: ${{ github.event.repository.name }}-runners
               labels: ${{ github.event.repository.name }}-windows-x64
           - runner: windows-arm64
             target: aarch64-pc-windows-msvc
             bundle: helpers
-            binaries: "codex-windows-sandbox-setup codex-windows-sandbox-service codex-command-runner"
+            binaries: "kodex-windows-sandbox-setup kodex-windows-sandbox-service kodex-command-runner"
             runs_on:
               group: ${{ github.event.repository.name }}-runners
               labels: ${{ github.event.repository.name }}-windows-arm64
           - runner: windows-x64
             target: x86_64-pc-windows-msvc
             bundle: app-server
-            binaries: "codex-app-server codex-code-mode-host"
+            binaries: "kodex-app-server kodex-code-mode-host"
             runs_on:
               group: ${{ github.event.repository.name }}-runners
               labels: ${{ github.event.repository.name }}-windows-x64
           - runner: windows-arm64
             target: aarch64-pc-windows-msvc
             bundle: app-server
-            binaries: "codex-app-server codex-code-mode-host"
+            binaries: "kodex-app-server kodex-code-mode-host"
             runs_on:
               group: ${{ github.event.repository.name }}-runners
               labels: ${{ github.event.repository.name }}-windows-arm64
@@ -226,7 +226,7 @@ jobs:
           BAZEL_HOST_JVM_ARG: ${{ matrix.arch == 'aarch64' && '-Xint' || '' }}
           BUILDBUDDY_API_KEY: ""
         run: |
-          (cd codex-rs && cargo update --workspace)
+          (cd kodex-rs && cargo update --workspace)
           python .github/scripts/watch_voice_bazel.py "$(cygpath -w "$BASH")" ./.github/scripts/run-bazel-ci.sh \
             --remote-download-toplevel \
             --print-failed-action-summary \
@@ -249,7 +249,7 @@ jobs:
             -- \
             "//third_party/voice:native_runtime_windows_$ARCH" \
             @rules_rust//cargo/private/cargo_build_script_runner:test \
-            //codex-rs/voice-host:codex-voice-host
+            //kodex-rs/voice-host:kodex-voice-host
       - name: Stage verified voice build output
         shell: bash
         env:
@@ -267,9 +267,9 @@ jobs:
           output="voice-unsigned/${TARGET}"
           mkdir -p "$output"
           cp -R "$runtime" "$output/runtime"
-          cp bazel-bin/codex-rs/voice-host/codex-voice-host.exe "$output/codex-voice-host.exe"
+          cp bazel-bin/kodex-rs/voice-host/kodex-voice-host.exe "$output/kodex-voice-host.exe"
           chmod -R u+w "$output"
-          tar -C "$output" -czf "voice-unsigned-${TARGET}.tar.gz" runtime codex-voice-host.exe
+          tar -C "$output" -czf "voice-unsigned-${TARGET}.tar.gz" runtime kodex-voice-host.exe
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: voice-${{ matrix.target }}-unsigned
@@ -286,7 +286,7 @@ jobs:
       contents: read
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: kodex-rs
     strategy:
       fail-fast: false
       matrix:
@@ -317,7 +317,7 @@ jobs:
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: ${{ matrix.target }}-symbols
-          path: codex-rs/symbols-dist/${{ matrix.target }}/*
+          path: kodex-rs/symbols-dist/${{ matrix.target }}/*
           if-no-files-found: error
 
   build-windows:
@@ -335,7 +335,7 @@ jobs:
       id-token: write
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: kodex-rs
     strategy:
       fail-fast: false
       matrix:
@@ -414,11 +414,11 @@ jobs:
           tar -xzf "$(cygpath -u "${RUNNER_TEMP}/unsigned-voice/voice-unsigned-${target}.tar.gz")" -C "$(cygpath -u "$unsigned")"
           python "${GITHUB_WORKSPACE}/third_party/voice/release_runtime.py" stage \
             --source "$unsigned/runtime" --target "$target" --output "$signed/runtime"
-          cp "$unsigned/codex-voice-host.exe" "$signed/codex-voice-host.exe"
+          cp "$unsigned/kodex-voice-host.exe" "$signed/kodex-voice-host.exe"
           chmod -R u+w "$signed"
           {
             echo 'files<<EOF'
-            echo "$signed/codex-voice-host.exe"
+            echo "$signed/kodex-voice-host.exe"
             find "$signed/runtime/bin" -name '*.dll' -type f -print
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
@@ -451,9 +451,9 @@ jobs:
         run: |
           $target = "${{ matrix.target }}"
           $signed = Join-Path $env:GITHUB_WORKSPACE "signed-voice/$target"
-          python (Join-Path $env:GITHUB_WORKSPACE 'third_party/voice/windows_crt.py') --root (Join-Path $signed 'runtime') --target $target --helper (Join-Path $signed 'codex-voice-host.exe')
+          python (Join-Path $env:GITHUB_WORKSPACE 'third_party/voice/windows_crt.py') --root (Join-Path $signed 'runtime') --target $target --helper (Join-Path $signed 'kodex-voice-host.exe')
           if ($LASTEXITCODE -ne 0) { throw 'Cannot stage verified Microsoft CRT' }
-          $files = @(Join-Path $signed "codex-voice-host.exe") + @(
+          $files = @(Join-Path $signed "kodex-voice-host.exe") + @(
             Get-ChildItem (Join-Path $signed "runtime/bin") -Filter *.dll -File |
               ForEach-Object FullName
           )
@@ -477,12 +477,12 @@ jobs:
               "$dest/${binary}-${{ matrix.target }}.exe"
           done
 
-      - name: Build Codex package archives
+      - name: Build Kodex package archives
         shell: bash
         run: |
           set -euo pipefail
           target="${{ matrix.target }}"
-          archive_script="${GITHUB_WORKSPACE}/.github/scripts/build-codex-package-archive.sh"
+          archive_script="${GITHUB_WORKSPACE}/.github/scripts/build-kodex-package-archive.sh"
           voice_args=(--voice-release-dir "$VOICE_RELEASE_DIR")
           voice_args+=(--release-version "${GITHUB_REF_NAME#rust-v}")
           bash "$archive_script" \
@@ -500,10 +500,10 @@ jobs:
           $target = "${{ matrix.target }}"
           $package = Join-Path $env:RUNNER_TEMP "verify-voice-archive-$target"
           New-Item -ItemType Directory -Path $package | Out-Null
-          tar -xzf "dist/$target/codex-package-$target.tar.gz" -C $package
+          tar -xzf "dist/$target/kodex-package-$target.tar.gz" -C $package
           if ($LASTEXITCODE -ne 0) { throw "Cannot extract the final Windows package" }
-          $voice = Join-Path $package 'codex-resources/voice'
-          $helper = Join-Path $voice 'bin/codex-voice-host.exe'
+          $voice = Join-Path $package 'kodex-resources/voice'
+          $helper = Join-Path $voice 'bin/kodex-voice-host.exe'
           if (-not (Test-Path $helper) -or -not (Test-Path (Join-Path $voice 'bin/gstreamer-1.0-0.dll'))) {
             throw 'Signed Windows voice files are missing from the canonical package'
           }
@@ -535,19 +535,19 @@ jobs:
 
           # The wheel's Windows support floor predates the native voice
           # runtime's verified device/VC++ prerequisites. Keep it voice-free.
-          wheel_package="${RUNNER_TEMP}/codex-package-${{ matrix.target }}"
+          wheel_package="${RUNNER_TEMP}/kodex-package-${{ matrix.target }}"
           python - "$wheel_package" <<'PY'
           import sys
           from pathlib import Path
-          assert not (Path(sys.argv[1]) / "codex-resources" / "voice").exists()
+          assert not (Path(sys.argv[1]) / "kodex-resources" / "voice").exists()
           PY
-          stage_dir="${RUNNER_TEMP}/openai-codex-cli-bin-${{ matrix.target }}"
+          stage_dir="${RUNNER_TEMP}/openai-kodex-cli-bin-${{ matrix.target }}"
           wheel_dir="${GITHUB_WORKSPACE}/python-runtime-dist/${{ matrix.target }}"
           python "${GITHUB_WORKSPACE}/sdk/python/scripts/update_sdk_artifacts.py" \
             stage-runtime \
             "$stage_dir" \
             "$wheel_package" \
-            --codex-version "${GITHUB_REF_NAME}" \
+            --kodex-version "${GITHUB_REF_NAME}" \
             --platform-tag "$platform_tag"
           "${RUNNER_TEMP}/python-runtime-build-venv/Scripts/python.exe" -m build --wheel --outdir "$wheel_dir" "$stage_dir"
 
@@ -571,9 +571,9 @@ jobs:
           # For compatibility with environments that lack the `zstd` tool we
           # additionally create a `.tar.gz` and `.zip` for every Windows binary.
           # The end result is:
-          #   codex-<target>.zst
-          #   codex-<target>.tar.gz
-          #   codex-<target>.zip
+          #   kodex-<target>.zst
+          #   kodex-<target>.tar.gz
+          #   kodex-<target>.zip
           # Variables in the single-quoted script expand in the child shell.
           # shellcheck disable=SC2016
           # Start larger binaries first so both workers stay busy.
@@ -601,11 +601,11 @@ jobs:
             # Create zip archive for Windows binaries.
             # Must run from inside the dest dir so 7z does not embed the
             # directory path inside the zip.
-            if [[ "$base" == "codex-${target}.exe" ]]; then
+            if [[ "$base" == "kodex-${target}.exe" ]]; then
               # Preserve WinGet executable paths while including the signed
               # runtime, resources, and package metadata from the canonical tar.
               bundle_dir="$(mktemp -d)"
-              tar -xzf "$dest/codex-package-${target}.tar.gz" -C "$bundle_dir"
+              tar -xzf "$dest/kodex-package-${target}.tar.gz" -C "$bundle_dir"
               python "${GITHUB_WORKSPACE}/scripts/build_winget_package.py" "$(cygpath -w "$bundle_dir")"
               (cd "$bundle_dir" && 7z a "$repo_root/$dest/${base}.zip" .)
               rm -rf "$bundle_dir"
@@ -621,4 +621,4 @@ jobs:
         with:
           name: ${{ matrix.target }}
           path: |
-            codex-rs/dist/${{ matrix.target }}/*
+            kodex-rs/dist/${{ matrix.target }}/*

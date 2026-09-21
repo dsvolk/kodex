@@ -1,0 +1,32 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-web-search-extension"
+version.workspace = true
+
+[lib]
+name = "kodex_web_search_extension"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-api = { workspace = true }
+kodex-core = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-extension-items = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-tools = { workspace = true }
+http = { workspace = true }
+schemars = { workspace = true }
+serde_json = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

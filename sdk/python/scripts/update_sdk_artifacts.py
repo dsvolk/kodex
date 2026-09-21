@@ -21,12 +21,12 @@ _SDK_PYTHON_ROOT = str(Path(__file__).resolve().parents[1])
 if _SDK_PYTHON_ROOT not in sys.path:
     sys.path.insert(0, _SDK_PYTHON_ROOT)
 
-from release_version import normalize_codex_version  # noqa: E402
+from release_version import normalize_kodex_version  # noqa: E402
 
-SDK_DISTRIBUTION_NAME = "openai-codex"
-RUNTIME_DISTRIBUTION_NAME = "openai-codex-cli-bin"
-RUNTIME_PACKAGE_ROOT = Path("src") / "codex_cli_bin"
-CODEX_PACKAGE_METADATA = "codex-package.json"
+SDK_DISTRIBUTION_NAME = "openai-kodex"
+RUNTIME_DISTRIBUTION_NAME = "openai-kodex-cli-bin"
+RUNTIME_PACKAGE_ROOT = Path("src") / "kodex_cli_bin"
+KODEX_PACKAGE_METADATA = "kodex-package.json"
 
 
 def repo_root() -> Path:
@@ -43,7 +43,7 @@ def python_runtime_root() -> Path:
 
 def schema_bundle_path(schema_dir: Path) -> Path:
     """Return the aggregate v2 app-server schema bundle."""
-    return schema_dir / "codex_app_server_protocol.v2.schemas.json"
+    return schema_dir / "kodex_app_server_protocol.v2.schemas.json"
 
 
 def _is_windows() -> bool:
@@ -51,11 +51,11 @@ def _is_windows() -> bool:
 
 
 def runtime_binary_name() -> str:
-    return "codex.exe" if _is_windows() else "codex"
+    return "kodex.exe" if _is_windows() else "kodex"
 
 
 def runtime_code_mode_host_name() -> str:
-    return "codex-code-mode-host.exe" if _is_windows() else "codex-code-mode-host"
+    return "kodex-code-mode-host.exe" if _is_windows() else "kodex-code-mode-host"
 
 
 def staged_runtime_package_root(root: Path) -> Path:
@@ -147,11 +147,11 @@ def _rewrite_project_name(pyproject_text: str, name: str) -> str:
 def stage_python_sdk_package(
     staging_dir: Path,
     sdk_version: str,
-    codex_version: str | None = None,
+    kodex_version: str | None = None,
 ) -> Path:
-    package_version = normalize_codex_version(sdk_version)
+    package_version = normalize_kodex_version(sdk_version)
     _copy_package_tree(sdk_root(), staging_dir)
-    sdk_bin_dir = staging_dir / "src" / "openai_codex" / "bin"
+    sdk_bin_dir = staging_dir / "src" / "openai_kodex" / "bin"
     if sdk_bin_dir.exists():
         shutil.rmtree(sdk_bin_dir)
 
@@ -159,8 +159,8 @@ def stage_python_sdk_package(
     pyproject_text = pyproject_path.read_text()
     pyproject_text = _rewrite_project_name(pyproject_text, SDK_DISTRIBUTION_NAME)
     pyproject_text = _rewrite_project_version(pyproject_text, package_version)
-    if codex_version is not None:
-        runtime_version = normalize_codex_version(codex_version)
+    if kodex_version is not None:
+        runtime_version = normalize_kodex_version(kodex_version)
         pyproject_text, count = re.subn(
             rf'"{re.escape(RUNTIME_DISTRIBUTION_NAME)}==[^"]+"',
             f'"{RUNTIME_DISTRIBUTION_NAME}=={runtime_version}"',
@@ -175,8 +175,8 @@ def stage_python_sdk_package(
         rf'"{re.escape(RUNTIME_DISTRIBUTION_NAME)}==([^"]+)"', pyproject_text
     )
     if len(runtime_versions) != 1:
-        raise RuntimeError("Expected exactly one pinned Codex runtime dependency")
-    requirements = runpy.run_path(sdk_root() / "src/openai_codex/_runtime_requirements.py")
+        raise RuntimeError("Expected exactly one pinned Kodex runtime dependency")
+    requirements = runpy.run_path(sdk_root() / "src/openai_kodex/_runtime_requirements.py")
     try:
         requirements["require_runtime_version"](runtime_versions[0])
     except ValueError as exc:
@@ -187,7 +187,7 @@ def stage_python_sdk_package(
 
 def stage_python_runtime_package(
     staging_dir: Path,
-    codex_version: str,
+    kodex_version: str,
     package_source: Path,
     platform_tag: str | None = None,
 ) -> Path:
@@ -195,12 +195,12 @@ def stage_python_runtime_package(
         source = package_source.resolve()
         destination = staging_dir.resolve()
         if source.is_relative_to(destination) or destination.is_relative_to(source):
-            raise RuntimeError("Codex package and runtime staging directories must not overlap")
+            raise RuntimeError("Kodex package and runtime staging directories must not overlap")
         for path in package_source.rglob("*"):
             if path.is_symlink() or not (path.is_file() or path.is_dir()):
-                raise RuntimeError(f"Expected a regular Codex package entry: {path}")
+                raise RuntimeError(f"Expected a regular Kodex package entry: {path}")
 
-    package_version = normalize_codex_version(codex_version)
+    package_version = normalize_kodex_version(kodex_version)
     _copy_package_tree(python_runtime_root(), staging_dir)
 
     pyproject_path = staging_dir / "pyproject.toml"
@@ -214,15 +214,15 @@ def stage_python_runtime_package(
     runtime_package_root = staged_runtime_package_root(staging_dir)
     if package_source.is_dir():
         shutil.copytree(package_source, runtime_package_root, dirs_exist_ok=True)
-        _validate_codex_package_layout(runtime_package_root, package_source)
+        _validate_kodex_package_layout(runtime_package_root, package_source)
     else:
-        _extract_codex_package_archive(package_source, runtime_package_root)
+        _extract_kodex_package_archive(package_source, runtime_package_root)
     return staging_dir
 
 
-def _extract_codex_package_archive(package_archive: Path, runtime_package_root: Path) -> None:
+def _extract_kodex_package_archive(package_archive: Path, runtime_package_root: Path) -> None:
     if not package_archive.name.endswith(".tar.gz"):
-        raise RuntimeError(f"Expected a .tar.gz Codex package archive: {package_archive}")
+        raise RuntimeError(f"Expected a .tar.gz Kodex package archive: {package_archive}")
 
     runtime_package_root.mkdir(parents=True, exist_ok=True)
     with tarfile.open(package_archive, "r:gz") as archive:
@@ -231,14 +231,14 @@ def _extract_codex_package_archive(package_archive: Path, runtime_package_root: 
         except TypeError:
             archive.extractall(runtime_package_root)
 
-    _validate_codex_package_layout(runtime_package_root, package_archive)
+    _validate_kodex_package_layout(runtime_package_root, package_archive)
 
 
-def _validate_codex_package_layout(package_dir: Path, package_source: Path) -> None:
+def _validate_kodex_package_layout(package_dir: Path, package_source: Path) -> None:
     missing_entries = []
-    if not (package_dir / CODEX_PACKAGE_METADATA).is_file():
-        missing_entries.append(CODEX_PACKAGE_METADATA)
-    for entry in ("bin", "codex-resources", "codex-path"):
+    if not (package_dir / KODEX_PACKAGE_METADATA).is_file():
+        missing_entries.append(KODEX_PACKAGE_METADATA)
+    for entry in ("bin", "kodex-resources", "kodex-path"):
         if not (package_dir / entry).is_dir():
             missing_entries.append(entry)
     package_binary = package_dir / "bin" / runtime_binary_name()
@@ -249,7 +249,7 @@ def _validate_codex_package_layout(package_dir: Path, package_source: Path) -> N
         missing_entries.append(str(Path("bin") / runtime_code_mode_host_name()))
     if missing_entries:
         missing = ", ".join(missing_entries)
-        raise RuntimeError(f"Missing Codex package layout entries in {package_source}: {missing}")
+        raise RuntimeError(f"Missing Kodex package layout entries in {package_source}: {missing}")
 
 
 def _flatten_string_enum_one_of(definition: dict[str, Any]) -> bool:
@@ -533,7 +533,7 @@ def _normalized_schema_bundle_text(schema_dir: Path) -> str:
 
 def generate_v2_all(schema_dir: Path) -> None:
     """Regenerate the Pydantic v2 protocol model module from app-server schemas."""
-    out_path = sdk_root() / "src" / "openai_codex" / "generated" / "v2_all.py"
+    out_path = sdk_root() / "src" / "openai_kodex" / "generated" / "v2_all.py"
     out_dir = out_path.parent
     old_package_dir = out_dir / "v2_all"
     if old_package_dir.exists():
@@ -721,7 +721,7 @@ def _notification_specs(schema_dir: Path) -> list[tuple[str, str]]:
     """Map each server notification method to its generated payload model class."""
     server_notifications = json.loads((schema_dir / "ServerNotification.json").read_text())
     one_of = server_notifications.get("oneOf", [])
-    generated_source = (sdk_root() / "src" / "openai_codex" / "generated" / "v2_all.py").read_text()
+    generated_source = (sdk_root() / "src" / "openai_kodex" / "generated" / "v2_all.py").read_text()
 
     specs: list[tuple[str, str]] = []
 
@@ -793,7 +793,7 @@ def _type_tuple_source(class_names: list[str]) -> str:
 
 def generate_notification_registry(schema_dir: Path) -> None:
     """Regenerate notification dispatch metadata from the app-server notification schema."""
-    out = sdk_root() / "src" / "openai_codex" / "generated" / "notification_registry.py"
+    out = sdk_root() / "src" / "openai_kodex" / "generated" / "notification_registry.py"
     specs = _notification_specs(schema_dir)
     class_names = sorted({class_name for _, class_name in specs})
     if not class_names:
@@ -1028,9 +1028,9 @@ def _load_public_fields(class_name: str) -> list[PublicFieldSpec]:
 
 def _load_generated_v2_all_module() -> types.ModuleType:
     """Import the freshly generated v2_all module without importing package init."""
-    module_name = "_openai_codex_generated_v2_all_for_artifacts"
+    module_name = "_openai_kodex_generated_v2_all_for_artifacts"
     sys.modules.pop(module_name, None)
-    module_path = sdk_root() / "src" / "openai_codex" / "generated" / "v2_all.py"
+    module_path = sdk_root() / "src" / "openai_kodex" / "generated" / "v2_all.py"
     spec = importlib.util.spec_from_file_location(module_name, module_path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Failed to load generated module from {module_path}")
@@ -1096,7 +1096,7 @@ def _replace_generated_block(source: str, block_name: str, body: str) -> str:
     return updated
 
 
-def _render_codex_block(
+def _render_kodex_block(
     thread_start_fields: list[PublicFieldSpec],
     thread_list_fields: list[PublicFieldSpec],
     resume_fields: list[PublicFieldSpec],
@@ -1109,7 +1109,7 @@ def _render_codex_block(
         *_approval_mode_start_signature_lines(),
         *_kw_signature_lines(thread_start_fields),
         "    ) -> Thread:",
-        '        """Create a new Codex conversation thread."""',
+        '        """Create a new Kodex conversation thread."""',
         _approval_mode_assignment_line("_approval_mode_settings"),
         "        params = ThreadStartParams(",
         *_approval_mode_model_arg_lines(),
@@ -1183,7 +1183,7 @@ def _render_codex_block(
     return "\n".join(lines)
 
 
-def _render_async_codex_block(
+def _render_async_kodex_block(
     thread_start_fields: list[PublicFieldSpec],
     thread_list_fields: list[PublicFieldSpec],
     resume_fields: list[PublicFieldSpec],
@@ -1196,7 +1196,7 @@ def _render_async_codex_block(
         *_approval_mode_start_signature_lines(),
         *_kw_signature_lines(thread_start_fields),
         "    ) -> AsyncThread:",
-        '        """Create a new Codex conversation thread."""',
+        '        """Create a new Kodex conversation thread."""',
         "        await self._ensure_initialized()",
         _approval_mode_assignment_line("_approval_mode_settings"),
         "        params = ThreadStartParams(",
@@ -1279,9 +1279,9 @@ def _render_async_codex_block(
 def _render_thread_block(turn_fields: list[PublicFieldSpec], *, is_async: bool = False) -> str:
     async_prefix = "async " if is_async else ""
     await_prefix = "await " if is_async else ""
-    client = "self._codex._client" if is_async else "self._client"
+    client = "self._kodex._client" if is_async else "self._client"
     handle_type = "AsyncTurnHandle" if is_async else "TurnHandle"
-    handle_owner = "self._codex" if is_async else "self._client"
+    handle_owner = "self._kodex" if is_async else "self._client"
     lines = [
         f"    {async_prefix}def run(",
         "        self,",
@@ -1318,7 +1318,7 @@ def _render_thread_block(turn_fields: list[PublicFieldSpec], *, is_async: bool =
         "        no authority. Both turn_service_tier and source are ignored when joining.",
         '        """',
         "        wire_input, tool_output = _to_wire_turn_input(input)",
-        *(["        await self._codex._ensure_initialized()"] if is_async else []),
+        *(["        await self._kodex._ensure_initialized()"] if is_async else []),
         _approval_mode_assignment_line("_approval_mode_override_settings"),
         "        params = TurnStartParams(",
         "            thread_id=self.id,",
@@ -1336,7 +1336,7 @@ def _render_thread_block(turn_fields: list[PublicFieldSpec], *, is_async: bool =
 def generate_public_api_flat_methods() -> None:
     """Regenerate the public convenience methods from generated protocol models."""
     src_dir = sdk_root() / "src"
-    public_api_path = src_dir / "openai_codex" / "api.py"
+    public_api_path = src_dir / "openai_kodex" / "api.py"
     if not public_api_path.exists():
         # PR2 can run codegen before the ergonomic public API layer is added.
         return
@@ -1353,8 +1353,8 @@ def generate_public_api_flat_methods() -> None:
     source = public_api_path.read_text()
     source = _replace_generated_block(
         source,
-        "Codex.flat_methods",
-        _render_codex_block(
+        "Kodex.flat_methods",
+        _render_kodex_block(
             thread_start_fields,
             thread_list_fields,
             thread_resume_fields,
@@ -1363,8 +1363,8 @@ def generate_public_api_flat_methods() -> None:
     )
     source = _replace_generated_block(
         source,
-        "AsyncCodex.flat_methods",
-        _render_async_codex_block(
+        "AsyncKodex.flat_methods",
+        _render_async_kodex_block(
             thread_start_fields,
             thread_list_fields,
             thread_resume_fields,
@@ -1403,7 +1403,7 @@ def build_parser() -> argparse.ArgumentParser:
     generate_types_parser.add_argument(
         "--schema-dir",
         type=Path,
-        help="App-server JSON schema directory (defaults to tool.codex.codegen.schema-dir)",
+        help="App-server JSON schema directory (defaults to tool.kodex.codegen.schema-dir)",
     )
 
     stage_sdk_parser = subparsers.add_parser(
@@ -1424,7 +1424,7 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     stage_sdk_parser.add_argument(
-        "--codex-version",
+        "--kodex-version",
         help="CLI release version to pin; defaults to the checked-in runtime dependency.",
     )
 
@@ -1440,13 +1440,13 @@ def build_parser() -> argparse.ArgumentParser:
     stage_runtime_parser.add_argument(
         "package_source",
         type=Path,
-        help="Path to a Codex package directory or .tar.gz archive for this platform.",
+        help="Path to a Kodex package directory or .tar.gz archive for this platform.",
     )
     stage_runtime_parser.add_argument(
-        "--codex-version",
+        "--kodex-version",
         required=True,
         help=(
-            "Codex release version to write into the staged runtime package. "
+            "Kodex release version to write into the staged runtime package. "
             "Accepts PEP 440 versions or release tags such as "
             "rust-v0.116.0-alpha.1.2."
         ),
@@ -1483,18 +1483,18 @@ def run_command(args: argparse.Namespace, ops: CliOps) -> None:
                 import tomli as tomllib
 
             pyproject = tomllib.loads((sdk_root() / "pyproject.toml").read_text())
-            schema_dir = sdk_root() / pyproject["tool"]["codex"]["codegen"]["schema-dir"]
+            schema_dir = sdk_root() / pyproject["tool"]["kodex"]["codegen"]["schema-dir"]
         ops.generate_types(schema_dir.resolve())
     elif args.command == "stage-sdk":
         ops.stage_python_sdk_package(
             args.staging_dir,
-            normalize_codex_version(args.sdk_version),
-            normalize_codex_version(args.codex_version) if args.codex_version is not None else None,
+            normalize_kodex_version(args.sdk_version),
+            normalize_kodex_version(args.kodex_version) if args.kodex_version is not None else None,
         )
     elif args.command == "stage-runtime":
         ops.stage_python_runtime_package(
             args.staging_dir,
-            normalize_codex_version(args.codex_version),
+            normalize_kodex_version(args.kodex_version),
             args.package_source.resolve(),
             args.platform_tag,
         )

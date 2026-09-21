@@ -2,11 +2,11 @@
 
 Each example folder contains runnable versions:
 
-- `sync.py` (public sync surface: `Codex`)
-- `async.py` (public async surface: `AsyncCodex`)
+- `sync.py` (public sync surface: `Kodex`)
+- `async.py` (public async surface: `AsyncKodex`)
 
-All examples intentionally use only public SDK exports from `openai_codex`
-and `openai_codex.types`.
+All examples intentionally use only public SDK exports from `openai_kodex`
+and `openai_kodex.types`.
 
 Examples use plain strings for text-only turns and typed input objects for
 multimodal or structured input lists.
@@ -23,10 +23,10 @@ authorization or approval; example 16 establishes the user's task first.
 Install the published SDK:
 
 ```bash
-python -m pip install openai-codex
+python -m pip install openai-kodex
 ```
 
-The SDK installs its pinned `openai-codex-cli-bin` runtime dependency.
+The SDK installs its pinned `openai-kodex-cli-bin` runtime dependency.
 The pinned runtime version comes from the SDK package dependency.
 
 ## Run From A Checkout

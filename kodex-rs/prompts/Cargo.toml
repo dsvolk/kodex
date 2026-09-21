@@ -1,0 +1,28 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-prompts"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_prompts"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-collaboration-mode-templates = { workspace = true }
+kodex-context-fragments = { workspace = true }
+kodex-execpolicy = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-guardian-context = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-template = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

@@ -1,0 +1,22 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-guardian-context"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_guardian_context"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-context-fragments = { workspace = true }
+kodex-history = { workspace = true }
+kodex-protocol = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

@@ -1,0 +1,49 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-skills-extension"
+version.workspace = true
+
+[lib]
+name = "kodex_skills_extension"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-analytics = { workspace = true }
+kodex-config = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-mcp = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-skills = { workspace = true }
+kodex-tools = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+kodex-utils-plugins = { workspace = true }
+kodex-utils-string = { workspace = true }
+dirs = { workspace = true }
+futures = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+tokio = { workspace = true, features = ["sync", "time"] }
+toml = { workspace = true }
+tracing = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+kodex-models-manager = { workspace = true }
+kodex-utils-cargo-bin = { workspace = true }
+dunce = { workspace = true }
+insta = { workspace = true }
+opentelemetry_sdk = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

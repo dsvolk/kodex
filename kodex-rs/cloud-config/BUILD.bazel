@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "cloud-config",
+    crate_name = "kodex_cloud_config",
+)

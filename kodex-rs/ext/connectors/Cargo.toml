@@ -1,0 +1,24 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-connectors-extension"
+version.workspace = true
+
+[lib]
+name = "kodex_connectors_extension"
+path = "src/lib.rs"
+doctest = false
+test = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-connectors = { workspace = true }
+kodex-core-plugins = { workspace = true }
+kodex-file-system = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }

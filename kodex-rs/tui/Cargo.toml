@@ -1,0 +1,190 @@
+[package]
+name = "kodex-tui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+autobins = false
+
+[[bin]]
+name = "kodex-tui"
+path = "src/main.rs"
+
+[[bin]]
+name = "md-events"
+path = "src/bin/md-events.rs"
+
+[lib]
+name = "kodex_tui"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-build-info = { workspace = true }
+anyhow = { workspace = true }
+axum = { workspace = true, default-features = false, features = ["http1", "tokio"] }
+base64 = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+clap = { workspace = true, features = ["derive"] }
+kodex-ansi-escape = { workspace = true }
+kodex-app-server-client = { workspace = true }
+kodex-app-server-daemon = { workspace = true }
+kodex-app-server-protocol = { workspace = true }
+kodex-arg0 = { workspace = true }
+kodex-backend-client = { workspace = true }
+kodex-install-context = { workspace = true }
+kodex-cloud-config = { workspace = true }
+kodex-config = { workspace = true }
+kodex-context-fragments = { workspace = true }
+kodex-connectors = { workspace = true }
+kodex-core-plugins = { workspace = true }
+kodex-history = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-features = { workspace = true }
+kodex-feedback = { workspace = true }
+kodex-file-search = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-login = { workspace = true }
+kodex-mermaid = { workspace = true }
+kodex-message-history = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-models-manager = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-realtime-webrtc = { workspace = true }
+futures = { workspace = true }
+kodex-rollout = { workspace = true }
+kodex-sandboxing = { workspace = true }
+kodex-shell-command = { workspace = true }
+kodex-state = { workspace = true }
+kodex-terminal-detection = { workspace = true }
+kodex-worktree = { workspace = true }
+kodex-utils-approval-presets = { workspace = true }
+kodex-uds = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-cli = { workspace = true }
+kodex-utils-elapsed = { workspace = true }
+kodex-utils-fuzzy-match = { workspace = true }
+kodex-utils-home-dir = { workspace = true }
+kodex-utils-oss = { workspace = true }
+kodex-utils-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+kodex-utils-plugins = { workspace = true }
+kodex-utils-sandbox-summary = { workspace = true }
+kodex-utils-sleep-inhibitor = { workspace = true }
+kodex-utils-string = { workspace = true }
+color-eyre = { workspace = true }
+crossterm = { workspace = true, features = ["bracketed-paste", "event-stream"] }
+derive_more = { workspace = true, features = ["is_variant"] }
+diffy = { workspace = true }
+dirs = { workspace = true }
+dunce = { workspace = true }
+image = { workspace = true, features = ["jpeg", "png", "gif", "webp"] }
+itertools = { workspace = true }
+lazy_static = { workspace = true }
+pathdiff = { workspace = true }
+pulldown-cmark = { workspace = true, features = ["html"] }
+rand = { workspace = true }
+ratatui = { workspace = true, features = [
+    "scrolling-regions",
+    "unstable-backend-writer",
+    "unstable-rendered-line-info",
+    "unstable-widget-ref",
+] }
+ratatui-macros = { workspace = true }
+regex-lite = { workspace = true }
+rmcp = { workspace = true, features = ["server", "transport-streamable-http-server"] }
+semver = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true, features = ["preserve_order"] }
+sha2 = { workspace = true }
+shlex = { workspace = true }
+strum = { workspace = true }
+strum_macros = { workspace = true }
+supports-color = { workspace = true }
+tempfile = { workspace = true }
+textwrap = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = [
+    "io-std",
+    "macros",
+    "process",
+    "rt-multi-thread",
+    "signal",
+    "test-util",
+    "time",
+] }
+tokio-stream = { workspace = true, features = ["sync"] }
+toml = { workspace = true }
+toml_edit = { workspace = true }
+tracing = { workspace = true, features = ["log"] }
+tracing-appender = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+syntect = "5"
+two-face = { version = "0.5", default-features = false, features = ["syntect-default-onig"] }
+unicode-segmentation = { workspace = true }
+unicode-width = { workspace = true }
+url = { workspace = true }
+urlencoding = { workspace = true }
+webbrowser = { workspace = true }
+uuid = { workspace = true }
+
+kodex-windows-sandbox = { workspace = true }
+tokio-util = { workspace = true, features = ["time"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = { workspace = true }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2-app-kit = { version = "0.3.2", default-features = false, features = ["std", "NSAccessibility", "NSWorkspace"] }
+objc2-foundation = { version = "0.3.2", default-features = false, features = ["std", "NSDateFormatter", "NSFormatter", "NSLocale", "NSString"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+# Keep the same executor features as the credential store, which also uses zbus.
+zbus = "4.4.0"
+
+[target.'cfg(windows)'.dependencies]
+which = { workspace = true }
+windows-sys = { version = "0.52", features = [
+    "Win32_Foundation",
+    "Win32_Globalization",
+    "Win32_Security",
+    "Win32_Storage_FileSystem",
+    "Win32_System_Console",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_RemoteDesktop",
+    "Win32_System_IO",
+    "Win32_System_Pipes",
+    "Win32_System_Threading",
+    "Win32_UI_WindowsAndMessaging",
+] }
+winsplit = "0.1"
+
+# Clipboard support via `arboard` is not available on Android/Termux.
+# Only include it for non-Android targets so the crate builds on Android.
+[target.'cfg(not(target_os = "android"))'.dependencies]
+arboard = { workspace = true }
+
+
+[dev-dependencies]
+app_test_support = { workspace = true }
+kodex-mcp = { workspace = true }
+core_test_support = { workspace = true }
+kodex-utils-cargo-bin = { workspace = true }
+assert_matches = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+futures = { workspace = true }
+http = { workspace = true }
+insta = { workspace = true }
+pretty_assertions = { workspace = true }
+rand = { workspace = true }
+serial_test = { workspace = true }
+tokio-tungstenite = { workspace = true }
+vt100 = { workspace = true }
+uuid = { workspace = true }
+wiremock = { workspace = true }

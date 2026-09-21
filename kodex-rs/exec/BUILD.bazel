@@ -1,0 +1,10 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "exec",
+    crate_name = "kodex_exec",
+    test_shard_counts = {
+        "exec-all-test": 8,
+    },
+    test_tags = ["no-sandbox"],
+)

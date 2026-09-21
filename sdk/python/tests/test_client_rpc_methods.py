@@ -6,11 +6,11 @@ from typing import get_type_hints
 
 import pytest
 
-from openai_codex._runtime_requirements import CheckoutCapabilities
-from openai_codex.client import CodexClient, _params_dict
-from openai_codex.errors import CodexError
-from openai_codex.generated.notification_registry import notification_turn_id
-from openai_codex.generated.v2_all import (
+from openai_kodex._runtime_requirements import CheckoutCapabilities
+from openai_kodex.client import KodexClient, _params_dict
+from openai_kodex.errors import KodexError
+from openai_kodex.generated.notification_registry import notification_turn_id
+from openai_kodex.generated.v2_all import (
     AbsolutePathBuf,
     AccountRateLimitsUpdatedNotification,
     AccountUpdatedNotification,
@@ -33,8 +33,8 @@ from openai_codex.generated.v2_all import (
     TurnStartParams,
     WarningNotification,
 )
-from openai_codex.models import InitializeResponse, JsonObject, Notification, UnknownNotification
-from openai_codex.types import ThreadSource
+from openai_kodex.models import InitializeResponse, JsonObject, Notification, UnknownNotification
+from openai_kodex.types import ThreadSource
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -66,8 +66,8 @@ def test_approval_review_paths_preserve_existing_wrappers(model, fields) -> None
 
 def _initialized_client(
     monkeypatch: pytest.MonkeyPatch, metadata: JsonObject
-) -> tuple[CodexClient, list[tuple[str, JsonObject | None]]]:
-    client = CodexClient()
+) -> tuple[KodexClient, list[tuple[str, JsonObject | None]]]:
+    client = KodexClient()
     requests: list[tuple[str, JsonObject | None]] = []
 
     def request_raw(method: str, params: JsonObject | None) -> JsonObject:
@@ -95,9 +95,9 @@ def _initialized_client(
 def test_new_options_reject_unsupported_runtime_before_sending(
     monkeypatch: pytest.MonkeyPatch, method: str, params: JsonObject, version: str
 ) -> None:
-    client, requests = _initialized_client(monkeypatch, {"userAgent": f"codex-cli/{version}"})
+    client, requests = _initialized_client(monkeypatch, {"userAgent": f"kodex-cli/{version}"})
 
-    with pytest.raises(CodexError, match=r"Codex CLI 0\.151\.0 or newer"):
+    with pytest.raises(KodexError, match=r"Kodex CLI 0\.151\.0 or newer"):
         client.request(method, params, response_model=InitializeResponse)
 
     assert requests == []
@@ -106,12 +106,12 @@ def test_new_options_reject_unsupported_runtime_before_sending(
 @pytest.mark.parametrize(
     "metadata",
     [
-        {"userAgent": "codex-cli/0.151.0 (Linux)"},
-        {"userAgent": "codex-cli 0.153.0"},
-        {"userAgent": "codex-cli/0.154.0-alpha.1"},
-        {"userAgent": "codex-cli/0.154.0-alpha.1.2"},
-        {"userAgent": "codex-cli/0.151.0.post1"},
-        {"userAgent": "unknown", "serverInfo": {"name": "codex", "version": "0.153.0"}},
+        {"userAgent": "kodex-cli/0.151.0 (Linux)"},
+        {"userAgent": "kodex-cli 0.153.0"},
+        {"userAgent": "kodex-cli/0.154.0-alpha.1"},
+        {"userAgent": "kodex-cli/0.154.0-alpha.1.2"},
+        {"userAgent": "kodex-cli/0.151.0.post1"},
+        {"userAgent": "unknown", "serverInfo": {"name": "kodex", "version": "0.153.0"}},
     ],
 )
 def test_new_options_accept_supported_runtime_metadata(
@@ -129,8 +129,8 @@ def test_new_options_accept_supported_runtime_metadata(
 def test_unversioned_checkout_probes_and_caches_its_own_schema(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, supports_options: bool
 ) -> None:
-    client, requests = _initialized_client(monkeypatch, {"userAgent": "codex-cli/0.0.0"})
-    command = ("checkout-codex", "--config", "key=value", "app-server")
+    client, requests = _initialized_client(monkeypatch, {"userAgent": "kodex-cli/0.0.0"})
+    command = ("checkout-kodex", "--config", "key=value", "app-server")
     client._checkout_capabilities = CheckoutCapabilities(
         command, str(tmp_path), {"CUSTOM": "value"}
     )
@@ -151,7 +151,7 @@ def test_unversioned_checkout_probes_and_caches_its_own_schema(
                 )
             )
 
-    monkeypatch.setattr("openai_codex._runtime_requirements.subprocess.run", generate_schema)
+    monkeypatch.setattr("openai_kodex._runtime_requirements.subprocess.run", generate_schema)
     for method, params in (
         ("turn/start", {"input": [], "turnTrigger": "automation"}),
         ("thread/resume", {"threadId": "thread-1", "excludeTurns": False}),
@@ -159,7 +159,7 @@ def test_unversioned_checkout_probes_and_caches_its_own_schema(
         if supports_options:
             client.request(method, params, response_model=InitializeResponse)
         else:
-            with pytest.raises(CodexError, match="checkout does not support"):
+            with pytest.raises(KodexError, match="checkout does not support"):
                 client.request(method, params, response_model=InitializeResponse)
     assert len(requests) == (2 if supports_options else 0)
     assert probes == [
@@ -181,15 +181,15 @@ def test_unversioned_checkout_probes_and_caches_its_own_schema(
 def test_unversioned_custom_launch_requires_verifiable_capabilities(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    client, requests = _initialized_client(monkeypatch, {"userAgent": "codex-cli/0.0.0"})
-    with pytest.raises(CodexError, match="Cannot verify an unversioned CLI"):
+    client, requests = _initialized_client(monkeypatch, {"userAgent": "kodex-cli/0.0.0"})
+    with pytest.raises(KodexError, match="Cannot verify an unversioned CLI"):
         client.request(
             "turn/start", {"turnTrigger": "automation"}, response_model=InitializeResponse
         )
     assert requests == []
 
 
-@pytest.mark.parametrize("metadata", [{}, {"userAgent": "codex-cli/0.147.0"}])
+@pytest.mark.parametrize("metadata", [{}, {"userAgent": "kodex-cli/0.147.0"}])
 def test_ordinary_requests_keep_working_on_old_or_unknown_runtime(
     monkeypatch: pytest.MonkeyPatch, metadata: JsonObject
 ) -> None:
@@ -210,10 +210,10 @@ def test_ordinary_requests_keep_working_on_old_or_unknown_runtime(
 def test_new_options_require_fresh_initialize_metadata_after_close(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    client, requests = _initialized_client(monkeypatch, {"userAgent": "codex-cli/0.153.0"})
+    client, requests = _initialized_client(monkeypatch, {"userAgent": "kodex-cli/0.153.0"})
     client.close()
 
-    with pytest.raises(CodexError, match="reported version is 'unknown'"):
+    with pytest.raises(KodexError, match="reported version is 'unknown'"):
         client.request("thread/resume", {"excludeTurns": True}, response_model=InitializeResponse)
 
     assert requests == []
@@ -228,12 +228,12 @@ def test_generated_params_models_are_snake_case_and_dump_by_alias() -> None:
 
 
 def test_generated_v2_bundle_has_single_shared_plan_type_definition() -> None:
-    source = (ROOT / "src" / "openai_codex" / "generated" / "v2_all.py").read_text()
+    source = (ROOT / "src" / "openai_kodex" / "generated" / "v2_all.py").read_text()
     assert source.count("class PlanType(") == 1
 
 
 def test_plan_type_accepts_business_prolite_from_newer_runtime() -> None:
-    """New runtime plan values should remain typed when using a codex_bin override."""
+    """New runtime plan values should remain typed when using a kodex_bin override."""
     plan_type = "self_serve_business_prolite"
     response = GetAccountResponse.model_validate(
         {
@@ -248,7 +248,7 @@ def test_plan_type_accepts_business_prolite_from_newer_runtime() -> None:
     assert response.account is not None
     assert response.account.root.plan_type.value == plan_type
 
-    client = CodexClient()
+    client = KodexClient()
     account_updated = client._coerce_notification(
         "account/updated",
         {"authMode": "chatgpt", "planType": plan_type},
@@ -352,7 +352,7 @@ def test_thread_resume_response_accepts_auto_review_reviewer() -> None:
 
 
 def test_notifications_are_typed_with_canonical_v2_methods() -> None:
-    client = CodexClient()
+    client = KodexClient()
     event = client._coerce_notification(
         "thread/tokenUsage/updated",
         {
@@ -383,7 +383,7 @@ def test_notifications_are_typed_with_canonical_v2_methods() -> None:
 
 
 def test_unknown_notifications_fall_back_to_unknown_payloads() -> None:
-    client = CodexClient()
+    client = KodexClient()
     event = client._coerce_notification(
         "unknown/notification",
         {
@@ -430,14 +430,14 @@ def test_unknown_notifications_fall_back_to_unknown_payloads() -> None:
     ],
 )
 def test_decoded_notifications_match_the_declared_payload_type(method, params, expected) -> None:
-    event = CodexClient()._coerce_notification(method, params)
+    event = KodexClient()._coerce_notification(method, params)
 
     assert event == Notification(method=method, payload=expected)
     assert isinstance(event.payload, get_type_hints(Notification)["payload"])
 
 
 def test_invalid_notification_payload_falls_back_to_unknown() -> None:
-    client = CodexClient()
+    client = KodexClient()
     event = client._coerce_notification("thread/tokenUsage/updated", {"threadId": "missing"})
 
     assert event.method == "thread/tokenUsage/updated"
@@ -471,7 +471,7 @@ def test_generated_notification_turn_id_handles_known_payload_shapes() -> None:
 
 def test_turn_notification_router_demuxes_registered_turns() -> None:
     """The router should deliver out-of-order turn events to the matching queues."""
-    client = CodexClient()
+    client = KodexClient()
     client.register_turn_notifications("turn-1")
     client.register_turn_notifications("turn-2")
 
@@ -514,7 +514,7 @@ def test_turn_notification_router_demuxes_registered_turns() -> None:
 
 def test_goal_notification_router_routes_by_thread_id() -> None:
     """A goal operation should receive turn notifications across physical turn ids."""
-    client = CodexClient()
+    client = KodexClient()
     state = client.register_goal_operation("thread-1")
 
     client._router.route_notification(
@@ -540,7 +540,7 @@ def test_goal_notification_router_routes_by_thread_id() -> None:
 
 def test_client_reader_routes_interleaved_turn_notifications_by_turn_id() -> None:
     """Reader-loop routing should preserve order within each interleaved turn stream."""
-    client = CodexClient()
+    client = KodexClient()
     client.register_turn_notifications("turn-1")
     client.register_turn_notifications("turn-2")
 
@@ -619,7 +619,7 @@ def test_client_reader_routes_interleaved_turn_notifications_by_turn_id() -> Non
 
 def test_turn_notification_router_starts_at_explicit_registration() -> None:
     """Explicit registration receives events from when the caller attaches."""
-    client = CodexClient()
+    client = KodexClient()
     client.register_turn_notifications("turn-1")
     client._router.route_notification(
         client._coerce_notification(
@@ -644,7 +644,7 @@ def test_turn_notification_router_starts_at_explicit_registration() -> None:
 
 def test_turn_notification_router_clears_unregistered_turn_when_completed() -> None:
     """A completed unregistered turn should not leave a pending queue behind."""
-    client = CodexClient()
+    client = KodexClient()
     client._router.route_notification(
         client._coerce_notification(
             "item/agentMessage/delta",
@@ -671,7 +671,7 @@ def test_turn_notification_router_clears_unregistered_turn_when_completed() -> N
 
 def test_turn_notification_router_routes_unknown_turn_notifications() -> None:
     """Unknown notifications should still route when their raw params carry a turn id."""
-    client = CodexClient()
+    client = KodexClient()
     client.register_turn_notifications("turn-1")
     client.register_turn_notifications("turn-2")
 

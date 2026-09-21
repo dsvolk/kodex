@@ -1,0 +1,36 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-history-notes-extension"
+version.workspace = true
+
+[lib]
+name = "kodex_history_notes_extension"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-analytics = { workspace = true }
+kodex-api = { workspace = true }
+kodex-client = { workspace = true }
+kodex-core = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-tools = { workspace = true }
+kodex-utils-output-truncation = { workspace = true }
+http = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+kodex-config = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+core_test_support = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt"] }
+wiremock = { workspace = true }

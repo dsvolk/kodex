@@ -1,0 +1,25 @@
+---
+source: tui/src/chatwidget/tests/popups_and_settings.rs
+expression: popup
+---
+  Upload logs?
+
+  The following files will be sent:
+    • kodex-logs.log
+    • kodex-doctor-report.json
+    • kodex-apps-tools-cache.json (if available)
+    • kodex-app-directory-cache.json (if available)
+    • windows-sandbox.log
+    • auto-review-rollout-thread-1.jsonl
+    • kodex-connectivity-diagnostics.txt
+
+  Connectivity diagnostics
+    - Proxy environment variables are set and may affect connectivity.
+      - HTTPS_PROXY = hello
+
+
+› 1. Yes  Share the current Kodex session logs and diagnostics with the team for
+          troubleshooting.
+  2. No
+
+  enter select · esc back

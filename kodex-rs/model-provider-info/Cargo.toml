@@ -1,0 +1,29 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-model-provider-info"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_model_provider_info"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-api = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-utils-redacted-string = { workspace = true }
+http = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+url = { workspace = true }
+
+[dev-dependencies]
+kodex-utils-absolute-path = { workspace = true }
+maplit = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+toml = { workspace = true }

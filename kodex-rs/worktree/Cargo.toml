@@ -1,0 +1,24 @@
+[package]
+name = "kodex-worktree"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+doctest = false
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-protocol = { workspace = true }
+dunce = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

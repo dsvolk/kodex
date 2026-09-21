@@ -1,0 +1,13 @@
+---
+source: cli/src/main.rs
+assertion_line: 3324
+expression: "errors.join(\"\\n\")"
+---
+kodex --worktree login: `--worktree` supports new interactive sessions, `kodex fork`, `kodex exec`, and `kodex exec fork`
+kodex fork --worktree: `kodex fork --worktree` requires an explicit session ID
+kodex fork --worktree --last: `kodex fork --worktree` requires an explicit session ID
+kodex exec resume --worktree session: `--worktree` cannot resume an existing session; use `kodex exec fork --worktree`
+kodex exec review --worktree: `--worktree` is not supported for code review
+kodex resume --worktree session: `--worktree` supports new interactive sessions, `kodex fork`, `kodex exec`, and `kodex exec fork`
+kodex archive session --worktree: `--worktree` supports new interactive sessions, `kodex fork`, `kodex exec`, and `kodex exec fork`
+kodex queue --thread session --message hi --worktree: `--worktree` supports new interactive sessions, `kodex fork`, `kodex exec`, and `kodex exec fork`

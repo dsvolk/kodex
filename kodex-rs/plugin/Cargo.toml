@@ -1,0 +1,25 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-plugin"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_plugin"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-config = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+kodex-utils-plugins = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

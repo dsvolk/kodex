@@ -1,0 +1,67 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-core-plugins"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_core_plugins"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-analytics = { workspace = true }
+kodex-app-server-protocol = { workspace = true }
+kodex-config = { workspace = true }
+kodex-connectors = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-hooks = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-login = { workspace = true }
+kodex-mcp = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-skills = { workspace = true }
+kodex-shell-command = { workspace = true }
+kodex-tools = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+kodex-utils-plugins = { workspace = true }
+chrono = { workspace = true }
+dirs = { workspace = true }
+flate2 = { workspace = true }
+futures = { workspace = true }
+http = { workspace = true }
+regex = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+serde_with = { workspace = true }
+serde_yaml = { workspace = true }
+sha2 = { workspace = true }
+tar = { workspace = true }
+tempfile = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["fs", "macros", "rt", "time"] }
+toml = { workspace = true }
+tracing = { workspace = true }
+url = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+zip = { workspace = true }
+
+[dev-dependencies]
+kodex-exec-server-test-support = { workspace = true }
+libc = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tracing-subscriber = { workspace = true }
+tracing-test = { workspace = true, features = ["no-env-filter"] }
+wiremock = { workspace = true }

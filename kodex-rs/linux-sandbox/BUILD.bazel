@@ -1,0 +1,13 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "linux-sandbox",
+    crate_name = "kodex_linux_sandbox",
+    extra_binaries = [
+        "//kodex-rs/bwrap:bwrap",
+    ],
+    rustc_env_files = select({
+        "@platforms//os:linux": ["//kodex-rs/bwrap:bwrap-sha256-env"],
+        "//conditions:default": [],
+    }),
+)

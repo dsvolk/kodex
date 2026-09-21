@@ -1,0 +1,32 @@
+[package]
+name = "kodex-backend-client"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lib]
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+http = { workspace = true }
+url = { workspace = true }
+kodex-backend-openapi-models = { path = "../kodex-backend-openapi-models" }
+kodex-api = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-protocol = { workspace = true }
+tokio = { workspace = true, features = ["time"] }
+
+[dev-dependencies]
+pretty_assertions = "1"
+tokio = { workspace = true, features = ["macros", "rt"] }
+wiremock = { workspace = true }

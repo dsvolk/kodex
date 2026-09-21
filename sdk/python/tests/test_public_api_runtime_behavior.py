@@ -8,18 +8,18 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-import openai_codex.api as public_api_module
-from openai_codex.api import (
+import openai_kodex.api as public_api_module
+from openai_kodex.api import (
     ApprovalMode,
-    AsyncCodex,
-    Codex,
+    AsyncKodex,
     ExternalMessage,
+    Kodex,
     Sandbox,
     TextInput,
 )
-from openai_codex.client import _params_dict
-from openai_codex.generated.v2_all import TurnCompletedNotification, TurnStartParams
-from openai_codex.models import InitializeResponse, Notification
+from openai_kodex.client import _params_dict
+from openai_kodex.generated.v2_all import TurnCompletedNotification, TurnStartParams
+from openai_kodex.models import InitializeResponse, Notification
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -40,7 +40,7 @@ def _approval_settings(params: list[Any]) -> list[dict[str, object]]:
     ]
 
 
-def test_codex_init_failure_closes_client(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_kodex_init_failure_closes_client(monkeypatch: pytest.MonkeyPatch) -> None:
     closed: list[bool] = []
 
     class FakeClient:
@@ -57,17 +57,17 @@ def test_codex_init_failure_closes_client(monkeypatch: pytest.MonkeyPatch) -> No
             self._closed = True
             closed.append(True)
 
-    monkeypatch.setattr(public_api_module, "CodexClient", FakeClient)
+    monkeypatch.setattr(public_api_module, "KodexClient", FakeClient)
 
     with pytest.raises(RuntimeError, match="missing required metadata"):
-        Codex()
+        Kodex()
 
     assert closed == [True]
 
 
-def test_async_codex_init_failure_closes_client() -> None:
+def test_async_kodex_init_failure_closes_client() -> None:
     async def scenario() -> None:
-        codex = AsyncCodex()
+        kodex = AsyncKodex()
         close_calls = 0
 
         async def fake_start() -> None:
@@ -80,23 +80,23 @@ def test_async_codex_init_failure_closes_client() -> None:
             nonlocal close_calls
             close_calls += 1
 
-        codex._client.start = fake_start  # type: ignore[method-assign]
-        codex._client.initialize = fake_initialize  # type: ignore[method-assign]
-        codex._client.close = fake_close  # type: ignore[method-assign]
+        kodex._client.start = fake_start  # type: ignore[method-assign]
+        kodex._client.initialize = fake_initialize  # type: ignore[method-assign]
+        kodex._client.close = fake_close  # type: ignore[method-assign]
 
         with pytest.raises(RuntimeError, match="missing required metadata"):
-            await codex.models()
+            await kodex.models()
 
         assert close_calls == 1
-        assert codex._initialized is False
-        assert codex._init is None
+        assert kodex._initialized is False
+        assert kodex._init is None
 
     asyncio.run(scenario())
 
 
-def test_async_codex_initializes_only_once_under_concurrency() -> None:
+def test_async_kodex_initializes_only_once_under_concurrency() -> None:
     async def scenario() -> None:
-        codex = AsyncCodex()
+        kodex = AsyncKodex()
         start_calls = 0
         initialize_calls = 0
         ready = asyncio.Event()
@@ -112,8 +112,8 @@ def test_async_codex_initializes_only_once_under_concurrency() -> None:
             await asyncio.sleep(0.02)
             return InitializeResponse.model_validate(
                 {
-                    "userAgent": "codex-cli/1.2.3",
-                    "serverInfo": {"name": "codex-cli", "version": "1.2.3"},
+                    "userAgent": "kodex-cli/1.2.3",
+                    "serverInfo": {"name": "kodex-cli", "version": "1.2.3"},
                 }
             )
 
@@ -121,11 +121,11 @@ def test_async_codex_initializes_only_once_under_concurrency() -> None:
             await ready.wait()
             return object()
 
-        codex._client.start = fake_start  # type: ignore[method-assign]
-        codex._client.initialize = fake_initialize  # type: ignore[method-assign]
-        codex._client.model_list = fake_model_list  # type: ignore[method-assign]
+        kodex._client.start = fake_start  # type: ignore[method-assign]
+        kodex._client.initialize = fake_initialize  # type: ignore[method-assign]
+        kodex._client.model_list = fake_model_list  # type: ignore[method-assign]
 
-        await asyncio.gather(codex.models(), codex.models())
+        await asyncio.gather(kodex.models(), kodex.models())
 
         assert start_calls == 1
         assert initialize_calls == 1
@@ -133,7 +133,7 @@ def test_async_codex_initializes_only_once_under_concurrency() -> None:
     asyncio.run(scenario())
 
 
-@pytest.mark.parametrize("api_type", [Codex, AsyncCodex])
+@pytest.mark.parametrize("api_type", [Kodex, AsyncKodex])
 @pytest.mark.parametrize(
     ("options", "expected"),
     [
@@ -147,19 +147,19 @@ def test_include_turns_preserves_omission_and_inverts_explicit_values(
     api_type, options, expected
 ) -> None:
     async def scenario() -> None:
-        async_api = api_type is AsyncCodex
+        async_api = api_type is AsyncKodex
         rpc = AsyncMock if async_api else Mock
         thread_response = SimpleNamespace(thread=SimpleNamespace(id="thread-2"))
         client = SimpleNamespace(
             thread_resume=rpc(return_value=thread_response),
             thread_fork=rpc(return_value=thread_response),
         )
-        codex = api_type.__new__(api_type)
-        codex._client = client
-        codex._initialized = True
+        kodex = api_type.__new__(api_type)
+        kodex._client = client
+        kodex._initialized = True
 
         for method in ("thread_resume", "thread_fork"):
-            thread = getattr(codex, method)("thread-1", **options)
+            thread = getattr(kodex, method)("thread-1", **options)
             if async_api:
                 thread = await thread
             assert thread.id == "thread-2"
@@ -171,7 +171,7 @@ def test_include_turns_preserves_omission_and_inverts_explicit_values(
     asyncio.run(scenario())
 
 
-@pytest.mark.parametrize("api_type", [Codex, AsyncCodex])
+@pytest.mark.parametrize("api_type", [Kodex, AsyncKodex])
 @pytest.mark.parametrize("method", ["run", "turn"])
 @pytest.mark.parametrize(
     "content", [None, "External update", [{"type": "input_text", "text": "External update"}]]
@@ -180,7 +180,7 @@ def test_turn_inputs_and_options_reach_the_client(api_type, method, content) -> 
     """User and external inputs preserve distinct wire representations for every entry point."""
 
     async def scenario() -> None:
-        async_api = api_type is AsyncCodex
+        async_api = api_type is AsyncKodex
         rpc = AsyncMock if async_api else Mock
         completed = Notification(
             method="turn/completed",
@@ -197,11 +197,11 @@ def test_turn_inputs_and_options_reach_the_client(api_type, method, content) -> 
                 return_value=(SimpleNamespace(turn=SimpleNamespace(id="turn-1")), subscription)
             ),
         )
-        codex = api_type.__new__(api_type)
-        codex._client = client
-        codex._initialized = True
+        kodex = api_type.__new__(api_type)
+        kodex._client = client
+        kodex._initialized = True
         thread = (
-            public_api_module.AsyncThread(codex, "thread-1")
+            public_api_module.AsyncThread(kodex, "thread-1")
             if async_api
             else public_api_module.Thread(client, "thread-1")
         )
@@ -241,26 +241,26 @@ def test_turn_inputs_and_options_reach_the_client(api_type, method, content) -> 
     asyncio.run(scenario())
 
 
-@pytest.mark.parametrize("api_type", [Codex, AsyncCodex])
+@pytest.mark.parametrize("api_type", [Kodex, AsyncKodex])
 def test_external_messages_cannot_be_mixed_with_user_input_or_sent_as_user_steering(
     api_type,
 ) -> None:
     async def scenario() -> None:
-        async_api = api_type is AsyncCodex
+        async_api = api_type is AsyncKodex
         rpc = AsyncMock if async_api else Mock
         client = SimpleNamespace(
             _start_turn=rpc(), turn_steer=rpc(), _subscribe_turn_notifications=Mock()
         )
-        codex = api_type.__new__(api_type)
-        codex._client = client
-        codex._initialized = True
+        kodex = api_type.__new__(api_type)
+        kodex._client = client
+        kodex._initialized = True
         thread = (
-            public_api_module.AsyncThread(codex, "thread-1")
+            public_api_module.AsyncThread(kodex, "thread-1")
             if async_api
             else public_api_module.Thread(client, "thread-1")
         )
         handle = (
-            public_api_module.AsyncTurnHandle(codex, "thread-1", "turn-1")
+            public_api_module.AsyncTurnHandle(kodex, "thread-1", "turn-1")
             if async_api
             else public_api_module.TurnHandle(client, "thread-1", "turn-1")
         )

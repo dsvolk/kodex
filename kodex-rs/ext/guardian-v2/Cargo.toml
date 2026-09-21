@@ -1,0 +1,45 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-guardian-v2"
+version.workspace = true
+
+[lib]
+name = "kodex_guardian_v2"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-analytics = { workspace = true }
+kodex-api = { workspace = true }
+kodex-config = { workspace = true }
+kodex-context-fragments = { workspace = true }
+kodex-core = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-features = { workspace = true }
+kodex-guardian-context = { workspace = true }
+kodex-guardian-reviewer = { workspace = true }
+kodex-history = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-prompts = { workspace = true }
+dirs = { workspace = true }
+http = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["time"] }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+kodex-model-provider-info = { workspace = true }
+core_test_support = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

@@ -12,14 +12,14 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-BUNDLE_ID = "com.openai.codex.cli"
+BUNDLE_ID = "com.openai.kodex.cli"
 # Existing login-keychain ACLs identify the CLI by its code-signing identifier.
 # Keep this stable independently of the bundle and provisioned App ID.
-CODE_SIGNING_ID = "codex"
-APP = Path("CodexCLI.app")
-EXECUTABLE = APP / "Contents/MacOS/codex"
+CODE_SIGNING_ID = "kodex"
+APP = Path("KodexCLI.app")
+EXECUTABLE = APP / "Contents/MacOS/kodex"
 SIGNING = Path(__file__).resolve().parent
-HELPERS = ("bin/codex-code-mode-host", "codex-path/rg", "codex-resources/zsh/bin/zsh")
+HELPERS = ("bin/kodex-code-mode-host", "kodex-path/rg", "kodex-resources/zsh/bin/zsh")
 LAUNCHER = """#!/bin/sh
 set -eu
 entry="$0"
@@ -29,7 +29,7 @@ while [ -L "$entry" ]; do
   case "$entry" in /*) ;; *) entry="$parent/$entry" ;; esac
 done
 bin_dir=$(CDPATH= cd -P -- "$(dirname -- "$entry")" && pwd)
-exec "$bin_dir/../CodexCLI.app/Contents/MacOS/codex" "$@"
+exec "$bin_dir/../KodexCLI.app/Contents/MacOS/kodex" "$@"
 """
 
 
@@ -107,7 +107,7 @@ def validate_profile(profile, configuration: ProfileConfiguration):
 
 
 def entitlements(configuration: ProfileConfiguration):
-    base = plistlib.loads((SIGNING / "codex.entitlements.plist").read_bytes())
+    base = plistlib.loads((SIGNING / "kodex.entitlements.plist").read_bytes())
     return {
         **base,
         "com.apple.application-identifier": f"{configuration.team_id}.{BUNDLE_ID}",
@@ -118,31 +118,31 @@ def entitlements(configuration: ProfileConfiguration):
 
 def prepare(package, reports, configuration: ProfileConfiguration):
     load_profile(configuration)
-    metadata = json.loads((package / "codex-package.json").read_text())
+    metadata = json.loads((package / "kodex-package.json").read_text())
     if (
-        metadata["variant"] != "codex"
+        metadata["variant"] != "kodex"
         or metadata["layoutVersion"] != 1
         or metadata["target"] not in ("aarch64-apple-darwin", "x86_64-apple-darwin")
-        or metadata["entrypoint"] != "bin/codex"
+        or metadata["entrypoint"] != "bin/kodex"
     ):
         raise ValueError("Expected a canonical macOS CLI package")
-    for relative in ("bin/codex", *HELPERS):
+    for relative in ("bin/kodex", *HELPERS):
         path = package / relative
         if path.is_symlink() or not path.is_file() or not os.access(path, os.X_OK):
             raise ValueError(f"Expected a regular executable: {relative}")
     # Refuse to overwrite a previously prepared or signed bundle.
     (package / EXECUTABLE).parent.mkdir(parents=True, exist_ok=False)
-    (package / "bin/codex").rename(package / EXECUTABLE)
-    (package / "bin/codex").write_text(LAUNCHER)
-    (package / "bin/codex").chmod(0o755)
+    (package / "bin/kodex").rename(package / EXECUTABLE)
+    (package / "bin/kodex").write_text(LAUNCHER)
+    (package / "bin/kodex").chmod(0o755)
     contents = package / APP / "Contents"
     shutil.copyfile(configuration.profile, contents / "embedded.provisionprofile")
     (contents / "Info.plist").write_bytes(
         plistlib.dumps(
             {
                 "CFBundleIdentifier": BUNDLE_ID,
-                "CFBundleExecutable": "codex",
-                "CFBundleName": "Codex CLI",
+                "CFBundleExecutable": "kodex",
+                "CFBundleName": "Kodex CLI",
                 "CFBundlePackageType": "APPL",
                 "CFBundleVersion": "1",
             }
@@ -150,8 +150,8 @@ def prepare(package, reports, configuration: ProfileConfiguration):
     )
     reports.mkdir(parents=True, exist_ok=True)
     # Keep expected entitlements separate from the shared verifier's extracted
-    # codex-entitlements.plist, otherwise it would overwrite its own expectation.
-    (reports / "codex-provisioned-entitlements.plist").write_bytes(
+    # kodex-entitlements.plist, otherwise it would overwrite its own expectation.
+    (reports / "kodex-provisioned-entitlements.plist").write_bytes(
         plistlib.dumps(entitlements(configuration))
     )
 
@@ -170,15 +170,15 @@ def verify(package, reports, expected_target, configuration: ProfileConfiguratio
         package / APP / "Contents/embedded.provisionprofile"
     ).read_bytes() != configuration.profile.read_bytes():
         raise ValueError("Embedded profile differs from the reviewed profile")
-    if (package / "bin/codex").read_text() != LAUNCHER:
+    if (package / "bin/kodex").read_text() != LAUNCHER:
         raise ValueError("Unexpected CLI launcher")
-    metadata = json.loads((package / "codex-package.json").read_text())
+    metadata = json.loads((package / "kodex-package.json").read_text())
     if metadata["target"] != expected_target:
         raise ValueError(
             "Package target differs from the requested verification target"
         )
     reports.mkdir(parents=True, exist_ok=True)
-    (reports / "codex-provisioned-entitlements.plist").write_bytes(
+    (reports / "kodex-provisioned-entitlements.plist").write_bytes(
         plistlib.dumps(entitlements(configuration))
     )
     # sign_macos_cli_package.py owns shared architecture, signature and entitlement

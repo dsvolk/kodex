@@ -11,13 +11,13 @@ ensure_local_sdk_src()
 
 import asyncio
 
-from openai_codex import AsyncCodex
+from openai_kodex import AsyncKodex
 
 
 async def main() -> None:
-    async with AsyncCodex(config=runtime_config()) as codex:
-        print("server:", server_label(codex.metadata))
-        models = await codex.models()
+    async with AsyncKodex(config=runtime_config()) as kodex:
+        print("server:", server_label(kodex.metadata))
+        models = await kodex.models()
         print("models.count:", len(models.data))
         print("models:", ", ".join(model.id for model in models.data[:5]))
 

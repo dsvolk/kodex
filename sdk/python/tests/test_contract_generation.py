@@ -10,9 +10,9 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED_TARGETS = [
-    Path("src/openai_codex/generated/notification_registry.py"),
-    Path("src/openai_codex/generated/v2_all.py"),
-    Path("src/openai_codex/api.py"),
+    Path("src/openai_kodex/generated/notification_registry.py"),
+    Path("src/openai_kodex/generated/v2_all.py"),
+    Path("src/openai_kodex/api.py"),
 ]
 
 
@@ -57,7 +57,7 @@ def test_generated_files_are_up_to_date():
 
 @pytest.mark.parametrize("mode", ["repository", "scratch", "experimental"])
 def test_schema_refresh_only_updates_python_for_repository_schemas(monkeypatch, tmp_path, mode):
-    script = ROOT.parents[1] / "codex-rs/app-server-protocol/scripts/write_schema_fixtures.py"
+    script = ROOT.parents[1] / "kodex-rs/app-server-protocol/scripts/write_schema_fixtures.py"
     arguments = {
         "repository": [],
         "scratch": ["--schema-root", str(tmp_path / "schema")],
@@ -77,12 +77,12 @@ def test_schema_refresh_only_updates_python_for_repository_schemas(monkeypatch, 
         assert calls[1][0][-3:] == [
             "generate-types",
             "--schema-dir",
-            str(ROOT.parents[1] / "codex-rs/app-server-protocol/schema/json"),
+            str(ROOT.parents[1] / "kodex-rs/app-server-protocol/schema/json"),
         ]
 
 
 def test_schema_generation_failure_does_not_update_python(monkeypatch):
-    script = ROOT.parents[1] / "codex-rs/app-server-protocol/scripts/write_schema_fixtures.py"
+    script = ROOT.parents[1] / "kodex-rs/app-server-protocol/scripts/write_schema_fixtures.py"
     calls = []
 
     def fail(args, **_kwargs):

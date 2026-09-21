@@ -1,0 +1,44 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-model-provider"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_model_provider"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+chrono = { workspace = true }
+kodex-api = { workspace = true }
+kodex-agent-identity = { workspace = true }
+kodex-aws-auth = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-feedback = { workspace = true }
+kodex-login = { workspace = true }
+kodex-keyring-store = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-models-manager = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-response-debug-context = { workspace = true }
+kodex-secrets = { workspace = true }
+http = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+tokio = { workspace = true, features = ["io-util", "process", "sync", "time"] }
+tracing = { workspace = true, features = ["log"] }
+url = { workspace = true }
+
+[dev-dependencies]
+base64 = { workspace = true }
+kodex-utils-redacted-string = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt"] }
+wiremock = { workspace = true }

@@ -1,0 +1,58 @@
+[package]
+name = "kodex-login"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+kodex-agent-identity = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-config = { workspace = true }
+kodex-keyring-store = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-secrets = { workspace = true }
+kodex-terminal-detection = { workspace = true }
+kodex-utils-template = { workspace = true }
+kodex-workload-identity = { workspace = true }
+http = { workspace = true }
+once_cell = { workspace = true }
+os_info = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+thiserror = { workspace = true }
+tiny_http = { workspace = true }
+tokio = { workspace = true, features = [
+    "io-std",
+    "macros",
+    "process",
+    "rt-multi-thread",
+    "signal",
+] }
+tracing = { workspace = true }
+url = { workspace = true }
+urlencoding = { workspace = true }
+webbrowser = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+core_test_support = { workspace = true }
+jsonwebtoken = { workspace = true }
+keyring = { workspace = true }
+pretty_assertions = { workspace = true }
+regex-lite = { workspace = true }
+serial_test = { workspace = true }
+tempfile = { workspace = true }
+tracing-subscriber = { workspace = true }
+wiremock = { workspace = true }
+
+[lib]
+doctest = false

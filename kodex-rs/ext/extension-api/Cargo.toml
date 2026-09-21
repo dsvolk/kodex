@@ -1,0 +1,31 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-extension-api"
+version.workspace = true
+
+[lib]
+name = "kodex_extension_api"
+path = "src/lib.rs"
+test = false
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-history = { workspace = true }
+kodex-config = { workspace = true }
+kodex-context-fragments = { workspace = true }
+kodex-exec-server-protocol = { workspace = true }
+kodex-file-system = { workspace = true }
+kodex-mcp = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-tools = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

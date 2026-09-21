@@ -1,0 +1,35 @@
+[package]
+name = "kodex-arg0"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "kodex_arg0"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-apply-patch = { workspace = true }
+kodex-async-utils = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-install-context = { workspace = true }
+kodex-linux-sandbox = { workspace = true }
+kodex-sandboxing = { workspace = true }
+kodex-shell-escalation = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-home-dir = { workspace = true }
+dotenvy = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["rt-multi-thread"] }
+
+[target.'cfg(windows)'.dependencies]
+kodex-windows-sandbox = { workspace = true }
+pathdiff = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

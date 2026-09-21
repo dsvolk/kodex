@@ -1,0 +1,36 @@
+[package]
+name = "kodex-cloud-config"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+kodex-async-utils = { workspace = true }
+kodex-backend-client = { workspace = true }
+kodex-config = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-login = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+hmac = "0.12.1"
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["fs", "rt", "sync", "time"] }
+tracing = { workspace = true }
+
+[dev-dependencies]
+kodex-agent-identity = { workspace = true }
+kodex-core = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt", "test-util", "time"] }
+
+[lib]
+doctest = false

@@ -1,0 +1,43 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-thread-store"
+version.workspace = true
+
+[lib]
+name = "kodex_thread_store"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+chrono = { workspace = true, features = ["serde"] }
+kodex-app-server-protocol = { workspace = true }
+kodex-extension-items = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-install-context = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-rollout = { workspace = true }
+kodex-state = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+futures = { workspace = true }
+pulldown-cmark = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+zstd = { workspace = true }
+
+[dev-dependencies]
+kodex-utils-absolute-path = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+uuid = { workspace = true }

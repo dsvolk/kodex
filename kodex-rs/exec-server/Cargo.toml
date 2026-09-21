@@ -1,0 +1,99 @@
+[package]
+name = "kodex-exec-server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+doctest = false
+
+# Compiled through #[path] in src/client.rs; cargo-shear 1.11.2 does not normalize
+# the ../tests path and incorrectly reports this linked unit-test module as unlinked.
+[package.metadata.cargo-shear]
+ignored-paths = ["tests/unit/client_provisioning_tests.rs"]
+
+[lints]
+workspace = true
+
+[dependencies]
+arc-swap = { workspace = true }
+axum = { workspace = true, features = ["http1", "tokio", "ws"] }
+base64 = { workspace = true }
+bytes = { workspace = true }
+clatter = { workspace = true }
+kodex-api = { workspace = true }
+kodex-build-info = { workspace = true }
+kodex-config = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-exec-server-protocol = { workspace = true }
+kodex-file-system = { workspace = true }
+kodex-network-proxy = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-sandboxing = { workspace = true }
+kodex-shell-command = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-home-dir = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+kodex-utils-pty = { workspace = true }
+kodex-utils-rustls-provider = { workspace = true }
+kodex-websocket-client = { workspace = true }
+dirs = { workspace = true }
+futures = { workspace = true }
+http = { workspace = true }
+opentelemetry = { workspace = true }
+prost = "0.14.3"
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+toml = { workspace = true }
+tokio = { workspace = true, features = [
+    "fs",
+    "io-std",
+    "io-util",
+    "macros",
+    "net",
+    "process",
+    "rt-multi-thread",
+    "sync",
+    "time",
+] }
+tokio-util = { workspace = true, features = ["io", "rt"] }
+tokio-tungstenite = { workspace = true }
+tracing = { workspace = true }
+url = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = { workspace = true }
+rustix = { workspace = true, features = ["fs"] }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.52", features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_Storage_FileSystem",
+    "Win32_System_IO",
+    "Win32_System_Kernel",
+    "Win32_System_Pipes",
+    "Win32_System_Threading",
+] }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+kodex-exec-server-test-support = { workspace = true }
+kodex-test-binary-support = { workspace = true }
+kodex-utils-cargo-bin = { workspace = true }
+ctor = { workspace = true }
+http = { workspace = true }
+opentelemetry_sdk = { workspace = true }
+pretty_assertions = { workspace = true }
+rcgen = { workspace = true }
+rustls = { workspace = true }
+serial_test = { workspace = true }
+tempfile = { workspace = true }
+test-case = "3.3.1"
+tokio = { workspace = true, features = ["test-util"] }
+tracing-opentelemetry = { workspace = true }
+tracing-subscriber = { workspace = true }
+wiremock = { workspace = true }

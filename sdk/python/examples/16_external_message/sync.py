@@ -11,10 +11,10 @@ from _bootstrap import ensure_local_sdk_src, runtime_config
 
 ensure_local_sdk_src()
 
-from openai_codex import Codex, ExternalMessage, Sandbox
+from openai_kodex import ExternalMessage, Kodex, Sandbox
 
-with Codex(config=runtime_config()) as codex:
-    thread = codex.thread_start(sandbox=Sandbox.read_only)
+with Kodex(config=runtime_config()) as kodex:
+    thread = kodex.thread_start(sandbox=Sandbox.read_only)
     thread.run(
         "When deployment notifications arrive, summarize their status and suggest "
         "what I should check. Do not change files or deploy anything."
