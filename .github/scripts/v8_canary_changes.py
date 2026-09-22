@@ -2,10 +2,8 @@
 
 """Decide which V8 canary work is needed for a commit range.
 
-The workflow deliberately has no trigger-level path filters because it is both
-directly triggered for pull requests and called by postmerge-ci. Keeping the
-patterns here gives those entrypoints one source of truth; unrelated events
-still run metadata but skip the expensive build matrices.
+The workflow is manual in this fork. Keeping the patterns here preserves its
+change detector for callers that explicitly opt into the expensive matrix.
 """
 
 import argparse
@@ -27,7 +25,6 @@ CANARY_PATH_PATTERNS = {
     ".github/scripts/rusty_v8_module_bazel.py",
     ".github/scripts/setup-dev-drive.ps1",
     ".github/scripts/v8_canary_changes.py",
-    ".github/workflows/postmerge-ci.yml",
     ".github/workflows/rusty-v8-release.yml",
     ".github/workflows/v8-canary.yml",
     "MODULE.bazel",

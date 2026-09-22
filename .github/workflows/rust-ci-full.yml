@@ -3,8 +3,7 @@ on:
   workflow_call:
   push:
     branches:
-      # Main pushes enter through postmerge-ci. Keep this opt-in branch trigger
-      # for developers who want the full suite before merging.
+      # Keep the expensive full suite opt-in for explicit validation branches.
       - "**full-ci**"
   workflow_dispatch:
 

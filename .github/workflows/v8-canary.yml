@@ -1,12 +1,7 @@
 name: v8-canary
 
-# Do not use trigger-level path filters here. This workflow is also called by
-# postmerge-ci, and GitHub cannot share a path filter between pull_request and
-# workflow_call. v8_canary_changes.py is the single source of truth instead;
-# unrelated events run only the cheap metadata job below.
+# The full V8 matrix is intentionally manual in this personal fork.
 on:
-  workflow_call:
-  pull_request: {}
   workflow_dispatch:
 
 concurrency:
