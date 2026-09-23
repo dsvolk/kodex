@@ -366,6 +366,7 @@ use kodex_core::read_head_for_summary;
 use kodex_core::sandboxing::SandboxPermissions;
 use kodex_core::truncate_rollout_after_turn_id;
 use kodex_core::truncate_rollout_before_turn_id;
+use kodex_core::validate_environment_ids_and_cwds;
 use kodex_core::windows_sandbox::WindowsSandboxLevelExt;
 use kodex_core::windows_sandbox::WindowsSandboxSetupMode as CoreWindowsSandboxSetupMode;
 use kodex_core::windows_sandbox::WindowsSandboxSetupRequest;
@@ -675,8 +676,7 @@ fn resolve_turn_environment_selections(
             config: EnvironmentConfigState::FromThread,
         });
     }
-    thread_manager
-        .validate_environment_selections(&selections)
+    validate_environment_ids_and_cwds(&thread_manager.environment_manager(), &selections)
         .map_err(environment_selection_error)?;
     Ok(Some(selections))
 }

@@ -11,6 +11,9 @@ const TEST_REQUEST_TIMEOUT: Duration = Duration::from_millis(100);
 
 fn auth() -> RemoteControlConnectionAuth {
     RemoteControlConnectionAuth {
+        http_client_factory: kodex_http_client::HttpClientFactory::new(
+            kodex_http_client::OutboundProxyPolicy::ReqwestDefault,
+        ),
         auth_provider: kodex_model_provider::unauthenticated_auth_provider(),
         account_id: "account-a".to_string(),
     }

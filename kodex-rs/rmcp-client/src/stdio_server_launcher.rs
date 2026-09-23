@@ -10,6 +10,7 @@
 //! Both paths return [`StdioServerTransport`], so `RmcpClient` can hand the
 //! resulting byte stream to rmcp without knowing where the process lives. The
 //! executor-specific byte adaptation lives in `executor_process_transport`.
+//! Unix local servers inherit only their explicit transport stdio.
 
 use std::collections::HashMap;
 use std::ffi::OsString;
@@ -41,6 +42,8 @@ use kodex_protocol::config_types::ShellEnvironmentPolicyInherit;
 use kodex_utils_path_uri::LegacyAppPathString;
 use kodex_utils_path_uri::PathUri;
 use kodex_utils_pty::Command;
+#[cfg(unix)]
+use kodex_utils_pty::DescriptorPolicy;
 use kodex_utils_pty::ProcessMode;
 #[cfg(unix)]
 use kodex_utils_pty::process_group::kill_process_group;
@@ -279,6 +282,12 @@ impl LocalStdioServerLauncher {
             let mut command = Command::new(&resolved_program);
             command.current_dir(&cwd).envs(&envs).args(&args);
             command.process_mode(ProcessMode::NewGroup);
+            // MCP uses only stdio; unrelated orchestrator descriptors must not
+            // propagate into the server or commands it launches.
+            // StdioOnly is currently Unix-only. Windows can still inherit unrelated
+            // handles and needs a handle allowlist in the shared spawn backend.
+            #[cfg(unix)]
+            command.descriptor_policy(DescriptorPolicy::StdioOnly);
             command
         };
         #[cfg(windows)]

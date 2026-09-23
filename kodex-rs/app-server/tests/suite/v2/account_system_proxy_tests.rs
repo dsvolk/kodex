@@ -187,6 +187,7 @@ async fn browser_login_bootstraps_through_system_proxy() -> Result<()> {
         loader_overrides,
         strict_config: false,
         cloud_config_bundle: CloudConfigBundleLoader::default(),
+        embedded_network_policy: Default::default(),
         thread_config_loader: Arc::new(kodex_config::NoopThreadConfigLoader),
         feedback: KodexFeedback::new(),
         log_db: None,

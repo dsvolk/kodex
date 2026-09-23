@@ -142,6 +142,7 @@ impl From<CoreKodexErrorInfo> for KodexErrorInfo {
             CoreKodexErrorInfo::InternalServerError => KodexErrorInfo::InternalServerError,
             CoreKodexErrorInfo::Unauthorized => KodexErrorInfo::Unauthorized,
             CoreKodexErrorInfo::BadRequest => KodexErrorInfo::BadRequest,
+            CoreKodexErrorInfo::InvalidPrompt => KodexErrorInfo::Other,
             CoreKodexErrorInfo::ThreadRollbackFailed => KodexErrorInfo::ThreadRollbackFailed,
             CoreKodexErrorInfo::SandboxError => KodexErrorInfo::SandboxError,
             CoreKodexErrorInfo::ResponseStreamDisconnected { http_status_code } => {

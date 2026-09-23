@@ -8,7 +8,6 @@ use core_test_support::wait_for_event;
 use kodex_core::StartThreadOptions;
 use kodex_core::TurnInputRequest;
 use kodex_core::config::Constrained;
-use kodex_features::Feature;
 use kodex_protocol::config_types::ApprovalsReviewer;
 use kodex_protocol::models::ResponseItem;
 use kodex_protocol::protocol::AskForApproval;
@@ -18,7 +17,7 @@ use pretty_assertions::assert_eq;
 use serde_json::json;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-async fn guardian_receives_sender_user_messages() -> Result<()> {
+async fn guardian_receives_sender_user_messages_by_default() -> Result<()> {
     skip_if_no_network!(Ok(()));
     let server = responses::start_mock_server().await;
     let test = test_kodex()
@@ -26,10 +25,6 @@ async fn guardian_receives_sender_user_messages() -> Result<()> {
             model.auto_review_model_override = Some("gpt-5.6-luna".to_owned());
         })
         .with_config(|config| {
-            config
-                .features
-                .enable(Feature::GuardianThreadContext)
-                .unwrap();
             config.permissions.approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
             config.approvals_reviewer = ApprovalsReviewer::AutoReview;
         })

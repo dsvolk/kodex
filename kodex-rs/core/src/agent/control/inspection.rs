@@ -3,22 +3,12 @@
 
 use super::LocalAgentControl;
 use crate::agent::api::AgentInfo;
-use crate::agent::api::AgentTarget;
 use crate::agent::types::LiveAgent;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::error::Result as KodexResult;
 
 impl LocalAgentControl {
-    pub(crate) async fn inspect(
-        &self,
-        caller: ThreadId,
-        target: AgentTarget,
-    ) -> KodexResult<AgentInfo> {
-        let target = self.resolve_target(caller, &target)?;
-        self.inspect_agent(target).await
-    }
-
     pub(super) async fn inspect_agent(&self, thread_id: ThreadId) -> KodexResult<AgentInfo> {
         let manager = self.upgrade()?;
         let thread = match manager.get_thread(thread_id).await {

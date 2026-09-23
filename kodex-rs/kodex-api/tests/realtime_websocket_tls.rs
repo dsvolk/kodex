@@ -16,6 +16,8 @@ use kodex_api::RealtimeSessionConfig;
 use kodex_api::RealtimeSessionMode;
 use kodex_api::RealtimeWebsocketClient;
 use kodex_api::RetryConfig;
+use kodex_http_client::HttpClientFactory;
+use kodex_http_client::OutboundProxyPolicy;
 use kodex_protocol::protocol::RealtimeVoice;
 use pretty_assertions::assert_eq;
 
@@ -114,20 +116,23 @@ fn realtime_tls_selects_system_and_custom_trust() {
 }
 
 async fn check_connection(address: String) {
-    let client = RealtimeWebsocketClient::new(Provider {
-        name: "local TLS test".into(),
-        base_url: format!("https://{address}"),
-        query_params: None,
-        headers: HeaderMap::new(),
-        retry: RetryConfig {
-            max_attempts: 1,
-            base_delay: Duration::from_millis(/*millis*/ 1),
-            retry_429: false,
-            retry_5xx: false,
-            retry_transport: false,
+    let client = RealtimeWebsocketClient::new(
+        Provider {
+            name: "local TLS test".into(),
+            base_url: format!("https://{address}"),
+            query_params: None,
+            headers: HeaderMap::new(),
+            retry: RetryConfig {
+                max_attempts: 1,
+                base_delay: Duration::from_millis(/*millis*/ 1),
+                retry_429: false,
+                retry_5xx: false,
+                retry_transport: false,
+            },
+            stream_idle_timeout: Duration::from_secs(/*secs*/ 5),
         },
-        stream_idle_timeout: Duration::from_secs(/*secs*/ 5),
-    });
+        HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault),
+    );
     let result = tokio::time::timeout(
         Duration::from_secs(/*secs*/ 20),
         client.connect(

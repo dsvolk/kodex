@@ -6,6 +6,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::AtomicI64;
+use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 
 use chrono::DateTime;
@@ -22,6 +23,7 @@ use pretty_assertions::assert_eq;
 
 struct Host {
     clock: AtomicI64,
+    agent_path_calls: AtomicUsize,
     members: HashMap<ThreadId, AgentPath>,
     active: AtomicBool,
     fail_notifications: AtomicBool,
@@ -31,6 +33,7 @@ struct Host {
 impl MessageBoardHost for Host {
     fn agent_path(&self, caller: ThreadId) -> BoxFuture<'_, Result<AgentPath>> {
         Box::pin(async move {
+            self.agent_path_calls.fetch_add(1, Ordering::SeqCst);
             self.members
                 .get(&caller)
                 .cloned()
@@ -59,7 +62,7 @@ impl MessageBoardHost for Host {
     fn notify(
         &self,
         recipient: ThreadId,
-        post: PostMetadata,
+        post: PostPreview,
     ) -> BoxFuture<'_, Result<NotificationDelivery>> {
         Box::pin(async move {
             if self.fail_notifications.load(Ordering::SeqCst) {
@@ -73,7 +76,7 @@ impl MessageBoardHost for Host {
             self.notifications
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner)
-                .push((recipient, post));
+                .push((recipient, post.metadata));
             Ok(NotificationDelivery::Accepted)
         })
     }
@@ -88,6 +91,7 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
     let child_path = AgentPath::root().join("worker").unwrap();
     let host = Arc::new(Host {
         clock: AtomicI64::default(),
+        agent_path_calls: AtomicUsize::default(),
         members: [(root, AgentPath::root()), (child, child_path.clone())].into(),
         fail_notifications: AtomicBool::new(false),
         active: AtomicBool::new(true),
@@ -98,11 +102,13 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
         .await
         .unwrap();
     first
-        .create_channel(
+        .post(
             child,
-            CreateChannelRequest {
-                channel_name: "proofs".into(),
-                subscription: SubscriptionChange::Subscribe,
+            PostRequest {
+                request_id: "create-proofs".into(),
+                destination: PostDestination::NewChannel("proofs".into()),
+                text: "Share proofs here.".into(),
+                agents_to_notify: Vec::new(),
             },
         )
         .await
@@ -111,7 +117,8 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
         request_id: "call-1".into(),
         destination: PostDestination::Channel("proofs".into()),
         text: "é🦀 proof".into(),
-        agents_to_notify: vec![child_path.clone(), child_path.clone()],
+        // The creator receives this through its channel subscription.
+        agents_to_notify: vec![AgentPath::root()],
     };
     let second = LocalAgentMessageBoard::open(&sqlite, tree, host.clone())
         .await
@@ -128,6 +135,17 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
         vec![(child, metadata.clone())]
     );
     drop(first);
+
+    // Reopen an older database, preserving its existing subscriptions.
+    let legacy_pool = sqlite
+        .open_read_write_pool(&dir.path().join("agent_message_board_1.sqlite"))
+        .await
+        .unwrap();
+    sqlx::query("DROP TABLE subscription_opt_outs")
+        .execute(&legacy_pool)
+        .await
+        .unwrap();
+    legacy_pool.close().await;
 
     let resumed = LocalAgentMessageBoard::open(&sqlite, tree, host.clone())
         .await
@@ -165,6 +183,36 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
         )
         .await
         .unwrap();
+    // Posting to an existing channel must not re-enable its subscription.
+    resumed
+        .post(
+            child,
+            PostRequest {
+                request_id: "one-off-post".into(),
+                destination: PostDestination::Channel("proofs".into()),
+                text: "One more proof, while staying unsubscribed.".into(),
+                agents_to_notify: Vec::new(),
+            },
+        )
+        .await
+        .unwrap();
+    // Posting still succeeds when the subscriber lookup returns an empty array.
+    resumed
+        .post(
+            root,
+            PostRequest {
+                request_id: "no-subscribers".into(),
+                destination: PostDestination::Channel("proofs".into()),
+                text: "saved without notifications".into(),
+                agents_to_notify: Vec::new(),
+            },
+        )
+        .await
+        .unwrap();
+    assert_eq!(
+        *host.notifications.lock().unwrap(),
+        vec![(child, metadata.clone())]
+    );
     resumed
         .set_subscription(
             root,
@@ -188,15 +236,121 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
         )
         .await
         .unwrap();
+    // Excluding the author must keep its subscription for other agents' replies.
+    let child_reply = resumed
+        .post(
+            child,
+            PostRequest {
+                request_id: "child-reply".into(),
+                destination: PostDestination::Thread(metadata.message_id),
+                text: "acknowledged".into(),
+                agents_to_notify: Vec::new(),
+            },
+        )
+        .await
+        .unwrap();
     let mut received = host.notifications.lock().unwrap().clone();
     received.sort_by_key(|(id, post)| (id.to_string(), post.message_id));
     let mut expected = vec![
         (child, metadata.clone()),
-        (root, reply.clone()),
+        (root, child_reply),
         (child, reply),
     ];
     expected.sort_by_key(|(id, post)| (id.to_string(), post.message_id));
     assert_eq!(received, expected);
+
+    resumed
+        .set_subscription(
+            root,
+            SubscriptionRequest {
+                target: SubscriptionTarget::Thread(metadata.thread_id),
+                target_agent: None,
+                change: SubscriptionChange::Unsubscribe,
+            },
+        )
+        .await
+        .unwrap();
+    drop(resumed);
+    let resumed = LocalAgentMessageBoard::open(&sqlite, tree, host.clone())
+        .await
+        .unwrap();
+    resumed
+        .post(
+            root,
+            PostRequest {
+                request_id: "still-opted-out".into(),
+                destination: PostDestination::Thread(metadata.thread_id),
+                text: "one more reply without resubscribing".into(),
+                agents_to_notify: Vec::new(),
+            },
+        )
+        .await
+        .unwrap();
+    // The old reader's query must also see the opt-out after participation.
+    let legacy_pool = sqlite
+        .open_read_write_pool(&dir.path().join("agent_message_board_1.sqlite"))
+        .await
+        .unwrap();
+    let legacy_subscribers: Vec<String> =
+        sqlx::query_scalar("SELECT agent FROM subscriptions WHERE board=? AND target=?")
+            .bind(tree.to_string())
+            .bind(serde_json::to_string(&SubscriptionTarget::Thread(metadata.thread_id)).unwrap())
+            .fetch_all(&legacy_pool)
+            .await
+            .unwrap();
+    assert_eq!(legacy_subscribers, vec![child.to_string()]);
+    legacy_pool.close().await;
+    host.notifications.lock().unwrap().clear();
+    for (index, agents_to_notify) in [Vec::new(), vec![AgentPath::root()], Vec::new()]
+        .into_iter()
+        .enumerate()
+    {
+        let reply = resumed
+            .post(
+                child,
+                PostRequest {
+                    request_id: format!("after-unsubscribe-{index}"),
+                    destination: PostDestination::Thread(metadata.thread_id),
+                    text: "reply after opt-out".into(),
+                    agents_to_notify,
+                },
+            )
+            .await
+            .unwrap();
+        let expected = if index == 1 {
+            vec![(root, reply)]
+        } else {
+            Vec::new()
+        };
+        assert_eq!(
+            std::mem::take(&mut *host.notifications.lock().unwrap()),
+            expected
+        );
+    }
+    resumed
+        .set_subscription(
+            root,
+            SubscriptionRequest {
+                target: SubscriptionTarget::Thread(metadata.thread_id),
+                target_agent: None,
+                change: SubscriptionChange::Subscribe,
+            },
+        )
+        .await
+        .unwrap();
+    let reply = resumed
+        .post(
+            child,
+            PostRequest {
+                request_id: "resubscribed".into(),
+                destination: PostDestination::Thread(metadata.thread_id),
+                text: "notifications restored".into(),
+                agents_to_notify: Vec::new(),
+            },
+        )
+        .await
+        .unwrap();
+    assert_eq!(*host.notifications.lock().unwrap(), vec![(root, reply)]);
 
     let other = LocalAgentMessageBoard::open(&sqlite, SessionId::new(), host.clone())
         .await
@@ -214,6 +368,19 @@ async fn shared_handles_resume_posts_and_preserve_subscription_rules() {
             .await
             .is_err()
     );
+    LocalAgentMessageBoard::delete_boards(&sqlite, &[tree])
+        .await
+        .unwrap();
+    let pool = sqlite
+        .open_read_write_pool(&dir.path().join("agent_message_board_1.sqlite"))
+        .await
+        .unwrap();
+    let remaining_opt_outs: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM subscription_opt_outs")
+        .fetch_one(&pool)
+        .await
+        .unwrap();
+    assert_eq!(remaining_opt_outs, 0);
+    pool.close().await;
 }
 
 #[tokio::test]
@@ -221,9 +388,12 @@ async fn failed_requests_do_not_create_channels_or_notify_inactive_agents() {
     let dir = tempfile::tempdir().unwrap();
     let sqlite = SqliteConfig::new_for_testing(dir.path().to_path_buf().try_into().unwrap());
     let root = ThreadId::new();
+    let child = ThreadId::new();
+    let child_path = AgentPath::root().join("worker").unwrap();
     let host = Arc::new(Host {
         clock: AtomicI64::default(),
-        members: [(root, AgentPath::root())].into(),
+        agent_path_calls: AtomicUsize::default(),
+        members: [(root, AgentPath::root()), (child, child_path.clone())].into(),
         fail_notifications: AtomicBool::new(false),
         active: AtomicBool::new(false),
         notifications: Mutex::default(),
@@ -238,7 +408,7 @@ async fn failed_requests_do_not_create_channels_or_notify_inactive_agents() {
         agents_to_notify: vec![AgentPath::root().join("unknown").unwrap()],
     };
     assert!(board.post(root, request.clone()).await.is_err());
-    request.agents_to_notify = vec![AgentPath::root()];
+    request.agents_to_notify = vec![child_path.clone()];
     let posted = board.post(root, request.clone()).await.unwrap();
     assert_eq!(*host.notifications.lock().unwrap(), Vec::new());
     host.active.store(true, Ordering::SeqCst);
@@ -253,7 +423,7 @@ async fn failed_requests_do_not_create_channels_or_notify_inactive_agents() {
         request_id: "reply".into(),
         destination: PostDestination::Thread(posted.thread_id),
         text: "saved even if the notice fails".into(),
-        agents_to_notify: vec![],
+        agents_to_notify: vec![child_path],
     };
     let saved = board.post(root, reply.clone()).await.unwrap();
     host.fail_notifications.store(false, Ordering::SeqCst);
@@ -288,6 +458,7 @@ async fn queries_enforce_page_and_preview_caps() {
     let host = Arc::new(Host {
         fail_notifications: AtomicBool::new(false),
         clock: AtomicI64::default(),
+        agent_path_calls: AtomicUsize::default(),
         members: [(root, AgentPath::root())].into(),
         active: AtomicBool::new(false),
         notifications: Mutex::default(),
@@ -378,6 +549,7 @@ async fn queries_page_discussions_and_search_unicode() {
     let host = Arc::new(Host {
         fail_notifications: AtomicBool::new(false),
         clock: AtomicI64::default(),
+        agent_path_calls: AtomicUsize::default(),
         members: [(root, AgentPath::root())].into(),
         active: AtomicBool::new(true),
         notifications: Mutex::default(),
@@ -419,11 +591,19 @@ async fn queries_page_discussions_and_search_unicode() {
     };
     let page = board.list_threads(root, query.clone()).await.unwrap();
     assert_eq!(
-        page.results
-            .iter()
-            .map(|thread| thread.thread_id)
-            .collect::<Vec<_>>(),
-        vec![first.message_id]
+        page.results,
+        vec![ThreadSummary {
+            thread_id: first.message_id,
+            root_post: PostPreview {
+                metadata: first.clone(),
+                text_preview: "É".into(),
+                n_chars: 6,
+                truncated: true,
+            },
+            reply_count: 0,
+            last_activity_at: first.created_at,
+            latest_reply: None,
+        }]
     );
     let next = board
         .list_threads(
@@ -439,11 +619,19 @@ async fn queries_page_discussions_and_search_unicode() {
         .await
         .unwrap();
     assert_eq!(
-        next.results
-            .iter()
-            .map(|thread| thread.thread_id)
-            .collect::<Vec<_>>(),
-        vec![second.message_id]
+        next.results,
+        vec![ThreadSummary {
+            thread_id: second.message_id,
+            root_post: PostPreview {
+                metadata: second.clone(),
+                text_preview: "s".into(),
+                n_chars: 6,
+                truncated: true,
+            },
+            reply_count: 0,
+            last_activity_at: second.created_at,
+            latest_reply: None,
+        }]
     );
     assert_eq!(next.next_cursor, None);
     let reply = board
@@ -622,6 +810,7 @@ async fn tools_cover_channel_discussions_subscriptions_and_escaped_previews() {
         fail_notifications: AtomicBool::new(false),
         members: [(root, AgentPath::root()), (child, child_path.clone())].into(),
         clock: AtomicI64::default(),
+        agent_path_calls: AtomicUsize::default(),
         active: AtomicBool::new(true),
         notifications: Mutex::default(),
     });
@@ -630,7 +819,13 @@ async fn tools_cover_channel_discussions_subscriptions_and_escaped_previews() {
             .await
             .unwrap(),
     );
-    let tools = message_board_tools(board, root, AgentPath::root());
+    let tools = message_board_tools(
+        board,
+        root,
+        AgentPath::root(),
+        Some("collaboration"),
+        "Shared tools",
+    );
     let tool = |name: &str| {
         tools
             .iter()
@@ -697,17 +892,8 @@ async fn tools_cover_channel_discussions_subscriptions_and_escaped_previews() {
         let reply: PostMetadata = serde_json::from_str(&replied.log_output()).unwrap();
         last = Some((post, reply));
     }
-    // Default create_channel subscribes the author to roots; post subscribes it
-    // to replies. The unsubscribed child receives neither.
-    assert_eq!(
-        host.notifications
-            .lock()
-            .unwrap()
-            .iter()
-            .map(|(id, _)| *id)
-            .collect::<Vec<_>>(),
-        vec![root; 14]
-    );
+    // The subscribed author receives no self-notices; the child is unsubscribed.
+    assert_eq!(*host.notifications.lock().unwrap(), Vec::new());
     let (last, last_reply) = last.unwrap();
     assert!(
         tool("subscribe")
@@ -813,6 +999,7 @@ async fn tools_validate_arguments_deduplicate_calls_and_bound_unicode_results() 
         fail_notifications: AtomicBool::new(false),
         members: [(root, AgentPath::root()), (child, child_path)].into(),
         clock: AtomicI64::default(),
+        agent_path_calls: AtomicUsize::default(),
         active: AtomicBool::new(true),
         notifications: Mutex::default(),
     });
@@ -821,7 +1008,13 @@ async fn tools_validate_arguments_deduplicate_calls_and_bound_unicode_results() 
             .await
             .unwrap(),
     );
-    let tools = message_board_tools(board.clone(), root, AgentPath::root());
+    let tools = message_board_tools(
+        board.clone(),
+        root,
+        AgentPath::root(),
+        Some("collaboration"),
+        "Shared tools",
+    );
     let call = board_tool_call;
     let tool = |name: &str| {
         tools
@@ -905,6 +1098,43 @@ async fn tools_validate_arguments_deduplicate_calls_and_bound_unicode_results() 
             next_cursor: None,
         }
     );
+    // An impossible metadata budget stops when both the page and preview reach one.
+    // Unequal limits ensure we keep shrinking while either dimension can still change.
+    for (name, args, expected_reads) in [
+        ("get_channels", json!({"limit":1}), 1),
+        (
+            "list_threads",
+            json!({"channel_name":"work","limit":1,"max_chars_per_post":8}),
+            4,
+        ),
+        ("search_posts", json!({"limit":8,"max_chars_per_post":1}), 4),
+        (
+            "read_thread",
+            json!({"thread_id":metadata.thread_id,"limit":3,"max_chars_per_post":1}),
+            2,
+        ),
+        (
+            "read_post",
+            json!({"message_id":metadata.message_id,"limit_chars":3}),
+            2,
+        ),
+    ] {
+        let mut limited = call(name, args);
+        limited.truncation_policy = TruncationPolicy::Bytes(1);
+        host.agent_path_calls.store(0, Ordering::SeqCst);
+        let error = tool(name).handle(limited).await.err().unwrap();
+        assert_eq!(
+            error,
+            kodex_tools::FunctionCallError::RespondToModel(
+                "The output budget is too small for this result's metadata.".into()
+            ),
+        );
+        assert_eq!(
+            host.agent_path_calls.load(Ordering::SeqCst),
+            expected_reads,
+            "{name}",
+        );
+    }
     let read_call = call("read_post", json!({"message_id":metadata.message_id}));
     let result = tool("read_post").handle(read_call.clone()).await.unwrap();
     assert!(result.contains_external_context());

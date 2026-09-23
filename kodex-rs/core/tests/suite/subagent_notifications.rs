@@ -55,6 +55,7 @@ use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::ThreadHistoryMode;
 use kodex_protocol::protocol::ThreadSettingsOverrides;
 use kodex_protocol::user_input::UserInput;
+use kodex_thread_store::LoadThreadHistoryParams;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
@@ -75,6 +76,9 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 
 use super::direct_tool_metadata::tool_call_metadata;
+
+#[path = "spawn_settings_tests.rs"]
+mod spawn_settings_tests;
 
 const SPAWN_CALL_ID: &str = "spawn-call-1";
 const MULTI_AGENT_V1_NAMESPACE: &str = "multi_agent_v1";
@@ -1102,6 +1106,15 @@ async fn spawned_child_receives_forked_parent_context(
             .as_str()
             .expect("legacy child thread id"),
     )?;
+    // Read the acknowledged fork from storage without flushing the live child first.
+    let reopened_store = kodex_core::thread_store_from_config(&test.config, /*state_db*/ None);
+    let persisted = reopened_store
+        .load_latest_model_context(LoadThreadHistoryParams {
+            thread_id: child_thread_id,
+            include_archived: false,
+        })
+        .await?;
+    assert!(serde_json::to_string(&persisted.items)?.contains(TURN_0_FORK_PROMPT));
     let child_thread = test.thread_manager.get_thread(child_thread_id).await?;
     tokio::time::timeout(Duration::from_secs(2), async {
         while !matches!(child_thread.agent_status().await, AgentStatus::Completed(_)) {

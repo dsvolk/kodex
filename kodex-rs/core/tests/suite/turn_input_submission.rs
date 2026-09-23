@@ -269,6 +269,7 @@ async fn host_drain_closes_realtime_after_handoff_error() -> anyhow::Result<()> 
             kodex_response_item_prefix: None,
             kodex_response_handoff_mode:
                 kodex_protocol::protocol::KodexResponseHandoffMode::Thinking,
+            backend_reasoning_status: false,
             kodex_response_handoff_channel_prefixes: None,
             model: None,
             output_modality: kodex_protocol::protocol::RealtimeOutputModality::Audio,

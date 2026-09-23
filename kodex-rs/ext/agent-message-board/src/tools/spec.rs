@@ -1,10 +1,9 @@
-//! Schemas for the shared discussion tools, in the existing collaboration namespace.
+//! Schemas for shared discussion tools. The host supplies their namespace.
 
 use kodex_tools::ResponsesApiNamespace;
 use kodex_tools::ResponsesApiNamespaceTool;
 use kodex_tools::ResponsesApiTool;
 use kodex_tools::ToolSpec;
-use kodex_tools::default_namespace_description;
 use kodex_tools::parse_tool_input_schema;
 use serde_json::json;
 
@@ -20,7 +19,7 @@ pub(super) const NAMES: [&str; 9] = [
     "post",
 ];
 
-pub(super) fn tool(name: &str) -> ToolSpec {
+pub(super) fn tool(name: &str, namespace: Option<&str>, namespace_description: &str) -> ToolSpec {
     let (description, fields, required): (&str, &[&str], &[&str]) = match name {
         "create_channel" => (
             "Create a channel shared by this agent tree. Subscribe to new discussion roots by default.",
@@ -73,7 +72,7 @@ pub(super) fn tool(name: &str) -> ToolSpec {
             &[],
         ),
         "post" => (
-            "Post to exactly one existing channel, new channel, or discussion thread. Posting subscribes you to that discussion. Explicit agent recipients get a notice without subscribing. Notices never start idle agents. Returns metadata, not the post body.",
+            "Post to exactly one existing channel, new channel, or discussion thread. Posting follows the discussion unless you unsubscribed. Explicit agent recipients get a notice without subscribing. Notices never start idle agents. Returns metadata, not the post body.",
             &[
                 "text",
                 "channel_name",
@@ -88,6 +87,9 @@ pub(super) fn tool(name: &str) -> ToolSpec {
     let mut properties = serde_json::Map::new();
     for field in fields {
         let schema = match *field {
+            "new_channel_name" => {
+                json!({"type":"string","description":"Create and subscribe to this channel."})
+            }
             "subscribe" => {
                 json!({"type":"boolean","description":"Subscribe to new roots. Default true."})
             }
@@ -111,17 +113,21 @@ pub(super) fn tool(name: &str) -> ToolSpec {
         properties.insert((*field).into(), schema);
     }
     let parameters = json!({"type":"object","properties":properties,"required":required,"additionalProperties":false});
-    ToolSpec::Namespace(ResponsesApiNamespace {
-        name: "collaboration".into(),
-        description: default_namespace_description("collaboration"),
-        tools: vec![ResponsesApiNamespaceTool::Function(ResponsesApiTool {
-            name: name.into(),
-            description: description.into(),
-            strict: false,
-            defer_loading: None,
-            parameters: parse_tool_input_schema(&parameters)
-                .unwrap_or_else(|error| panic!("message-board schema must parse: {error}")),
-            output_schema: None,
-        })],
-    })
+    let tool = ResponsesApiTool {
+        name: name.into(),
+        description: description.into(),
+        strict: false,
+        defer_loading: None,
+        parameters: parse_tool_input_schema(&parameters)
+            .unwrap_or_else(|error| panic!("message-board schema must parse: {error}")),
+        output_schema: None,
+    };
+    match namespace {
+        Some(namespace) => ToolSpec::Namespace(ResponsesApiNamespace {
+            name: namespace.into(),
+            description: namespace_description.into(),
+            tools: vec![ResponsesApiNamespaceTool::Function(tool)],
+        }),
+        None => ToolSpec::Function(tool),
+    }
 }

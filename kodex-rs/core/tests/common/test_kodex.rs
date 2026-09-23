@@ -27,6 +27,7 @@ use kodex_core::resolve_installation_id;
 use kodex_core::shell::Shell;
 use kodex_core::shell::get_shell_by_model_provided_path;
 use kodex_core::thread_store_from_config;
+use kodex_core::windows_sandbox::WindowsSandboxLevelExt;
 use kodex_exec_server::CreateDirectoryOptions;
 use kodex_exec_server::ExecutorFileSystem;
 use kodex_exec_server::RemoveOptions;
@@ -36,6 +37,7 @@ use kodex_extension_api::UserInstructionsProvider;
 use kodex_extension_api::empty_extension_registry;
 use kodex_features::Feature;
 use kodex_home::KodexHomeUserInstructionsProvider;
+use kodex_login::AuthManager;
 use kodex_login::KodexAuth;
 use kodex_model_provider_info::ModelProviderInfo;
 use kodex_model_provider_info::built_in_model_providers;
@@ -45,14 +47,17 @@ use kodex_protocol::config_types::CollaborationMode;
 use kodex_protocol::config_types::ModeKind;
 use kodex_protocol::config_types::ReasoningSummary;
 use kodex_protocol::config_types::Settings;
+use kodex_protocol::config_types::WindowsSandboxLevel;
 use kodex_protocol::mcp::ClientMcpExtensions;
 use kodex_protocol::mcp::OPENAI_FORM_EXTENSION_ID;
 use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::models::PermissionProfileSnapshot;
 use kodex_protocol::openai_models::ModelInfo;
 use kodex_protocol::openai_models::ModelsResponse;
 use kodex_protocol::openai_models::TruncationPolicyConfig;
 use kodex_protocol::openai_models::WebSearchToolType;
 use kodex_protocol::protocol::AskForApproval;
+use kodex_protocol::protocol::EnvironmentConfig;
 use kodex_protocol::protocol::EnvironmentConfigState;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::RealtimeConversationVersion as RealtimeWsVersion;
@@ -128,6 +133,36 @@ pub fn local(cwd: AbsolutePathBuf) -> TurnEnvironmentSelection {
         cwd: PathUri::from_abs_path(&cwd),
         workspace_roots: vec![PathUri::from_abs_path(&cwd)],
         config: EnvironmentConfigState::FromThread,
+    }
+}
+
+/// Builds explicit environment configuration with the test thread's permissions and shell settings.
+pub fn environment_config_for_selection(
+    config: &Config,
+    selection: &TurnEnvironmentSelection,
+) -> EnvironmentConfig {
+    let permissions = &config.permissions;
+    let profile = permissions.permission_profile().clone();
+    let permission_profile = match permissions.active_permission_profile() {
+        Some(active) => PermissionProfileSnapshot::active_with_profile_workspace_roots(
+            profile,
+            active,
+            permissions.profile_workspace_roots().to_vec(),
+        ),
+        None => PermissionProfileSnapshot::legacy(profile),
+    };
+    EnvironmentConfig {
+        allow_login_shell: permissions.allow_login_shell,
+        workspace_roots: selection.workspace_roots.clone(),
+        permission_profile,
+        shell_environment_policy: permissions.shell_environment_policy.clone(),
+        windows_sandbox_level: WindowsSandboxLevel::from_config(config),
+        windows_sandbox_type: permissions.windows_sandbox_type,
+        use_legacy_landlock: config.features.use_legacy_landlock(),
+        exec_policy: None,
+        mcp_policy: None,
+        network_policy: None,
+        selected_capability_roots: Vec::new(),
     }
 }
 
@@ -327,9 +362,26 @@ pub fn turn_permission_fields(
     (sandbox_policy, Some(permission_profile))
 }
 
+enum TestAuth {
+    Cached(KodexAuth),
+    Manager(Arc<AuthManager>),
+}
+
+impl TestAuth {
+    fn manager_for_home(&self, home: &Path) -> Arc<AuthManager> {
+        match self {
+            Self::Cached(auth) => kodex_core::test_support::auth_manager_from_auth_with_home(
+                auth.clone(),
+                home.to_path_buf(),
+            ),
+            Self::Manager(manager) => manager.clone(),
+        }
+    }
+}
+
 pub struct TestKodexBuilder {
     config_mutators: Vec<Box<ConfigMutator>>,
-    auth: KodexAuth,
+    auth: TestAuth,
     analytics_events_client: Option<AnalyticsEventsClient>,
     pre_build_hooks: Vec<Box<PreBuildHook>>,
     workspace_setups: Vec<Box<WorkspaceSetup>>,
@@ -363,7 +415,12 @@ impl TestKodexBuilder {
     }
 
     pub fn with_auth(mut self, auth: KodexAuth) -> Self {
-        self.auth = auth;
+        self.auth = TestAuth::Cached(auth);
+        self
+    }
+
+    pub fn with_auth_manager(mut self, auth_manager: Arc<AuthManager>) -> Self {
+        self.auth = TestAuth::Manager(auth_manager);
         self
     }
 
@@ -715,7 +772,6 @@ impl TestKodexBuilder {
         mut test_env: TestEnv,
         environment_manager: Arc<kodex_exec_server::EnvironmentManager>,
     ) -> anyhow::Result<TestKodex> {
-        let auth = self.auth.clone();
         let state_db = kodex_core::init_state_db(&config).await;
         let thread_store = self
             .thread_store
@@ -728,10 +784,7 @@ impl TestKodexBuilder {
                     config.kodex_home.clone(),
                 ))
             });
-        let auth_manager = kodex_core::test_support::auth_manager_from_auth_with_home(
-            auth.clone(),
-            config.kodex_home.to_path_buf(),
-        );
+        let auth_manager = self.auth.manager_for_home(config.kodex_home.as_path());
         let models_manager = self
             .models_manager
             .clone()
@@ -742,6 +795,7 @@ impl TestKodexBuilder {
             .or_else(|| kodex_utils_cargo_bin::cargo_bin("kodex-code-mode-host").ok());
         let thread_manager = Arc::new_cyclic(|manager| {
             let mut extensions = self.extensions.to_builder();
+            kodex_core::install_agent_message_board(&mut extensions, manager.clone());
             if config.features.enabled(Feature::GuardianV2) {
                 kodex_guardian_v2::install(&mut extensions, auth_manager.clone(), manager.clone());
             } else {
@@ -786,10 +840,7 @@ impl TestKodexBuilder {
 
         let new_conversation = match (resume_from, user_shell_override) {
             (Some(path), Some(user_shell_override)) => {
-                let auth_manager = kodex_core::test_support::auth_manager_from_auth_with_home(
-                    auth,
-                    config.kodex_home.to_path_buf(),
-                );
+                let auth_manager = self.auth.manager_for_home(config.kodex_home.as_path());
                 Box::pin(
                     kodex_core::test_support::resume_thread_from_rollout_with_user_shell_override(
                         thread_manager.as_ref(),
@@ -803,10 +854,7 @@ impl TestKodexBuilder {
                 .await?
             }
             (Some(path), None) => {
-                let auth_manager = kodex_core::test_support::auth_manager_from_auth_with_home(
-                    auth,
-                    config.kodex_home.to_path_buf(),
-                );
+                let auth_manager = self.auth.manager_for_home(config.kodex_home.as_path());
                 Box::pin(thread_manager.resume_thread_from_rollout(
                     config.clone(),
                     path,
@@ -1406,7 +1454,7 @@ pub fn test_kodex() -> TestKodexBuilder {
                 .disable(Feature::ShellSnapshot)
                 .expect("test config should allow ShellSnapshot override");
         })],
-        auth: KodexAuth::from_api_key("dummy"),
+        auth: TestAuth::Cached(KodexAuth::from_api_key("dummy")),
         analytics_events_client: None,
         pre_build_hooks: vec![],
         workspace_setups: vec![],

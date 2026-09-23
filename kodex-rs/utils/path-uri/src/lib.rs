@@ -818,9 +818,7 @@ fn infer_opaque_path_convention(path_bytes: &[u8]) -> Option<PathConvention> {
     }
 
     let mut path_wide = path_bytes
-        .as_chunks::<2>()
-        .0
-        .iter()
+        .chunks_exact(2)
         .map(|bytes| u16::from_le_bytes([bytes[0], bytes[1]]));
     let first = path_wide.next()?;
     let second = path_wide.next()?;

@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use crate::session::Submission;
 use async_channel::Receiver;
 use async_channel::Sender;
 use kodex_async_utils::OrCancelExt;
@@ -9,7 +10,6 @@ use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::Op;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
-use kodex_protocol::protocol::Submission;
 use kodex_protocol::protocol::ThreadSource;
 use kodex_protocol::user_input::UserInput;
 use serde_json::Value;
@@ -114,7 +114,10 @@ pub(crate) async fn run_kodex_thread_interactive(
             ThreadSource::Subagent
         }),
         originator: parent_ctx.originator.clone(),
-        agent_control: parent_session.services.agent_control.clone(),
+        agent_control: parent_session
+            .services
+            .local_agent_runtime
+            .control(parent_session.session_id()),
         dynamic_tools: Vec::new(),
         metrics_service_name: None,
         user_shell_override: None,
@@ -260,6 +263,7 @@ pub(crate) async fn run_kodex_thread_one_shot(
                         trace: None,
                         parent_turn_id: None,
                         root_turn_id: None,
+                        residency_guard: None,
                     })
                     .await;
                 child_cancel.cancel();

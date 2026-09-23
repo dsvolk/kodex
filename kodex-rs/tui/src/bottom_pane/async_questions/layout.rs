@@ -46,8 +46,9 @@ impl AsyncQuestions {
         let mut spacer_after_input = 0;
         let progress_height;
         let footer_lines;
+        let notes_height;
 
-        let notes_height = if has_options {
+        if has_options {
             let full_options_height = self.options_required_height(area.width);
             let min_options_height = remaining.min(1);
             // Reserve hints and spacers while retaining a row for the selected option.
@@ -65,7 +66,7 @@ impl AsyncQuestions {
             spacer_after_question = u16::from(remaining > 0);
             remaining -= spacer_after_question;
             options_height += remaining.min(full_options_height.saturating_sub(options_height));
-            0
+            notes_height = 0;
         } else {
             // Freeform answers take their preferred input height before hints and progress.
             let preferred_notes = self
@@ -84,8 +85,10 @@ impl AsyncQuestions {
             // Drop padding before input or prompt content in a constrained viewport.
             spacer_before_question = u16::from(remaining >= 2 && self.unanswered_count() > 1);
             spacer_after_question = u16::from(remaining >= 1);
-            min_notes + preferred_notes + remaining - spacer_before_question - spacer_after_question
-        };
+            notes_height = min_notes + preferred_notes + remaining
+                - spacer_before_question
+                - spacer_after_question;
+        }
 
         let mut y = area.y;
         let mut take_rows = |height| {

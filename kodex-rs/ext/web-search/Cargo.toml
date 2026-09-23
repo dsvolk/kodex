@@ -17,6 +17,7 @@ kodex-api = { workspace = true }
 kodex-core = { workspace = true }
 kodex-extension-api = { workspace = true }
 kodex-extension-items = { workspace = true }
+kodex-http-client = { workspace = true }
 kodex-login = { workspace = true }
 kodex-model-provider = { workspace = true }
 kodex-model-provider-info = { workspace = true }

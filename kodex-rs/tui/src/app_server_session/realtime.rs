@@ -37,6 +37,7 @@ impl AppServerSession {
                     kodex_responses_as_items: None,
                     kodex_response_item_prefix: None,
                     kodex_response_handoff_mode: None,
+                    backend_reasoning_status: false,
                     kodex_response_handoff_channel_prefixes: None,
                     model,
                     output_modality: RealtimeOutputModality::Audio,

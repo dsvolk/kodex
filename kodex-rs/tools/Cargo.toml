@@ -17,6 +17,7 @@ kodex-extension-items = { workspace = true }
 kodex-protocol = { workspace = true }
 kodex-utils-absolute-path = { workspace = true }
 kodex-utils-output-truncation = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
 kodex-utils-string = { workspace = true }
 jsonptr = { workspace = true }
 rmcp = { workspace = true, default-features = false, features = [

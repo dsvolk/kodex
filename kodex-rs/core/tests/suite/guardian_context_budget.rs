@@ -2,6 +2,7 @@
 //! Parent token-budget mode must not replace Guardian's summary compaction.
 
 use anyhow::Result;
+use core_test_support::ThreadIdle;
 use core_test_support::responses;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
@@ -18,6 +19,7 @@ use kodex_core::TurnInputRequest;
 use kodex_core::config::Constrained;
 use kodex_core::config::CurrentTimeReminderConfig;
 use kodex_core::config::RolloutBudgetConfig;
+use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_features::Feature;
 use kodex_protocol::config_types::ApprovalsReviewer;
 use kodex_protocol::models::ContentItem;
@@ -49,7 +51,10 @@ async fn review_preserves_user_instructions_until_request_budgeting(
         "Guardian approval actions require host-native paths"
     );
     let server = responses::start_mock_server().await;
+    let mut extensions = ExtensionRegistryBuilder::new();
+    extensions.thread_lifecycle_contributor(Arc::new(ThreadIdle));
     let test = test_kodex()
+        .with_extensions(Arc::new(extensions.build()))
         .with_model_info_override("gpt-5.6-luna", move |model| {
             model.context_window = Some(window);
         })
@@ -57,6 +62,11 @@ async fn review_preserves_user_instructions_until_request_budgeting(
             model.auto_review_model_override = Some("gpt-5.6-luna".to_owned());
         })
         .with_config(|config| {
+            // This test covers the legacy full-transcript instruction budget.
+            config
+                .features
+                .disable(Feature::GuardianThreadContext)
+                .expect("disable thread context for the legacy budget test");
             config.permissions.approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
             config.approvals_reviewer = ApprovalsReviewer::AutoReview;
         })
@@ -110,6 +120,8 @@ async fn review_preserves_user_instructions_until_request_budgeting(
         "{padding}Run the requested echo command. You may edit scratch files only.{padding}"
     );
     test.submit_text_turn(&initial).await?;
+    // TurnComplete precedes active-turn cleanup; wait before injecting follow-up history.
+    ThreadIdle::wait(&test.kodex).await;
     // This whole message exceeds the old transcript allowance. A following
     // restriction must still reach the reviewer, with the original source order.
     let followup = format!("{padding}{padding}Keep all files private.{padding}{padding}");
@@ -136,6 +148,7 @@ async fn review_preserves_user_instructions_until_request_budgeting(
             ])
             .await?;
         test.submit_text_turn(restriction).await?;
+        ThreadIdle::wait(&test.kodex).await;
     }
     let (compact_requests, requests): (Vec<_>, Vec<_>) = responses
         .requests()

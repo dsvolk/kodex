@@ -126,6 +126,8 @@ pub enum KodexErrorDetails {
     /// Invalid request.
     #[error("{0}")]
     InvalidRequest(String),
+    #[error("{message}")]
+    InvalidPrompt { message: String },
     /// Multiple registered tools share the same effective name.
     #[error("duplicate tool: {0}")]
     ToolCollision(String),
@@ -387,6 +389,7 @@ impl KodexErr {
             | KodexErrorDetails::QuotaExceeded
             | KodexErrorDetails::InvalidImageRequest()
             | KodexErrorDetails::InvalidRequest(_)
+            | KodexErrorDetails::InvalidPrompt { .. }
             | KodexErrorDetails::ToolCollision(_)
             | KodexErrorDetails::RefreshTokenFailed(_)
             | KodexErrorDetails::UnsupportedOperation(_)
@@ -452,6 +455,7 @@ impl KodexErr {
             KodexErrorDetails::ServerOverloaded => KodexErrorInfo::ServerOverloaded,
             KodexErrorDetails::CyberPolicy { .. } => KodexErrorInfo::CyberPolicy,
             KodexErrorDetails::BioPolicy { .. } => KodexErrorInfo::BioPolicy,
+            KodexErrorDetails::InvalidPrompt { .. } => KodexErrorInfo::InvalidPrompt,
             KodexErrorDetails::MisalignmentPolicyViolation { .. } => {
                 KodexErrorInfo::MisalignmentPolicyViolation
             }

@@ -23,11 +23,43 @@ use kodex_protocol::protocol::ThreadSettingsAppliedEvent;
 use kodex_protocol::protocol::ThreadSettingsOverrides;
 use kodex_protocol::protocol::ThreadSettingsSnapshot;
 use kodex_protocol::user_input::UserInput;
+use kodex_thread_store::InMemoryThreadStore;
+use pretty_assertions::assert_eq;
 use wiremock::Mock;
 use wiremock::MockServer;
 use wiremock::ResponseTemplate;
 use wiremock::matchers::method;
 use wiremock::matchers::path;
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn ephemeral_fork_skips_stored_title_lookup() -> anyhow::Result<()> {
+    skip_if_no_network!(Ok(()));
+
+    let server = MockServer::start().await;
+    let store = Arc::new(InMemoryThreadStore::default());
+    let test = test_kodex()
+        .with_thread_store(store.clone())
+        .build_with_auto_env(&server)
+        .await?;
+    let mut config = test.config.clone();
+    config.ephemeral = true;
+    let reads_before = store.calls().await.read_thread;
+
+    test.thread_manager
+        .fork_thread_from_history(
+            ForkSnapshot::Interrupted,
+            kodex_core::StartThreadOptions::new(config),
+            InitialHistory::Resumed(ResumedHistory {
+                conversation_id: test.session_configured.thread_id,
+                history: Arc::new(Vec::new()),
+                rollout_path: None,
+            }),
+        )
+        .await?;
+
+    assert_eq!(store.calls().await.read_thread, reads_before);
+    Ok(())
+}
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn fork_thread_twice_drops_to_first_message() {

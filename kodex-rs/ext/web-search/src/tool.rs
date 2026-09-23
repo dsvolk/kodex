@@ -1,6 +1,5 @@
 use http::HeaderMap;
 use http::HeaderValue;
-use kodex_api::ReqwestTransport;
 use kodex_api::SearchClient;
 use kodex_api::SearchCommands;
 use kodex_api::SearchQuery;
@@ -20,8 +19,10 @@ use kodex_extension_api::parse_tool_input_schema_without_compaction;
 use kodex_extension_items::ExtensionItem;
 use kodex_extension_items::web_search::WebSearchAction;
 use kodex_extension_items::web_search::WebSearchItem;
+use kodex_http_client::ClientRouteClass;
+use kodex_http_client::HttpClientFactory;
 use kodex_login::default_client::add_originator_header;
-use kodex_login::default_client::create_client;
+use kodex_login::default_client::create_transport_for_routes_async;
 use kodex_model_provider::SharedModelProvider;
 use kodex_protocol::models::WebSearchAction as CoreWebSearchAction;
 use kodex_protocol::protocol::EventMsg;
@@ -44,6 +45,7 @@ const RESULTS_PAYLOAD_BYTES_METRIC: &str = "kodex.web_search.results.payload_byt
 
 pub(crate) struct WebSearchTool {
     pub(crate) session_id: String,
+    pub(crate) http_client_factory: HttpClientFactory,
     pub(crate) provider: SharedModelProvider,
     pub(crate) settings: SearchSettings,
     pub(crate) originator: Option<String>,
@@ -108,11 +110,13 @@ impl WebSearchTool {
             .api_auth()
             .await
             .map_err(|err| FunctionCallError::Fatal(err.to_string()))?;
-        let client = SearchClient::new(
-            ReqwestTransport::from_http_client(create_client()),
-            provider,
-            auth,
-        );
+        let transport = create_transport_for_routes_async(
+            self.http_client_factory.clone(),
+            ClientRouteClass::Api,
+        )
+        .await
+        .map_err(|err| FunctionCallError::Fatal(err.to_string()))?;
+        let client = SearchClient::new(transport, provider, auth);
         let request = SearchRequest {
             id: self.session_id.clone(),
             model: call.model.clone(),
