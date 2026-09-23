@@ -30,6 +30,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582 # 1.95.0
         with:
           components: rustfmt
+      - uses: facebook/install-dotslash@1e4e7b3e07eaca387acb98f1d4720e0bee8dbb6a # v2
       - uses: taiki-e/install-action@44c6d64aa62cd779e873306675c7a58e86d6d532 # v2.62.49
         with:
           tool: cargo-nextest
@@ -40,6 +41,19 @@ jobs:
       - name: Check formatting
         run: just fmt-check
       - name: Build Kodex CLI
-        run: cargo build --locked -p kodex-cli --bin kodex
+        run: cargo build --locked --bin kodex --bin kodex-code-mode-host
+      - name: Verify Homebrew package layout
+        env:
+          KODEX_REPO_ROOT: ${{ github.workspace }}
+        run: |
+          package_version="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -1)"
+          python3 ../scripts/build_kodex_package.py \
+            --target aarch64-apple-darwin \
+            --package-version "$package_version" \
+            --package-dir "$RUNNER_TEMP/kodex-package" \
+            --archive-output "$RUNNER_TEMP/kodex-package.tar.gz" \
+            --entrypoint-bin target/debug/kodex \
+            --code-mode-host-bin target/debug/kodex-code-mode-host \
+            --force
       - name: Test Kodex CLI
         run: just test -p kodex-cli -E 'not binary(app_server_daemon)'

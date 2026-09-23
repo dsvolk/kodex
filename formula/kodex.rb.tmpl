@@ -10,10 +10,14 @@ class Kodex < Formula
   sha256 "@ARM_SHA@"
 
   def install
-    bin.install "kodex"
+    prefix.install "kodex-package.json", "kodex-path", "kodex-resources"
+    bin.install "bin/kodex", "bin/kodex-code-mode-host"
   end
 
   test do
     assert_match version.to_s, shell_output("#{bin}/kodex --version")
+    assert_predicate bin/"kodex-code-mode-host", :executable?
+    assert_predicate prefix/"kodex-path/rg", :executable?
+    assert_path_exists prefix/"kodex-package.json"
   end
 end

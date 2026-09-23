@@ -33,8 +33,7 @@ use super::network;
 const MAX_VERSION_RESPONSE_BYTES: usize = 1024 * 1024;
 
 const VERSION_FILE_NAME: &str = "version.json";
-const GITHUB_LATEST_RELEASE_URL: &str = "https://api.github.com/repos/openai/kodex/releases/latest";
-const HOMEBREW_CASK_API_URL: &str = "https://formulae.brew.sh/api/cask/kodex.json";
+const GITHUB_LATEST_RELEASE_URL: &str = "https://api.github.com/repos/dsvolk/kodex/releases/latest";
 #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
 const DESKTOP_UPDATE_URL: &str = "https://persistent.oaistatic.com/kodex-app-prod/appcast-x64.xml";
 #[cfg(all(target_os = "macos", not(target_arch = "x86_64")))]
@@ -393,7 +392,7 @@ fn update_action_label(context: &InstallContext) -> &'static str {
         InstallMethod::Bun => "bun install -g @openai/kodex",
         InstallMethod::VitePlus => "vp install -g @openai/kodex",
         InstallMethod::Pnpm => "pnpm add -g @openai/kodex",
-        InstallMethod::Brew => "brew upgrade --cask kodex",
+        InstallMethod::Brew => "brew upgrade dsvolk/tap/kodex",
         InstallMethod::Standalone { .. } => "standalone installer",
         InstallMethod::Other => "manual or unknown",
     }
@@ -404,8 +403,8 @@ async fn fetch_latest_version(
     context: &InstallContext,
 ) -> Result<String, String> {
     match &context.method {
-        InstallMethod::Brew => fetch_homebrew_cask_version(client).await,
-        InstallMethod::Npm
+        InstallMethod::Brew
+        | InstallMethod::Npm
         | InstallMethod::Bun
         | InstallMethod::VitePlus
         | InstallMethod::Pnpm
@@ -425,19 +424,9 @@ async fn fetch_latest_github_release_version(
     let info = http_get_json::<ReleaseInfo>(client, GITHUB_LATEST_RELEASE_URL).await?;
     info.tag_name
         .strip_prefix("rust-v")
+        .or_else(|| info.tag_name.strip_prefix('v'))
         .map(str::to_string)
         .ok_or_else(|| format!("failed to parse latest tag {}", info.tag_name))
-}
-
-async fn fetch_homebrew_cask_version(client: &RouteAwareClientPool) -> Result<String, String> {
-    #[derive(Deserialize)]
-    struct HomebrewCaskInfo {
-        version: String,
-    }
-
-    http_get_json::<HomebrewCaskInfo>(client, HOMEBREW_CASK_API_URL)
-        .await
-        .map(|info| info.version)
 }
 
 async fn http_get_json<T>(client: &RouteAwareClientPool, url: &str) -> Result<T, String>

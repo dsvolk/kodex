@@ -268,7 +268,7 @@ checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
 
 [[package]]
 name = "app_test_support"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -2118,7 +2118,7 @@ dependencies = [
 
 [[package]]
 name = "core_test_support"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -6314,7 +6314,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-agent-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "core_test_support",
@@ -6326,7 +6326,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-agent-graph-store"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-protocol",
  "kodex-state",
@@ -6341,7 +6341,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-agent-identity"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -6361,7 +6361,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-agent-message-board-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "caseless",
@@ -6384,7 +6384,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-agent-roles"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-config",
  "kodex-file-system",
@@ -6397,7 +6397,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-analytics"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-app-server-protocol",
  "kodex-git-utils",
@@ -6419,7 +6419,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-ansi-escape"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "ansi-to-tui",
  "ratatui",
@@ -6428,7 +6428,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-api"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "assert_matches",
@@ -6466,7 +6466,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-app-server"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "app_test_support",
@@ -6575,7 +6575,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-app-server-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "futures",
  "kodex-app-server",
@@ -6602,7 +6602,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-app-server-daemon"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "blake3",
@@ -6627,7 +6627,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-app-server-protocol"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "inventory",
@@ -6661,11 +6661,11 @@ dependencies = [
 
 [[package]]
 name = "kodex-app-server-protocol-noop-macros"
-version = "0.1.2"
+version = "0.155.0"
 
 [[package]]
 name = "kodex-app-server-test-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -6687,7 +6687,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-app-server-transport"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "axum",
  "base64 0.22.1",
@@ -6729,7 +6729,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-apply-patch"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -6749,7 +6749,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-arg0"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "dotenvy",
@@ -6771,7 +6771,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-async-utils"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
  "rand 0.9.3",
@@ -6781,7 +6781,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-attachment-store"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
  "serde",
@@ -6791,7 +6791,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-aws-auth"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "aws-config",
  "aws-credential-types",
@@ -6817,7 +6817,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-backend-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "http 1.4.0",
@@ -6837,7 +6837,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-backend-openapi-models"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -6846,7 +6846,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-build-info"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-install-context",
  "pretty_assertions",
@@ -6859,7 +6859,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-bwrap"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "cc",
  "libc",
@@ -6868,7 +6868,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-chatgpt"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -6890,7 +6890,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-cli"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "app_test_support",
@@ -6987,7 +6987,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "eventsource-stream",
  "futures",
@@ -7000,7 +7000,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-cloud-config"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "chrono",
@@ -7026,7 +7026,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-cloud-tasks"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -7059,7 +7059,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-cloud-tasks-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -7074,7 +7074,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-cloud-tasks-mock-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "chrono",
  "diffy",
@@ -7083,7 +7083,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-code-mode"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "futures",
  "http-body-util",
@@ -7106,7 +7106,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-code-mode-host"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "axum",
@@ -7135,7 +7135,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-code-mode-protocol"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "glob",
  "kodex-protocol",
@@ -7153,7 +7153,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-code-mode-runtime"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "deno_core_icudata",
@@ -7171,11 +7171,11 @@ dependencies = [
 
 [[package]]
 name = "kodex-collaboration-mode-templates"
-version = "0.1.2"
+version = "0.155.0"
 
 [[package]]
 name = "kodex-config"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -7225,7 +7225,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-config-schema"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -7234,7 +7234,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-connectors"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -7256,7 +7256,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-connectors-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-connectors",
  "kodex-core-plugins",
@@ -7270,7 +7270,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-context-fragments"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-protocol",
  "kodex-utils-string",
@@ -7280,7 +7280,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-core"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -7417,7 +7417,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-core-api"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-analytics",
  "kodex-app-server-protocol",
@@ -7440,7 +7440,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-core-plugins"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -7495,7 +7495,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-diagnostics"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "libc",
  "pretty_assertions",
@@ -7503,7 +7503,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-exec"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -7555,7 +7555,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-exec-server"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -7616,7 +7616,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-exec-server-protocol"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "kodex-file-system",
@@ -7632,7 +7632,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-exec-server-test-support"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "futures",
@@ -7647,7 +7647,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-execpolicy"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -7665,7 +7665,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-experimental-api-macros"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7674,7 +7674,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-extension-api"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-config",
  "kodex-context-fragments",
@@ -7693,7 +7693,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-extension-items"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-utils-absolute-path",
  "pretty_assertions",
@@ -7705,7 +7705,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-external-agent-migration"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "chrono",
  "kodex-analytics",
@@ -7735,7 +7735,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-features"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-network-proxy",
  "kodex-otel",
@@ -7749,7 +7749,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-feedback"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "bytes",
@@ -7773,7 +7773,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-file-search"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -7789,7 +7789,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-file-system"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "bytes",
  "futures",
@@ -7801,7 +7801,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-file-watcher"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "notify",
  "pretty_assertions",
@@ -7812,7 +7812,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-git-attribution"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-backend-client",
  "kodex-extension-api",
@@ -7825,7 +7825,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-git-utils"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -7851,7 +7851,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-goal-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -7876,7 +7876,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-guardian-context"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-context-fragments",
  "kodex-history",
@@ -7887,7 +7887,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-guardian-reviewer"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "kodex-analytics",
@@ -7912,7 +7912,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-guardian-v2"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "core_test_support",
@@ -7945,7 +7945,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-history"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "kodex-protocol",
@@ -7957,7 +7957,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-history-notes-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "core_test_support",
  "http 1.4.0",
@@ -7982,7 +7982,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-home"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-extension-api",
  "kodex-utils-absolute-path",
@@ -7994,7 +7994,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-hooks"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "async-channel",
@@ -8020,7 +8020,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-http-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "bytes",
  "futures",
@@ -8055,7 +8055,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-image-generation-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "http 1.4.0",
@@ -8082,7 +8082,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-install-context"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-utils-absolute-path",
  "kodex-utils-home-dir",
@@ -8095,7 +8095,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-keyring-store"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "keyring",
  "tracing",
@@ -8103,7 +8103,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-linux-sandbox"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "clap",
  "globset",
@@ -8131,7 +8131,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-lmstudio"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-core",
  "kodex-http-client",
@@ -8145,7 +8145,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-login"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -8188,7 +8188,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-mcp"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -8228,7 +8228,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-mcp-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "axum",
@@ -8261,7 +8261,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-memories-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-core",
  "kodex-extension-api",
@@ -8283,7 +8283,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-memories-read"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-protocol",
  "kodex-shell-command",
@@ -8293,7 +8293,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-memories-write"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -8330,7 +8330,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-mermaid"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "insta",
  "pretty_assertions",
@@ -8339,7 +8339,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-message-history"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-config",
  "memchr",
@@ -8353,7 +8353,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-model-provider"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "chrono",
@@ -8385,7 +8385,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-model-provider-info"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "http 1.4.0",
  "kodex-api",
@@ -8403,7 +8403,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-models-manager"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "chrono",
  "kodex-http-client",
@@ -8422,7 +8422,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-mxc-sandbox"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "appcontainer_common",
@@ -8444,7 +8444,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-network-proxy"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -8493,7 +8493,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-ollama"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "assert_matches",
  "async-stream",
@@ -8513,7 +8513,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-otel"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "bytes",
  "chrono",
@@ -8549,7 +8549,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-otel-trace-websocket"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "axum",
@@ -8560,7 +8560,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-plugin"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-config",
  "kodex-protocol",
@@ -8574,7 +8574,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-process-hardening"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "libc",
  "pretty_assertions",
@@ -8582,7 +8582,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-prompts"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "kodex-collaboration-mode-templates",
@@ -8599,7 +8599,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-protocol"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chardetng",
@@ -8643,7 +8643,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-queue-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "core_test_support",
@@ -8664,7 +8664,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-realtime-webrtc"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "ctor 0.6.3",
@@ -8682,7 +8682,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-response-debug-context"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "http 1.4.0",
@@ -8693,7 +8693,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-responses-api-proxy"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -8710,7 +8710,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-rmcp-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "axum",
@@ -8759,7 +8759,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-rollout"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -8786,7 +8786,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-rollout-trace"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "http 1.4.0",
@@ -8802,7 +8802,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-sandboxing"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "dunce",
@@ -8829,7 +8829,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-secrets"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "age",
  "anyhow",
@@ -8850,7 +8850,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-shell-command"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -8873,7 +8873,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-shell-escalation"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -8893,7 +8893,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-skills"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "include_dir",
  "kodex-protocol",
@@ -8910,7 +8910,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-skills-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "assert_matches",
  "dirs",
@@ -8946,7 +8946,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-state"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -8972,7 +8972,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-stdio-to-uds"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "kodex-uds",
@@ -8984,7 +8984,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-tcp-tunnel"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "bytes",
@@ -9005,7 +9005,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-terminal-detection"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
  "tracing",
@@ -9013,7 +9013,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-test-binary-support"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-arg0",
  "tempfile",
@@ -9021,7 +9021,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-thread-manager-sample"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -9032,7 +9032,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-thread-store"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "chrono",
  "futures",
@@ -9063,7 +9063,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-tools"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "bitflags 2.13.1",
  "jsonptr",
@@ -9089,7 +9089,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-tui"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "app_test_support",
@@ -9215,7 +9215,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-uds"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "async-io",
  "libc",
@@ -9229,7 +9229,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-user-verification"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "core-foundation 0.10.1",
@@ -9249,7 +9249,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-absolute-path"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "dirs",
  "dunce",
@@ -9263,14 +9263,14 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-approval-presets"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-protocol",
 ]
 
 [[package]]
 name = "kodex-utils-audio"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "kodex-protocol",
@@ -9284,7 +9284,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-cache"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "lru",
  "sha1 0.10.6",
@@ -9293,7 +9293,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-cargo-bin"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "assert_cmd",
  "runfiles",
@@ -9302,7 +9302,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-cli"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "clap",
  "kodex-protocol",
@@ -9314,15 +9314,15 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-elapsed"
-version = "0.1.2"
+version = "0.155.0"
 
 [[package]]
 name = "kodex-utils-fuzzy-match"
-version = "0.1.2"
+version = "0.155.0"
 
 [[package]]
 name = "kodex-utils-git-discovery"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "futures",
  "kodex-git-utils",
@@ -9335,7 +9335,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-home-dir"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "dirs",
  "kodex-utils-absolute-path",
@@ -9345,7 +9345,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-image"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "divan",
@@ -9358,7 +9358,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-json-to-toml"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
  "serde_json",
@@ -9367,7 +9367,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-oss"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-core",
  "kodex-lmstudio",
@@ -9377,7 +9377,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-output-truncation"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-protocol",
  "kodex-utils-string",
@@ -9386,7 +9386,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-path"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "dunce",
  "kodex-utils-absolute-path",
@@ -9397,7 +9397,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-path-uri"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "base64 0.22.1",
  "kodex-utils-absolute-path",
@@ -9413,7 +9413,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-plugins"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-exec-server",
  "kodex-exec-server-protocol",
@@ -9427,7 +9427,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-pty"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "filedescriptor",
@@ -9444,7 +9444,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-readiness"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "assert_matches",
  "thiserror 2.0.18",
@@ -9454,7 +9454,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-redacted-string"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "schemars 0.8.22",
  "serde",
@@ -9462,14 +9462,14 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-rustls-provider"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "rustls",
 ]
 
 [[package]]
 name = "kodex-utils-sandbox-summary"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-protocol",
  "kodex-utils-absolute-path",
@@ -9479,7 +9479,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-sleep-inhibitor"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "core-foundation 0.9.4",
  "libc",
@@ -9489,14 +9489,14 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-stream-parser"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
 ]
 
 [[package]]
 name = "kodex-utils-string"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
  "regex-lite",
@@ -9506,14 +9506,14 @@ dependencies = [
 
 [[package]]
 name = "kodex-utils-template"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
 ]
 
 [[package]]
 name = "kodex-v8-poc"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "pretty_assertions",
  "v8",
@@ -9521,7 +9521,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-voice-host"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "cpal",
@@ -9548,7 +9548,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-web-search-extension"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "http 1.4.0",
  "kodex-api",
@@ -9570,7 +9570,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-websocket-auth"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -9589,7 +9589,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-websocket-client"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "futures",
  "kodex-http-client",
@@ -9605,7 +9605,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-windows-sandbox"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -9632,7 +9632,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-windows-sandbox-service"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "kodex-cloud-config",
@@ -9649,7 +9649,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-workload-identity"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "kodex-http-client",
  "pretty_assertions",
@@ -9664,7 +9664,7 @@ dependencies = [
 
 [[package]]
 name = "kodex-worktree"
-version = "0.1.2"
+version = "0.155.0"
 dependencies = [
  "anyhow",
  "dunce",
