@@ -31,6 +31,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582 # 1.95.0
         with:
           targets: aarch64-apple-darwin
+      - uses: facebook/install-dotslash@1e4e7b3e07eaca387acb98f1d4720e0bee8dbb6a # v2
       - name: Configure rusty_v8
         uses: ./.github/actions/setup-rusty-v8
         with:
@@ -42,13 +43,20 @@ jobs:
           manifest_version="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -1)"
           test "$tag_version" = "$manifest_version"
       - name: Build
-        run: cargo build --locked --release --target "$TARGET" --bin kodex
+        run: cargo build --locked --release --target "$TARGET" --bin kodex --bin kodex-code-mode-host
       - name: Package
+        env:
+          KODEX_REPO_ROOT: ${{ github.workspace }}
         run: |
           set -euo pipefail
-          mkdir -p dist/package
-          cp "target/$TARGET/release/kodex" dist/package/kodex
-          tar -C dist/package -czf "dist/kodex-${GITHUB_REF_NAME}-${TARGET}.tar.gz" kodex
+          python3 ../scripts/build_kodex_package.py \
+            --target "$TARGET" \
+            --package-version "${GITHUB_REF_NAME#v}" \
+            --package-dir dist/package \
+            --archive-output "dist/kodex-${GITHUB_REF_NAME}-${TARGET}.tar.gz" \
+            --entrypoint-bin "target/$TARGET/release/kodex" \
+            --code-mode-host-bin "target/$TARGET/release/kodex-code-mode-host" \
+            --force
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: kodex-aarch64-apple-darwin

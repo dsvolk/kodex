@@ -18,7 +18,7 @@ pub enum UpdateAction {
     VitePlusGlobalLatest,
     /// Update via `pnpm add -g @openai/kodex@latest`.
     PnpmGlobalLatest,
-    /// Update via `brew upgrade kodex`.
+    /// Update via `brew upgrade dsvolk/tap/kodex`.
     BrewUpgrade,
     /// Update via `curl -fsSL https://chatgpt.com/kodex/install.sh | KODEX_NON_INTERACTIVE=1 sh`.
     StandaloneUnix,
@@ -51,7 +51,7 @@ impl UpdateAction {
             UpdateAction::BunGlobalLatest => ("bun", &["install", "-g", "@openai/kodex"]),
             UpdateAction::VitePlusGlobalLatest => ("vp", &["install", "-g", "@openai/kodex"]),
             UpdateAction::PnpmGlobalLatest => ("pnpm", &["add", "-g", "@openai/kodex"]),
-            UpdateAction::BrewUpgrade => ("brew", &["upgrade", "--cask", "kodex"]),
+            UpdateAction::BrewUpgrade => ("brew", &["upgrade", "dsvolk/tap/kodex"]),
             UpdateAction::StandaloneUnix => (
                 "sh",
                 &[
