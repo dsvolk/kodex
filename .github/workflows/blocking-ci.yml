@@ -52,8 +52,8 @@ jobs:
             --package-version "$package_version" \
             --package-dir "$RUNNER_TEMP/kodex-package" \
             --archive-output "$RUNNER_TEMP/kodex-package.tar.gz" \
-            --entrypoint-bin target/debug/kodex \
-            --code-mode-host-bin target/debug/kodex-code-mode-host \
+            --entrypoint-bin "$CARGO_TARGET_DIR/debug/kodex" \
+            --code-mode-host-bin "$CARGO_TARGET_DIR/debug/kodex-code-mode-host" \
             --force
       - name: Test Kodex CLI
         run: just test -p kodex-cli -E 'not binary(app_server_daemon)'
