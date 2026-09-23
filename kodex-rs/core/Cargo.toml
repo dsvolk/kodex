@@ -67,6 +67,7 @@ kodex-sandboxing = { workspace = true }
 kodex-skills = { workspace = true }
 kodex-skills-extension = { workspace = true }
 kodex-state = { workspace = true }
+kodex-agent-message-board-extension = { workspace = true }
 kodex-terminal-detection = { workspace = true }
 kodex-thread-store = { workspace = true }
 kodex-tools = { workspace = true }

@@ -11,8 +11,8 @@ use flate2::Compression;
 use flate2::write::GzEncoder;
 use http::HeaderMap;
 use http::StatusCode;
+use kodex_http_client::RequestBuilder;
 use kodex_http_client::RouteAwareClientPool;
-use kodex_http_client::RouteAwareRequestBuilder;
 use sentry::ClientOptions;
 use sentry::protocol::Attachment;
 use sentry::protocol::Envelope;
@@ -34,7 +34,7 @@ pub(super) fn envelope_request(
     dsn: &Dsn,
     body: Bytes,
     timeout: Duration,
-) -> RouteAwareRequestBuilder {
+) -> RequestBuilder {
     let sentry_options = ClientOptions::default();
     let sentry_auth = dsn.to_auth(Some(sentry_options.user_agent.as_ref()));
     let request = client_pool

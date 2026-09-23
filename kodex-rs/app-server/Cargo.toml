@@ -73,6 +73,7 @@ kodex-login = { workspace = true }
 kodex-image-generation-extension = { workspace = true }
 kodex-memories-extension = { workspace = true }
 kodex-web-search-extension = { workspace = true }
+kodex-websocket-auth = { workspace = true }
 kodex-memories-write = { workspace = true }
 kodex-mcp = { workspace = true }
 kodex-mcp-extension = { workspace = true }

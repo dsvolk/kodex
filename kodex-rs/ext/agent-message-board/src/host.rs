@@ -1,6 +1,6 @@
 //! Host capabilities needed by a board without depending on kodex-core.
 
-use crate::PostMetadata;
+use crate::PostPreview;
 use chrono::DateTime;
 use chrono::Utc;
 use futures::future::BoxFuture;
@@ -28,10 +28,10 @@ pub trait MessageBoardHost: Send + Sync {
 
     fn current_time(&self, caller: ThreadId) -> BoxFuture<'_, Result<DateTime<Utc>>>;
 
-    /// Only metadata is pushed. Full content is retrieved through bounded reads.
+    /// Push metadata and a bounded preview. Full content is retrieved through bounded reads.
     fn notify(
         &self,
         recipient: ThreadId,
-        post: PostMetadata,
+        post: PostPreview,
     ) -> BoxFuture<'_, Result<NotificationDelivery>>;
 }

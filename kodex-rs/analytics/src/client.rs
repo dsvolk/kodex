@@ -61,7 +61,6 @@ use kodex_app_server_protocol::TurnStatus;
 use kodex_app_server_protocol::item_event_to_server_notification;
 use kodex_login::AuthManager;
 use kodex_login::KodexAuth;
-use kodex_login::default_client::create_client;
 use kodex_plugin::PluginId;
 use kodex_plugin::PluginTelemetryMetadata;
 use kodex_protocol::ThreadId;
@@ -867,7 +866,8 @@ async fn send_track_events(
         return;
     }
 
-    let Some(auth) = auth_manager.auth().await else {
+    let Some((auth, http_client_factory)) = auth_manager.auth_with_http_client_factory().await
+    else {
         return;
     };
     if auth.is_api_key_auth() {
@@ -880,7 +880,7 @@ async fn send_track_events(
     }
 
     for events in track_event_request_batches(events) {
-        send_track_events_request(&auth, destination, events).await;
+        send_track_events_request(&auth, destination, events, &http_client_factory).await;
     }
 }
 
@@ -911,6 +911,7 @@ async fn send_track_events_request(
     auth: &KodexAuth,
     destination: &AnalyticsEventsDestination,
     events: Vec<TrackEventRequest>,
+    http_client_factory: &kodex_http_client::HttpClientFactory,
 ) {
     if events.is_empty() {
         return;
@@ -928,7 +929,21 @@ async fn send_track_events_request(
         #[cfg(debug_assertions)]
         AnalyticsEventsDestination::CaptureFile { .. } => return,
     };
-    let response = create_client()
+    let client = match kodex_login::default_client::create_client_for_route_async(
+        http_client_factory.clone(),
+        url.clone(),
+        kodex_http_client::ClientRouteClass::Api,
+        kodex_login::default_client::ClientRedirectPolicy::Default,
+    )
+    .await
+    {
+        Ok(client) => client,
+        Err(error) => {
+            tracing::warn!(%error, "failed to build events client");
+            return;
+        }
+    };
+    let response = client
         .post(url)
         .timeout(ANALYTICS_EVENTS_TIMEOUT)
         .headers(kodex_model_provider::auth_provider_from_auth(auth).to_auth_headers())

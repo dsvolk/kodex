@@ -34,6 +34,7 @@ enum KodexErrorInfoWire {
     InternalServerError,
     Unauthorized,
     BadRequest,
+    InvalidPrompt,
     SandboxError,
     ResponseStreamDisconnected {
         http_status_code: Option<u16>,

@@ -21,6 +21,7 @@ kodex-exec-server = { workspace = true }
 kodex-http-client = { workspace = true }
 kodex-keyring-store = { workspace = true }
 kodex-network-proxy = { workspace = true }
+kodex-otel = { workspace = true }
 kodex-protocol = { workspace = true }
 kodex-secrets = { workspace = true }
 kodex-utils-path-uri = { workspace = true }

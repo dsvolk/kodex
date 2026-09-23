@@ -75,6 +75,7 @@ kodex-tui = { workspace = true }
 kodex-utils-absolute-path = { workspace = true }
 kodex-utils-path = { workspace = true }
 kodex-utils-path-uri = { workspace = true }
+kodex-websocket-auth = { workspace = true }
 crossterm = { workspace = true, features = ["event-stream"] }
 futures = { workspace = true }
 http = { workspace = true }

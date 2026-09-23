@@ -11,6 +11,7 @@ use kodex_api::AuthHeadersFuture;
 use kodex_api::AuthProvider;
 use kodex_api::AuthProviderFuture;
 use kodex_api::SharedAuthProvider;
+use kodex_login::GatewayAuthError;
 use kodex_login::GatewayAuthManager;
 use kodex_model_provider_info::GatewayOAuthConfig;
 use kodex_model_provider_info::GatewayOAuthDelivery;
@@ -34,13 +35,19 @@ pub(crate) async fn compose_auth(
         .as_ref()
         .map_err(|error| KodexErr::InvalidRequest(error.clone()))?;
     let token = manager.resolve_access_token().await.map_err(|error| {
-            // Issuer errors may echo arbitrary credentials from configured URLs. Keep the
-            // diagnostic safe and bounded for callers that return it as tool output.
-            std::io::Error::new(
-                error.kind(),
-                "Gateway OAuth authentication failed; check the gateway configuration and credential store.",
-            )
-        })?;
+        if let Some(login_error) = error
+            .get_ref()
+            .and_then(|source| source.downcast_ref::<GatewayAuthError>())
+        {
+            return KodexErr::InvalidRequest(login_error.to_string());
+        }
+        // Issuer errors may echo arbitrary credentials from configured URLs. Keep the
+        // diagnostic safe and bounded, preserving retries for transient failures.
+        KodexErr::Io(std::io::Error::new(
+            error.kind(),
+            "Gateway OAuth authentication failed; check the gateway configuration and credential store.",
+        ))
+    })?;
     let (name, value) = gateway_header(config, &token)?;
     if resolved.auth.to_auth_headers().contains_key(&name) {
         return Err(KodexErr::InvalidRequest(

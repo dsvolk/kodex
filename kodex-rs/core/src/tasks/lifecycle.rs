@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use kodex_analytics::TurnAnalyticsMetadata;
 use kodex_extension_api::ExtensionData;
 use kodex_extension_api::ThreadIdleCause;
 use kodex_extension_api::TurnStartPhase;
@@ -17,6 +18,8 @@ impl Session {
         token_usage_at_turn_start: Option<&TokenUsage>,
         phase: TurnStartPhase,
     ) {
+        let metadata: Arc<dyn TurnAnalyticsMetadata> = turn_context.turn_metadata_state.clone();
+        turn_context.extension_data.insert(metadata);
         let collaboration_mode = turn_context.collaboration_mode();
         for contributor in self.services.extensions.turn_lifecycle_contributors() {
             if contributor.turn_start_phase(&self.services.thread_extension_data) != phase {

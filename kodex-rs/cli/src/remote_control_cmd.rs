@@ -5,7 +5,6 @@ use anyhow::Context;
 use clap::Args;
 use kodex_app_server::AppServerRuntimeOptions;
 use kodex_app_server::AppServerTransport;
-use kodex_app_server::AppServerWebsocketAuthSettings;
 use kodex_app_server_daemon::LifecycleCommand as AppServerLifecycleCommand;
 use kodex_app_server_daemon::LifecycleOutput as AppServerLifecycleOutput;
 use kodex_app_server_daemon::LifecycleStatus as AppServerLifecycleStatus;
@@ -19,6 +18,7 @@ use kodex_config::LoaderOverrides;
 use kodex_protocol::protocol::SessionSource;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_cli::CliConfigOverrides;
+use kodex_websocket_auth::WebsocketAuthSettings;
 use serde::Serialize;
 use tokio::sync::watch;
 use tokio::task::JoinHandle;
@@ -137,7 +137,7 @@ async fn run_foreground_remote_control(
         /*default_analytics_enabled*/ false,
         transport,
         SessionSource::VSCode,
-        AppServerWebsocketAuthSettings::default(),
+        WebsocketAuthSettings::default(),
         runtime_options,
     );
     let mut app_server_task = tokio::spawn(async move { app_server.await.map(|_| ()) });

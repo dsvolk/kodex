@@ -31,7 +31,7 @@ impl TestDaemon {
             format!("{}-unknown-linux-musl", std::env::consts::ARCH)
         };
         let standalone = home.path().join("packages/standalone");
-        let release_name = format!("{}-{target}", env!("CARGO_PKG_VERSION"));
+        let release_name = format!("0.0.0-{target}");
         let managed = standalone
             .join("releases")
             .join(&release_name)
@@ -657,7 +657,7 @@ fn packaged_daemon_launch(action: &str, initial: InitialDaemon) -> Result<()> {
         assert_eq!(standalone.join("current").canonicalize()?, cli_selection);
     }
     if action == "bootstrap" {
-        assert_eq!(output["autoUpdateEnabled"], true);
+        assert_eq!(output["autoUpdateEnabled"], false);
     }
     Ok(())
 }

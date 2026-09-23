@@ -20,6 +20,7 @@ use kodex_extension_api::ExtensionMetrics;
 use kodex_http_client::HttpClientFactory;
 use kodex_login::AgentIdentityAuthPolicy;
 use kodex_model_provider::SharedModelProvider;
+use kodex_model_provider::WorkspaceRoutingContext;
 use kodex_protocol::ResponseItemId;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::models::ContentItem;
@@ -41,6 +42,8 @@ const MAX_CONCURRENT_REQUESTS: usize = 16;
 pub struct LunaSamplerConfig {
     /// Provider and credentials selected for the owning thread.
     pub provider: SharedModelProvider,
+    /// Routing scope and retained configuration layers for the owning thread.
+    pub workspace_routing: WorkspaceRoutingContext,
     /// Effective proxy, custom-CA, and cookie configuration.
     pub http_client_factory: HttpClientFactory,
     /// Agent-identity policy selected for the owning thread.
@@ -151,6 +154,17 @@ impl LunaSampler {
 
     /// Sends one tool-less classification request using an available transport.
     pub async fn sample(&self, request: LunaSamplingRequest) -> Result<String, LunaSamplerError> {
+        let auth_owner_generation = self
+            .config
+            .provider
+            .auth_manager()
+            .filter(|_| self.config.provider.info().auth.is_none())
+            .map(|manager| {
+                manager
+                    .auth_change_state_receiver()
+                    .borrow()
+                    .owner_generation
+            });
         if request.parent_compaction.is_some()
             && !self.supports_parent_compaction(request.parent_compaction_hash.as_deref())
         {
@@ -258,6 +272,7 @@ impl LunaSampler {
             });
         }
         execution::SamplingExecution {
+            auth_owner_generation,
             config: Arc::clone(&self.config),
             connections: Arc::clone(&self.connections),
             request,

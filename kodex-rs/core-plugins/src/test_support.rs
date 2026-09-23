@@ -20,8 +20,8 @@ use kodex_exec_server::LOCAL_FS;
 use kodex_http_client::ClientRouteClass;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
+use kodex_http_client::RequestBuilder;
 use kodex_http_client::RouteAwareClientPool;
-use kodex_http_client::RouteAwareRequestBuilder;
 use kodex_login::AuthHeaders;
 use kodex_login::AuthManager;
 use kodex_login::ExternalAuth;
@@ -320,7 +320,7 @@ impl RecordingHttpClientSelector {
 }
 
 impl HttpClientSelector for RecordingHttpClientSelector {
-    fn request(&self, method: Method, url: &str) -> RouteAwareRequestBuilder {
+    fn request(&self, method: Method, url: &str) -> RequestBuilder {
         match self.selected_urls.lock() {
             Ok(mut selected_urls) => selected_urls.push(url.to_string()),
             Err(error) => panic!("selected URL recorder lock should not be poisoned: {error}"),
@@ -339,6 +339,7 @@ pub(crate) fn recording_remote_plugin_service_config(
     (
         RemotePluginServiceConfig {
             chatgpt_base_url,
+            product_sku: crate::remote::KODEX_PRODUCT_SKU.to_string(),
             http_clients,
         },
         selected_urls,
@@ -497,6 +498,7 @@ pub(crate) async fn load_plugins_config(kodex_home: &Path, cwd: &Path) -> Plugin
         ),
         "https://chatgpt.com/backend-api/".to_string(),
         test_http_client_factory(),
+        /*product_sku*/ None,
     )
 }
 

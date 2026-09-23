@@ -4,7 +4,6 @@ use clap::Parser;
 use kodex_app_server::AppServerCodeModeHostArgs;
 use kodex_app_server::AppServerRuntimeOptions;
 use kodex_app_server::AppServerTransport;
-use kodex_app_server::AppServerWebsocketAuthArgs;
 use kodex_app_server::PluginStartupTasks;
 use kodex_app_server::run_main_with_transport_options;
 use kodex_arg0::Arg0DispatchPaths;
@@ -12,6 +11,7 @@ use kodex_arg0::arg0_dispatch_or_else;
 use kodex_config::LoaderOverrides;
 use kodex_protocol::protocol::SessionSource;
 use kodex_utils_cli::CliConfigOverrides;
+use kodex_websocket_auth::WebsocketAuthArgs;
 use std::path::PathBuf;
 
 #[cfg(all(
@@ -55,7 +55,7 @@ struct AppServerArgs {
     session_source: SessionSource,
 
     #[command(flatten)]
-    auth: AppServerWebsocketAuthArgs,
+    auth: WebsocketAuthArgs,
 
     /// Fail if config.toml contains unknown configuration fields.
     #[arg(long = "strict-config", default_value_t = false)]

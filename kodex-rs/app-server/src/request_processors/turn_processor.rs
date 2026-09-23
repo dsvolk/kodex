@@ -227,6 +227,7 @@ impl TurnRequestProcessor {
                     approvals_reviewer: params
                         .approvals_reviewer
                         .map(kodex_app_server_protocol::ApprovalsReviewer::to_core),
+                    environments: None,
                     model: params.model,
                     // Match thread/settings/update: public null does not clear effort.
                     effort: params.effort.map(Some),
@@ -1238,6 +1239,7 @@ impl TurnRequestProcessor {
                 kodex_responses_as_items: params.kodex_responses_as_items.unwrap_or(false),
                 kodex_response_item_prefix: params.kodex_response_item_prefix,
                 kodex_response_handoff_mode: params.kodex_response_handoff_mode.unwrap_or_default(),
+                backend_reasoning_status: params.backend_reasoning_status,
                 kodex_response_handoff_channel_prefixes: params
                     .kodex_response_handoff_channel_prefixes,
                 model: params.model,

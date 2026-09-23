@@ -13,7 +13,8 @@ doctest = false
 workspace = true
 
 [dependencies]
-anyhow = { workspace = true }
+kodex-http-client = { workspace = true }
+kodex-websocket-client = { workspace = true }
 axum = { workspace = true, default-features = false, features = [
     "http1",
     "json",
@@ -21,7 +22,6 @@ axum = { workspace = true, default-features = false, features = [
     "ws",
 ] }
 base64 = { workspace = true }
-clap = { workspace = true, features = ["derive"] }
 kodex-api = { workspace = true }
 kodex-app-server-protocol = { workspace = true }
 kodex-core = { workspace = true }
@@ -32,12 +32,10 @@ kodex-state = { workspace = true }
 kodex-uds = { workspace = true }
 kodex-utils-absolute-path = { workspace = true }
 kodex-utils-rustls-provider = { workspace = true }
-constant_time_eq = { workspace = true }
+kodex-websocket-auth = { workspace = true }
 futures = { workspace = true }
 gethostname = { workspace = true }
-hmac = { workspace = true }
 httpdate = { workspace = true }
-jsonwebtoken = { workspace = true }
 owo-colors = { workspace = true, features = ["supports-colors"] }
 rand = { workspace = true }
 serde = { workspace = true, features = ["derive"] }

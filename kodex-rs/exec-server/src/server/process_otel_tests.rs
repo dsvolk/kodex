@@ -622,6 +622,9 @@ fn exported_logs(
         tls: None,
     };
     let otel = OtelProvider::try_new(&OtelSettings {
+        http_client_factory: kodex_http_client::HttpClientFactory::new(
+            kodex_http_client::OutboundProxyPolicy::ReqwestDefault,
+        ),
         environment: "test".to_string(),
         service_name: "kodex-exec-server".to_string(),
         service_version: env!("CARGO_PKG_VERSION").to_string(),

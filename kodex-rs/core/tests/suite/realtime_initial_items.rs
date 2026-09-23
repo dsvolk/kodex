@@ -204,6 +204,7 @@ fn start_params(version: RealtimeConversationVersion) -> ConversationStartParams
         kodex_responses_as_items: false,
         kodex_response_item_prefix: None,
         kodex_response_handoff_mode: KodexResponseHandoffMode::Thinking,
+        backend_reasoning_status: false,
         kodex_response_handoff_channel_prefixes: None,
         model: None,
         output_modality: RealtimeOutputModality::Audio,
