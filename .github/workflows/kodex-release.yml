@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to build and publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -18,6 +24,8 @@ jobs:
     runs-on: macos-14
     env:
       TARGET: aarch64-apple-darwin
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+      CARGO_PROFILE_RELEASE_OPT_LEVEL: z
     defaults:
       run:
         working-directory: kodex-rs
@@ -25,6 +33,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+          ref: ${{ env.RELEASE_TAG }}
       - uses: dtolnay/rust-toolchain@e081816240890017053eacbb1bdf337761dc5582 # 1.95.0
         with:
           targets: aarch64-apple-darwin
@@ -36,11 +45,16 @@ jobs:
       - name: Verify release version
         run: |
           set -euo pipefail
-          tag_version="${GITHUB_REF_NAME#v}"
+          tag_version="${RELEASE_TAG#v}"
           manifest_version="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -1)"
           test "$tag_version" = "$manifest_version"
       - name: Build
-        run: cargo build --locked --release --target "$TARGET" --bin kodex --bin kodex-code-mode-host
+        run: |
+          set -euo pipefail
+          cargo build --locked --release --target "$TARGET" --bin kodex-code-mode-host
+          # The binary's text segment exceeds ARM64's direct branch range.
+          # Use long calls only for the final CLI crate instead of costly fat LTO.
+          cargo rustc --locked --release --target "$TARGET" --package kodex-cli --bin kodex -- -C code-model=large
       - name: Package
         env:
           KODEX_REPO_ROOT: ${{ github.workspace }}
@@ -48,9 +62,9 @@ jobs:
           set -euo pipefail
           python3 ../scripts/build_kodex_package.py \
             --target "$TARGET" \
-            --package-version "${GITHUB_REF_NAME#v}" \
+            --package-version "${RELEASE_TAG#v}" \
             --package-dir dist/package \
-            --archive-output "dist/kodex-${GITHUB_REF_NAME}-${TARGET}.tar.gz" \
+            --archive-output "dist/kodex-${RELEASE_TAG}-${TARGET}.tar.gz" \
             --entrypoint-bin "target/$TARGET/release/kodex" \
             --code-mode-host-bin "target/$TARGET/release/kodex-code-mode-host" \
             --force
@@ -64,10 +78,13 @@ jobs:
     name: Publish release and tap formula
     needs: build
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+          ref: ${{ env.RELEASE_TAG }}
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: kodex-*
@@ -76,7 +93,7 @@ jobs:
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/*.tar.gz --repo "$GITHUB_REPOSITORY" --generate-notes
+        run: gh release create "$RELEASE_TAG" dist/*.tar.gz --repo "$GITHUB_REPOSITORY" --generate-notes
       - name: Update Homebrew tap
         env:
           TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
@@ -90,13 +107,13 @@ jobs:
           export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/homebrew_tap -o IdentitiesOnly=yes"
           git clone git@github.com:dsvolk/homebrew-tap.git tap
 
-          version="${GITHUB_REF_NAME#v}"
-          arm_archive="kodex-${GITHUB_REF_NAME}-aarch64-apple-darwin.tar.gz"
+          version="${RELEASE_TAG#v}"
+          arm_archive="kodex-${RELEASE_TAG}-aarch64-apple-darwin.tar.gz"
           arm_sha="$(sha256sum "dist/$arm_archive" | cut -d' ' -f1)"
           mkdir -p tap/Formula
           sed \
             -e "s/@VERSION@/$version/g" \
-            -e "s/@TAG@/$GITHUB_REF_NAME/g" \
+            -e "s/@TAG@/$RELEASE_TAG/g" \
             -e "s/@ARM_ARCHIVE@/$arm_archive/g" \
             -e "s/@ARM_SHA@/$arm_sha/g" \
             formula/kodex.rb.tmpl > tap/Formula/kodex.rb
