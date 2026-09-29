@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::sync::Arc;
 
+use futures::StreamExt;
 use kodex_exec_server::EnvironmentManager;
 use kodex_exec_server::FileSystemEnvironmentAccessor;
 use kodex_exec_server::FileSystemSandboxContext;
@@ -12,7 +13,6 @@ use kodex_protocol::protocol::SkillScope;
 use kodex_skills::EnvironmentSkillMetadata;
 use kodex_utils_path_uri::PathConvention;
 use kodex_utils_path_uri::PathUri;
-use futures::StreamExt;
 
 use crate::catalog::SkillAuthority;
 use crate::catalog::SkillCatalog;

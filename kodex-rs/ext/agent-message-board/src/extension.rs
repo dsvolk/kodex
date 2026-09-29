@@ -6,6 +6,7 @@
 
 use crate::AgentMessageBoard;
 use crate::tools::message_board_tools_with_descriptions;
+use futures::future::BoxFuture;
 use kodex_extension_api::ExtensionData;
 use kodex_extension_api::ExtensionEventSink;
 use kodex_extension_api::ExtensionFuture;
@@ -22,7 +23,6 @@ use kodex_protocol::error::Result;
 use kodex_protocol::openai_models::MultiAgentToolMessages;
 use kodex_tools::ToolCall;
 use kodex_tools::ToolExecutor;
-use futures::future::BoxFuture;
 use std::sync::Arc;
 
 type BoardFactory<C> = dyn Fn(&C, SessionId, ThreadId) -> BoxFuture<'static, Result<Option<Arc<dyn AgentMessageBoard>>>>

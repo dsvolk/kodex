@@ -1,12 +1,6 @@
 //! Mailbox scheduling preserves the current response when deferral is enabled.
 //! Queued mail still reaches the next request, alongside completed tool results.
 
-use kodex_core::TurnInputRequest;
-use kodex_features::Feature;
-use kodex_protocol::AgentPath;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::InterAgentCommunication;
-use kodex_protocol::protocol::Op;
 use core_test_support::context_snapshot;
 use core_test_support::context_snapshot::ContextSnapshotOptions;
 use core_test_support::context_snapshot::SnapshotEntry;
@@ -15,6 +9,12 @@ use core_test_support::streaming_sse::StreamingSseChunk;
 use core_test_support::streaming_sse::start_streaming_sse_server;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_core::TurnInputRequest;
+use kodex_features::Feature;
+use kodex_protocol::AgentPath;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::InterAgentCommunication;
+use kodex_protocol::protocol::Op;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

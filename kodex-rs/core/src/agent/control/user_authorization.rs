@@ -16,8 +16,6 @@ use std::hash::Hash;
 use std::hash::Hasher;
 
 use super::LocalAgentControl;
-use crate::kodex_thread::GuardianRootMessage;
-use crate::kodex_thread::GuardianRootSnapshot;
 use crate::compact::is_summary_message;
 use crate::context::ContextualUserFragment;
 use crate::context::GuardianReviewEvidence;
@@ -27,6 +25,8 @@ use crate::context::render_retained_assistant_context;
 use crate::event_mapping::parse_turn_item;
 use crate::guardian::GUARDIAN_MAX_ROOT_MESSAGE_TOKENS;
 use crate::guardian::guardian_truncate_text;
+use crate::kodex_thread::GuardianRootMessage;
+use crate::kodex_thread::GuardianRootSnapshot;
 use kodex_history::ReconciledRetainedContext;
 use kodex_history::RetainedContextEntry;
 use kodex_history::RetainedContextOrder;

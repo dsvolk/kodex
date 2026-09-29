@@ -1,7 +1,7 @@
-use super::manager::KodexAuth;
 use super::manager::ExternalAuth;
 use super::manager::ExternalAuthFuture;
 use super::manager::ExternalAuthRefreshContext;
+use super::manager::KodexAuth;
 use kodex_protocol::config_types::ModelProviderAuthInfo;
 use std::fmt;
 use std::io;

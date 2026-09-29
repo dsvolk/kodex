@@ -1151,9 +1151,9 @@ fn sha_256_prefix(value: &Value) -> Result<String> {
 mod tests {
     use super::*;
     use anyhow::Result;
+    use keyring::Error as KeyringError;
     use kodex_keyring_store::tests::MockKeyringStore;
     use kodex_secrets::compute_keyring_account;
-    use keyring::Error as KeyringError;
     use pretty_assertions::assert_eq;
     use std::sync::Arc;
     #[path = "credential_store_tests.rs"]

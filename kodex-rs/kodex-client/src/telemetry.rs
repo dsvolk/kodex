@@ -1,5 +1,5 @@
-use kodex_http_client::TransportError;
 use http::StatusCode;
+use kodex_http_client::TransportError;
 use std::time::Duration;
 
 /// API specific telemetry.

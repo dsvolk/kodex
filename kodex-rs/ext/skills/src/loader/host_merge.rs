@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::sync::Arc;
 
+use futures::FutureExt;
+use futures::StreamExt;
 use kodex_exec_server::ExecutorFileSystem;
 use kodex_protocol::protocol::Product;
 use kodex_protocol::protocol::SkillScope;
@@ -11,8 +13,6 @@ use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathUri;
 use kodex_utils_plugins::PluginSkillRoot;
 use kodex_utils_plugins::migrated_command_skills_root;
-use futures::FutureExt;
-use futures::StreamExt;
 use tokio::sync::OnceCell;
 use tokio::sync::Semaphore;
 

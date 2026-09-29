@@ -1,20 +1,20 @@
 //! Verify error hooks retain backend details without changing compaction outcomes.
 
+use core_test_support::responses;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_core::TurnInputRequest;
 use kodex_extension_api::ExtensionFuture;
 use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_extension_api::TurnErrorInput;
 use kodex_extension_api::TurnLifecycleContributor;
 use kodex_protocol::error::KodexErrorDetails;
-use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::Op;
 use kodex_protocol::protocol::RateLimitReachedType;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::sync::Arc;

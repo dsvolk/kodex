@@ -31,6 +31,8 @@ use std::time::Duration;
 
 use anyhow::Result;
 use anyhow::anyhow;
+use futures::FutureExt;
+use futures::future::BoxFuture;
 use kodex_config::types::McpServerEnvVar;
 use kodex_exec_server::ExecBackend;
 use kodex_exec_server::ExecEnvPolicy;
@@ -47,8 +49,6 @@ use kodex_utils_pty::ProcessMode;
 use kodex_utils_pty::process_group::kill_process_group;
 #[cfg(unix)]
 use kodex_utils_pty::process_group::terminate_process_group;
-use futures::FutureExt;
-use futures::future::BoxFuture;
 use rmcp::service::RoleClient;
 use rmcp::service::RxJsonRpcMessage;
 use rmcp::service::TxJsonRpcMessage;

@@ -19,10 +19,10 @@ async fn consumer_roots_include_paginated_archived_descendants_and_keep_missing_
         (false, 503, false),
         (false, 200, true),
     ] {
+        use futures::SinkExt;
         use kodex_app_server_client::RemoteAppServerClient;
         use kodex_app_server_client::RemoteAppServerConnectArgs;
         use kodex_app_server_client::RemoteAppServerEndpoint;
-        use futures::SinkExt;
         use tokio_tungstenite::tungstenite::Message;
 
         let server = MockServer::start().await;

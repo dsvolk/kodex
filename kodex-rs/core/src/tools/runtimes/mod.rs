@@ -16,10 +16,10 @@ use kodex_core_plugins::PLUGIN_METRICS_OUTPUT_ENV_VAR;
 use kodex_file_system::WindowsSandboxSelection;
 #[cfg(unix)]
 use kodex_install_context::InstallContext;
-#[cfg(target_os = "macos")]
-use kodex_network_proxy::KODEX_PROXY_GIT_SSH_COMMAND_MARKER;
 use kodex_network_proxy::CREDENTIAL_BROKER_ACTIVE_ENV_KEY;
 use kodex_network_proxy::CUSTOM_CA_ENV_KEYS;
+#[cfg(target_os = "macos")]
+use kodex_network_proxy::KODEX_PROXY_GIT_SSH_COMMAND_MARKER;
 use kodex_network_proxy::PROXY_ACTIVE_ENV_KEY;
 use kodex_network_proxy::PROXY_ENV_KEYS;
 #[cfg(target_os = "macos")]

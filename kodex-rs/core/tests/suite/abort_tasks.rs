@@ -6,11 +6,6 @@ use kodex_history::RolloutItem;
 use std::sync::Arc;
 use std::time::Duration;
 
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::Op;
-use kodex_protocol::protocol::SessionSource;
-use kodex_protocol::protocol::SubAgentSource;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::responses::ev_completed;
 use core_test_support::responses::ev_function_call;
 use core_test_support::responses::ev_response_created;
@@ -22,6 +17,11 @@ use core_test_support::responses::sse_response;
 use core_test_support::responses::start_mock_server;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::Op;
+use kodex_protocol::protocol::SessionSource;
+use kodex_protocol::protocol::SubAgentSource;
+use kodex_protocol::user_input::UserInput;
 use regex_lite::Regex;
 use serde_json::json;
 

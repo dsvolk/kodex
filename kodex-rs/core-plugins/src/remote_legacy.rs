@@ -1,10 +1,10 @@
 use crate::error_subtype::http_status_sub_error_type;
 use crate::remote::RemotePluginServiceConfig;
+use http::Method;
+use http::StatusCode;
 use kodex_http_client::RouteAwareRequestError;
 use kodex_login::KodexAuth;
 use kodex_protocol::protocol::Product;
-use http::Method;
-use http::StatusCode;
 use serde::Deserialize;
 use std::time::Duration;
 use url::Url;

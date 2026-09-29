@@ -3,14 +3,14 @@
 use kodex_core::TurnInputRequest;
 use std::os::unix::fs::PermissionsExt;
 
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::fs_wait;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::TestKodex;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::user_input::UserInput;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

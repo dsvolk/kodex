@@ -1,11 +1,11 @@
 //! Split readers keep their revocation wakeup and report denial even when writers fail first.
 
 use super::*;
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_http_client::DestinationPolicy;
 use kodex_http_client::NetworkPolicyController;
 use kodex_http_client::OutboundProxyPolicy::ReqwestDefault;
-use futures::SinkExt;
-use futures::StreamExt;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 use tokio_tungstenite::tungstenite::client::IntoClientRequest;

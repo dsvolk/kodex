@@ -8,6 +8,10 @@ use std::sync::Arc;
 use std::time::Duration;
 use std::time::Instant;
 
+use futures::FutureExt;
+use futures::future::BoxFuture;
+use http::HeaderValue;
+use http::StatusCode;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::HttpClient;
 use kodex_exec_server::HttpHeader;
@@ -15,10 +19,6 @@ use kodex_exec_server::HttpRedirectPolicy;
 use kodex_exec_server::HttpRequestParams;
 use kodex_exec_server::HttpRequestResponse;
 use kodex_exec_server::HttpResponseBodyStream;
-use futures::FutureExt;
-use futures::future::BoxFuture;
-use http::HeaderValue;
-use http::StatusCode;
 use url::Url;
 
 const MAX_REDIRECTS: usize = 10;

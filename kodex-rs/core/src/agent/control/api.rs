@@ -20,6 +20,7 @@ use crate::agent_communication::AgentCommunicationKind;
 use crate::kodex_thread::GuardianRootSnapshot;
 use crate::kodex_thread::ThreadConfigSnapshot;
 use crate::rollout_budget::RolloutBudgetReminder;
+use futures::future::BoxFuture;
 use kodex_protocol::AgentPath;
 use kodex_protocol::SessionId;
 use kodex_protocol::ThreadId;
@@ -29,7 +30,6 @@ use kodex_protocol::protocol::MultiAgentVersion;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::TokenUsage;
 use kodex_rollout_trace::ThreadTraceContext;
-use futures::future::BoxFuture;
 use std::collections::HashSet;
 
 impl AgentControl for LocalAgentControl {

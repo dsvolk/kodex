@@ -1,27 +1,6 @@
 #![cfg(not(target_os = "windows"))]
 
 use anyhow::Ok;
-use kodex_core::TurnInputRequest;
-use kodex_features::Feature;
-use kodex_history::RolloutItem;
-use kodex_protocol::config_types::CollaborationMode;
-use kodex_protocol::config_types::ModeKind;
-use kodex_protocol::config_types::Settings;
-use kodex_protocol::items::AgentMessageContent;
-use kodex_protocol::items::TurnItem;
-use kodex_protocol::models::ImageDetail;
-use kodex_protocol::models::ImageReference;
-use kodex_protocol::models::PermissionProfile;
-use kodex_protocol::models::WebSearchAction;
-use kodex_protocol::protocol::AskForApproval;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::ItemCompletedEvent;
-use kodex_protocol::protocol::ItemStartedEvent;
-use kodex_protocol::protocol::ThreadHistoryMode;
-use kodex_protocol::protocol::ThreadSettingsOverrides;
-use kodex_protocol::user_input::ByteRange;
-use kodex_protocol::user_input::TextElement;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::PathBufExt;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
@@ -44,6 +23,27 @@ use core_test_support::test_kodex::test_kodex;
 use core_test_support::test_kodex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
+use kodex_core::TurnInputRequest;
+use kodex_features::Feature;
+use kodex_history::RolloutItem;
+use kodex_protocol::config_types::CollaborationMode;
+use kodex_protocol::config_types::ModeKind;
+use kodex_protocol::config_types::Settings;
+use kodex_protocol::items::AgentMessageContent;
+use kodex_protocol::items::TurnItem;
+use kodex_protocol::models::ImageDetail;
+use kodex_protocol::models::ImageReference;
+use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::models::WebSearchAction;
+use kodex_protocol::protocol::AskForApproval;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::ItemCompletedEvent;
+use kodex_protocol::protocol::ItemStartedEvent;
+use kodex_protocol::protocol::ThreadHistoryMode;
+use kodex_protocol::protocol::ThreadSettingsOverrides;
+use kodex_protocol::user_input::ByteRange;
+use kodex_protocol::user_input::TextElement;
+use kodex_protocol::user_input::UserInput;
 use pretty_assertions::assert_eq;
 
 fn disabled_plan_turn(

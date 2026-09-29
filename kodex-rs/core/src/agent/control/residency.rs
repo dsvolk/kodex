@@ -1,8 +1,8 @@
 use super::LocalAgentControl;
 use super::LocalAgentRuntime;
 use crate::agent::AgentStatus;
-use crate::kodex_thread::KodexThread;
 use crate::config::Config;
+use crate::kodex_thread::KodexThread;
 use crate::thread_manager::ThreadManagerState;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErr;

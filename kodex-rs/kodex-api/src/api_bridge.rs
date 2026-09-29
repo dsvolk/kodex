@@ -7,15 +7,15 @@ use crate::rate_limits::parse_rate_limit_reached_type;
 use base64::Engine;
 use chrono::DateTime;
 use chrono::Utc;
+use http::HeaderMap;
 use kodex_protocol::auth::PlanType;
+use kodex_protocol::error::ConnectionFailedError;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::KodexErrorDetails;
-use kodex_protocol::error::ConnectionFailedError;
 use kodex_protocol::error::RetryLimitReachedError;
 use kodex_protocol::error::UnexpectedResponseError;
 use kodex_protocol::error::UsageLimitReachedError;
 use kodex_protocol::protocol::MisalignmentErrorDetails;
-use http::HeaderMap;
 use serde::Deserialize;
 use serde_json::Value;
 

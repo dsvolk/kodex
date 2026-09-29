@@ -6,6 +6,8 @@ use super::super::agents_md::instruction_fragments;
 use super::super::agents_md::persisted_resume_history;
 use super::super::agents_md::submit_thread_turn;
 use super::*;
+use core_test_support::responses;
+use core_test_support::responses::mount_sse_once;
 use kodex_core::StartThreadOptions;
 use kodex_core::config::Constrained;
 use kodex_extension_api::Instructions;
@@ -16,8 +18,6 @@ use kodex_protocol::config_types::ApprovalsReviewer;
 use kodex_protocol::protocol::AskForApproval;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
-use core_test_support::responses;
-use core_test_support::responses::mount_sse_once;
 use pretty_assertions::assert_eq;
 
 const INITIAL: &str = "Ask before sending email.";

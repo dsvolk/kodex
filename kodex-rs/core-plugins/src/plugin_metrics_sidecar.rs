@@ -1,4 +1,5 @@
 use crate::ResolvedPluginMetricsOperation;
+use futures::StreamExt;
 use kodex_analytics::PluginMeasurementRow;
 use kodex_exec_server::CreateDirectoryOptions;
 use kodex_exec_server::Environment;
@@ -11,7 +12,6 @@ use kodex_protocol::models::FileSystemPermissions;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathConvention;
 use kodex_utils_path_uri::PathUri;
-use futures::StreamExt;
 use serde::Deserialize;
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;

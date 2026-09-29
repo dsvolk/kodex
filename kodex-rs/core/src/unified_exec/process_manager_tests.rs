@@ -1,7 +1,7 @@
 use super::*;
 use crate::unified_exec::clamp_yield_time;
-use kodex_network_proxy::ManagedNetworkSandboxContext;
 use core_test_support::assert_regex_match;
+use kodex_network_proxy::ManagedNetworkSandboxContext;
 use pretty_assertions::assert_eq;
 use tokio::sync::Notify;
 use tokio::time::Duration;

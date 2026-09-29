@@ -3,9 +3,9 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Duration;
 
-use kodex_http_client::HttpClientFactory;
 use futures::future::BoxFuture;
 use http::HeaderMap;
+use kodex_http_client::HttpClientFactory;
 use tokio::sync::watch;
 
 use crate::ExecServerError;

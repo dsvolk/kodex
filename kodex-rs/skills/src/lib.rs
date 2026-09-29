@@ -43,8 +43,8 @@ pub use parser::parse_skill_frontmatter_metadata;
 pub use selection::ExplicitSkillLookup;
 pub use selection::collect_explicit_skill_mentions;
 
-use kodex_utils_absolute_path::AbsolutePathBuf;
 use include_dir::Dir;
+use kodex_utils_absolute_path::AbsolutePathBuf;
 use std::collections::hash_map::DefaultHasher;
 use std::fs;
 use std::hash::Hash;

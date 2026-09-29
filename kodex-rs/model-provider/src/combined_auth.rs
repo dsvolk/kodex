@@ -3,6 +3,9 @@
 use std::sync::Arc;
 
 use crate::auth::ResolvedProviderAuth;
+use http::HeaderMap;
+use http::HeaderName;
+use http::HeaderValue;
 use kodex_api::AuthError;
 use kodex_api::AuthHeadersFuture;
 use kodex_api::AuthProvider;
@@ -15,9 +18,6 @@ use kodex_model_provider_info::GatewayOAuthDelivery;
 use kodex_model_provider_info::ModelProviderInfo;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::Result;
-use http::HeaderMap;
-use http::HeaderName;
-use http::HeaderValue;
 
 pub(crate) async fn compose_auth(
     provider: &ModelProviderInfo,

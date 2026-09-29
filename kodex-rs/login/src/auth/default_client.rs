@@ -4,6 +4,9 @@
 //! Use [`crate::default_client`] or [`kodex_login::default_client`] from other crates in this
 //! workspace.
 
+use http::HeaderMap;
+use http::HeaderValue;
+use http::header::USER_AGENT;
 use kodex_http_client::BuildRouteAwareHttpClientError;
 use kodex_http_client::ClientRouteClass;
 use kodex_http_client::HttpClient;
@@ -14,9 +17,6 @@ pub use kodex_http_client::RequestBuilder as KodexRequestBuilder;
 use kodex_http_client::ReqwestTransport;
 use kodex_http_client::RouteAwareClientPool;
 use kodex_terminal_detection::user_agent;
-use http::HeaderMap;
-use http::HeaderValue;
-use http::header::USER_AGENT;
 use std::sync::LazyLock;
 use std::sync::Mutex;
 use std::sync::RwLock;

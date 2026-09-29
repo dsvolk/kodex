@@ -1,4 +1,5 @@
 use super::*;
+use core_test_support::PathExt;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::permissions::FileSystemSandboxPolicyContext;
 use kodex_protocol::permissions::NetworkSandboxPolicy;
@@ -9,7 +10,6 @@ use kodex_protocol::protocol::FileSystemSpecialPath;
 use kodex_protocol::protocol::GranularApprovalConfig;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathUri;
-use core_test_support::PathExt;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 

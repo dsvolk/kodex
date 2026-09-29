@@ -1,5 +1,6 @@
 use anyhow::Context;
 use anyhow::Result;
+use futures::TryStreamExt;
 use kodex_exec_server::CopyOptions;
 use kodex_exec_server::CreateDirectoryOptions;
 use kodex_exec_server::EnvironmentAccess;
@@ -34,7 +35,6 @@ use kodex_protocol::permissions::NetworkSandboxPolicy;
 use kodex_sandboxing::policy_transforms::effective_file_system_sandbox_policy;
 use kodex_sandboxing::policy_transforms::effective_network_sandbox_policy;
 use kodex_utils_path_uri::PathUri;
-use futures::TryStreamExt;
 use pretty_assertions::assert_eq;
 use std::path::Path;
 use std::sync::Arc;

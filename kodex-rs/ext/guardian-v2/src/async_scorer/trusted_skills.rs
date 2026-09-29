@@ -4,8 +4,8 @@ use std::collections::BTreeSet;
 use std::path::Path;
 use std::path::PathBuf;
 
-use kodex_core::config::Config;
 use dirs::home_dir;
+use kodex_core::config::Config;
 
 const MAX_TRUSTED_SKILLS: usize = 16;
 const MAX_TRUSTED_SKILL_PATH_BYTES: usize = 512;

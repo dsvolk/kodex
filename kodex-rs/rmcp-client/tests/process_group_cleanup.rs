@@ -9,11 +9,11 @@ use std::time::Duration;
 
 use anyhow::Context;
 use anyhow::Result;
+use futures::FutureExt as _;
 use kodex_rmcp_client::ElicitationAction;
 use kodex_rmcp_client::ElicitationResponse;
 use kodex_rmcp_client::LocalStdioServerLauncher;
 use kodex_rmcp_client::RmcpClient;
-use futures::FutureExt as _;
 use rmcp::model::ClientCapabilities;
 use rmcp::model::Implementation;
 use rmcp::model::InitializeRequestParams;

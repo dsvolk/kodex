@@ -1,10 +1,10 @@
 //! Delegated review keeps current-turn skills when scheduled instructions coalesce.
 
 use super::*;
+use core_test_support::responses::mount_sse_once;
 use kodex_core::context::GuardianReviewEvidence;
 use kodex_protocol::turn_input::TurnInputSubmission;
 use kodex_protocol::turn_input::TurnStartOptions;
-use core_test_support::responses::mount_sse_once;
 use pretty_assertions::assert_eq;
 
 #[test_case::test_case(Feature::GuardianThreadContext; "existing_projection")]

@@ -20,10 +20,10 @@ use thiserror::Error;
 use url::Url;
 
 use super::AuthConfig;
-use super::KodexAuth;
 use super::ExternalAuth;
 use super::ExternalAuthFuture;
 use super::ExternalAuthRefreshContext;
+use super::KodexAuth;
 use super::RefreshTokenError;
 use super::RefreshTokenFailedError;
 use super::RefreshTokenFailedReason;

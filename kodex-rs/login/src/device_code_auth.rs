@@ -1,5 +1,5 @@
-use kodex_http_client::HttpClient;
 use http::StatusCode;
+use kodex_http_client::HttpClient;
 use serde::Deserialize;
 use serde::Serialize;
 use serde::de::Deserializer;

@@ -10,6 +10,8 @@ use super::send_track_events_request;
 use super::track_event_request_batches;
 #[cfg(debug_assertions)]
 use crate::events::AppServerRpcTransport;
+#[cfg(debug_assertions)]
+use crate::events::FinalApprovalOutcome;
 use crate::events::KodexAcceptedLineFingerprintsEventParams;
 use crate::events::KodexAcceptedLineFingerprintsEventRequest;
 #[cfg(debug_assertions)]
@@ -32,8 +34,6 @@ use crate::events::KodexPluginUsedMetadata;
 use crate::events::KodexRuntimeMetadata;
 #[cfg(debug_assertions)]
 use crate::events::KodexToolItemEventBase;
-#[cfg(debug_assertions)]
-use crate::events::FinalApprovalOutcome;
 use crate::events::SkillInvocationEventParams;
 use crate::events::SkillInvocationEventRequest;
 #[cfg(debug_assertions)]

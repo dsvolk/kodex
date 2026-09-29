@@ -2,12 +2,12 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 
-use kodex_exec_server_protocol::JSONRPCMessage;
-use kodex_protocol::protocol::W3cTraceContext;
 use futures::Sink;
 use futures::SinkExt;
 use futures::Stream;
 use futures::StreamExt;
+use kodex_exec_server_protocol::JSONRPCMessage;
+use kodex_protocol::protocol::W3cTraceContext;
 use prost::Message as ProstMessage;
 use tokio::sync::mpsc;
 use tokio::sync::watch;
@@ -991,13 +991,13 @@ mod tests {
     use std::task::Poll;
     use std::time::Duration;
 
-    use kodex_exec_server_protocol::JSONRPCRequest;
-    use kodex_exec_server_protocol::JSONRPCResponse;
-    use kodex_exec_server_protocol::RequestId;
     use futures::Sink;
     use futures::Stream;
     use futures::channel::mpsc as futures_mpsc;
     use futures::task::AtomicWaker;
+    use kodex_exec_server_protocol::JSONRPCRequest;
+    use kodex_exec_server_protocol::JSONRPCResponse;
+    use kodex_exec_server_protocol::RequestId;
     use pretty_assertions::assert_eq;
     use tokio::net::TcpListener;
     use tokio::time::timeout;

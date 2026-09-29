@@ -23,6 +23,7 @@ use crate::tools::registry::PostToolUsePayload;
 use crate::tools::registry::PreToolUsePayload;
 use crate::tools::registry::ToolExecutor;
 use crate::tools::registry::ToolTelemetryTags;
+use futures::future::BoxFuture;
 use kodex_extension_api::McpToolContext;
 use kodex_mcp::ToolInfo;
 use kodex_protocol::mcp::is_node_repl_backed_connector;
@@ -39,7 +40,6 @@ use kodex_utils_image::PromptImageMode;
 use kodex_utils_image::load_data_url_for_prompt_uncached;
 use kodex_utils_output_truncation::TruncationPolicy;
 use kodex_utils_string::take_bytes_at_char_boundary;
-use futures::future::BoxFuture;
 use serde_json::Map;
 use serde_json::Value;
 

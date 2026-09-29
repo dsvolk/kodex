@@ -8,17 +8,17 @@
 //! API provider construction applies the process-wide managed residency policy also
 //! used by default HTTP headers.
 
+use http::HeaderMap;
+use http::header::HeaderName;
+use http::header::HeaderValue;
 use kodex_client::Provider as ApiProvider;
 use kodex_client::RetryConfig as ApiRetryConfig;
 use kodex_protocol::auth::AuthMode;
 use kodex_protocol::config_types::ModelProviderAuthInfo;
-use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::EnvVarError;
+use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::Result as KodexResult;
 use kodex_utils_redacted_string::RedactedString;
-use http::HeaderMap;
-use http::header::HeaderName;
-use http::header::HeaderValue;
 use schemars::JsonSchema;
 use serde::Deserialize;
 use serde::Serialize;

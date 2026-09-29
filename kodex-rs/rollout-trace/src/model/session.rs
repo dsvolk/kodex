@@ -5,9 +5,9 @@ use crate::raw_event::RawEventSeq;
 
 use super::AgentPath;
 use super::AgentThreadId;
-use super::KodexTurnId;
 use super::ConversationItemId;
 use super::EdgeId;
+use super::KodexTurnId;
 
 /// Coarse terminal status for the rollout.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

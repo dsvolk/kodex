@@ -1,5 +1,9 @@
 #![allow(clippy::unwrap_used)]
 
+use core_test_support::responses;
+use core_test_support::responses::start_mock_server;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
 use kodex_config::test_support::CloudConfigBundleFixture;
 use kodex_features::Feature;
 use kodex_login::KodexAuth;
@@ -11,10 +15,6 @@ use kodex_model_provider_info::ModelProviderInfo;
 use kodex_protocol::config_types::WebSearchMode;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::openai_models::WebSearchToolType;
-use core_test_support::responses;
-use core_test_support::responses::start_mock_server;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

@@ -13,6 +13,7 @@ use kodex_protocol::AgentPath;
 use kodex_protocol::items::SubAgentActivityItem;
 use kodex_protocol::protocol::AgentStatus;
 use kodex_protocol::protocol::InterAgentCommunication;
+use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentActivityKind;
 use kodex_protocol::protocol::SubAgentSource;

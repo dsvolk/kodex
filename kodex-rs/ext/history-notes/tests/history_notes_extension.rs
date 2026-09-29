@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_config::LoaderOverrides;
 use kodex_core::config::Config;
 use kodex_core::config::ConfigBuilder;
@@ -32,8 +34,6 @@ use kodex_protocol::models::ResponseInputItem;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::TruncationPolicy;
-use http::HeaderMap;
-use http::HeaderValue;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use tempfile::TempDir;

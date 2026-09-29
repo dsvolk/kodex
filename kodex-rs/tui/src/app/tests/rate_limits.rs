@@ -1,15 +1,15 @@
 use super::*;
+use crossterm::event::KeyCode;
+use crossterm::event::KeyEvent;
 use kodex_app_server_protocol::AccountRateLimitsUpdatedNotification;
-use kodex_app_server_protocol::KodexErrorInfo;
 use kodex_app_server_protocol::CreditsSnapshot;
 use kodex_app_server_protocol::ErrorNotification;
 use kodex_app_server_protocol::GetAccountRateLimitsResponse;
+use kodex_app_server_protocol::KodexErrorInfo;
 use kodex_app_server_protocol::RateLimitReachedType;
 use kodex_app_server_protocol::RateLimitResetCreditsSummary;
 use kodex_app_server_protocol::RateLimitSnapshot;
 use kodex_app_server_protocol::RateLimitWindow;
-use crossterm::event::KeyCode;
-use crossterm::event::KeyEvent;
 use pretty_assertions::assert_eq;
 
 fn rate_limit_snapshot(

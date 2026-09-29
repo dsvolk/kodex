@@ -5,12 +5,13 @@ use crate::sandboxing::ExecOptions;
 use crate::shell::ShellType;
 use crate::tools::sandboxing::SandboxAttempt;
 use crate::tools::sandboxing::managed_network_for_sandbox_permissions;
-#[cfg(target_os = "macos")]
-use kodex_network_proxy::KODEX_PROXY_GIT_SSH_COMMAND_MARKER;
+use core_test_support::PathBufExt;
 use kodex_network_proxy::CUSTOM_CA_ENV_KEYS;
 use kodex_network_proxy::ConfigReloader;
 use kodex_network_proxy::ConfigReloaderFuture;
 use kodex_network_proxy::ConfigState;
+#[cfg(target_os = "macos")]
+use kodex_network_proxy::KODEX_PROXY_GIT_SSH_COMMAND_MARKER;
 use kodex_network_proxy::NetworkProxy;
 use kodex_network_proxy::NetworkProxyConfig;
 use kodex_network_proxy::NetworkProxyConstraints;
@@ -25,7 +26,6 @@ use kodex_sandboxing::SandboxManager;
 use kodex_sandboxing::SandboxType;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathUri;
-use core_test_support::PathBufExt;
 use pretty_assertions::assert_eq;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;

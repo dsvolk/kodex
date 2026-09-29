@@ -1,11 +1,6 @@
 //! Verifies that the agent retries when the SSE stream terminates before
 //! delivering a `response.completed` event.
 
-use kodex_core::TurnInputRequest;
-use kodex_model_provider_info::ModelProviderInfo;
-use kodex_model_provider_info::WireApi;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use core_test_support::streaming_sse::StreamingSseChunk;
@@ -13,6 +8,11 @@ use core_test_support::streaming_sse::start_streaming_sse_server;
 use core_test_support::test_kodex::TestKodex;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_core::TurnInputRequest;
+use kodex_model_provider_info::ModelProviderInfo;
+use kodex_model_provider_info::WireApi;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::user_input::UserInput;
 use pretty_assertions::assert_eq;
 use std::net::TcpListener;
 use wiremock::MockServer;

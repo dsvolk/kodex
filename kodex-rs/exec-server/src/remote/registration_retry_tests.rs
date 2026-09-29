@@ -5,9 +5,9 @@ use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 use std::time::Duration;
 
+use http::HeaderMap;
 use kodex_api::AuthProvider;
 use kodex_http_client::RouteAwareRequestError;
-use http::HeaderMap;
 use pretty_assertions::assert_eq;
 use tokio::io::AsyncBufReadExt;
 use tokio::io::AsyncReadExt;

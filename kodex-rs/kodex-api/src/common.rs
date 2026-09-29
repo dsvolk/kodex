@@ -1,4 +1,5 @@
 use crate::error::ApiError;
+use futures::Stream;
 use kodex_protocol::ResponseUsageMetadata;
 use kodex_protocol::config_types::ReasoningSummary as ReasoningSummaryConfig;
 use kodex_protocol::config_types::Verbosity as VerbosityConfig;
@@ -10,7 +11,6 @@ use kodex_protocol::protocol::TokenUsage;
 use kodex_protocol::protocol::TurnModerationMetadataEvent;
 use kodex_protocol::protocol::W3cTraceContext;
 use kodex_protocol::turn_input::CyberAccessProgram;
-use futures::Stream;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::Value;

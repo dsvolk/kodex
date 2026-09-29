@@ -1,4 +1,24 @@
 use anyhow::Result;
+#[cfg(unix)]
+use core_test_support::hooks::trust_discovered_hooks;
+use core_test_support::responses::ev_assistant_message;
+use core_test_support::responses::ev_completed;
+use core_test_support::responses::ev_function_call;
+use core_test_support::responses::ev_response_created;
+#[cfg(unix)]
+use core_test_support::responses::mount_sse_once;
+use core_test_support::responses::mount_sse_sequence;
+use core_test_support::responses::sse;
+#[cfg(unix)]
+use core_test_support::skip_if_remote;
+#[cfg(unix)]
+use core_test_support::test_kodex::TestKodexBuilder;
+use core_test_support::test_kodex::TestKodexHarness;
+use core_test_support::test_kodex::local_selections;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::test_kodex::turn_permission_fields;
+use core_test_support::wait_for_event;
+use core_test_support::wait_for_event_match;
 use kodex_core::TurnInputRequest;
 #[cfg(unix)]
 use kodex_core::config::Constrained;
@@ -40,26 +60,6 @@ use kodex_protocol::protocol::ExecCommandEndEvent;
 use kodex_protocol::protocol::Op;
 use kodex_protocol::protocol::ThreadSettingsOverrides;
 use kodex_protocol::user_input::UserInput;
-#[cfg(unix)]
-use core_test_support::hooks::trust_discovered_hooks;
-use core_test_support::responses::ev_assistant_message;
-use core_test_support::responses::ev_completed;
-use core_test_support::responses::ev_function_call;
-use core_test_support::responses::ev_response_created;
-#[cfg(unix)]
-use core_test_support::responses::mount_sse_once;
-use core_test_support::responses::mount_sse_sequence;
-use core_test_support::responses::sse;
-#[cfg(unix)]
-use core_test_support::skip_if_remote;
-#[cfg(unix)]
-use core_test_support::test_kodex::TestKodexBuilder;
-use core_test_support::test_kodex::TestKodexHarness;
-use core_test_support::test_kodex::local_selections;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::test_kodex::turn_permission_fields;
-use core_test_support::wait_for_event;
-use core_test_support::wait_for_event_match;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::collections::HashMap;

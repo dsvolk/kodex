@@ -1,6 +1,13 @@
 //! MCP server elicitations reach subagents and preserve automatic approval and review.
 
 use anyhow::Result;
+use core_test_support::responses;
+use core_test_support::responses::ResponsesRequest;
+use core_test_support::skip_if_no_network;
+use core_test_support::skip_if_wine_exec;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
+use core_test_support::wait_for_mcp_server;
 use kodex_core::StartThreadOptions;
 use kodex_core::TurnInputRequest;
 use kodex_protocol::approvals::ElicitationAction;
@@ -13,13 +20,6 @@ use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::ThreadSettingsOverrides;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses;
-use core_test_support::responses::ResponsesRequest;
-use core_test_support::skip_if_no_network;
-use core_test_support::skip_if_wine_exec;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
-use core_test_support::wait_for_mcp_server;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

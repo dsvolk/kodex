@@ -6,13 +6,13 @@ use std::sync::Mutex;
 use std::time::Duration;
 use std::time::Instant;
 
-use kodex_http_client::ClientRouteClass;
-use kodex_http_client::HttpClientFactory;
-use kodex_http_client::OutboundProxyPolicy;
 use http::HeaderMap;
 use http::HeaderValue;
 use http::StatusCode;
 use http::header::AUTHORIZATION;
+use kodex_http_client::ClientRouteClass;
+use kodex_http_client::HttpClientFactory;
+use kodex_http_client::OutboundProxyPolicy;
 use pretty_assertions::assert_eq;
 
 use super::*;

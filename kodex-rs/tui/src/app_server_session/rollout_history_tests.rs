@@ -6,11 +6,11 @@ use crate::legacy_core::config::Config;
 use crate::legacy_core::config::ConfigBuilder;
 use app_test_support::create_fake_paginated_rollout;
 use app_test_support::create_fake_rollout;
+use color_eyre::eyre::Result;
+use futures::FutureExt;
 use kodex_app_server_protocol::ThreadHistoryMode;
 use kodex_features::Feature;
 use kodex_protocol::ThreadId;
-use color_eyre::eyre::Result;
-use futures::FutureExt;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 

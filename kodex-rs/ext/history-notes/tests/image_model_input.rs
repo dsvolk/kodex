@@ -2,6 +2,9 @@
 
 use std::sync::Arc;
 
+use core_test_support::responses;
+use core_test_support::test_kodex::test_kodex;
+use http::HeaderMap;
 use kodex_core::config::Config;
 use kodex_core::config::TokenBudgetConfig;
 use kodex_extension_api::ExtensionRegistryBuilder;
@@ -9,9 +12,6 @@ use kodex_history_notes_extension::install;
 use kodex_login::AuthHeaders;
 use kodex_login::AuthManager;
 use kodex_login::KodexAuth;
-use core_test_support::responses;
-use core_test_support::test_kodex::test_kodex;
-use http::HeaderMap;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use wiremock::Mock;

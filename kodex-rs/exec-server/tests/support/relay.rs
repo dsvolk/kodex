@@ -7,9 +7,9 @@ use std::time::Duration;
 
 use anyhow::Context;
 use anyhow::Result;
-use kodex_exec_server::NoiseChannelPublicKey;
 use futures::SinkExt;
 use futures::StreamExt;
+use kodex_exec_server::NoiseChannelPublicKey;
 use prost::Message as ProstMessage;
 use relay_proto::RelayMessageFrame;
 use relay_proto::relay_message_frame;

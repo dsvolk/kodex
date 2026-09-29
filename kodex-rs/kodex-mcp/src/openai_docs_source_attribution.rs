@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
+use futures::future::BoxFuture;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::HttpClient;
 use kodex_exec_server::HttpRequestParams;
 use kodex_exec_server::HttpRequestResponse;
 use kodex_exec_server::HttpResponseBodyStream;
-use futures::future::BoxFuture;
 
 const OPENAI_DEVELOPER_DOCS_MCP_URL: &str = "https://developers.openai.com/mcp";
 const OPENAI_DEVELOPER_DOCS_MCP_KODEX_URL: &str = "https://developers.openai.com/mcp?source=kodex";

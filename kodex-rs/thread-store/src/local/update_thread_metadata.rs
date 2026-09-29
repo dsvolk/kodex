@@ -931,11 +931,11 @@ fn rollout_path_is_archived(store: &LocalThreadStore, path: &Path) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use futures::FutureExt;
     use kodex_protocol::models::PermissionProfile;
     use kodex_protocol::openai_models::ReasoningEffort;
     use kodex_protocol::protocol::ThreadHistoryMode;
     use kodex_utils_absolute_path::test_support::PathExt;
-    use futures::FutureExt;
     use pretty_assertions::assert_eq;
     use serde_json::Value;
     use serde_json::json;

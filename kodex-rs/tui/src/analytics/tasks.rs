@@ -1,5 +1,6 @@
 //! Consumer task queries preserve missing amounts and require complete descendant groups.
 use super::client::Live;
+use futures::StreamExt;
 use kodex_app_server_client::AppServerRequestHandle;
 use kodex_app_server_protocol::ClientRequest;
 use kodex_app_server_protocol::RequestId;
@@ -8,7 +9,6 @@ use kodex_app_server_protocol::ThreadListParams;
 use kodex_app_server_protocol::ThreadListResponse;
 use kodex_backend_client::TaskUsage;
 use kodex_backend_client::TaskUsageThread;
-use futures::StreamExt;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::sync::Arc;

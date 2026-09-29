@@ -1,3 +1,4 @@
+use eventsource_stream::Event as StreamEvent;
 use kodex_otel::MetricsClient;
 use kodex_otel::MetricsConfig;
 use kodex_otel::Result;
@@ -8,7 +9,6 @@ use kodex_otel::TelemetryAuthMode;
 use kodex_protocol::ThreadId;
 use kodex_protocol::ToolName;
 use kodex_protocol::protocol::SessionSource;
-use eventsource_stream::Event as StreamEvent;
 use opentelemetry_sdk::metrics::InMemoryMetricExporter;
 use pretty_assertions::assert_eq;
 use std::time::Duration;

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
+use futures::StreamExt;
 use kodex_exec_server::ExecutorFileSystem;
 use kodex_exec_server::FileSystemEnvironmentAccessor;
 use kodex_exec_server::GetMetadataOptions;
@@ -15,7 +16,6 @@ use kodex_utils_path_uri::PathUri;
 use kodex_utils_plugins::PluginIdentity;
 use kodex_utils_plugins::PluginSkillRoot;
 use kodex_utils_plugins::SkillDiscoveryMode;
-use futures::StreamExt;
 use tracing::error;
 
 use super::MAX_QUALIFIED_NAME_LEN;

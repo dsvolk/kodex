@@ -14,7 +14,6 @@ use uuid::Uuid;
 
 use super::oneshot::Completion;
 
-use crate::kodex_thread::BackgroundTerminalInfo;
 use crate::exec_env::KODEX_PERMISSION_PROFILE_ENV_VAR;
 use crate::exec_env::KODEX_THREAD_ID_ENV_VAR;
 use crate::exec_env::KODEX_VERSION_ENV_VAR;
@@ -24,6 +23,7 @@ use crate::exec_env::inject_permission_profile_env;
 use crate::exec_env::inject_session_env;
 use crate::exec_policy::ExecApprovalRequest;
 use crate::guardian::GuardianReviewContext;
+use crate::kodex_thread::BackgroundTerminalInfo;
 use crate::plugins::metrics::finish_and_track_measurements;
 use crate::sandboxing::ExecOptions;
 use crate::sandboxing::ExecRequest;

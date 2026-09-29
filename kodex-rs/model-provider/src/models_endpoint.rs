@@ -5,6 +5,7 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::time::Duration;
 
+use http::HeaderMap;
 use kodex_api::AgentIdentityTelemetry;
 use kodex_api::ModelsClient;
 use kodex_api::RequestTelemetry;
@@ -18,8 +19,8 @@ use kodex_http_client::ClientRouteClass;
 use kodex_http_client::HttpClientFactory;
 use kodex_login::AuthEnvTelemetry;
 use kodex_login::AuthManager;
-use kodex_login::KodexAuth;
 use kodex_login::GatewayAuthManager;
+use kodex_login::KodexAuth;
 use kodex_login::collect_auth_env_telemetry;
 use kodex_login::default_client::ClientRedirectPolicy;
 use kodex_login::default_client::create_client_for_route_async;
@@ -33,7 +34,6 @@ use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::Result as CoreResult;
 use kodex_response_debug_context::extract_response_debug_context;
 use kodex_response_debug_context::telemetry_transport_error_message;
-use http::HeaderMap;
 use tokio::time::timeout;
 
 use crate::auth::ResolvedProviderAuth;

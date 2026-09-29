@@ -5,9 +5,9 @@ use chrono::DateTime;
 use chrono::Duration as ChronoDuration;
 use chrono::TimeZone;
 use chrono::Utc;
-use kodex_http_client::HttpResponse;
 use http::Response as RawHttpResponse;
 use http::StatusCode;
+use kodex_http_client::HttpResponse;
 use pretty_assertions::assert_eq;
 use std::time::Duration;
 

@@ -18,12 +18,12 @@ mod windows_mxc;
 pub use bwrap::find_system_bwrap_in_path;
 #[cfg(target_os = "linux")]
 pub use bwrap::system_bwrap_warning;
+pub use denial::is_likely_executor_managed_sandbox_denied;
+pub use denial::is_likely_sandbox_denied;
 pub use kodex_mxc_sandbox::KODEX_WINDOWS_MXC_ARG1;
 pub use kodex_mxc_sandbox::is_available as windows_mxc_available;
 pub use kodex_mxc_sandbox::run_main as run_windows_mxc_main;
 pub use kodex_windows_sandbox::WindowsSandboxProxySettingsMode;
-pub use denial::is_likely_executor_managed_sandbox_denied;
-pub use denial::is_likely_sandbox_denied;
 pub use linux_pid_namespace::LinuxSandboxPidNamespace;
 pub use manager::SandboxCommand;
 pub use manager::SandboxDirectSpawnTransformRequest;

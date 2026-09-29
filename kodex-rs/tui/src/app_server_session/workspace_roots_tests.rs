@@ -3,8 +3,8 @@
 use super::*;
 use crate::legacy_core::config::ConfigBuilder;
 use crate::legacy_core::config::ConfigOverrides;
-use kodex_app_server_protocol::ServerNotification;
 use core_test_support::responses;
+use kodex_app_server_protocol::ServerNotification;
 use pretty_assertions::assert_eq;
 
 #[tokio::test]

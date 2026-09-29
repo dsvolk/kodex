@@ -5,10 +5,10 @@
 use super::*;
 use crate::clipboard_copy::worker::PasteSource;
 use crate::tui::VscodeDetection;
-use kodex_config::types::RightClickPaste;
 use crossterm::event::MouseButton;
 use crossterm::event::MouseEvent;
 use crossterm::event::MouseEventKind;
+use kodex_config::types::RightClickPaste;
 
 pub(super) struct PendingPaste {
     thread: Option<ThreadId>,

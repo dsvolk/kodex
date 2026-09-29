@@ -7,8 +7,8 @@ use std::path::PathBuf;
 use anyhow::Context;
 use anyhow::Result;
 use anyhow::anyhow;
-use kodex_install_context::KodexPackageManifest;
 use kodex_install_context::InstallContext;
+use kodex_install_context::KodexPackageManifest;
 
 use crate::Daemon;
 use crate::install_lock::acquire_install_lock;

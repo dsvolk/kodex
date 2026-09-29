@@ -1,6 +1,6 @@
 ---
 source: tui/src/chatwidget/tests/slash_commands.rs
-assertion_line: 2890
+assertion_line: 2905
 expression: popup
 ---
   Select Pet
@@ -10,9 +10,9 @@ expression: popup
 
   Disable terminal pets
   BSOD                                                Loading preview...
-› Kodex
   Dewey
   Fireball
+› Kodex
   Null Signal
   Rocky
   Seedy

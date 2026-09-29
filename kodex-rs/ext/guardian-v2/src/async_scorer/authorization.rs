@@ -1,7 +1,7 @@
 //! Binds cached scores to the user authorization, review context, and model policy they evaluated.
 
-use kodex_core::KodexThread;
 use kodex_core::GuardianAuthorizationVersion;
+use kodex_core::KodexThread;
 use kodex_core::context::GuardianReviewEvidence;
 
 #[derive(Clone, Debug, PartialEq)]

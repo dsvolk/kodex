@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use kodex_http_client::HttpClientFactory;
-use kodex_http_client::OutboundProxyPolicy;
 use futures::SinkExt;
 use futures::StreamExt;
 use http::HeaderValue;
+use kodex_http_client::HttpClientFactory;
+use kodex_http_client::OutboundProxyPolicy;
 use pretty_assertions::assert_eq;
 use tokio::net::TcpListener;
 use tokio::net::TcpStream;

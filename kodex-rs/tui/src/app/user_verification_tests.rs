@@ -1,11 +1,11 @@
 //! Covers the controller's RPC boundary, cancellation generations, and proof redaction.
 
 use super::*;
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_app_server_protocol::McpServerElicitationRequest;
 use kodex_app_server_protocol::McpServerElicitationRequestParams;
 use kodex_app_server_protocol::ServerRequest;
-use futures::SinkExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 
 fn verification_request() -> ServerRequest {

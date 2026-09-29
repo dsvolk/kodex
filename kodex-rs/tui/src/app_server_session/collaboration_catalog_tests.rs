@@ -2,12 +2,12 @@
 
 use super::*;
 use crate::legacy_core::config::ConfigBuilder;
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_app_server_protocol::JSONRPCMessage;
 use kodex_protocol::config_types::CollaborationModeMask;
 use kodex_protocol::config_types::ModeKind;
 use kodex_protocol::openai_models::ReasoningEffort;
-use futures::SinkExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use tokio::net::TcpListener;

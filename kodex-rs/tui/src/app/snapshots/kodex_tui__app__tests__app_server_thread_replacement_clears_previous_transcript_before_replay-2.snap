@@ -1,10 +1,10 @@
 ---
 source: tui/src/app/tests.rs
-assertion_line: 6513
+assertion_line: 6562
 expression: rendered
 ---
 
-  >_ OpenAI Kodex (v0.0.0)
+  >_ OpenAI Kodex (v0.156.0)
      <thread cwd>
 
 

@@ -2,6 +2,8 @@ use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_agent_identity::AgentIdentityKey;
 use kodex_agent_identity::authorization_header_for_agent_task;
 use kodex_api::AgentIdentityTelemetry;
@@ -18,8 +20,6 @@ use kodex_login::auth::AgentIdentityAuthPolicy;
 use kodex_model_provider_info::ModelProviderInfo;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::protocol::SessionSource;
-use http::HeaderMap;
-use http::HeaderValue;
 
 use crate::bearer_auth_provider::BearerAuthProvider;
 
@@ -341,6 +341,7 @@ pub fn auth_provider_from_auth_manager(
 
 #[cfg(test)]
 mod tests {
+    use http::header::AUTHORIZATION;
     use kodex_agent_identity::generate_agent_key_material;
     use kodex_login::AuthCredentialsStoreMode;
     use kodex_login::AuthKeyringBackendKind;
@@ -352,7 +353,6 @@ mod tests {
     use kodex_protocol::account::PlanType;
     use kodex_protocol::config_types::ModelProviderAuthInfo;
     use kodex_protocol::error::KodexErrorDetails;
-    use http::header::AUTHORIZATION;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use std::num::NonZeroU64;

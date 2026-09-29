@@ -111,8 +111,8 @@ async fn create_process_context(use_remote: bool) -> Result<ProcessContext> {
 #[cfg(target_os = "macos")]
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn kodex_home_symlink_opt_out_respects_host_config_and_scope() -> Result<()> {
-    use kodex_exec_server::WriteFileOptions;
     use common::exec_server::exec_server_with_env;
+    use kodex_exec_server::WriteFileOptions;
     use std::os::unix::fs::symlink;
 
     let workspace = TempDir::new()?;

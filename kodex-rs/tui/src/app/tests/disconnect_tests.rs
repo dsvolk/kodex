@@ -3,10 +3,10 @@
 use super::*;
 use crate::app_server_session::ThreadParamsMode;
 use crate::chatwidget::tests::helpers::normalize_agent_center_snapshot;
-use kodex_app_server_protocol::JSONRPCMessage;
-use kodex_app_server_protocol::JSONRPCRequest;
 use futures::SinkExt;
 use futures::StreamExt;
+use kodex_app_server_protocol::JSONRPCMessage;
+use kodex_app_server_protocol::JSONRPCRequest;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use tokio::net::TcpListener;

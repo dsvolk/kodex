@@ -12,6 +12,12 @@ use std::time::Duration;
 
 use anyhow::Result;
 use anyhow::anyhow;
+use futures::FutureExt;
+use futures::future::BoxFuture;
+use futures::future::Shared;
+use http::HeaderMap;
+use http::HeaderName;
+use http::HeaderValue;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::HttpClient;
 use kodex_exec_server::HttpHeader;
@@ -21,12 +27,6 @@ use kodex_exec_server::HttpRequestResponse;
 use kodex_exec_server::HttpResponseBodyStream;
 #[cfg(unix)]
 use kodex_utils_pty::process_group::kill_process_group;
-use futures::FutureExt;
-use futures::future::BoxFuture;
-use futures::future::Shared;
-use http::HeaderMap;
-use http::HeaderName;
-use http::HeaderValue;
 use serde::Deserialize;
 use serde::de::MapAccess;
 use serde::de::Visitor;

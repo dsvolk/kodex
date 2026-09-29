@@ -3,6 +3,8 @@
 use std::path::Path;
 
 use crate::app_server_session::AppServerSession;
+use color_eyre::eyre::Result;
+use color_eyre::eyre::WrapErr;
 use kodex_app_server_client::TypedRequestError;
 use kodex_app_server_protocol::Thread;
 use kodex_app_server_protocol::ThreadHistoryMode;
@@ -10,8 +12,6 @@ use kodex_app_server_protocol::ThreadListParams;
 use kodex_app_server_protocol::ThreadSortKey;
 use kodex_app_server_protocol::ThreadSourceKind;
 use kodex_protocol::ThreadId;
-use color_eyre::eyre::Result;
-use color_eyre::eyre::WrapErr;
 
 #[derive(Clone, Copy)]
 pub(super) enum SessionCollection {

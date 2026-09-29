@@ -6,8 +6,8 @@ pub mod model_info;
 pub mod model_presets;
 pub mod test_support;
 
-pub use kodex_protocol::auth::AuthMode;
 pub use config::ModelsManagerConfig;
+pub use kodex_protocol::auth::AuthMode;
 
 /// Load the bundled model catalog shipped with `kodex-models-manager`.
 pub fn bundled_models_response()

@@ -5,8 +5,8 @@ use crate::legacy_core::config::ConfigBuilder;
 use app_test_support::create_fake_paginated_rollout;
 use app_test_support::create_fake_rollout;
 use app_test_support::rollout_path;
-use kodex_protocol::ThreadId;
 use core_test_support::responses;
+use kodex_protocol::ThreadId;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 

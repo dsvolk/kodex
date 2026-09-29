@@ -4,13 +4,13 @@ use std::sync::Mutex;
 use std::time::Duration;
 
 use anyhow::Result;
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_api::AuthProvider;
 use kodex_api::SharedAuthProvider;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_http_client::cache_system_proxy_route_for_test;
-use http::HeaderMap;
-use http::HeaderValue;
 use tokio::io::AsyncReadExt;
 use tokio::io::AsyncWriteExt;
 use tokio::net::TcpListener;

@@ -3,13 +3,13 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Duration;
 
+use futures::FutureExt as _;
 use kodex_rmcp_client::ElicitationAction;
 use kodex_rmcp_client::ElicitationResponse;
 use kodex_rmcp_client::LocalStdioServerLauncher;
 use kodex_rmcp_client::RmcpClient;
 use kodex_rmcp_client::mcp_error;
 use kodex_utils_cargo_bin::CargoBinError;
-use futures::FutureExt as _;
 use pretty_assertions::assert_eq;
 use rmcp::model::ClientCapabilities;
 use rmcp::model::ElicitationCapability;

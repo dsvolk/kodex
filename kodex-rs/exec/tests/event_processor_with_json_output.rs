@@ -40,7 +40,6 @@ use pretty_assertions::assert_eq;
 use serde_json::json;
 
 use kodex_exec::AgentMessageItem;
-use kodex_exec::KodexStatus;
 use kodex_exec::CollabAgentState;
 use kodex_exec::CollabAgentStatus;
 use kodex_exec::CollabTool;
@@ -57,6 +56,7 @@ use kodex_exec::FileUpdateChange as ExecFileUpdateChange;
 use kodex_exec::ItemCompletedEvent;
 use kodex_exec::ItemStartedEvent;
 use kodex_exec::ItemUpdatedEvent;
+use kodex_exec::KodexStatus;
 use kodex_exec::McpToolCallItem;
 use kodex_exec::McpToolCallItemError;
 use kodex_exec::McpToolCallItemResult;

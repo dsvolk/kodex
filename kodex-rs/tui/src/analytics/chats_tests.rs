@@ -43,11 +43,11 @@ async fn incomplete_chat_batches_retain_available_estimates_without_inventing_ze
 
 #[tokio::test]
 async fn slow_repairing_chat_listing_keeps_estimate_budget_and_ranks_across_pages() {
+    use futures::SinkExt;
+    use futures::StreamExt;
     use kodex_app_server_client::RemoteAppServerClient;
     use kodex_app_server_client::RemoteAppServerConnectArgs;
     use kodex_app_server_client::RemoteAppServerEndpoint;
-    use futures::SinkExt;
-    use futures::StreamExt;
     use tokio_tungstenite::tungstenite::Message;
 
     let server = MockServer::start().await;

@@ -1,6 +1,8 @@
 use std::sync::Arc;
 use std::time::Duration;
 
+use futures::FutureExt;
+use futures::StreamExt;
 use kodex_code_mode_protocol::CellId;
 use kodex_code_mode_protocol::CodeModeNestedToolCall;
 use kodex_code_mode_protocol::CodeModeToolKind;
@@ -8,8 +10,6 @@ use kodex_code_mode_protocol::grpc as proto;
 use kodex_code_mode_protocol::grpc::code_mode_host_server::CodeModeHost;
 use kodex_code_mode_protocol::host::MAX_FRAME_BYTES;
 use kodex_protocol::ToolName;
-use futures::FutureExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use tokio::sync::oneshot;
 use tokio_util::sync::CancellationToken;

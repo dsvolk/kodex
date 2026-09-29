@@ -39,10 +39,10 @@ use kodex_protocol::permissions::FileSystemSandboxEntry as CoreFileSystemSandbox
 use kodex_protocol::permissions::FileSystemSpecialPath as CoreFileSystemSpecialPath;
 use kodex_protocol::protocol::AgentStatus as CoreAgentStatus;
 use kodex_protocol::protocol::AskForApproval as CoreAskForApproval;
-use kodex_protocol::protocol::KodexErrorInfo as CoreKodexErrorInfo;
 use kodex_protocol::protocol::ConversationTextRole;
 use kodex_protocol::protocol::ExecCommandSource as CoreExecCommandSource;
 use kodex_protocol::protocol::GranularApprovalConfig as CoreGranularApprovalConfig;
+use kodex_protocol::protocol::KodexErrorInfo as CoreKodexErrorInfo;
 use kodex_protocol::protocol::NetworkAccess as CoreNetworkAccess;
 use kodex_protocol::protocol::SubAgentActivityKind as CoreSubAgentActivityKind;
 use kodex_protocol::request_permissions::RequestPermissionProfile as CoreRequestPermissionProfile;

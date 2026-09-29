@@ -15,12 +15,12 @@ use std::time::Duration;
 use std::time::Instant;
 
 use async_channel::Sender;
+use futures::future::try_join;
 use kodex_protocol::shell_environment::is_non_inheritable_env_var;
 #[cfg(unix)]
 use kodex_utils_pty::Command;
 #[cfg(windows)]
 use kodex_utils_pty::JobObject;
-use futures::future::try_join;
 use tokio::io::AsyncWriteExt;
 #[cfg(not(unix))]
 use tokio::process::Command;

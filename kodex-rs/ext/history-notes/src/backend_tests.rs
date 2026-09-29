@@ -1,3 +1,5 @@
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_login::AuthHeaders;
@@ -6,8 +8,6 @@ use kodex_login::KodexAuth;
 use kodex_model_provider::create_model_provider;
 use kodex_model_provider_info::ModelProviderInfo;
 use kodex_utils_output_truncation::TruncationPolicy;
-use http::HeaderMap;
-use http::HeaderValue;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use wiremock::Mock;

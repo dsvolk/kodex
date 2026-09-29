@@ -4,6 +4,7 @@
 
 use std::sync::Arc;
 
+use http::HeaderMap;
 use kodex_api::AuthError;
 use kodex_api::AuthProvider;
 use kodex_api::SharedAuthProvider;
@@ -14,7 +15,6 @@ use kodex_aws_auth::AwsRequestToSign;
 use kodex_http_client::Request;
 use kodex_http_client::RequestBody;
 use kodex_http_client::RequestCompression;
-use http::HeaderMap;
 
 /// Creates a SigV4 provider, preferring an explicit profile over the default credential chain.
 pub(super) async fn aws_sigv4_auth_provider(

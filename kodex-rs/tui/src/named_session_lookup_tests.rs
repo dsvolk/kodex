@@ -1,6 +1,8 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_app_server_client::RemoteAppServerClient;
 use kodex_app_server_client::RemoteAppServerConnectArgs;
 use kodex_app_server_client::RemoteAppServerEndpoint;
@@ -12,8 +14,6 @@ use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::ThreadHistoryMode;
 use kodex_state::ThreadMetadataBuilder;
 use kodex_utils_absolute_path::test_support::PathExt;
-use futures::SinkExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use tempfile::TempDir;

@@ -226,6 +226,8 @@ async fn to_extension_call(invocation: &ToolInvocation) -> ExtensionToolCall<'_>
 mod tests {
     use std::sync::Arc;
 
+    use core_test_support::responses::strip_response_item_id;
+    use core_test_support::responses::strip_response_item_ids;
     use kodex_extension_items::ExtensionItem;
     use kodex_extension_items::image_generation::ImageGenerationItem;
     use kodex_extension_items::web_search::WebSearchItem;
@@ -240,8 +242,6 @@ mod tests {
     use kodex_utils_absolute_path::test_support::PathExt;
     use kodex_utils_absolute_path::test_support::test_path_buf;
     use kodex_utils_path_uri::PathUri;
-    use core_test_support::responses::strip_response_item_id;
-    use core_test_support::responses::strip_response_item_ids;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use tokio::sync::Mutex;
