@@ -1,0 +1,16 @@
+---
+source: tui/src/model_migration.rs
+expression: terminal.backend()
+---
+
+  Kodex just got an upgrade. Introducing
+  gpt-5.1-kodex-max.
+
+  We recommend switching from gpt-5-kodex to
+  gpt-5.1-kodex-max.
+
+  Kodex-optimized flagship for deep and fast reasoning.
+  Learn more about gpt-5.1-kodex-max at
+  https://www.kodex.com/models/gpt-5.1-kodex-max
+
+  enter/esc continue · ctrl+c quit

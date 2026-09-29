@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Mirror a Codex GitHub Release to Cloudflare R2.
+"""Mirror a Kodex GitHub Release to Cloudflare R2.
 
 Cloudflare R2 exposes an S3-compatible API, so the built-in AWS CLI uses
 standard AWS credentials and the R2 endpoint from ``AWS_ENDPOINT_URL``.
-Objects are created under ``codex/releases/<version>/`` with a validated upload
+Objects are created under ``kodex/releases/<version>/`` with a validated upload
 checksum and checked using object metadata before the run succeeds. The
 versioned prefix includes every release asset plus installer-facing
 ``release.json`` metadata derived from the verified downloads. Once those
-objects are verified, the same metadata advances ``codex/channels/latest`` when
-the release is marked latest and ``codex/channels/prerelease`` for prereleases
+objects are verified, the same metadata advances ``kodex/channels/latest`` when
+the release is marked latest and ``kodex/channels/prerelease`` for prereleases
 that are newer than its current version, or when that version is unreadable.
-Stable releases also update the mutable ``codex/install.sh`` and
-``codex/install.ps1`` bootstrap aliases from their verified versioned assets.
+Stable releases also update the mutable ``kodex/install.sh`` and
+``kodex/install.ps1`` bootstrap aliases from their verified versioned assets.
 """
 
 import argparse
@@ -30,8 +30,8 @@ from urllib.parse import quote
 from releases import is_valid_release_version, should_update_version
 
 BUCKET = "releases"
-PREFIX = "codex"
-REPOSITORY = "openai/codex"
+PREFIX = "kodex"
+REPOSITORY = "openai/kodex"
 RELEASE_METADATA_NAME = "release.json"
 PRERELEASE_CHANNEL_KEY = f"{PREFIX}/channels/prerelease"
 INSTALLER_NAMES = ("install.sh", "install.ps1")

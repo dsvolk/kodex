@@ -1,0 +1,11 @@
+---
+source: tui/src/inline_visualization_tests.rs
+expression: text
+---
+• Fenced:
+
+  ::kodex-inline-vis{file="chart.html"}
+
+  Indented:
+
+      ::kodex-inline-vis{file="chart.html"}

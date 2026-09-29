@@ -1,0 +1,42 @@
+[package]
+name = "kodex-external-agent-migration"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_external_agent_migration"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+chrono = { workspace = true }
+kodex-analytics = { workspace = true }
+kodex-config = { workspace = true }
+kodex-core = { workspace = true }
+kodex-core-plugins = { workspace = true }
+kodex-hooks = { workspace = true }
+kodex-login = { workspace = true }
+kodex-memories-write = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-rollout = { workspace = true }
+kodex-thread-store = { workspace = true }
+kodex-utils-output-truncation = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+sha2 = { workspace = true }
+toml = { workspace = true }
+tokio = { workspace = true, features = ["rt", "sync"] }
+tracing = { workspace = true }
+
+[dev-dependencies]
+kodex-app-server-protocol = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

@@ -17,7 +17,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
             "event": "push",
             "status": "completed",
             "conclusion": "success",
-            "head_repository": {"full_name": "openai/codex"},
+            "head_repository": {"full_name": "openai/kodex"},
             "head_branch": "rust-v1.2.3",
             "head_sha": self.revision,
         }
@@ -37,14 +37,14 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
         self.assets = [
             {"name": name, "state": "uploaded", "size": 100}
             for name in [
-                "openai_codex_cli_bin-1.2.3-py3-none-macosx_10_9_x86_64.whl",
-                "openai_codex_cli_bin-1.2.3-py3-none-macosx_11_0_arm64.whl",
-                "openai_codex_cli_bin-1.2.3-py3-none-manylinux_2_17_aarch64.whl",
-                "openai_codex_cli_bin-1.2.3-py3-none-manylinux_2_17_x86_64.whl",
-                "openai_codex_cli_bin-1.2.3-py3-none-win_amd64.whl",
-                "openai_codex_cli_bin-1.2.3-py3-none-win_arm64.whl",
-                "codex-package-aarch64-unknown-linux-musl.tar.gz",
-                "codex-package-x86_64-unknown-linux-musl.tar.gz",
+                "openai_kodex_cli_bin-1.2.3-py3-none-macosx_10_9_x86_64.whl",
+                "openai_kodex_cli_bin-1.2.3-py3-none-macosx_11_0_arm64.whl",
+                "openai_kodex_cli_bin-1.2.3-py3-none-manylinux_2_17_aarch64.whl",
+                "openai_kodex_cli_bin-1.2.3-py3-none-manylinux_2_17_x86_64.whl",
+                "openai_kodex_cli_bin-1.2.3-py3-none-win_amd64.whl",
+                "openai_kodex_cli_bin-1.2.3-py3-none-win_arm64.whl",
+                "kodex-package-aarch64-unknown-linux-musl.tar.gz",
+                "kodex-package-x86_64-unknown-linux-musl.tar.gz",
             ]
         ]
         self.expected = {
@@ -72,7 +72,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
                     responses.insert(2, {"object": {"type": "tag", "sha": "b" * 40}})
                 with patch.object(resolver, "github_api", side_effect=responses):
                     self.assertEqual(
-                        resolver.resolve_release("openai/codex", "123"), self.expected
+                        resolver.resolve_release("openai/kodex", "123"), self.expected
                     )
 
     def test_skips_cli_prereleases_before_reading_jobs_or_assets(self) -> None:
@@ -80,8 +80,8 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
             with self.subTest(suffix=suffix):
                 run = {**self.run, "head_branch": f"rust-v1.2.3{suffix}"}
                 with patch.object(resolver, "github_api", return_value=run) as api:
-                    self.assertIsNone(resolver.resolve_release("openai/codex", "123"))
-                api.assert_called_once_with("repos/openai/codex/actions/runs/123")
+                    self.assertIsNone(resolver.resolve_release("openai/kodex", "123"))
+                api.assert_called_once_with("repos/openai/kodex/actions/runs/123")
 
     def test_rejects_unrelated_or_incomplete_runs(self) -> None:
         for field, value in (
@@ -91,14 +91,14 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
             ("status", "in_progress"),
             ("head_branch", "main"),
             ("head_sha", "main"),
-            ("head_repository", {"full_name": "other/codex"}),
+            ("head_repository", {"full_name": "other/kodex"}),
         ):
             with self.subTest(field=field, value=value):
                 with patch.object(
                     resolver, "github_api", return_value={**self.run, field: value}
                 ):
                     with self.assertRaises(ValueError):
-                        resolver.resolve_release("openai/codex", "123")
+                        resolver.resolve_release("openai/kodex", "123")
 
     def test_accepts_failed_ancillary_publisher_and_its_partial_rerun(self) -> None:
         for overall in ("failure", "cancelled"):
@@ -123,7 +123,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
                 )
                 with patch.object(resolver, "github_api", side_effect=responses):
                     self.assertEqual(
-                        resolver.resolve_release("openai/codex", "123"), self.expected
+                        resolver.resolve_release("openai/kodex", "123"), self.expected
                     )
 
     def test_requires_success_from_latest_executed_release_job(self) -> None:
@@ -142,7 +142,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
                     resolver, "github_api", side_effect=[self.run, {"jobs": jobs}]
                 ):
                     with self.assertRaisesRegex(ValueError, "successful release job"):
-                        resolver.resolve_release("openai/codex", "123")
+                        resolver.resolve_release("openai/kodex", "123")
 
     def test_reads_all_pages_of_jobs_and_assets(self) -> None:
         responses = self.responses()
@@ -150,13 +150,13 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
         responses.insert(-1, [{"name": "other", "state": "uploaded", "size": 1}] * 100)
         with patch.object(resolver, "github_api", side_effect=responses) as api:
             self.assertEqual(
-                resolver.resolve_release("openai/codex", "123"), self.expected
+                resolver.resolve_release("openai/kodex", "123"), self.expected
             )
         api.assert_any_call(
-            "repos/openai/codex/actions/runs/123/jobs?filter=all&per_page=100&page=2"
+            "repos/openai/kodex/actions/runs/123/jobs?filter=all&per_page=100&page=2"
         )
         api.assert_any_call(
-            "repos/openai/codex/releases/789/assets?per_page=100&page=2"
+            "repos/openai/kodex/releases/789/assets?per_page=100&page=2"
         )
 
     def test_rejects_a_moved_tag(self) -> None:
@@ -164,7 +164,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
         responses[2] = {"object": {"type": "commit", "sha": "b" * 40}}
         with patch.object(resolver, "github_api", side_effect=responses):
             with self.assertRaisesRegex(ValueError, "no longer matches"):
-                resolver.resolve_release("openai/codex", "123")
+                resolver.resolve_release("openai/kodex", "123")
 
     def test_bounds_annotated_tag_resolution(self) -> None:
         tag = {"object": {"type": "tag", "sha": "b" * 40}}
@@ -174,7 +174,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
             side_effect=[self.run, {"jobs": [self.job]}, *([tag] * 9)],
         ) as api:
             with self.assertRaisesRegex(ValueError, "no longer matches"):
-                resolver.resolve_release("openai/codex", "123")
+                resolver.resolve_release("openai/kodex", "123")
         self.assertEqual(api.call_count, 11)
 
     def test_requires_a_published_stable_release_for_the_tag(self) -> None:
@@ -188,7 +188,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
             with self.subTest(field=field):
                 with patch.object(resolver, "github_api", side_effect=responses):
                     with self.assertRaisesRegex(ValueError, "published and stable"):
-                        resolver.resolve_release("openai/codex", "123")
+                        resolver.resolve_release("openai/kodex", "123")
 
     def test_requires_all_runtime_inputs_to_be_uploaded_and_nonempty(self) -> None:
         for assets in (
@@ -201,13 +201,13 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
                 responses[-1] = assets
                 with patch.object(resolver, "github_api", side_effect=responses):
                     with self.assertRaisesRegex(ValueError, "missing Python inputs"):
-                        resolver.resolve_release("openai/codex", "123")
+                        resolver.resolve_release("openai/kodex", "123")
 
     def test_rejects_invalid_inputs_before_github_access(self) -> None:
         with patch.object(resolver, "github_api") as api:
             for repository, run_id in (
-                ("other/codex", "123"),
-                ("openai/codex", "../123"),
+                ("other/kodex", "123"),
+                ("openai/kodex", "../123"),
             ):
                 with self.assertRaises(ValueError):
                     resolver.resolve_release(repository, run_id)
@@ -228,7 +228,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
                         [
                             "123",
                             "--repository",
-                            "openai/codex",
+                            "openai/kodex",
                             "--event-path",
                             str(event),
                             "--github-output",
@@ -241,7 +241,7 @@ class ResolvePythonCliReleaseTest(unittest.TestCase):
                 )
                 if automatic:
                     self.assertNotIn(
-                        unittest.mock.call("repos/openai/codex/actions/runs/123"),
+                        unittest.mock.call("repos/openai/kodex/actions/runs/123"),
                         api.call_args_list,
                     )
 

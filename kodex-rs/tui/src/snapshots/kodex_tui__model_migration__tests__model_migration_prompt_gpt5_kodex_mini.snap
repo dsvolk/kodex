@@ -1,0 +1,16 @@
+---
+source: tui/src/model_migration.rs
+expression: terminal.backend()
+---
+
+  Kodex just got an upgrade. Introducing
+  gpt-5.1-kodex-mini.
+
+  We recommend switching from gpt-5-kodex-mini to
+  gpt-5.1-kodex-mini.
+
+  Optimized for kodex. Cheaper, faster, but less capable.
+  Learn more about gpt-5.1-kodex-mini at
+  https://www.kodex.com/models/gpt-5.1-kodex-mini
+
+  enter/esc continue · ctrl+c quit

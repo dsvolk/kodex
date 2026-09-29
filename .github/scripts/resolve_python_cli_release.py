@@ -26,8 +26,8 @@ def github_items(path: str, key: str | None = None):
 def resolve_release(
     repository: str, run_id: str, *, run: dict | None = None
 ) -> dict[str, str] | None:
-    if repository != "openai/codex" or not re.fullmatch(r"[1-9][0-9]*", run_id):
-        raise ValueError("Expected an openai/codex Rust release run ID")
+    if repository != "openai/kodex" or not re.fullmatch(r"[1-9][0-9]*", run_id):
+        raise ValueError("Expected an openai/kodex Rust release run ID")
     prefix = f"repos/{repository}"
     if run is None:
         run = github_api(f"{prefix}/actions/runs/{run_id}")
@@ -79,7 +79,7 @@ def resolve_release(
     # The runtime builder downloads these six wheels and builds the two musl
     # wheels from the release's package archives.
     required_assets = {
-        f"openai_codex_cli_bin-{match[1]}-py3-none-{platform}.whl"
+        f"openai_kodex_cli_bin-{match[1]}-py3-none-{platform}.whl"
         for platform in (
             "macosx_10_9_x86_64",
             "macosx_11_0_arm64",
@@ -89,7 +89,7 @@ def resolve_release(
             "win_arm64",
         )
     } | {
-        f"codex-package-{arch}-unknown-linux-musl.tar.gz"
+        f"kodex-package-{arch}-unknown-linux-musl.tar.gz"
         for arch in ("aarch64", "x86_64")
     }
     available_assets = {

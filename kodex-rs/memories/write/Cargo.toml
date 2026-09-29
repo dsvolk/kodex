@@ -1,0 +1,49 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-memories-write"
+version.workspace = true
+
+[lib]
+name = "kodex_memories_write"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+chrono = { workspace = true }
+kodex-backend-client = { workspace = true }
+kodex-core = { workspace = true }
+kodex-config = { workspace = true }
+kodex-features = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-rollout = { workspace = true }
+kodex-rollout-trace = { workspace = true }
+kodex-secrets = { workspace = true }
+kodex-state = { workspace = true }
+kodex-terminal-detection = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-output-truncation = { workspace = true }
+kodex-utils-template = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["fs", "rt", "sync", "time"] }
+tracing = { workspace = true, features = ["log"] }
+uuid = { workspace = true, features = ["v4", "v5"] }
+
+[dev-dependencies]
+kodex-model-provider-info = { workspace = true }
+kodex-models-manager = { workspace = true }
+core_test_support = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["fs", "macros"] }
+wiremock = { workspace = true }
