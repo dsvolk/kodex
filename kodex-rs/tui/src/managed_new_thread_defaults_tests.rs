@@ -7,13 +7,14 @@ use kodex_protocol::openai_models::ReasoningEffort;
 use kodex_utils_absolute_path::test_support::PathBufExt;
 use pretty_assertions::assert_eq;
 
-async fn test_config() -> Config {
-    let kodex_home = tempfile::tempdir().expect("tempdir").keep();
-    ConfigBuilder::default()
-        .kodex_home(kodex_home)
+async fn test_config() -> (tempfile::TempDir, Config) {
+    let kodex_home = tempfile::tempdir().expect("tempdir");
+    let config = ConfigBuilder::default()
+        .kodex_home(kodex_home.path().to_path_buf())
         .build()
         .await
-        .expect("config")
+        .expect("config");
+    (kodex_home, config)
 }
 
 fn defaults() -> NewThreadModelDefaults {
@@ -26,7 +27,7 @@ fn defaults() -> NewThreadModelDefaults {
 
 #[tokio::test]
 async fn applies_managed_defaults_to_a_new_thread_config() {
-    let mut actual = test_config().await;
+    let (_kodex_home, mut actual) = test_config().await;
     actual.model = Some("configured-model".to_string());
     actual.model_reasoning_effort = Some(ReasoningEffort::Low);
     actual.service_tier = Some("flex".to_string());
@@ -47,7 +48,7 @@ async fn applies_managed_defaults_to_a_new_thread_config() {
 
 #[tokio::test]
 async fn explicit_model_skips_managed_model_and_reasoning_effort() {
-    let mut actual = test_config().await;
+    let (_kodex_home, mut actual) = test_config().await;
     actual.model = Some("explicit-model".to_string());
     actual.model_reasoning_effort = None;
     actual.service_tier = Some("flex".to_string());
@@ -65,7 +66,7 @@ async fn explicit_model_skips_managed_model_and_reasoning_effort() {
 
 #[tokio::test]
 async fn explicit_reasoning_effort_skips_managed_model_and_reasoning_effort() {
-    let mut actual = test_config().await;
+    let (_kodex_home, mut actual) = test_config().await;
     actual.model = Some("configured-model".to_string());
     actual.model_reasoning_effort = Some(ReasoningEffort::Low);
     actual.service_tier = Some("flex".to_string());
@@ -88,7 +89,7 @@ async fn explicit_reasoning_effort_skips_managed_model_and_reasoning_effort() {
 
 #[tokio::test]
 async fn explicit_launch_overrides_take_precedence() {
-    let mut actual = test_config().await;
+    let (_kodex_home, mut actual) = test_config().await;
     actual.model = Some("explicit-model".to_string());
     actual.model_reasoning_effort = Some(ReasoningEffort::Low);
     actual.service_tier = Some("flex".to_string());

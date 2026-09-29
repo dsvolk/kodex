@@ -3,7 +3,6 @@
 
 use super::LocalAgentControl;
 use crate::agent::types::AgentExecutionGuard;
-use crate::kodex_thread::KodexThread;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::error::Result as KodexResult;
@@ -31,20 +30,6 @@ impl Drop for LocalExecutionPermit {
 }
 
 impl LocalAgentControl {
-    pub(crate) async fn ensure_execution_capacity_for_turn_start(
-        &self,
-        thread: &KodexThread,
-    ) -> KodexResult<()> {
-        if thread.session.active_turn.lock().await.is_some() {
-            return Ok(());
-        }
-        let config = thread.session.get_config().await;
-        let multi_agent_version = thread
-            .multi_agent_version()
-            .unwrap_or_else(|| config.multi_agent_version_from_features());
-        self.ensure_execution_capacity(multi_agent_version, &thread.session_source)
-    }
-
     pub(crate) fn ensure_execution_capacity(
         &self,
         multi_agent_version: MultiAgentVersion,

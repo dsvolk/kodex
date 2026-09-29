@@ -1,20 +1,19 @@
 ---
 source: tui/src/status/tests.rs
+assertion_line: 434
 expression: sanitized
 ---
 /status
 
-╭──────────────────────────────────────────────────────────────────────────╮
-│  >_ OpenAI Kodex (v0.0.0)                                                │
-│                                                                          │
-│ Visit https://chatgpt.com/kodex/settings/usage for up-to-date            │
-│ information on rate limits and credits                                   │
-│                                                                          │
-│  Model:         gpt-5.1-kodex-max (reasoning none, summaries auto)       │
-│  Directory: [[workspace]]                                                │
-│  Permissions:   Custom (workspace with network access, Ask for approval) │
-│  Agents.md:     <none>                                                   │
-│  Account:       Enterprise (Automation)                                  │
-│                                                                          │
-│  Limits:        data not available yet                                   │
-╰──────────────────────────────────────────────────────────────────────────╯
+  >_ OpenAI Kodex (v0.156.0)
+
+  Visit https://chatgpt.com/kodex/settings/usage for up-to-date
+  information on rate limits and credits
+
+  Model:        gpt-5.1-kodex-max (reasoning none, summaries auto)
+  Directory:    [[workspace]]
+  Permissions:  Custom (workspace with network access, Ask for approval)
+  Agents.md:    <none>
+  Account:      Enterprise (Automation)
+
+  Limits:       data not available yet

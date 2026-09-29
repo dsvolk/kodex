@@ -13,7 +13,7 @@ path = "src/lib.rs"
 workspace = true
 
 [dependencies]
-kodex-api = { workspace = true }
+kodex-client = { workspace = true }
 kodex-protocol = { workspace = true }
 kodex-utils-redacted-string = { workspace = true }
 http = { workspace = true }

@@ -18,6 +18,7 @@ use kodex_protocol::config_types::ReasoningSummary;
 use kodex_protocol::config_types::ServiceTier;
 use kodex_protocol::error::KodexErr;
 pub use kodex_protocol::error::KodexErrKind;
+use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::openai_models::ReasoningEffort;
 use kodex_protocol::protocol::AskForApproval;
@@ -280,6 +281,7 @@ impl TurnKodexErrorFact {
 pub(crate) struct TurnKodexError {
     pub(crate) kind: KodexErrKind,
     pub(crate) http_status_code: Option<u16>,
+    pub(crate) usage_limit_window_minutes: Option<u16>,
 }
 
 impl TurnKodexError {
@@ -287,6 +289,10 @@ impl TurnKodexError {
         Self {
             kind: error.into(),
             http_status_code: error.http_status_code_value(),
+            usage_limit_window_minutes: match error.details() {
+                KodexErrorDetails::UsageLimitReached(error) => error.limit_window_minutes,
+                _ => None,
+            },
         }
     }
 }
@@ -498,6 +504,7 @@ pub struct KodexCompactionEvent {
     pub status: CompactionStatus,
     pub kodex_error_kind: Option<KodexErrKind>,
     pub kodex_error_http_status_code: Option<u16>,
+    pub usage_limit_window_minutes: Option<u16>,
     pub active_context_tokens_before: i64,
     pub active_context_tokens_after: i64,
     pub retained_image_count: Option<usize>,

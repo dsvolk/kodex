@@ -14,7 +14,7 @@ use kodex_core::config::ConfigLoadOptions;
 use kodex_core::config::bootstrap_auth_config;
 use kodex_core::config::find_kodex_home;
 use kodex_core::config::load_config_toml_with_layer_stack;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_login::AuthManager;
@@ -23,6 +23,7 @@ use kodex_login::is_workload_identity_selected;
 use kodex_login::read_kodex_access_token_from_env;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_cli::CliConfigOverrides;
+use kodex_websocket_auth::WebsocketAuthArgs;
 
 use crate::exec_server_auth;
 use crate::exec_server_telemetry;
@@ -42,6 +43,21 @@ pub(super) struct ExecServerCommand {
     )]
     pub(super) strict_config: bool,
 
+    /// Linux PID namespace: isolate (default) or inherit. Inherit allows signals to
+    /// other same-UID processes; enable only when provisioning a dedicated environment.
+    #[arg(long, value_name = "MODE", default_value = "isolate", global = true)]
+    linux_sandbox_pid_namespace: kodex_sandboxing::LinuxSandboxPidNamespace,
+
+    /// Allow permitted private IP destinations to use the configured upstream proxy.
+    /// If no valid upstream proxy applies to the request protocol, connect directly.
+    /// Loopback stays local. This flag does not require upstream routing.
+    #[arg(
+        long,
+        env = "KODEX_EXEC_SERVER_PROXY_PRIVATE_IPS_VIA_UPSTREAM",
+        global = true
+    )]
+    proxy_private_ips_via_upstream: bool,
+
     /// Maximum number of requests to process concurrently on each connection.
     #[arg(
         long = "concurrent-requests",
@@ -57,6 +73,9 @@ pub(super) struct ExecServerCommand {
         conflicts_with = "exec_server_remote"
     )]
     listen: Option<String>,
+
+    #[command(flatten)]
+    websocket_auth: WebsocketAuthArgs,
 
     /// Register this exec-server as a remote environment using the given base URL.
     #[arg(
@@ -147,14 +166,20 @@ impl ExecServerCommand {
     ) -> anyhow::Result<()> {
         let strict_config = self.strict_config;
         self.validate_remote_transport()?;
+        let websocket_auth = self.websocket_auth.try_into_settings()?;
+        if websocket_auth.config.is_some() && (self.remote.is_some() || self.command.is_some()) {
+            anyhow::bail!("WebSocket listener auth cannot be used with --remote or forward");
+        }
         let kodex_self_exe = arg0_paths
             .kodex_self_exe
             .clone()
             .ok_or_else(|| anyhow::anyhow!("Kodex executable path is not configured"))?;
-        let runtime_paths = ExecServerRuntimePaths::new(
+        let runtime_paths = ExecServerRuntimeOptions::new(
             kodex_self_exe,
             arg0_paths.kodex_linux_sandbox_exe.clone(),
-        )?;
+        )?
+        .with_linux_sandbox_pid_namespace(self.linux_sandbox_pid_namespace)
+        .with_proxy_private_ips_via_upstream(self.proxy_private_ips_via_upstream);
         if let Some(base_url) = self.remote.take() {
             let environment_id = self.environment_id.take().ok_or_else(|| {
                 anyhow::anyhow!("--environment-id is required when --remote is set")
@@ -279,6 +304,7 @@ impl ExecServerCommand {
                     telemetry,
                     http_client_factory,
                     self.request_dispatch_mode,
+                    websocket_auth,
                 ),
                 exec_server_telemetry::ParentLifetime::Independent,
                 exec_server_telemetry::ShutdownBehavior::Immediate,

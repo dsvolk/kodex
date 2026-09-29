@@ -14,6 +14,9 @@ doctest = false
 workspace = true
 
 [dependencies]
+kodex-api = { workspace = true }
+futures = { workspace = true }
+kodex-guardian-context = { workspace = true }
 kodex-history = { workspace = true }
 kodex-config = { workspace = true }
 kodex-context-fragments = { workspace = true }

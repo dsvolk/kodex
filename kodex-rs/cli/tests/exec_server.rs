@@ -1,3 +1,7 @@
+#[cfg(target_os = "linux")]
+#[path = "exec_server/pid_namespace_tests.rs"]
+mod pid_namespace_tests;
+
 use std::collections::HashMap;
 #[cfg(unix)]
 use std::io::BufRead as _;
@@ -31,6 +35,7 @@ use kodex_exec_server::NoiseRendezvousConnectBundle;
 use kodex_exec_server::ProcessId;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
+use kodex_utils_cargo_bin::copy_executable;
 use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
 use pretty_assertions::assert_eq;
@@ -181,7 +186,7 @@ metrics_exporter = {{ otlp-http = {{ endpoint = "{collector_url}/v1/metrics", pr
     let bin_dir = package.path().join("bin");
     std::fs::create_dir(&bin_dir)?;
     let executable = bin_dir.join(format!("kodex{}", std::env::consts::EXE_SUFFIX));
-    std::fs::copy(kodex_utils_cargo_bin::cargo_bin("kodex")?, &executable)?;
+    copy_executable(&kodex_utils_cargo_bin::cargo_bin("kodex")?, &executable)?;
     let manifest = package.path().join("kodex-package.json");
     std::fs::write(&manifest, r#"{"version":"1.2.3-alpha.4"}"#)?;
 

@@ -2,6 +2,8 @@ name: Close stale contributor PRs
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
 
 permissions:
   contents: read
@@ -10,7 +12,7 @@ permissions:
 
 jobs:
   close-stale-contributor-prs:
-    # This upstream-only maintenance workflow is retained for manual reference.
+    # Prevent scheduled runs on forks
     if: github.repository == 'openai/kodex'
     runs-on: ubuntu-latest
     steps:

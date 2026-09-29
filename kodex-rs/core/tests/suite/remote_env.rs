@@ -1,3 +1,10 @@
+#[path = "remote_env_capability_roots_tests.rs"]
+mod capability_roots;
+#[path = "guardian_environments_tests.rs"]
+mod guardian_environments;
+#[path = "remote_env_spawn_tests.rs"]
+pub(super) mod spawn_tests;
+
 use anyhow::Context;
 use anyhow::Result;
 use base64::Engine;
@@ -55,7 +62,7 @@ use kodex_exec_server::CopyOptions;
 use kodex_exec_server::CreateDirectoryOptions;
 use kodex_exec_server::EnvironmentReadyInfo;
 use kodex_exec_server::ExecServerError;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_exec_server::FileSystemSandboxContext;
 use kodex_exec_server::LOCAL_ENVIRONMENT_ID;
 use kodex_exec_server::NoiseChannelPublicKey;
@@ -621,6 +628,7 @@ async fn environment_permissions_follow_configuration_ownership() -> Result<()> 
                 permission_profile: Some(PermissionProfile::workspace_write()),
                 ..Default::default()
             },
+            reply: None,
         })
         .await?;
     let persisted_settings = wait_for_event_match(&test.kodex, |event| match event {
@@ -2400,7 +2408,7 @@ async fn ready_before_selection_resolves_resumed_thread_capability_root_after_wa
         .mount(&registry)
         .await;
 
-    let runtime_paths = ExecServerRuntimePaths::new(
+    let runtime_paths = ExecServerRuntimeOptions::new(
         std::env::current_exe()?,
         /*kodex_linux_sandbox_exe*/ None,
     )?;

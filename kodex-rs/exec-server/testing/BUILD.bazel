@@ -41,6 +41,7 @@ rust_binary(
     deps = [
         "//kodex-rs/exec-server",
         "//kodex-rs/http-client",
+        "//kodex-rs/utils/pty",
         "@crates//:tokio",
     ],
 )

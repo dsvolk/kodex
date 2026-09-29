@@ -13,6 +13,7 @@ doctest = false
 workspace = true
 
 [dependencies]
+blake3 = { workspace = true }
 kodex-analytics = { workspace = true }
 kodex-config = { workspace = true }
 kodex-exec-server = { workspace = true }

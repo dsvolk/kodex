@@ -21,6 +21,7 @@ use crate::AppServerEvent;
 use crate::RequestResult;
 use crate::SHUTDOWN_TIMEOUT;
 use crate::TypedRequestError;
+use crate::decode_typed_response;
 use futures::SinkExt;
 use futures::StreamExt;
 use kodex_app_server_protocol::ClientInfo;
@@ -541,21 +542,8 @@ impl RemoteAppServerClient {
         T: DeserializeOwned,
     {
         let method = request.method_name();
-        let response =
-            self.request(request)
-                .await
-                .map_err(|source| TypedRequestError::Transport {
-                    method: method.to_string(),
-                    source,
-                })?;
-        let result = response.map_err(|source| TypedRequestError::Server {
-            method: method.to_string(),
-            source,
-        })?;
-        serde_json::from_value(result).map_err(|source| TypedRequestError::Deserialize {
-            method: method.to_string(),
-            source,
-        })
+        let response = self.request(request).await;
+        decode_typed_response(method, response)
     }
 
     pub async fn notify(&self, notification: ClientNotification) -> IoResult<()> {
@@ -702,21 +690,8 @@ impl RemoteAppServerRequestHandle {
         T: DeserializeOwned,
     {
         let method = request.method_name();
-        let response =
-            self.request(request)
-                .await
-                .map_err(|source| TypedRequestError::Transport {
-                    method: method.to_string(),
-                    source,
-                })?;
-        let result = response.map_err(|source| TypedRequestError::Server {
-            method: method.to_string(),
-            source,
-        })?;
-        serde_json::from_value(result).map_err(|source| TypedRequestError::Deserialize {
-            method: method.to_string(),
-            source,
-        })
+        let response = self.request(request).await;
+        decode_typed_response(method, response)
     }
 }
 

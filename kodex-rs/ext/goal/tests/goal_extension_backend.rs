@@ -38,9 +38,9 @@ use kodex_protocol::ThreadId;
 use kodex_protocol::config_types::CollaborationMode;
 use kodex_protocol::config_types::ModeKind;
 use kodex_protocol::config_types::Settings;
+use kodex_protocol::error::KodexErr;
 use kodex_protocol::protocol::Event;
 use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::ThreadGoalStatus;
@@ -786,7 +786,7 @@ async fn turn_error_usage_limit_accounts_progress_and_clears_accounting() -> any
         )
         .await;
     harness
-        .notify_turn_error("turn-1", KodexErrorInfo::UsageLimitExceeded)
+        .notify_turn_error("turn-1", KodexErr::UsageNotIncluded)
         .await;
 
     let goal = runtime
@@ -857,7 +857,7 @@ async fn turn_error_blocks_goal() -> anyhow::Result<()> {
         .await?;
 
     harness
-        .notify_turn_error("turn-1", KodexErrorInfo::Other)
+        .notify_turn_error("turn-1", KodexErr::Fatal("test error".to_string()))
         .await;
 
     let goal = runtime
@@ -1887,13 +1887,14 @@ impl GoalExtensionHarness {
         }
     }
 
-    async fn notify_turn_error(&self, turn_id: &str, error: KodexErrorInfo) {
+    async fn notify_turn_error(&self, turn_id: &str, error: KodexErr) {
         let turn_store = ExtensionData::new(turn_id);
         for contributor in self.registry.turn_lifecycle_contributors() {
             contributor
                 .on_turn_error(TurnErrorInput {
                     turn_id,
-                    error: error.clone(),
+                    error: error.to_kodex_protocol_error(),
+                    error_details: error.details(),
                     session_store: &self.session_store,
                     thread_store: &self.thread_store,
                     turn_store: &turn_store,

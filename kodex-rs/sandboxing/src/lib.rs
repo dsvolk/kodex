@@ -2,6 +2,7 @@
 mod bwrap;
 mod denial;
 pub mod landlock;
+mod linux_pid_namespace;
 mod manager;
 pub mod policy_transforms;
 #[cfg(target_os = "macos")]
@@ -23,6 +24,7 @@ pub use kodex_mxc_sandbox::KODEX_WINDOWS_MXC_ARG1;
 pub use kodex_mxc_sandbox::is_available as windows_mxc_available;
 pub use kodex_mxc_sandbox::run_main as run_windows_mxc_main;
 pub use kodex_windows_sandbox::WindowsSandboxProxySettingsMode;
+pub use linux_pid_namespace::LinuxSandboxPidNamespace;
 pub use manager::SandboxCommand;
 pub use manager::SandboxDirectSpawnTransformRequest;
 pub use manager::SandboxExecRequest;

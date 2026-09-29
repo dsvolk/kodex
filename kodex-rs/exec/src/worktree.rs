@@ -20,7 +20,7 @@ pub(super) async fn fork_source(
     let state_db = kodex_core::init_state_db(config).await;
     let environment_manager = EnvironmentManager::from_kodex_home(
         config.kodex_home.clone(),
-        Some(ExecServerRuntimePaths::from_optional_paths(
+        Some(ExecServerRuntimeOptions::from_optional_paths(
             arg0_paths.kodex_self_exe.clone(),
             arg0_paths.kodex_linux_sandbox_exe.clone(),
         )?),

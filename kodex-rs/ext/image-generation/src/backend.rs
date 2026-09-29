@@ -7,8 +7,10 @@ use kodex_api::ImageResponse;
 use kodex_api::ImagesClient;
 use kodex_api::ReqwestTransport;
 use kodex_api::map_api_error;
+use kodex_http_client::ClientRouteClass;
+use kodex_http_client::HttpClientFactory;
 use kodex_login::default_client::add_originator_header;
-use kodex_login::default_client::create_client;
+use kodex_login::default_client::create_transport_for_routes_async;
 use kodex_model_provider::SharedModelProvider;
 use kodex_protocol::error::KodexErr;
 
@@ -55,14 +57,20 @@ impl ImageBackendError {
 #[derive(Clone)]
 pub(crate) struct KodexImagesBackend {
     provider: SharedModelProvider,
+    http_client_factory: HttpClientFactory,
     originator: Option<String>,
 }
 
 impl KodexImagesBackend {
     /// Creates a backend that sends image requests through the active model provider.
-    pub(crate) fn new(provider: SharedModelProvider, originator: Option<String>) -> Self {
+    pub(crate) fn new(
+        provider: SharedModelProvider,
+        http_client_factory: HttpClientFactory,
+        originator: Option<String>,
+    ) -> Self {
         Self {
             provider,
+            http_client_factory,
             originator,
         }
     }
@@ -79,11 +87,13 @@ impl KodexImagesBackend {
             .api_auth()
             .await
             .map_err(|err| ImageBackendError::from_message(err.to_string()))?;
-        Ok(ImagesClient::new(
-            ReqwestTransport::from_http_client(create_client()),
-            provider,
-            auth,
-        ))
+        let transport = create_transport_for_routes_async(
+            self.http_client_factory.clone(),
+            ClientRouteClass::Api,
+        )
+        .await
+        .map_err(|err| ImageBackendError::from_message(err.to_string()))?;
+        Ok(ImagesClient::new(transport, provider, auth))
     }
 
     /// Sends a standalone image generation request through the configured Images client.

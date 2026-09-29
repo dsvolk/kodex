@@ -23,6 +23,7 @@ doctest = false
 workspace = true
 
 [dependencies]
+kodex-utils-process = { workspace = true }
 anyhow = { workspace = true }
 chrono = { workspace = true }
 clap = { workspace = true, features = ["derive", "env"] }
@@ -75,6 +76,7 @@ kodex-tui = { workspace = true }
 kodex-utils-absolute-path = { workspace = true }
 kodex-utils-path = { workspace = true }
 kodex-utils-path-uri = { workspace = true }
+kodex-utils-redacted-string = { workspace = true }
 kodex-websocket-auth = { workspace = true }
 crossterm = { workspace = true, features = ["event-stream"] }
 futures = { workspace = true }
@@ -125,8 +127,10 @@ kodex-utils-cargo-bin = { workspace = true }
 kodex-utils-pty = { workspace = true }
 flate2 = { workspace = true }
 insta = { workspace = true }
+jsonwebtoken = { workspace = true }
 predicates = { workspace = true }
 pretty_assertions = { workspace = true }
+sha2 = { workspace = true }
 sqlx = { workspace = true }
 tar = { workspace = true }
 tokio-tungstenite = { workspace = true }

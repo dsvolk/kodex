@@ -14,6 +14,7 @@ kodex-http-client = { workspace = true }
 kodex-login = { workspace = true }
 kodex-protocol = { workspace = true }
 kodex-rollout = { workspace = true }
+kodex-state = { workspace = true }
 flate2 = { workspace = true }
 http = { workspace = true }
 httpdate = { workspace = true }

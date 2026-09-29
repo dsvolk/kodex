@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use kodex_exec_server::Environment;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_exec_server::ExecutorFileSystem;
 use kodex_exec_server::FileSystemSandboxContext;
 use kodex_exec_server::LocalFileSystem;
@@ -50,7 +50,7 @@ pub(crate) async fn create_file_system_context(
     match implementation {
         FileSystemImplementation::Local => {
             let helper_paths = test_kodex_helper_paths()?;
-            let runtime_paths = ExecServerRuntimePaths::new(
+            let runtime_paths = ExecServerRuntimeOptions::new(
                 helper_paths.kodex_exe.clone(),
                 helper_paths.kodex_linux_sandbox_exe.clone(),
             )?;

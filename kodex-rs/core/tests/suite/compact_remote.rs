@@ -4,6 +4,7 @@ use anyhow::Context;
 use anyhow::Result;
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
+use core_test_support::ThreadIdle;
 use core_test_support::responses;
 use core_test_support::responses::mount_sse_once;
 use core_test_support::responses::sse;
@@ -17,6 +18,7 @@ use core_test_support::wait_for_event_match;
 use core_test_support::wait_for_event_with_timeout;
 use kodex_core::StartThreadOptions;
 use kodex_core::TurnInputRequest;
+use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_features::Feature;
 use kodex_history::InitialHistory;
 use kodex_history::KodexHarnessMetadata;
@@ -44,6 +46,7 @@ use serde_json::Value;
 use serde_json::json;
 use std::fs;
 use std::path::Path;
+use std::sync::Arc;
 use test_case::test_case;
 use tokio::time::Duration;
 use wiremock::ResponseTemplate;
@@ -1295,8 +1298,11 @@ async fn remote_compact_v2_rewrites_multiple_trailing_function_call_outputs(
     let second_trimmed_call_id = "second-trimmed-call";
     let retained_output = "retained tool output";
 
+    let mut extensions = ExtensionRegistryBuilder::new();
+    extensions.thread_lifecycle_contributor(Arc::new(ThreadIdle));
     let harness = TestKodexHarness::with_builder(
         test_kodex()
+            .with_extensions(Arc::new(extensions.build()))
             .with_auth(KodexAuth::create_dummy_chatgpt_auth_for_testing())
             .with_config(|config| {
                 config.model_context_window = Some(2_000);
@@ -1316,6 +1322,8 @@ async fn remote_compact_v2_rewrites_multiple_trailing_function_call_outputs(
     .await;
     harness.test().submit_turn("initial turn").await?;
     let _ = initial_mock.single_request();
+    // Completion precedes active-turn cleanup; inject the fixture into idle history.
+    ThreadIdle::wait(&kodex).await;
     let history = [
         json!({"type": "message", "role": "user", "content": [{"type": "input_text", "text": first_user_message}]}),
         json!({"type": "function_call", "call_id": retained_call_id, "name": "exec_command", "arguments": "{}"}),

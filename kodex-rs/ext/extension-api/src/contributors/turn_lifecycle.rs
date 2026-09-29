@@ -1,6 +1,7 @@
 //! Turn lifecycle inputs and scheduling phases for host-owned contributors.
 
 use kodex_protocol::config_types::CollaborationMode;
+use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::TokenUsage;
 use kodex_protocol::protocol::TurnAbortReason;
@@ -60,6 +61,8 @@ pub struct TurnErrorInput<'a> {
     pub turn_id: &'a str,
     /// Error surfaced by the host for this turn.
     pub error: KodexErrorInfo,
+    /// Original error details, including backend metadata omitted from the public category.
+    pub error_details: &'a KodexErrorDetails,
     /// Store scoped to the host session runtime.
     pub session_store: &'a ExtensionData,
     /// Store scoped to this thread runtime.

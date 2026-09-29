@@ -23,7 +23,7 @@ use kodex_exec_server::EnvironmentReadyInfo;
 use kodex_exec_server::ExecParams;
 use kodex_exec_server::ExecResponse;
 use kodex_exec_server::ExecServerError;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_exec_server::FsReadFileParams;
 use kodex_exec_server::NoiseChannelPublicKey;
 use kodex_exec_server::NoiseRendezvousConnectBundle;
@@ -162,7 +162,7 @@ async fn failed_noise_environment_recovers_and_reconnects_after_ready_report() -
         .await;
 
     let (kodex_exe, kodex_linux_sandbox_exe) = common::current_test_binary_helper_paths()?;
-    let runtime_paths = ExecServerRuntimePaths::new(kodex_exe, kodex_linux_sandbox_exe)?;
+    let runtime_paths = ExecServerRuntimeOptions::new(kodex_exe, kodex_linux_sandbox_exe)?;
     let http_client_factory = HttpClientFactory::new(OutboundProxyPolicy::RespectSystemProxy);
     let config = RemoteEnvironmentConfig::new(
         registry.uri(),
@@ -361,7 +361,7 @@ async fn next_connection_state(
 async fn remote_environment_routes_encrypted_exec_server_rpc() -> Result<()> {
     let relay = RelayTest::new().await?;
     let (kodex_exe, kodex_linux_sandbox_exe) = common::current_test_binary_helper_paths()?;
-    let runtime_paths = ExecServerRuntimePaths::new(kodex_exe, kodex_linux_sandbox_exe)?;
+    let runtime_paths = ExecServerRuntimeOptions::new(kodex_exe, kodex_linux_sandbox_exe)?;
     let (shutdown_tx, shutdown_rx) = tokio::sync::oneshot::channel();
     let remote_environment = AbortOnDropHandle::new(tokio::spawn(
         kodex_exec_server::run_remote_environment_until_shutdown(

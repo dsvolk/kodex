@@ -1,4 +1,4 @@
-//! Managed Guardian policies override config defaults and reach the reviewer separately.
+//! Managed policies and explicit user goals reach Guardian through their distinct trusted sources.
 
 use anyhow::Context;
 use core_test_support::context_snapshot;
@@ -8,6 +8,7 @@ use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
 use kodex_config::test_support::CloudConfigBundleFixture;
 use kodex_core::config::Constrained;
+use kodex_core::context::UserGoalUpdate;
 use kodex_prompts::ResolvedModelMessages;
 use kodex_protocol::config_types::ApprovalsReviewer;
 use kodex_protocol::models::PermissionProfile;
@@ -86,6 +87,14 @@ guardian_extra_policy = "Draft reminders without sending them."
         })
         .build_with_auto_env(&server)
         .await?;
+    test.kodex
+        .record_user_goal_update(UserGoalUpdate::Set {
+            objective: Some(
+                "Inspect the workspace; do not run commands outside the sandbox.".to_owned(),
+            ),
+            status: None,
+        })
+        .await?;
     test.submit_text_turn("Check the workspace.").await?;
 
     let requests = mock.requests();
@@ -105,10 +114,20 @@ guardian_extra_policy = "Draft reminders without sending them."
         "{reviewer_text}"
     );
     let mut snapshot = context_snapshot::format_request_history_snapshot(
-        "Guardian reviews an escalated command with separate tenant and additional policies, denies it, and the parent continues.",
+        "Guardian reviews an escalated command against a restrictive user goal and separate tenant and additional policies, denies it, and the parent continues.",
         &requests,
         &ContextSnapshotOptions::default().include_request_settings(),
     );
+    let environment_id = &test.executor_environment().selection().environment_id;
+    snapshot = snapshot
+        .replace(
+            &format!("\"environment_id\": {environment_id:?}"),
+            "\"environment_id\": \"<ENVIRONMENT>\"",
+        )
+        .replace(
+            &format!("The active permission profile for environment {environment_id:?}"),
+            "The active permission profile for environment \"<ENVIRONMENT>\"",
+        );
     for (pattern, replacement) in [
         (r#"(?m)^(\s*"cwd": )"[^"]*""#, "$1\"<CWD>\""),
         (

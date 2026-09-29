@@ -3,6 +3,7 @@ use crate::TS;
 use kodex_protocol::protocol::TurnEnvironmentSelection;
 use kodex_utils_path_uri::LegacyAppPathString;
 use kodex_utils_path_uri::PathUri;
+use kodex_utils_redacted_string::RedactedString;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -37,6 +38,11 @@ impl From<&TurnEnvironmentSelection> for ThreadEnvironment {
 pub struct EnvironmentAddParams {
     pub environment_id: String,
     pub exec_server_url: String,
+    /// Optional raw bearer token for executor authentication, including reconnects.
+    /// Requires a secure transport or a loopback destination.
+    #[ts(type = "string | null")]
+    #[ts(optional = nullable)]
+    pub auth_bearer_token: Option<RedactedString>,
     /// Optional WebSocket connection timeout. The server default applies when omitted.
     #[ts(type = "number | null")]
     #[ts(optional = nullable)]

@@ -23,6 +23,8 @@ use core_test_support::responses::sse;
 use core_test_support::responses::start_mock_server;
 use core_test_support::skip_if_no_network;
 use core_test_support::skip_if_remote;
+#[cfg(unix)]
+use core_test_support::skip_if_sandbox;
 use core_test_support::skip_if_target_windows;
 use core_test_support::stdio_server_bin;
 use core_test_support::submit_thread_settings;
@@ -35,6 +37,9 @@ use core_test_support::wait_for_event_match;
 use core_test_support::wait_for_mcp_server;
 use core_test_support::zsh_fork::zsh_fork_runtime;
 use core_test_support::zsh_fork::zsh_fork_test_builder;
+use kodex_analytics::AnalyticsEventsClient;
+use kodex_analytics::PluginMeasurementRow;
+use kodex_analytics::PluginMeasurementsInput;
 use kodex_config::LoaderOverrides;
 use kodex_core::TurnInputRequest;
 use kodex_core::config::Config;
@@ -54,9 +59,12 @@ use kodex_protocol::config_types::CollaborationMode;
 use kodex_protocol::config_types::ModeKind;
 use kodex_protocol::config_types::Settings;
 use kodex_protocol::config_types::TrustLevel;
+use kodex_protocol::mcp::ClientMcpExtensions;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::protocol::AskForApproval;
 use kodex_protocol::protocol::EventMsg;
+#[cfg(unix)]
+use kodex_protocol::protocol::GranularApprovalConfig;
 use kodex_protocol::protocol::ThreadSettingsOverrides;
 use kodex_protocol::user_input::UserInput;
 use kodex_skills_extension::HostSkillsLoadInput;
@@ -359,6 +367,105 @@ fn searched_plugin_tools(
     )
 }
 
+#[tokio::test]
+async fn shared_analytics_client_preserves_session_products() -> Result<()> {
+    skip_if_no_network!(Ok(()));
+    let server = start_mock_server().await;
+    Mock::given(path("/kodex/analytics-events/events"))
+        .respond_with(ResponseTemplate::new(200))
+        .mount(&server)
+        .await;
+    let client = AnalyticsEventsClient::new(
+        kodex_core::test_support::auth_manager_from_auth(
+            KodexAuth::create_dummy_chatgpt_auth_for_testing(),
+        ),
+        server.uri(),
+        /*analytics_enabled*/ Some(true),
+    );
+    let mut products = [Some("aeon"), Some("tpp"), None];
+    let mut sessions = Vec::new();
+    for product in products {
+        sessions.push(
+            test_kodex()
+                .with_analytics_events_client(client.clone())
+                .with_config(move |config| {
+                    config.apps_mcp_product_sku = product.map(str::to_string);
+                })
+                .build_with_auto_env(&server)
+                .await?,
+        );
+    }
+    // All Sessions have registered before events are interleaved on their shared client.
+    let mut expected = Vec::new();
+    for (position, index) in [0, 1, 2, 0, 0].into_iter().enumerate() {
+        if position == 4 {
+            client.flush().await;
+            let session = &mut sessions[0];
+            session.kodex.ensure_rollout_materialized().await;
+            session.kodex.shutdown_and_wait().await?;
+            session
+                .thread_manager
+                .remove_thread(&session.session_configured.thread_id)
+                .await;
+            let mut config = session.config.clone();
+            config.analytics_enabled = Some(false);
+            let resumed = session
+                .thread_manager
+                .resume_legacy_thread_from_rollout(
+                    config,
+                    session.kodex.rollout_path().expect("rollout path"),
+                    session.thread_manager.auth_manager(),
+                    /*parent_trace*/ None,
+                    ClientMcpExtensions::default(),
+                )
+                .await?;
+            assert_eq!(resumed.thread_id, session.session_configured.thread_id);
+            session.kodex = resumed.thread;
+            products[0] = None;
+        }
+        let thread_id = sessions[index].session_configured.thread_id.to_string();
+        client.track_plugin_measurements(PluginMeasurementsInput {
+            thread_id: thread_id.clone(),
+            turn_id: "turn".into(),
+            item_id: "item".into(),
+            originator: "test_client".into(),
+            model_slug: None,
+            reasoning_effort: None,
+            plugin_id: "sample@test".into(),
+            execution_id: "execution".into(),
+            operation: "build".into(),
+            rows: vec![PluginMeasurementRow {
+                measurement_name: "duration_ms".into(),
+                number_value: 1.0,
+                dimensions: Default::default(),
+            }],
+        });
+        expected.push((thread_id, products[index].map(str::to_string)));
+    }
+    client.flush().await;
+    let mut actual = Vec::new();
+    for request in server.received_requests().await.unwrap_or_default() {
+        if request.url.path() != "/kodex/analytics-events/events" {
+            continue;
+        }
+        let product = request
+            .headers
+            .get("x-openai-product-sku")
+            .map(|value| value.to_str().unwrap().to_string());
+        let body: serde_json::Value = serde_json::from_slice(&request.body)?;
+        for event in body["events"].as_array().unwrap() {
+            if event["event_type"] == "kodex_plugin_measurement_event" {
+                let thread_id = event["event_params"]["thread_id"].as_str().unwrap();
+                actual.push((thread_id.to_string(), product.clone()));
+            }
+        }
+    }
+    actual.sort();
+    expected.sort();
+    assert_eq!(actual, expected);
+    Ok(())
+}
+
 #[test_case(false; "classic shell")]
 #[test_case(true; "zsh-fork shell")]
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
@@ -496,6 +603,139 @@ async fn persisted_remote_plugin_command_attribution_flows_through_turn_context(
         })
     );
 
+    Ok(())
+}
+
+#[cfg(unix)]
+#[test_case(kodex_exec_server::LOCAL_ENVIRONMENT_ID; "local")]
+#[test_case(kodex_exec_server::REMOTE_ENVIRONMENT_ID; "remote")]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn plugin_metrics_stdin_works_with_sandbox_approval_disabled(
+    environment_id: &str,
+) -> Result<()> {
+    skip_if_no_network!(Ok(()));
+    skip_if_sandbox!(Ok(()));
+    let server = start_mock_server().await;
+    let home = Arc::new(TempDir::new()?);
+    let script = write_remote_plugin_script_and_config(home.as_ref());
+    std::fs::write(
+        &script,
+        r#"test -n "${KODEX_PLUGIN_METRICS_OUTPUT:-}" || exit 2
+IFS= read -r input
+test "$input" = continue || exit 3
+printf '%s' '{"version":1,"measurements":[{"name":"files_scanned","value":7}]}' > "$KODEX_PLUGIN_METRICS_OUTPUT" || exit 4
+printf 'STDIN_OK\n'
+"#,
+    )?;
+    std::fs::write(
+        script
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .join("analytics.yaml"),
+        "version: 1\noperations: {scan: {path: ./scripts/run.sh, measurements: {files_scanned: {}}}}\n",
+    )?;
+    let command = shlex::try_join(["/bin/sh", script.to_string_lossy().as_ref()])?;
+    let responses = mount_sse_sequence(
+        &server,
+        vec![
+            sse(vec![
+                ev_function_call(
+                    "open",
+                    "exec_command",
+                    &serde_json::json!({
+                        "cmd": command,
+                        "login": false,
+                        "tty": true,
+                        "yield_time_ms": 1000,
+                        "environment_id": environment_id,
+                    })
+                    .to_string(),
+                ),
+                ev_completed("opened"),
+            ]),
+            sse(vec![
+                ev_function_call(
+                    "input",
+                    "write_stdin",
+                    &serde_json::json!({
+                        "session_id": 1000,
+                        "chars": "continue\n",
+                        "yield_time_ms": 1000,
+                    })
+                    .to_string(),
+                ),
+                ev_completed("sent"),
+            ]),
+            sse(vec![ev_completed("done")]),
+        ],
+    )
+    .await;
+    let base_url = server.uri();
+    let mut builder = test_kodex()
+        .with_home(home)
+        .with_auth(KodexAuth::create_dummy_chatgpt_auth_for_testing())
+        .with_model("gpt-5.2")
+        .with_config(move |config| {
+            config.chatgpt_base_url = base_url;
+            config.analytics_enabled = Some(true);
+            config
+                .features
+                .enable(Feature::SkipHostSkillDiscovery)
+                .unwrap();
+        });
+    // Exercise both native and executor-managed sandboxes with the same plugin fixture.
+    let _executor = if environment_id == kodex_exec_server::REMOTE_ENVIRONMENT_ID {
+        let executor = super::multi_exec_server_sandbox::ExecServerProcess::start().await?;
+        builder = builder.with_exec_server_url(executor.websocket_url.clone());
+        Some(executor)
+    } else {
+        None
+    };
+    let test = builder.build(&server).await?;
+    let (sandbox_policy, permission_profile) =
+        turn_permission_fields(PermissionProfile::read_only(), test.config.cwd.as_path());
+    test.kodex
+        .start_or_steer_turn(
+            TurnInputRequest::user_input(vec![UserInput::Text {
+                text: "send input to the plugin".into(),
+                text_elements: Vec::new(),
+            }])
+            .with_thread_settings(ThreadSettingsOverrides {
+                approval_policy: Some(AskForApproval::Granular(GranularApprovalConfig {
+                    sandbox_approval: false,
+                    rules: false,
+                    skill_approval: false,
+                    request_permissions: false,
+                    mcp_elicitations: false,
+                })),
+                sandbox_policy: Some(sandbox_policy),
+                permission_profile,
+                ..Default::default()
+            }),
+        )
+        .await?;
+    wait_for_event(&test.kodex, |event| {
+        matches!(event, EventMsg::TurnComplete(_))
+    })
+    .await;
+    let output = responses.function_call_output_text("input").unwrap();
+    assert!(output.contains("Process exited with code 0"), "{output}");
+    assert!(output.contains("STDIN_OK"), "{output}");
+    let measurement = wait_for_analytics_event(&server, "kodex_plugin_measurement_event").await;
+    assert_eq!(
+        serde_json::json!({
+            "plugin_id": measurement["event_params"]["plugin_id"],
+            "measurement_name": measurement["event_params"]["measurement_name"],
+            "number_value": measurement["event_params"]["number_value"],
+        }),
+        serde_json::json!({
+            "plugin_id": REMOTE_PLUGIN_CONFIG_NAME,
+            "measurement_name": "files_scanned",
+            "number_value": 7.0,
+        }),
+    );
     Ok(())
 }
 

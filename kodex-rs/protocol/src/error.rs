@@ -19,6 +19,7 @@ use http::StatusCode;
 use kodex_async_utils::CancelErr;
 use kodex_async_utils::backoff;
 use kodex_http_client::HttpError;
+use kodex_http_client::RetryAfter;
 use kodex_utils_string::truncate_middle_chars;
 use kodex_utils_string::truncate_middle_with_token_budget;
 use serde_json;
@@ -71,7 +72,7 @@ pub enum SandboxErr {
 
 pub struct KodexErr {
     details: KodexErrorDetails,
-    server_retry_delay: Option<Duration>,
+    retry_after: Option<RetryAfter>,
 }
 
 /// The semantic category and diagnostic payload for a [`KodexErr`].
@@ -93,6 +94,11 @@ pub enum KodexErrorDetails {
     /// The Session loop treats this as a transient error and will automatically retry the turn.
     #[error("stream disconnected before completion: {0}")]
     Stream(String),
+    /// A response stopped by the content filter. Sampling retries need developer guidance.
+    #[error(
+        "stream disconnected before completion: Incomplete response returned, reason: content_filter"
+    )]
+    ContentFilter,
     /// A retryable upstream rate limit received inside the response stream.
     #[error("rate limit exceeded: {0}")]
     RateLimitExceeded(String),
@@ -138,6 +144,8 @@ pub enum KodexErrorDetails {
     UsageLimitReached(UsageLimitReachedError),
     #[error("Selected model is at capacity. Please try a different model.")]
     ServerOverloaded,
+    #[error("Flex capacity unavailable.")]
+    FlexUnavailable,
     #[error("{message}")]
     CyberPolicy { message: String },
     #[error("{message}")]
@@ -207,7 +215,7 @@ impl fmt::Debug for KodexErr {
             KodexErrorDetails::Stream(message) => formatter
                 .debug_tuple("Stream")
                 .field(message)
-                .field(&self.server_retry_delay)
+                .field(&self.server_retry_delay())
                 .finish(),
             details => fmt::Debug::fmt(details, formatter),
         }
@@ -230,7 +238,7 @@ impl From<KodexErrorDetails> for KodexErr {
     fn from(details: KodexErrorDetails) -> Self {
         Self {
             details,
-            server_retry_delay: None,
+            retry_after: None,
         }
     }
 }
@@ -294,7 +302,7 @@ macro_rules! kodex_err_unit_constructors {
             #[allow(non_upper_case_globals)]
             pub const $variant: Self = Self {
                 details: KodexErrorDetails::$variant,
-                server_retry_delay: None,
+                retry_after: None,
             };
         )*
     };
@@ -403,10 +411,12 @@ impl KodexErr {
             | KodexErrorDetails::SessionConfiguredNotFirstEvent
             | KodexErrorDetails::UsageLimitReached(_)
             | KodexErrorDetails::ServerOverloaded
+            | KodexErrorDetails::FlexUnavailable
             | KodexErrorDetails::CyberPolicy { .. }
             | KodexErrorDetails::BioPolicy { .. }
             | KodexErrorDetails::MisalignmentPolicyViolation { .. } => None,
             KodexErrorDetails::Stream(..)
+            | KodexErrorDetails::ContentFilter
             | KodexErrorDetails::RateLimitExceeded(_)
             | KodexErrorDetails::Timeout
             | KodexErrorDetails::RequestTimeout
@@ -418,7 +428,7 @@ impl KodexErr {
             | KodexErrorDetails::Io(_)
             | KodexErrorDetails::Json(_)
             | KodexErrorDetails::TokioJoin(_) => Some(
-                self.server_retry_delay
+                self.server_retry_delay()
                     .unwrap_or_else(|| backoff(retry_count)),
             ),
             #[cfg(target_os = "linux")]
@@ -426,13 +436,20 @@ impl KodexErr {
         }
     }
 
-    /// Returns only the delay advised by the server, without applying local retry policy.
-    pub fn server_retry_delay(&self) -> Option<Duration> {
-        self.server_retry_delay
+    /// Returns the original server-advised instant for callers that pass the error on.
+    pub fn retry_after(&self) -> Option<RetryAfter> {
+        self.retry_after
     }
 
-    pub fn with_retry_delay(mut self, retry_delay: Duration) -> Self {
-        self.server_retry_delay = Some(retry_delay);
+    /// Returns the remaining server-advised delay without applying local retry policy.
+    /// Expired advice stays present as zero instead of falling back to a local delay.
+    pub fn server_retry_delay(&self) -> Option<Duration> {
+        self.retry_after.map(RetryAfter::remaining_delay)
+    }
+
+    /// Retains an already captured server deadline without restarting it.
+    pub fn with_retry_after(mut self, retry_after: RetryAfter) -> Self {
+        self.retry_after = Some(retry_after);
         self
     }
 
@@ -453,6 +470,7 @@ impl KodexErr {
             | KodexErrorDetails::QuotaExceeded
             | KodexErrorDetails::UsageNotIncluded => KodexErrorInfo::UsageLimitExceeded,
             KodexErrorDetails::ServerOverloaded => KodexErrorInfo::ServerOverloaded,
+            KodexErrorDetails::FlexUnavailable => KodexErrorInfo::FlexUnavailable,
             KodexErrorDetails::CyberPolicy { .. } => KodexErrorInfo::CyberPolicy,
             KodexErrorDetails::BioPolicy { .. } => KodexErrorInfo::BioPolicy,
             KodexErrorDetails::InvalidPrompt { .. } => KodexErrorInfo::InvalidPrompt,
@@ -462,9 +480,11 @@ impl KodexErr {
             KodexErrorDetails::RetryLimit(_) => KodexErrorInfo::ResponseTooManyFailedAttempts {
                 http_status_code: self.http_status_code_value(),
             },
-            KodexErrorDetails::ConnectionFailed(_) => KodexErrorInfo::HttpConnectionFailed {
-                http_status_code: self.http_status_code_value(),
-            },
+            KodexErrorDetails::ConnectionFailed(_) | KodexErrorDetails::UnexpectedStatus(_) => {
+                KodexErrorInfo::HttpConnectionFailed {
+                    http_status_code: self.http_status_code_value(),
+                }
+            }
             KodexErrorDetails::ResponseStreamFailed(_) => {
                 KodexErrorInfo::ResponseStreamConnectionFailed {
                     http_status_code: self.http_status_code_value(),
@@ -502,6 +522,7 @@ impl KodexErr {
 
     pub fn http_status_code_value(&self) -> Option<u16> {
         let http_status_code = match &self.details {
+            KodexErrorDetails::FlexUnavailable => Some(StatusCode::TOO_MANY_REQUESTS),
             KodexErrorDetails::RetryLimit(err) => Some(err.status),
             KodexErrorDetails::UnexpectedStatus(err) => Some(err.status),
             KodexErrorDetails::ConnectionFailed(err) => err.source.status(),
@@ -661,6 +682,8 @@ impl std::fmt::Display for RetryLimitReachedError {
 pub struct UsageLimitReachedError {
     pub plan_type: Option<PlanType>,
     pub resets_at: Option<DateTime<Utc>>,
+    /// Server-selected window responsible for the limit, in minutes.
+    pub limit_window_minutes: Option<u16>,
     pub rate_limits: Option<Box<RateLimitSnapshot>>,
     pub promo_message: Option<String>,
     pub rate_limit_reached_type: Option<RateLimitReachedType>,
@@ -751,10 +774,12 @@ impl std::fmt::Display for UsageLimitReachedError {
                     retry_suffix_after_or(self.resets_at.as_ref())
                 )
             }
-            Some(PlanType::Known(KnownPlan::Pro | KnownPlan::ProLite)) => format!(
-                "You’ve hit your usage limit. Visit https://chatgpt.com/kodex/settings/usage to purchase more credits{}",
-                retry_suffix_after_or(self.resets_at.as_ref())
-            ),
+            Some(PlanType::Known(KnownPlan::Pro | KnownPlan::ProLite | KnownPlan::ProMax)) => {
+                format!(
+                    "You’ve hit your usage limit. Visit https://chatgpt.com/kodex/settings/usage to purchase more credits{}",
+                    retry_suffix_after_or(self.resets_at.as_ref())
+                )
+            }
             Some(PlanType::Known(
                 KnownPlan::Enterprise | KnownPlan::Edu | KnownPlan::EduPlus | KnownPlan::EduPro,
             )) => format!(

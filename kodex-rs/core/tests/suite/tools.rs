@@ -126,7 +126,9 @@ async fn strict_tool_collisions_fail_the_turn_before_sampling(
             defer_loading: false,
         })]
     };
-    let kodex_core::NewThread { thread, .. } = test
+    let kodex_core::NewThread {
+        thread_id, thread, ..
+    } = test
         .thread_manager
         .start_thread(StartThreadOptions {
             dynamic_tools,
@@ -166,7 +168,13 @@ async fn strict_tool_collisions_fail_the_turn_before_sampling(
     };
     assert_eq!(completed.error, Some(error));
     thread.flush_rollout().await?;
-    let history = thread.load_history(/*include_archived*/ false).await?;
+    let history = test
+        .thread_store
+        .load_latest_model_context(kodex_thread_store::LoadThreadHistoryParams {
+            thread_id,
+            include_archived: false,
+        })
+        .await?;
     let attribution = history.items.iter().find_map(|item| match item {
         kodex_history::RolloutItem::EventMsg(EventMsg::TurnStarted(event))
             if event.turn_id == completed.turn_id =>

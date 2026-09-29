@@ -1,14 +1,17 @@
+use crate::agent::types::SpawnAgentForkMode;
 use crate::config::DEFAULT_MULTI_AGENT_V2_MIN_WAIT_TIMEOUT_MS;
 use crate::config::HARD_MAX_MULTI_AGENT_V2_TIMEOUT_MS;
 use crate::function_tool::FunctionCallError;
 use crate::tools::context::FunctionToolOutput;
 use crate::tools::context::ToolOutput;
 use crate::tools::context::ToolPayload;
+use kodex_otel::SessionTelemetry;
 use kodex_protocol::AgentPath;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::models::ResponseInputItem;
+use kodex_protocol::protocol::MultiAgentVersion;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::user_input::UserInput;
@@ -70,6 +73,36 @@ pub(crate) fn collab_spawn_error(err: KodexErr) -> FunctionCallError {
         }
         _ => FunctionCallError::RespondToModel(format!("collab spawn failed: {err}")),
     }
+}
+
+pub(crate) fn record_collab_spawn_failure(
+    telemetry: &SessionTelemetry,
+    product_sku: Option<&str>,
+    err: &KodexErr,
+    fork_mode: Option<&SpawnAgentForkMode>,
+    multi_agent_version: MultiAgentVersion,
+) {
+    let reason = match err.details() {
+        KodexErrorDetails::AgentLimitReached { .. } => "limit_reached",
+        KodexErrorDetails::InvalidRequest(_) => "invalid_request",
+        KodexErrorDetails::ThreadNotFound(_) => "thread_not_found",
+        KodexErrorDetails::UnsupportedOperation(_) => "unsupported_operation",
+        _ => "internal",
+    };
+    let fork_mode = match fork_mode {
+        None => "none",
+        Some(SpawnAgentForkMode::FullHistory) => "all",
+        Some(SpawnAgentForkMode::LastNTurns(_)) => "last_n",
+    };
+    let multi_agent_version = match multi_agent_version {
+        MultiAgentVersion::Disabled => "disabled",
+        MultiAgentVersion::V1 => "v1",
+        MultiAgentVersion::V2 => "v2",
+    };
+    telemetry
+        .clone()
+        .with_product_sku(product_sku)
+        .record_multi_agent_spawn_failure(reason, fork_mode, multi_agent_version);
 }
 
 pub(crate) fn collab_agent_error(agent_id: ThreadId, err: KodexErr) -> FunctionCallError {

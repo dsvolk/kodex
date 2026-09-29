@@ -122,7 +122,6 @@ mod tests {
     use crate::images::ImageBackground;
     use crate::images::ImageData;
     use crate::images::ImageQuality;
-    use crate::images::ImageUrl;
     use crate::provider::RetryConfig;
     use http::StatusCode;
     use kodex_client::Request;
@@ -130,6 +129,7 @@ mod tests {
     use kodex_client::Response;
     use kodex_client::StreamResponse;
     use kodex_client::TransportError;
+    use kodex_protocol::models::ImageReference;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use std::sync::Mutex;
@@ -339,9 +339,14 @@ mod tests {
         let (response, imagegen_request_id) = client
             .edit(
                 &ImageEditRequest {
-                    images: vec![ImageUrl {
-                        image_url: "data:image/png;base64,Zm9v".to_string(),
-                    }],
+                    images: vec![
+                        ImageReference::Inline {
+                            image_url: "data:image/png;base64,Zm9v".to_string(),
+                        },
+                        ImageReference::File {
+                            file_id: "file-image".to_string(),
+                        },
+                    ],
                     prompt: "add a red hat".to_string(),
                     background: None,
                     model: "gpt-image-1.5".to_string(),
@@ -362,7 +367,10 @@ mod tests {
         assert_eq!(
             request.body.as_ref().and_then(RequestBody::json),
             Some(&json!({
-                "images": [{"image_url": "data:image/png;base64,Zm9v"}],
+                "images": [
+                    {"image_url": "data:image/png;base64,Zm9v"},
+                    {"file_id": "file-image"},
+                ],
                 "prompt": "add a red hat",
                 "model": "gpt-image-1.5",
             }))

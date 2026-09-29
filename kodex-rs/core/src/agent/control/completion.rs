@@ -8,11 +8,13 @@ use crate::TurnStartOptions;
 use crate::agent::api::AgentTurnOutcome;
 use crate::agent_communication::AgentCommunicationContext;
 use crate::agent_communication::AgentCommunicationKind;
+use crate::session_prefix::format_guardian_interruption_message;
 use crate::session_prefix::format_inter_agent_completion_message;
 use kodex_protocol::AgentPath;
 use kodex_protocol::items::SubAgentActivityItem;
 use kodex_protocol::protocol::AgentStatus;
 use kodex_protocol::protocol::InterAgentCommunication;
+use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentActivityKind;
 use kodex_protocol::protocol::SubAgentSource;
@@ -50,7 +52,7 @@ impl LocalAgentControl {
         {
             let initiating_thread_id = match outcome.initiating_agent_path.as_ref() {
                 Some(initiating_agent_path) if initiating_agent_path != &parent_agent_path => {
-                    self.resolve_agent_reference(
+                    self.runtime.resolve_agent_reference(
                         outcome.thread_id,
                         &outcome.source,
                         initiating_agent_path.as_str(),
@@ -85,11 +87,21 @@ impl LocalAgentControl {
             }
         }
 
-        let Some(message) = format_inter_agent_completion_message(
-            parent_agent_path.clone(),
-            child_agent_path.clone(),
-            &status,
-        ) else {
+        let message = match (&status, outcome.error_info) {
+            (AgentStatus::Errored(error), Some(KodexErrorInfo::TooManyDenials)) => {
+                Some(format_guardian_interruption_message(
+                    parent_agent_path.clone(),
+                    child_agent_path.clone(),
+                    error,
+                ))
+            }
+            _ => format_inter_agent_completion_message(
+                parent_agent_path.clone(),
+                child_agent_path.clone(),
+                &status,
+            ),
+        };
+        let Some(message) = message else {
             return;
         };
         // `communication` owns the message. Keep a second copy only when the

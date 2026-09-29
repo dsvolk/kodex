@@ -79,9 +79,11 @@ pub enum KodexErrorInfo {
     SessionBudgetExceeded,
     UsageLimitExceeded,
     RateLimitExceeded,
+    FlexUnavailable,
     ServerOverloaded,
     CyberPolicy,
     MisalignmentPolicyViolation,
+    TooManyDenials,
     HttpConnectionFailed {
         #[serde(rename = "httpStatusCode")]
         #[ts(rename = "httpStatusCode")]
@@ -127,12 +129,14 @@ impl From<CoreKodexErrorInfo> for KodexErrorInfo {
             CoreKodexErrorInfo::SessionBudgetExceeded => KodexErrorInfo::SessionBudgetExceeded,
             CoreKodexErrorInfo::UsageLimitExceeded => KodexErrorInfo::UsageLimitExceeded,
             CoreKodexErrorInfo::RateLimitExceeded => KodexErrorInfo::RateLimitExceeded,
+            CoreKodexErrorInfo::FlexUnavailable => KodexErrorInfo::FlexUnavailable,
             CoreKodexErrorInfo::ServerOverloaded => KodexErrorInfo::ServerOverloaded,
             CoreKodexErrorInfo::CyberPolicy => KodexErrorInfo::CyberPolicy,
             CoreKodexErrorInfo::BioPolicy => KodexErrorInfo::Other,
             CoreKodexErrorInfo::MisalignmentPolicyViolation => {
                 KodexErrorInfo::MisalignmentPolicyViolation
             }
+            CoreKodexErrorInfo::TooManyDenials => KodexErrorInfo::TooManyDenials,
             CoreKodexErrorInfo::HttpConnectionFailed { http_status_code } => {
                 KodexErrorInfo::HttpConnectionFailed { http_status_code }
             }

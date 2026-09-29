@@ -15,7 +15,7 @@ use crate::history_cell;
 use super::popup_consts::standard_popup_hint_line;
 
 const BASE_CLI_BUG_ISSUE_URL: &str =
-    "https://github.com/openai/kodex/issues/new?template=3-cli.yml";
+    "https://github.com/dsvolk/kodex/issues/new?template=3-cli.yml";
 /// Internal routing link for employee feedback follow-ups. This must not be shown to external users.
 const KODEX_FEEDBACK_INTERNAL_URL: &str = "http://go/kodex-feedback-internal";
 
@@ -253,6 +253,7 @@ pub(crate) fn feedback_upload_consent_params(
         Line::from("").into(),
         Line::from("The following files will be sent:".dim()).into(),
         Line::from(vec!["  • ".into(), "kodex-logs.log".into()]).into(),
+        Line::from(vec!["  • ".into(), "client-logs.txt (if available)".into()]).into(),
         Line::from(vec![
             "  • ".into(),
             DOCTOR_REPORT_ATTACHMENT_FILENAME.into(),
@@ -498,7 +499,7 @@ mod tests {
         );
         let bug_url_non_employee =
             issue_url_for_category(FeedbackCategory::Bug, "t", FeedbackAudience::External);
-        let expected_external_url = "https://github.com/openai/kodex/issues/new?template=3-cli.yml&steps=Uploaded%20thread:%20t";
+        let expected_external_url = "https://github.com/dsvolk/kodex/issues/new?template=3-cli.yml&steps=Uploaded%20thread:%20t";
         assert_eq!(bug_url_non_employee.as_deref(), Some(expected_external_url));
     }
 
@@ -515,7 +516,7 @@ mod tests {
         );
         assert_eq!(
             rendered,
-            "• Feedback uploaded. Please open an issue using the following URL:\n\n  https://github.com/openai/kodex/issues/new?template=3-cli.yml&steps=Uploaded%20thread:%20thread-1\n\n  Or mention your thread ID thread-1 in an existing issue."
+            "• Feedback uploaded. Please open an issue using the following URL:\n\n  https://github.com/dsvolk/kodex/issues/new?template=3-cli.yml&steps=Uploaded%20thread:%20thread-1\n\n  Or mention your thread ID thread-1 in an existing issue."
         );
     }
 

@@ -21,6 +21,7 @@ use kodex_http_client::RouteAwareClientPool;
 use kodex_login::AuthEnvTelemetry;
 use kodex_protocol::ThreadId;
 use kodex_protocol::protocol::SessionSource;
+use kodex_state::LogWriteFailureReporter;
 use tracing::Event;
 use tracing::Level;
 use tracing::field::Visit;
@@ -196,6 +197,17 @@ pub struct KodexFeedback {
     inner: Arc<FeedbackInner>,
 }
 
+impl LogWriteFailureReporter for KodexFeedback {
+    fn report_failure(&self, diagnostic: &str) {
+        // Bypass tracing so this diagnostic cannot return to the SQLite writer.
+        self.inner
+            .ring
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .push_bytes(diagnostic.as_bytes());
+    }
+}
+
 impl Default for KodexFeedback {
     fn default() -> Self {
         Self::new()
@@ -238,6 +250,8 @@ impl KodexFeedback {
             .with_filter(
                 Targets::new()
                     .with_default(Level::TRACE)
+                    // Opted-in content belongs to the configured OTLP destination, not feedback.
+                    .with_target("kodex_otel.log_only", LevelFilter::OFF)
                     .with_target("kodex_http_client::transport", LevelFilter::DEBUG)
                     .with_target("kodex_api::sse", LevelFilter::DEBUG)
                     // `tracing-log` checks legacy log records against their original
@@ -487,6 +501,16 @@ pub struct FeedbackUploadOptions<'a> {
 }
 
 impl FeedbackSnapshot {
+    /// Refreshes log bytes while preserving the captured metadata and thread identity.
+    pub fn refresh_logs(&mut self, feedback: &KodexFeedback) {
+        self.bytes = feedback
+            .inner
+            .ring
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .snapshot_bytes();
+    }
+
     fn feedback_event(
         &self,
         classification: &str,
@@ -942,6 +966,11 @@ mod tests {
             .set_default();
 
         tracing::trace!(target: "kodex_api::responses_websocket_timing", payload = "secret");
+        tracing::event!(
+            target: "kodex_otel.log_only", tracing::Level::INFO,
+            event.name = "kodex.agent_response", response = "private-agent-response"
+        );
+        tracing::info!(target: "kodex_otel.log_only", rationale = "private-guardian-rationale");
         tracing::trace!(target: "kodex_http_client::transport", "transport-trace");
         tracing::trace!(target: "kodex_api::sse", "sse-trace");
         tracing::trace!(target: "kodex_api::sse::responses", "nested-sse-trace");
@@ -959,6 +988,8 @@ mod tests {
         let logs = String::from_utf8(fb.snapshot(/*session_id*/ None).bytes).unwrap();
         for excluded in [
             "secret",
+            "private-agent-response",
+            "private-guardian-rationale",
             "transport-trace",
             "sse-trace",
             "nested-sse-trace",

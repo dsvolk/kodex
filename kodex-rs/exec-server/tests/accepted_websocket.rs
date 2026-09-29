@@ -29,7 +29,7 @@ use kodex_exec_server::ExecParams;
 use kodex_exec_server::ExecProcessEvent;
 use kodex_exec_server::ExecResponse;
 use kodex_exec_server::ExecServerClientConnectOptions;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_exec_server::InitializeParams;
 use kodex_exec_server::InitializeResponse;
 use kodex_exec_server::ProcessId;
@@ -174,7 +174,7 @@ async fn accepted_websocket_interoperates_and_recovers_with_real_direct_executor
         http_client_factory.clone(),
     )?;
     let (kodex_exe, kodex_linux_sandbox_exe) = common::current_test_binary_helper_paths()?;
-    let runtime_paths = ExecServerRuntimePaths::new(kodex_exe, kodex_linux_sandbox_exe)?;
+    let runtime_paths = ExecServerRuntimeOptions::new(kodex_exe, kodex_linux_sandbox_exe)?;
     let (shutdown_tx, shutdown_rx) = tokio::sync::oneshot::channel();
     let executor_task = AbortOnDropHandle::new(tokio::spawn(
         kodex_exec_server::run_remote_environment_until_shutdown(

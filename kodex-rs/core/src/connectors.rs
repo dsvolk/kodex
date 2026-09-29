@@ -13,7 +13,7 @@ use kodex_connectors::ConnectorDirectoryCacheKey;
 use kodex_connectors::apps_config_from_layer_stack;
 use kodex_connectors::connector_runtime_context_key;
 use kodex_exec_server::EnvironmentManager;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_tools::DiscoverableTool;
 use tokio_util::sync::CancellationToken;
 use tracing::instrument;
@@ -165,7 +165,7 @@ pub async fn list_accessible_connectors_from_mcp_tools_with_options_and_status(
     // TODO: Wire callers that already own an EnvironmentManager into
     // list_accessible_connectors_from_mcp_tools_with_environment_manager instead
     // of constructing a temporary manager here.
-    let local_runtime_paths = ExecServerRuntimePaths::from_optional_paths(
+    let local_runtime_paths = ExecServerRuntimeOptions::from_optional_paths(
         config.kodex_self_exe.clone(),
         config.kodex_linux_sandbox_exe.clone(),
     )?;

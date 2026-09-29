@@ -23,6 +23,7 @@ kodex-sandboxing = { workspace = true }
 kodex-shell-escalation = { workspace = true }
 kodex-utils-absolute-path = { workspace = true }
 kodex-utils-home-dir = { workspace = true }
+kodex-utils-pty = { workspace = true }
 dotenvy = { workspace = true }
 tempfile = { workspace = true }
 tokio = { workspace = true, features = ["rt-multi-thread"] }

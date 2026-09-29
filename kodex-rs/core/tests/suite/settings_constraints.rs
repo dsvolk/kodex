@@ -11,6 +11,7 @@ use kodex_core::config::Constrained;
 use kodex_features::Feature;
 use kodex_models_manager::model_info::model_info_from_slug;
 use kodex_protocol::config_types::ApprovalsReviewer;
+use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::openai_models::ApprovalMessages;
 use kodex_protocol::openai_models::ModelsResponse;
@@ -35,6 +36,7 @@ const PERMISSION_INSTRUCTIONS: &str = "Protected-model read-only instructions.";
 #[derive(Clone, Copy)]
 enum SettingsOperation {
     Standalone,
+    StandaloneWithReply,
     TurnStart,
 }
 
@@ -45,7 +47,35 @@ impl SettingsOperation {
         thread_settings: ThreadSettingsOverrides,
     ) -> Result<ThreadSettingsSnapshot> {
         let id = match self {
-            Self::Standalone => kodex.submit(Op::ThreadSettings { thread_settings }).await?,
+            Self::Standalone => {
+                kodex
+                    .submit(Op::ThreadSettings {
+                        thread_settings,
+                        reply: None,
+                    })
+                    .await?
+            }
+            Self::StandaloneWithReply => {
+                if let Err(error) = kodex.update_thread_settings(thread_settings).await {
+                    assert!(matches!(
+                        error.details(),
+                        KodexErrorDetails::InvalidRequest(_)
+                    ));
+                    return Err(error.into());
+                }
+                // A successful update still notifies subscribers. A prior direct rejection must not.
+                return match wait_for_event(kodex, |event| {
+                    matches!(
+                        event,
+                        EventMsg::ThreadSettingsApplied(_) | EventMsg::Error(_)
+                    )
+                })
+                .await
+                {
+                    EventMsg::ThreadSettingsApplied(applied) => Ok(applied.thread_settings),
+                    event => anyhow::bail!("unexpected settings event: {event:?}"),
+                };
+            }
             Self::TurnStart => {
                 let result = kodex
                     .start_or_steer_turn(
@@ -83,6 +113,7 @@ impl SettingsOperation {
 }
 
 #[test_case(SettingsOperation::Standalone; "standalone settings")]
+#[test_case(SettingsOperation::StandaloneWithReply; "standalone settings with reply")]
 #[test_case(SettingsOperation::TurnStart; "turn-start settings")]
 #[tokio::test]
 async fn protected_model_settings_use_the_proposed_permissions(
@@ -202,7 +233,10 @@ async fn protected_model_settings_use_the_proposed_permissions(
     );
     assert_eq!(test.kodex.thread_settings_snapshot().await, expected);
 
-    if let SettingsOperation::Standalone = operation {
+    if matches!(
+        operation,
+        SettingsOperation::Standalone | SettingsOperation::StandaloneWithReply
+    ) {
         test.submit_text_turn("use the committed settings").await?;
     }
     let request = response.single_request();

@@ -39,7 +39,7 @@ impl HistoryCell for UpdateAvailableHistoryCell {
         } else {
             line![
                 "See ",
-                "https://github.com/openai/kodex"
+                "https://github.com/dsvolk/kodex"
                     .fg(accent_color())
                     .underlined(),
                 " for installation options."
@@ -73,7 +73,7 @@ impl HistoryCell for UpdateAvailableHistoryCell {
         let update_instruction = if let Some(update_action) = self.update_action {
             format!("Run {} to update.", update_action.command_str())
         } else {
-            "See https://github.com/openai/kodex for installation options.".to_string()
+            "See https://github.com/dsvolk/kodex for installation options.".to_string()
         };
         vec![
             Line::from("Update available!"),

@@ -1,5 +1,7 @@
 use http::HeaderMap;
 use http::HeaderValue;
+use kodex_http_client::HttpClientFactory;
+use kodex_http_client::OutboundProxyPolicy;
 use kodex_login::AuthHeaders;
 use kodex_login::AuthManager;
 use kodex_login::KodexAuth;
@@ -43,7 +45,10 @@ async fn routes_through_kodex_backend_and_injects_trusted_session_agent_context(
         ))),
         Some(auth_manager),
     );
-    let backend = HistoryNotesBackend::new(provider);
+    let backend = HistoryNotesBackend::new(
+        provider,
+        HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault),
+    );
 
     let response = backend
         .call(
@@ -116,13 +121,16 @@ async fn marks_encrypted_history_and_notes_arguments_without_changing_the_json_b
 
     let auth_manager =
         AuthManager::from_auth_for_testing(KodexAuth::Headers(AuthHeaders::new(HeaderMap::new())));
-    let backend = HistoryNotesBackend::new(create_model_provider(
-        ModelProviderInfo::create_openai_provider(Some(format!(
-            "{}/backend-api/kodex",
-            server.uri()
-        ))),
-        Some(auth_manager),
-    ));
+    let backend = HistoryNotesBackend::new(
+        create_model_provider(
+            ModelProviderInfo::create_openai_provider(Some(format!(
+                "{}/backend-api/kodex",
+                server.uri()
+            ))),
+            Some(auth_manager),
+        ),
+        HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault),
+    );
 
     for (route, arguments) in cases {
         backend

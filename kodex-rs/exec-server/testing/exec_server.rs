@@ -4,7 +4,7 @@
 //! when a test only needs a WebSocket executor endpoint. It handles the arg0
 //! helper mode because sandboxed process requests re-exec this binary.
 
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use std::ffi::OsStr;
@@ -12,6 +12,8 @@ use std::ffi::OsStr;
 const KODEX_LINUX_SANDBOX_EXE_ENV_VAR: &str = "KODEX_TEST_LINUX_SANDBOX_EXE";
 
 fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    #[cfg(target_os = "linux")]
+    kodex_utils_pty::init_spawn_helper(std::env::args_os());
     let mut args = std::env::args_os();
     let _ = args.next();
     let argv1 = args.next();
@@ -26,7 +28,7 @@ fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let current_exe = std::env::current_exe()?;
     let kodex_linux_sandbox_exe =
         std::env::var_os(KODEX_LINUX_SANDBOX_EXE_ENV_VAR).map(std::path::PathBuf::from);
-    let runtime_paths = ExecServerRuntimePaths::new(current_exe, kodex_linux_sandbox_exe)?;
+    let runtime_paths = ExecServerRuntimeOptions::new(current_exe, kodex_linux_sandbox_exe)?;
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()?

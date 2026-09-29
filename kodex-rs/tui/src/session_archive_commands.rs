@@ -28,7 +28,7 @@ use kodex_config::CloudConfigBundleLoader;
 use kodex_config::ConfigLoadOptions;
 use kodex_config::LoaderOverrides;
 use kodex_exec_server::EnvironmentManager;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_protocol::ThreadId;
 use kodex_utils_cli::CliConfigOverrides;
 use kodex_utils_home_dir::find_kodex_home;
@@ -274,7 +274,7 @@ pub(super) async fn start_app_server_for_session_command(
         .clone()
         .filter(|_| app_server_target.uses_remote_workspace());
 
-    let local_runtime_paths = ExecServerRuntimePaths::from_optional_paths(
+    let local_runtime_paths = ExecServerRuntimeOptions::from_optional_paths(
         arg0_paths.kodex_self_exe.clone(),
         arg0_paths.kodex_linux_sandbox_exe.clone(),
     )

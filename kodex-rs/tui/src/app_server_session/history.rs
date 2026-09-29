@@ -16,6 +16,7 @@ use kodex_app_server_protocol::SortDirection;
 use kodex_app_server_protocol::Thread;
 use kodex_app_server_protocol::ThreadHistoryMode;
 use kodex_app_server_protocol::ThreadItem;
+use kodex_app_server_protocol::ThreadItemsListCursor;
 use kodex_app_server_protocol::ThreadItemsListParams;
 use kodex_app_server_protocol::ThreadItemsListResponse;
 use kodex_app_server_protocol::ThreadRevertParams;
@@ -107,7 +108,7 @@ pub(crate) fn thread_items_page_params(
     ThreadItemsListParams {
         thread_id: thread_id.to_string(),
         turn_id: turn_id.map(str::to_string),
-        cursor,
+        cursor: cursor.map(ThreadItemsListCursor::Opaque),
         limit: Some(limit),
         sort_direction: Some(SortDirection::Desc),
     }

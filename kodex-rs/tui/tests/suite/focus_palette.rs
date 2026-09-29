@@ -22,6 +22,8 @@ const STARTUP_TIMEOUT: Duration = Duration::from_secs(/*secs*/ 30);
 const FOCUS_INPUT_TIMEOUT: Duration = Duration::from_secs(/*secs*/ 5);
 const FOCUS_PROBE_INPUT: &str = "focus-palette-24527";
 
+#[path = "external_editor_tests.rs"]
+mod external_editor;
 #[path = "tui_mode_picker_tests.rs"]
 mod tui_mode_picker;
 
@@ -291,7 +293,9 @@ impl PtyKodex {
     ) -> Result<Self> {
         let kodex = kodex_utils_cargo_bin::cargo_bin("kodex-tui")
             .or_else(|_| kodex_utils_cargo_bin::cargo_bin("kodex"))?;
-        Self::start_binary(&kodex, repo_root, kodex_home, extra_args)
+        Self::start_binary(
+            &kodex, repo_root, kodex_home, extra_args, /*editor*/ None,
+        )
     }
 
     /// Include the CLI dispatch futures when testing production stack headroom.
@@ -302,7 +306,9 @@ impl PtyKodex {
     ) -> Result<Self> {
         let kodex = kodex_utils_cargo_bin::cargo_bin("kodex")
             .context("build kodex-cli and set CARGO_BIN_EXE_kodex to its executable")?;
-        Self::start_binary(&kodex, repo_root, kodex_home, extra_args)
+        Self::start_binary(
+            &kodex, repo_root, kodex_home, extra_args, /*editor*/ None,
+        )
     }
 
     fn start_binary(
@@ -310,6 +316,7 @@ impl PtyKodex {
         repo_root: &Path,
         kodex_home: TempDir,
         extra_args: &[&str],
+        editor: Option<&Path>,
     ) -> Result<Self> {
         let mut master_fd = -1;
         let mut slave_fd = -1;
@@ -342,7 +349,11 @@ impl PtyKodex {
         let stdin = slave.try_clone().context("clone pseudo-terminal stdin")?;
         let stdout = slave.try_clone().context("clone pseudo-terminal stdout")?;
 
-        let child = Command::new(kodex)
+        let mut command = Command::new(kodex);
+        if let Some(editor) = editor {
+            command.env("VISUAL", editor);
+        }
+        let child = command
             .args(extra_args)
             .arg("-C")
             .arg(repo_root)

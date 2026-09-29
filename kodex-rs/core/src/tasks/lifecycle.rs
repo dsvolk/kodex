@@ -4,6 +4,7 @@ use kodex_analytics::TurnAnalyticsMetadata;
 use kodex_extension_api::ExtensionData;
 use kodex_extension_api::ThreadIdleCause;
 use kodex_extension_api::TurnStartPhase;
+use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::TokenUsage;
 use kodex_protocol::protocol::TurnAbortReason;
@@ -103,12 +104,14 @@ impl Session {
         &self,
         turn_context: &TurnContext,
         error: KodexErrorInfo,
+        error_details: &KodexErrorDetails,
     ) {
         for contributor in self.services.extensions.turn_lifecycle_contributors() {
             contributor
                 .on_turn_error(kodex_extension_api::TurnErrorInput {
                     turn_id: turn_context.sub_id.as_str(),
                     error: error.clone(),
+                    error_details,
                     session_store: &self.services.session_extension_data,
                     thread_store: &self.services.thread_extension_data,
                     turn_store: turn_context.extension_data.as_ref(),

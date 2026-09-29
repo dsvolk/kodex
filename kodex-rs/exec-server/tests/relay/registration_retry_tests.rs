@@ -76,7 +76,7 @@ impl RegistryFixture {
             HttpClientFactory::new(OutboundProxyPolicy::ReqwestDefault),
         )?;
         let (kodex_exe, sandbox_exe) = common::current_test_binary_helper_paths()?;
-        let runtime_paths = ExecServerRuntimePaths::new(kodex_exe, sandbox_exe)?;
+        let runtime_paths = ExecServerRuntimeOptions::new(kodex_exe, sandbox_exe)?;
         let (shutdown_tx, shutdown_rx) = oneshot::channel();
         let task = AbortOnDropHandle::new(tokio::spawn(
             kodex_exec_server::run_remote_environment_until_shutdown(

@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use kodex_exec_server::EnvironmentManager;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_extension_api::ExtensionRegistry;
 use kodex_extension_api::UserInstructionsProvider;
 use kodex_login::AuthManager;
@@ -37,7 +37,7 @@ pub async fn build_prompt_input(
             .await
             .map_err(|err| KodexErr::Fatal(err.to_string()))?;
 
-    let local_runtime_paths = ExecServerRuntimePaths::from_optional_paths(
+    let local_runtime_paths = ExecServerRuntimeOptions::from_optional_paths(
         config.kodex_self_exe.clone(),
         config.kodex_linux_sandbox_exe.clone(),
     )?;

@@ -25,12 +25,17 @@ use kodex_core_plugins::PluginIdentity;
 use kodex_exec_server::EnvironmentManager;
 use kodex_extension_api::ContextContributor;
 use kodex_extension_api::ExtensionRegistryBuilder;
+use kodex_extension_api::McpServerContributionContext;
+use kodex_extension_api::McpServerContributor;
 use kodex_extension_api::SelectedPluginSnapshot;
 use kodex_extension_api::WorldStateContributionInput;
 use kodex_extension_api::WorldStateSectionContribution;
+use kodex_protocol::capabilities::CapabilityRootLocation;
+use kodex_protocol::capabilities::SelectedCapabilityRoot;
 use kodex_protocol::config_types::CollaborationMode;
 use kodex_protocol::config_types::ModeKind;
 use kodex_protocol::config_types::Settings;
+use kodex_utils_path_uri::PathUri;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::sync::Arc;
@@ -178,6 +183,66 @@ async fn disabling_plugins_clears_cloud_catalog_and_skips_discovery() -> anyhow:
     Ok(())
 }
 
+#[tokio::test]
+async fn account_change_clears_hosted_plugins_before_waiting_for_executor() -> anyhow::Result<()> {
+    struct UnreadyExecutor;
+    impl kodex_exec_server::NoiseRendezvousConnectProvider for UnreadyExecutor {
+        fn connect_bundle(
+            &self,
+            _: kodex_exec_server::NoiseChannelPublicKey,
+        ) -> futures::future::BoxFuture<
+            '_,
+            Result<
+                kodex_exec_server::NoiseRendezvousConnectBundle,
+                kodex_exec_server::ExecServerError,
+            >,
+        > {
+            Box::pin(futures::future::pending())
+        }
+    }
+
+    let home = tempfile::tempdir()?;
+    let mut config = kodex_core::config::ConfigBuilder::default()
+        .kodex_home(home.path().to_path_buf())
+        .fallback_cwd(Some(home.path().to_path_buf()))
+        .build()
+        .await?;
+    config.features.enable(Feature::Plugins)?;
+    let manager = Arc::new(EnvironmentManager::default_for_tests());
+    manager
+        .materialize_pending_noise_environment("unready".to_string(), Arc::new(UnreadyExecutor))?;
+    let contributor = PluginContributor {
+        providers: PluginProviders::new(Arc::new(ExecutorPluginProvider::new(manager)))
+            .with_cloud_provider(Arc::new(CloudProvider::default())),
+    };
+    let thread = ExtensionData::new("thread");
+    let state = thread.get_or_init(PluginsThreadState::default);
+    let old_auth = state
+        .contributor_state()
+        .prepare_cloud_generation(/*mcp_resources*/ None);
+    assert!(
+        state
+            .contributor_state()
+            .publish_cloud_catalog(old_auth.as_ref(), cloud_catalog())
+    );
+    let roots = [SelectedCapabilityRoot {
+        id: "plugin".to_string(),
+        location: CapabilityRootLocation::Environment {
+            environment_id: "unready".to_string(),
+            path: PathUri::parse("file:///plugins/demo")?,
+        },
+    }];
+    let init = kodex_extension_api::ExtensionDataInit::default();
+    let context = McpServerContributionContext::for_step(
+        &config, &init, &thread, "test", &roots, /*executor_capability_discovery*/ None,
+    )
+    .with_auth_changed(/*auth_changed*/ true);
+    let mut loading = std::pin::pin!(contributor.selected_plugins(context));
+    assert!(futures::poll!(&mut loading).is_pending());
+    assert_eq!(state.cloud_catalog(), None);
+    Ok(())
+}
+
 struct CloudProvider {
     reply: Mutex<Result<PluginCatalog, String>>,
     calls: AtomicUsize,
@@ -187,8 +252,10 @@ struct CloudProvider {
     resume_discovery: Notify,
 }
 
+type ObservedPackages = Vec<(String, Option<String>)>;
+
 #[derive(Default)]
-struct StepPackages(Mutex<Option<Vec<String>>>);
+struct StepPackages(Mutex<Option<ObservedPackages>>);
 
 impl ContextContributor for StepPackages {
     fn contribute_world_state<'a>(
@@ -206,7 +273,7 @@ impl ContextContributor for StepPackages {
                     snapshot
                         .plugins
                         .iter()
-                        .map(|plugin| plugin.selected_root_id.clone())
+                        .map(|plugin| (plugin.plugin_id.clone(), plugin.selected_root_id.clone()))
                         .collect()
                 });
             Vec::new()
@@ -362,14 +429,14 @@ async fn run_cloud_catalog_refresh_lifecycle() -> anyhow::Result<()> {
         (
             "discovered",
             Ok(cloud_catalog()),
-            Some("cloud:plugin_remote"),
+            Some("plugin_remote"),
             None,
             Some(calendar),
         ),
         (
             "same-account-failure",
             Err("temporarily unavailable".to_string()),
-            Some("cloud:plugin_remote"),
+            Some("plugin_remote"),
             None,
             None,
         ),
@@ -377,7 +444,7 @@ async fn run_cloud_catalog_refresh_lifecycle() -> anyhow::Result<()> {
         (
             "restored",
             Ok(cloud_catalog()),
-            Some("cloud:plugin_remote"),
+            Some("plugin_remote"),
             None,
             None,
         ),
@@ -391,7 +458,7 @@ async fn run_cloud_catalog_refresh_lifecycle() -> anyhow::Result<()> {
         (
             "new-account-discovered",
             Ok(gmail_catalog),
-            Some("cloud:plugin_gmail"),
+            Some("plugin_gmail"),
             None,
             Some(gmail),
         ),
@@ -570,7 +637,12 @@ async fn run_cloud_catalog_refresh_lifecycle() -> anyhow::Result<()> {
                 .0
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner),
-            Some(expected_plugin.into_iter().map(str::to_string).collect()),
+            Some(
+                expected_plugin
+                    .into_iter()
+                    .map(|id| (id.to_owned(), None))
+                    .collect()
+            ),
             "turn {turn}"
         );
         assert_eq!(

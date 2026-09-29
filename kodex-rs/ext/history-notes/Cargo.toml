@@ -14,10 +14,10 @@ workspace = true
 
 [dependencies]
 kodex-analytics = { workspace = true }
-kodex-api = { workspace = true }
 kodex-client = { workspace = true }
 kodex-core = { workspace = true }
 kodex-extension-api = { workspace = true }
+kodex-http-client = { workspace = true }
 kodex-login = { workspace = true }
 kodex-model-provider = { workspace = true }
 kodex-protocol = { workspace = true }

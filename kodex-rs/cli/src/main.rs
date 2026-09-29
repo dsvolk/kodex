@@ -3724,7 +3724,8 @@ mod tests {
             exit_info.format_exit_messages(/*color_enabled*/ false),
             vec![
                 "Disconnected from this task. Any running work continues.",
-                "Reconnect: kodex --remote wss://example.com:443/ --remote-auth-token-env KODEX_REMOTE_TOKEN resume 123e4567-e89b-12d3-a456-426614174000",
+                "To reconnect, run:",
+                "  kodex --remote wss://example.com:443/ --remote-auth-token-env KODEX_REMOTE_TOKEN resume 123e4567-e89b-12d3-a456-426614174000",
                 "Stop the current turn: run kodex --remote wss://example.com:443/ --remote-auth-token-env KODEX_REMOTE_TOKEN agents, select this task, and press ctrl + x.",
                 "Token usage so far: total=2 input=0 output=2",
             ]

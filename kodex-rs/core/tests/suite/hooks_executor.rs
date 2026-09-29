@@ -26,7 +26,7 @@ use kodex_core::StartThreadOptions;
 use kodex_core::TurnInputRequest;
 use kodex_core::windows_sandbox::WindowsSandboxLevelExt;
 use kodex_exec_server::CreateDirectoryOptions;
-use kodex_exec_server::ExecServerRuntimePaths;
+use kodex_exec_server::ExecServerRuntimeOptions;
 use kodex_features::Feature;
 use kodex_protocol::capabilities::CapabilityRootLocation;
 use kodex_protocol::capabilities::SelectedCapabilityRoot;
@@ -309,7 +309,7 @@ async fn executor_stop_hook_rejects_mismatched_environment() -> Result<()> {
             let executor_address = listener.local_addr()?;
             let executor_url = format!("ws://{executor_address}");
             drop(listener);
-            let runtime_paths = ExecServerRuntimePaths::new(
+            let runtime_paths = ExecServerRuntimeOptions::new(
                 std::env::current_exe()?,
                 /*kodex_linux_sandbox_exe*/ None,
             )?;
@@ -383,6 +383,7 @@ async fn executor_stop_hook_rejects_mismatched_environment() -> Result<()> {
         .await?;
     fixture.wait_for_hook_call().await?;
 
+    let current_config = fixture.test.kodex.config().await;
     let mut mismatched_config = fixture.test.config.clone();
     let mut node_repl = mismatched_config
         .mcp_servers
@@ -396,10 +397,10 @@ async fn executor_stop_hook_rejects_mismatched_environment() -> Result<()> {
             .into_iter()
             .collect(),
     )?;
-    fixture
+    let _ = fixture
         .test
         .kodex
-        .refresh_mcp_config(mismatched_config)
+        .refresh_mcp_config(current_config, mismatched_config)
         .await;
     fixture
         .test
