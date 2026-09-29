@@ -1,21 +1,9 @@
 #![allow(clippy::unwrap_used)]
 
-use kodex_core::TurnInputRequest;
 use core_test_support::test_kodex::local_selections;
+use kodex_core::TurnInputRequest;
 use std::collections::HashMap;
 
-use kodex_features::Feature;
-use kodex_protocol::config_types::CollaborationMode;
-use kodex_protocol::config_types::ModeKind;
-use kodex_protocol::config_types::Settings;
-use kodex_protocol::models::PermissionProfile;
-use kodex_protocol::protocol::AskForApproval;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::Op;
-use kodex_protocol::protocol::ThreadSettingsOverrides;
-use kodex_protocol::request_user_input::RequestUserInputAnswer;
-use kodex_protocol::request_user_input::RequestUserInputResponse;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::TempDirExt;
 use core_test_support::responses;
 use core_test_support::responses::ResponsesRequest;
@@ -32,6 +20,18 @@ use core_test_support::test_kodex::test_kodex;
 use core_test_support::test_kodex::turn_permission_fields;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
+use kodex_features::Feature;
+use kodex_protocol::config_types::CollaborationMode;
+use kodex_protocol::config_types::ModeKind;
+use kodex_protocol::config_types::Settings;
+use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::protocol::AskForApproval;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::Op;
+use kodex_protocol::protocol::ThreadSettingsOverrides;
+use kodex_protocol::request_user_input::RequestUserInputAnswer;
+use kodex_protocol::request_user_input::RequestUserInputResponse;
+use kodex_protocol::user_input::UserInput;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

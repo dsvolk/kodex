@@ -8,6 +8,7 @@ use std::sync::Arc;
 use std::time::Duration;
 use std::time::Instant;
 
+use http::HeaderMap;
 use kodex_api::Provider;
 use kodex_api::RealtimeEventParser;
 use kodex_api::RealtimeOutputModality;
@@ -18,7 +19,6 @@ use kodex_api::RetryConfig;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_protocol::protocol::RealtimeVoice;
-use http::HeaderMap;
 use pretty_assertions::assert_eq;
 
 const ADDRESS_ENV: &str = "KODEX_TEST_REALTIME_TLS_ADDRESS";

@@ -29,6 +29,7 @@ use std::borrow::Cow;
 
 use crate::session::turn_context::TurnContext;
 pub(crate) use approvals::ApprovalContext;
+pub(crate) use executed_tool_calls::ExecutedToolCalls;
 use kodex_features::Feature;
 use kodex_protocol::exec_output::ExecToolCallOutput;
 use kodex_protocol::openai_models::ModelInfo;
@@ -37,7 +38,6 @@ use kodex_tools::ToolName;
 use kodex_utils_output_truncation::TruncationPolicy;
 use kodex_utils_output_truncation::formatted_truncate_text;
 use kodex_utils_output_truncation::truncate_text;
-pub(crate) use executed_tool_calls::ExecutedToolCalls;
 pub(crate) use multi_agent_tool::MULTI_AGENT_V2_NAMESPACE_DESCRIPTION;
 pub use router::ToolRouter;
 

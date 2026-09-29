@@ -4,6 +4,9 @@ use std::time::Duration;
 
 use anyhow::Result;
 use bytes::Bytes;
+use futures::StreamExt;
+use http::HeaderMap;
+use http::StatusCode;
 use kodex_api::AuthProvider;
 use kodex_api::Compression;
 use kodex_api::Provider;
@@ -15,9 +18,6 @@ use kodex_client::Response;
 use kodex_client::StreamResponse;
 use kodex_client::TransportError;
 use kodex_protocol::models::ResponseItem;
-use futures::StreamExt;
-use http::HeaderMap;
-use http::StatusCode;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 

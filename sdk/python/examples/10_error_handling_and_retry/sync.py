@@ -10,8 +10,8 @@ from _bootstrap import ensure_local_sdk_src, runtime_config
 ensure_local_sdk_src()
 
 from openai_kodex import (
-    Kodex,
     JsonRpcError,
+    Kodex,
     ServerBusyError,
     retry_on_overload,
 )

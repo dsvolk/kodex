@@ -1,6 +1,6 @@
-use kodex_api::AuthProvider;
 use http::HeaderMap;
 use http::HeaderValue;
+use kodex_api::AuthProvider;
 
 /// Bearer-token auth provider for OpenAI-compatible model-provider requests.
 #[derive(Clone, Default)]

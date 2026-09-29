@@ -1,8 +1,8 @@
 //! Interceptors can transform incremental events and retain upstream cancellation.
 use super::*;
 use crate::client_common::ResponseStream;
-use kodex_extension_api::ResponseEvent;
 use futures::StreamExt;
+use kodex_extension_api::ResponseEvent;
 use pretty_assertions::assert_eq;
 use std::time::Duration;
 use tokio::sync::mpsc;

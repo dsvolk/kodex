@@ -1,3 +1,4 @@
+use futures::Stream;
 pub use kodex_api::ResponseEvent;
 use kodex_protocol::error::Result;
 use kodex_protocol::models::BaseInstructions;
@@ -8,7 +9,6 @@ use kodex_protocol::models::ImageDetail;
 use kodex_protocol::models::ResponseItem;
 use kodex_protocol::openai_models::ModelInfo;
 use kodex_tools::ToolSpec;
-use futures::Stream;
 use serde_json::Value;
 use std::pin::Pin;
 use std::sync::Arc;

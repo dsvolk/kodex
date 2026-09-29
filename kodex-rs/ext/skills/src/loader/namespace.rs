@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 use std::collections::HashSet;
 
+use futures::StreamExt;
 use kodex_exec_server::EnvironmentAccess;
 use kodex_utils_path_uri::PathUri;
 use kodex_utils_plugins::plugin_namespace_for_root_uri;
-use futures::StreamExt;
 
 use super::discovery::MAX_CONCURRENT_SKILL_LOADS;
 

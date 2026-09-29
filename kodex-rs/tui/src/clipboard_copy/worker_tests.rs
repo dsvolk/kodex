@@ -281,10 +281,10 @@ fn delivery_claim_cannot_be_abandoned() {
 
 #[tokio::test]
 async fn right_click_paste_uses_normal_input_and_discards_stale_reads() {
-    use kodex_config::types::RightClickPaste;
     use crossterm::event::MouseButton;
     use crossterm::event::MouseEvent;
     use crossterm::event::MouseEventKind;
+    use kodex_config::types::RightClickPaste;
     let mut tui = crate::tui::test_support::make_test_tui().unwrap();
     let (started, start_rx) = mpsc::channel();
     let (release, released) = mpsc::channel();

@@ -1,6 +1,8 @@
 //! App-server signaling for TUI-owned realtime WebRTC sessions.
 
 use super::AppServerSession;
+use color_eyre::eyre::Result;
+use color_eyre::eyre::WrapErr;
 use kodex_app_server_protocol::ClientRequest;
 use kodex_app_server_protocol::ThreadRealtimeAppendSpeechParams;
 use kodex_app_server_protocol::ThreadRealtimeAppendSpeechResponse;
@@ -13,8 +15,6 @@ use kodex_protocol::ThreadId;
 use kodex_protocol::protocol::RealtimeConversationVersion;
 use kodex_protocol::protocol::RealtimeOutputModality;
 use kodex_protocol::protocol::RealtimeVoice;
-use color_eyre::eyre::Result;
-use color_eyre::eyre::WrapErr;
 
 impl AppServerSession {
     pub(crate) async fn thread_realtime_start(

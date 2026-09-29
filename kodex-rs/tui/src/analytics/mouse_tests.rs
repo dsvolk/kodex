@@ -2,12 +2,12 @@
 
 use super::*;
 use crate::analytics::controls::Control;
-use kodex_config::types::KeybindingSpec;
-use kodex_config::types::KeybindingsSpec;
-use kodex_config::types::TuiKeymap;
 use crossterm::event::MouseButton;
 use crossterm::event::MouseEvent;
 use crossterm::event::MouseEventKind;
+use kodex_config::types::KeybindingSpec;
+use kodex_config::types::KeybindingsSpec;
+use kodex_config::types::TuiKeymap;
 use pretty_assertions::assert_eq;
 use ratatui::layout::Rect;
 

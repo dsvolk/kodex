@@ -1,3 +1,5 @@
+use http::HeaderMap;
+use http::Method;
 use kodex_api::AuthProvider;
 use kodex_api::ModelsClient;
 use kodex_api::Provider;
@@ -13,8 +15,6 @@ use kodex_protocol::openai_models::ReasoningEffort;
 use kodex_protocol::openai_models::ReasoningEffortPreset;
 use kodex_protocol::openai_models::TruncationPolicyConfig;
 use kodex_protocol::openai_models::default_input_modalities;
-use http::HeaderMap;
-use http::Method;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::sync::Arc;

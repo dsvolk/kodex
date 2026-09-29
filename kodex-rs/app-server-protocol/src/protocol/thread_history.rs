@@ -1788,7 +1788,6 @@ mod tests {
     use kodex_protocol::protocol::AgentReasoningEvent;
     use kodex_protocol::protocol::AgentReasoningRawContentEvent;
     use kodex_protocol::protocol::ApplyPatchApprovalRequestEvent;
-    use kodex_protocol::protocol::KodexErrorInfo;
     use kodex_protocol::protocol::DynamicToolCallResponseEvent;
     use kodex_protocol::protocol::EnteredReviewModeEvent;
     use kodex_protocol::protocol::ExecCommandBeginEvent;
@@ -1796,6 +1795,7 @@ mod tests {
     use kodex_protocol::protocol::ExecCommandSource;
     use kodex_protocol::protocol::ExitedReviewModeEvent;
     use kodex_protocol::protocol::ItemStartedEvent;
+    use kodex_protocol::protocol::KodexErrorInfo;
     use kodex_protocol::protocol::McpInvocation;
     use kodex_protocol::protocol::McpToolCallEndEvent;
     use kodex_protocol::protocol::PatchApplyBeginEvent;

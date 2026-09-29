@@ -11,6 +11,7 @@ use crate::context::ContextualUserFragment;
 use crate::tools::MULTI_AGENT_V2_NAMESPACE_DESCRIPTION;
 use chrono::DateTime;
 use chrono::Utc;
+use futures::future::BoxFuture;
 use kodex_agent_message_board_client::AccessToken;
 use kodex_agent_message_board_client::RemoteAgentMessageBoard;
 use kodex_agent_message_board_extension::AgentMessageBoard;
@@ -29,7 +30,6 @@ use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::error::Result;
 use kodex_protocol::protocol::InterAgentCommunication;
-use futures::future::BoxFuture;
 use std::sync::Arc;
 use std::sync::Weak;
 

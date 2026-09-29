@@ -1,13 +1,13 @@
 //! Active settings keep environment selection and model changes scoped to the running turn.
 
 use super::*;
+use core_test_support::submit_thread_settings;
+use core_test_support::test_kodex::environment_config_for_selection;
 use kodex_config::test_support::CloudConfigBundleFixture;
 use kodex_exec_server::CreateDirectoryOptions;
 use kodex_protocol::models::PermissionProfileSnapshot;
 use kodex_protocol::protocol::EnvironmentConfigState;
 use kodex_protocol::protocol::TurnEnvironmentSelections;
-use core_test_support::submit_thread_settings;
-use core_test_support::test_kodex::environment_config_for_selection;
 use pretty_assertions::assert_eq;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

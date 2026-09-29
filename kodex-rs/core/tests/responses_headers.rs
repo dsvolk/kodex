@@ -1,6 +1,12 @@
 use std::process::Command;
 use std::sync::Arc;
 
+use core_test_support::TestKodexResponsesRequestKind;
+use core_test_support::load_default_config_for_test;
+use core_test_support::responses;
+use core_test_support::responses_metadata as test_responses_metadata;
+use core_test_support::test_kodex::test_kodex;
+use futures::StreamExt;
 use kodex_core::ModelClient;
 use kodex_core::Prompt;
 use kodex_core::ResponseEvent;
@@ -17,12 +23,6 @@ use kodex_protocol::models::ContentItem;
 use kodex_protocol::models::ResponseItem;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
-use core_test_support::TestKodexResponsesRequestKind;
-use core_test_support::load_default_config_for_test;
-use core_test_support::responses;
-use core_test_support::responses_metadata as test_responses_metadata;
-use core_test_support::test_kodex::test_kodex;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 use wiremock::matchers::header;

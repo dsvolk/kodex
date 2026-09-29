@@ -3,8 +3,6 @@
 use super::super::rmcp_client::remote_aware_environment_id;
 use super::super::rmcp_client::remote_aware_stdio_server_bin;
 use anyhow::Result;
-use kodex_features::Feature;
-use kodex_protocol::openai_models::ToolMode;
 use core_test_support::context_snapshot;
 use core_test_support::context_snapshot::ContextSnapshotOptions;
 use core_test_support::responses;
@@ -12,6 +10,8 @@ use core_test_support::skip_if_no_network;
 use core_test_support::skip_if_wine_exec;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_mcp_server;
+use kodex_features::Feature;
+use kodex_protocol::openai_models::ToolMode;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::collections::HashMap;

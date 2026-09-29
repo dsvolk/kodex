@@ -945,6 +945,8 @@ mod tests {
     use axum::Router;
     use axum::routing::get;
     use axum::routing::post;
+    use futures::future::BoxFuture;
+    use http::HeaderMap;
     use kodex_config::McpServerOAuthConfig;
     use kodex_config::types::AuthKeyringBackendKind;
     use kodex_config::types::OAuthCredentialsStoreMode;
@@ -956,8 +958,6 @@ mod tests {
     use kodex_exec_server::RouteAwareHttpClient;
     use kodex_http_client::HttpClientFactory;
     use kodex_http_client::OutboundProxyPolicy;
-    use futures::future::BoxFuture;
-    use http::HeaderMap;
     use oauth2::TokenResponse;
     use pretty_assertions::assert_eq;
     use serde_json::json;

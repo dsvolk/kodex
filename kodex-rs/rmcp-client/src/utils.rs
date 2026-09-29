@@ -1,12 +1,12 @@
 use anyhow::Result;
 use anyhow::anyhow;
-use kodex_config::types::McpServerEnvVar;
-use kodex_network_proxy::CUSTOM_CA_ENV_KEYS;
-use kodex_protocol::shell_environment::is_non_inheritable_env_var;
 use http::HeaderMap;
 use http::HeaderName;
 use http::HeaderValue;
 use http::header::USER_AGENT;
+use kodex_config::types::McpServerEnvVar;
+use kodex_network_proxy::CUSTOM_CA_ENV_KEYS;
+use kodex_protocol::shell_environment::is_non_inheritable_env_var;
 use std::collections::HashMap;
 use std::env;
 use std::ffi::OsString;

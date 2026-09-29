@@ -786,6 +786,9 @@ impl AppServerClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use futures::SinkExt;
+    use futures::StreamExt;
+    use futures::poll;
     use kodex_app_server_protocol::AccountUpdatedNotification;
     use kodex_app_server_protocol::ConfigRequirementsReadResponse;
     use kodex_app_server_protocol::GetAccountResponse;
@@ -805,9 +808,6 @@ mod tests {
     use kodex_protocol::config_types::Personality;
     use kodex_uds::UnixListener;
     use kodex_utils_absolute_path::AbsolutePathBuf;
-    use futures::SinkExt;
-    use futures::StreamExt;
-    use futures::poll;
     use pretty_assertions::assert_eq;
     use std::ops::Deref;
     use std::path::Path;

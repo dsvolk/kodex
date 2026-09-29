@@ -1,20 +1,10 @@
 #![cfg(not(target_os = "windows"))]
 
-use kodex_core::TurnInputRequest;
 use core_test_support::test_kodex::local_selections;
+use kodex_core::TurnInputRequest;
 use std::fs;
 
 use assert_matches::assert_matches;
-use kodex_protocol::config_types::CollaborationMode;
-use kodex_protocol::config_types::ModeKind;
-use kodex_protocol::config_types::Settings;
-use kodex_protocol::items::TurnItem;
-use kodex_protocol::models::PermissionProfile;
-use kodex_protocol::plan_tool::StepStatus;
-use kodex_protocol::protocol::AskForApproval;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::ThreadSettingsOverrides;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::TempDirExt;
 use core_test_support::assert_regex_match;
 use core_test_support::responses;
@@ -31,6 +21,16 @@ use core_test_support::test_kodex::TestKodex;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::test_kodex::turn_permission_fields;
 use core_test_support::wait_for_event;
+use kodex_protocol::config_types::CollaborationMode;
+use kodex_protocol::config_types::ModeKind;
+use kodex_protocol::config_types::Settings;
+use kodex_protocol::items::TurnItem;
+use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::plan_tool::StepStatus;
+use kodex_protocol::protocol::AskForApproval;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::ThreadSettingsOverrides;
+use kodex_protocol::user_input::UserInput;
 use serde_json::Value;
 use serde_json::json;
 fn call_output(req: &ResponsesRequest, call_id: &str) -> (String, Option<bool>) {

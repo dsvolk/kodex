@@ -12,6 +12,7 @@ use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 use std::time::Duration;
 
+use futures::future::join_all;
 use kodex_code_mode::CellId;
 use kodex_code_mode::CodeModeNestedToolCall;
 use kodex_code_mode::CodeModeSession;
@@ -20,7 +21,6 @@ use kodex_code_mode::CodeModeToolKind;
 use kodex_code_mode::RuntimeResponse;
 use kodex_protocol::ThreadId;
 use kodex_protocol::models::FunctionCallOutputContentItem;
-use futures::future::join_all;
 use serde_json::Value as JsonValue;
 use tokio::sync::OnceCell;
 use tokio_util::sync::CancellationToken;

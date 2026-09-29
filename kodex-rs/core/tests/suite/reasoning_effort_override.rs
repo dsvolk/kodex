@@ -1,5 +1,12 @@
 //! Trusted reasoning-effort updates follow surviving history and the next turn's selected settings.
 
+use core_test_support::responses;
+use core_test_support::responses::ResponsesRequest;
+use core_test_support::skip_if_no_network;
+use core_test_support::submit_thread_settings;
+use core_test_support::test_kodex::TestKodexBuilder;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_config::test_support::CloudConfigBundleFixture;
 use kodex_core::ForkSnapshot;
 use kodex_core::RecoverTurnRequest;
@@ -25,13 +32,6 @@ use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::ThreadSettingsOverrides;
 use kodex_protocol::protocol::ThreadSource;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses;
-use core_test_support::responses::ResponsesRequest;
-use core_test_support::skip_if_no_network;
-use core_test_support::submit_thread_settings;
-use core_test_support::test_kodex::TestKodexBuilder;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use std::sync::Arc;

@@ -1,8 +1,8 @@
 //! Compaction checkpoints retain the summary captured after a mid-turn settings update.
 
 use super::*;
-use kodex_history::RolloutItem;
 use core_test_support::responses;
+use kodex_history::RolloutItem;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 

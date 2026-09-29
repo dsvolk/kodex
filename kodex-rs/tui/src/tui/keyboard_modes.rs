@@ -9,12 +9,12 @@
 use std::fmt;
 use std::io::Write;
 
-use kodex_terminal_detection::TerminalName;
-use kodex_terminal_detection::terminal_info;
 use crossterm::Command;
 use crossterm::event::KeyboardEnhancementFlags;
 use crossterm::event::PopKeyboardEnhancementFlags;
 use crossterm::event::PushKeyboardEnhancementFlags;
+use kodex_terminal_detection::TerminalName;
+use kodex_terminal_detection::terminal_info;
 use ratatui::crossterm::execute;
 
 const DISABLE_KEYBOARD_ENHANCEMENT_ENV_VAR: &str = "KODEX_TUI_DISABLE_KEYBOARD_ENHANCEMENT";
@@ -370,9 +370,9 @@ mod tests {
     use super::tmux_session_detected;
     use super::tmux_should_enable_modify_other_keys_for;
     use super::vscode_terminal_detected;
-    use kodex_terminal_detection::TerminalName;
     use crossterm::Command;
     use crossterm::event::PushKeyboardEnhancementFlags;
+    use kodex_terminal_detection::TerminalName;
     use pretty_assertions::assert_eq;
 
     fn ansi_for(command: impl Command) -> String {

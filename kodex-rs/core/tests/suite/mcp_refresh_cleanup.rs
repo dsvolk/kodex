@@ -3,10 +3,6 @@ use std::fs;
 use std::sync::Arc;
 use std::time::Duration;
 
-use kodex_config::DEFAULT_MCP_SERVER_ENVIRONMENT_ID;
-use kodex_config::types::McpServerConfig;
-use kodex_config::types::McpServerTransportConfig;
-use kodex_protocol::protocol::Op;
 use core_test_support::process::process_is_alive;
 use core_test_support::process::wait_for_pid_file;
 use core_test_support::process::wait_for_process_exit;
@@ -15,6 +11,10 @@ use core_test_support::skip_if_no_network;
 use core_test_support::stdio_server_bin;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_mcp_server;
+use kodex_config::DEFAULT_MCP_SERVER_ENVIRONMENT_ID;
+use kodex_config::types::McpServerConfig;
+use kodex_config::types::McpServerTransportConfig;
+use kodex_protocol::protocol::Op;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn refresh_keeps_superseded_mcp_server_alive_for_in_flight_calls() -> anyhow::Result<()> {

@@ -8,13 +8,13 @@ use crate::history_cell::AgentMarkdownCell;
 use crate::history_cell::AgentMessageCell;
 use crate::history_cell::PlainHistoryCell;
 use crate::history_cell::StreamingAgentTailCell;
-use kodex_app_server_protocol::CommandExecutionSource;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyEventKind;
 use crossterm::event::KeyModifiers;
 use crossterm::event::MouseButton;
 use crossterm::event::MouseEvent;
 use crossterm::event::MouseEventKind;
+use kodex_app_server_protocol::CommandExecutionSource;
 use pretty_assertions::assert_eq;
 use std::time::Instant;
 

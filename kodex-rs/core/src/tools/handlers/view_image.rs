@@ -278,6 +278,10 @@ mod tests {
     use crate::tools::context::ToolCallSource;
     use crate::tools::context::ToolInvocation;
     use crate::turn_diff_tracker::TurnDiffTracker;
+    use core_test_support::TempDirExt;
+    use image::ImageBuffer;
+    use image::ImageFormat;
+    use image::Rgba;
     use kodex_protocol::models::PermissionProfile;
     use kodex_protocol::permissions::FileSystemAccessMode;
     use kodex_protocol::permissions::FileSystemSandboxEntry;
@@ -285,10 +289,6 @@ mod tests {
     use kodex_protocol::permissions::NetworkSandboxPolicy;
     use kodex_utils_absolute_path::AbsolutePathBuf;
     use kodex_utils_path_uri::PathUri;
-    use core_test_support::TempDirExt;
-    use image::ImageBuffer;
-    use image::ImageFormat;
-    use image::Rgba;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use std::io::Cursor;

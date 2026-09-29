@@ -1,14 +1,14 @@
 use super::*;
 use crate::app_event::AgentsOverviewAction;
+use core_test_support::responses;
+use core_test_support::streaming_sse::StreamingSseChunk;
+use core_test_support::streaming_sse::start_streaming_sse_server;
 use kodex_app_server_protocol::ClientRequest;
 use kodex_app_server_protocol::RequestId;
 use kodex_app_server_protocol::ThreadLoadedListParams;
 use kodex_app_server_protocol::TurnStartParams;
 use kodex_app_server_protocol::TurnStartResponse;
 use kodex_model_provider_info::ModelProviderInfo;
-use core_test_support::responses;
-use core_test_support::streaming_sse::StreamingSseChunk;
-use core_test_support::streaming_sse::start_streaming_sse_server;
 use pretty_assertions::assert_eq;
 
 #[tokio::test]

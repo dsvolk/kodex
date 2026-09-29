@@ -2,8 +2,6 @@ use std::time::Duration;
 
 use anyhow::Result;
 use anyhow::anyhow;
-use kodex_features::Feature;
-use kodex_login::KodexAuth;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
 use core_test_support::responses::ev_function_call_with_namespace;
@@ -12,6 +10,8 @@ use core_test_support::responses::mount_sse_once_match;
 use core_test_support::responses::sse;
 use core_test_support::responses::start_mock_server;
 use core_test_support::test_kodex::test_kodex;
+use kodex_features::Feature;
+use kodex_login::KodexAuth;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
@@ -161,9 +161,9 @@ async fn api_key_subagent_uses_session_id_as_prompt_cache_key() -> Result<()> {
 
 #[tokio::test]
 async fn ephemeral_fork_shares_cache_routing_but_keeps_session_identity() -> Result<()> {
+    use core_test_support::responses::mount_sse_sequence;
     use kodex_core::ForkSnapshot;
     use kodex_core::StartThreadOptions;
-    use core_test_support::responses::mount_sse_sequence;
 
     let server = start_mock_server().await;
     let requests = mount_sse_sequence(

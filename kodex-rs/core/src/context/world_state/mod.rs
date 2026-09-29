@@ -18,13 +18,13 @@ mod test_support;
 mod tools;
 
 use crate::context::ContextualUserFragment;
+use indexmap::IndexMap;
 use kodex_extension_api::PreviousWorldStateSection;
 use kodex_extension_api::RenderedWorldStateFragment;
 use kodex_extension_api::WorldStateSectionContribution;
 use kodex_protocol::models::ContentItem;
 use kodex_protocol::models::ContentItemKind;
 use kodex_protocol::models::ResponseItem;
-use indexmap::IndexMap;
 use serde::Deserialize;
 use serde::Serialize;
 use serde::de::DeserializeOwned;

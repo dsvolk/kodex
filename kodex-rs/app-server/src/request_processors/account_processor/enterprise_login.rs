@@ -3,12 +3,12 @@
 //! The credential store separately fences logins invalidated by another process.
 
 use super::*;
+use futures::FutureExt;
 use kodex_config::McpEmaRegistration;
 use kodex_config::types::AuthKeyringBackendKind;
 use kodex_mcp::ema_auth_scope;
 use kodex_rmcp_client::EnterpriseOAuthLoginRequest;
 use kodex_rmcp_client::perform_enterprise_oauth_login_return_url;
-use futures::FutureExt;
 use tokio::sync::watch;
 
 pub(crate) struct EnterpriseLoginTarget {

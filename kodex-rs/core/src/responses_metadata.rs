@@ -2,6 +2,8 @@ use std::collections::BTreeMap;
 use std::collections::HashMap;
 use std::io::ErrorKind;
 
+use http::HeaderMap as ApiHeaderMap;
+use http::HeaderValue;
 use kodex_analytics::CompactionImplementation;
 use kodex_analytics::CompactionPhase;
 use kodex_analytics::CompactionReason;
@@ -15,8 +17,6 @@ use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::ThreadSource;
 use kodex_utils_string::to_ascii_json_string;
 use kodex_utils_string::to_json_string_bounded;
-use http::HeaderMap as ApiHeaderMap;
-use http::HeaderValue;
 use serde::Serialize;
 use serde_json::Value;
 use uuid::Uuid;

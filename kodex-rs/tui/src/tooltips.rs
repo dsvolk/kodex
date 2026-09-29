@@ -16,7 +16,7 @@ use std::path::Path;
 mod keybinding_tests;
 
 const ANNOUNCEMENT_TIP_URL: &str =
-    "https://raw.githubusercontent.com/openai/kodex/main/announcement_tip.toml";
+    "https://raw.githubusercontent.com/dsvolk/kodex/main/announcement_tip.toml";
 
 const IS_MACOS: bool = cfg!(target_os = "macos");
 const IS_WINDOWS: bool = cfg!(target_os = "windows");

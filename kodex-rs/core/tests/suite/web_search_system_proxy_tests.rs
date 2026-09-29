@@ -1,6 +1,11 @@
 //! Standalone web search must resolve the configured route for every redirect destination.
 
 use anyhow::Result;
+use core_test_support::responses;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
+use http::HeaderMap;
+use http::StatusCode;
 use kodex_core::config::Config;
 use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_features::Feature;
@@ -9,11 +14,6 @@ use kodex_login::KodexAuth;
 use kodex_models_manager::bundled_models_response;
 use kodex_protocol::config_types::WebSearchMode;
 use kodex_web_search_extension::install as install_web_search_extension;
-use core_test_support::responses;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
-use http::HeaderMap;
-use http::StatusCode;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::sync::Arc;

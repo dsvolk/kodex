@@ -268,11 +268,12 @@ checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
 
 [[package]]
 name = "app_test_support"
-version = "0.0.0"
+version = "0.156.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
  "chrono",
+ "core_test_support",
  "kodex-app-server-protocol",
  "kodex-config",
  "kodex-core",
@@ -282,7 +283,6 @@ dependencies = [
  "kodex-model-provider",
  "kodex-protocol",
  "kodex-utils-cargo-bin",
- "core_test_support",
  "pretty_assertions",
  "serde",
  "serde_json",
@@ -1892,3456 +1892,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "kodex-agent-extension"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-core",
- "kodex-protocol",
- "core_test_support",
- "pretty_assertions",
- "tokio",
-]
-
-[[package]]
-name = "kodex-agent-graph-store"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "kodex-state",
- "kodex-utils-absolute-path",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
-]
-
-[[package]]
-name = "kodex-agent-identity"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "chrono",
- "kodex-http-client",
- "kodex-protocol",
- "crypto_box",
- "ed25519-dalek",
- "http 1.4.0",
- "jsonwebtoken",
- "pretty_assertions",
- "rand 0.9.3",
- "serde",
- "serde_json",
- "sha2 0.10.9",
-]
-
-[[package]]
-name = "kodex-agent-message-board-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-agent-message-board-extension",
- "kodex-http-client",
- "kodex-protocol",
- "eventsource-stream",
- "futures",
- "http 1.4.0",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tokio",
- "url",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-agent-message-board-extension"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "caseless",
- "chrono",
- "kodex-extension-api",
- "kodex-protocol",
- "kodex-state",
- "kodex-tools",
- "kodex-utils-output-truncation",
- "futures",
- "pretty_assertions",
- "serde",
- "serde_json",
- "sqlx",
- "tempfile",
- "tokio",
- "tracing",
- "uuid",
-]
-
-[[package]]
-name = "kodex-agent-roles"
-version = "0.0.0"
-dependencies = [
- "kodex-config",
- "kodex-file-system",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "serde",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
-]
-
-[[package]]
-name = "kodex-analytics"
-version = "0.0.0"
-dependencies = [
- "kodex-app-server-protocol",
- "kodex-git-utils",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-state",
- "kodex-utils-absolute-path",
- "os_info",
- "pretty_assertions",
- "serde",
- "serde_json",
- "sha1 0.10.6",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-ansi-escape"
-version = "0.0.0"
-dependencies = [
- "ansi-to-tui",
- "ratatui",
- "tracing",
-]
-
-[[package]]
-name = "kodex-api"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_matches",
- "async-channel",
- "base64 0.22.1",
- "bytes",
- "chrono",
- "kodex-client",
- "kodex-http-client",
- "kodex-protocol",
- "kodex-utils-rustls-provider",
- "kodex-websocket-client",
- "eventsource-stream",
- "futures",
- "http 1.4.0",
- "pretty_assertions",
- "rcgen",
- "regex-lite",
- "rustls",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tokio-test",
- "tokio-tungstenite",
- "tokio-util",
- "tracing",
- "tungstenite",
- "url",
- "uuid",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-app-server"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "app_test_support",
- "axum",
- "base64 0.22.1",
- "chrono",
- "clap",
- "kodex-agent-extension",
- "kodex-analytics",
- "kodex-app-server-protocol",
- "kodex-app-server-transport",
- "kodex-arg0",
- "kodex-aws-auth",
- "kodex-backend-client",
- "kodex-chatgpt",
- "kodex-cloud-config",
- "kodex-code-mode",
- "kodex-config",
- "kodex-connectors",
- "kodex-core",
- "kodex-core-plugins",
- "kodex-diagnostics",
- "kodex-exec-server",
- "kodex-extension-api",
- "kodex-external-agent-migration",
- "kodex-features",
- "kodex-feedback",
- "kodex-file-search",
- "kodex-file-watcher",
- "kodex-git-attribution",
- "kodex-git-utils",
- "kodex-goal-extension",
- "kodex-guardian-v2",
- "kodex-history-notes-extension",
- "kodex-home",
- "kodex-hooks",
- "kodex-http-client",
- "kodex-image-generation-extension",
- "kodex-login",
- "kodex-mcp",
- "kodex-mcp-extension",
- "kodex-memories-extension",
- "kodex-memories-write",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-models-manager",
- "kodex-network-proxy",
- "kodex-otel",
- "kodex-plugin",
- "kodex-prompts",
- "kodex-protocol",
- "kodex-queue-extension",
- "kodex-rmcp-client",
- "kodex-rollout",
- "kodex-sandboxing",
- "kodex-shell-command",
- "kodex-skills",
- "kodex-skills-extension",
- "kodex-state",
- "kodex-thread-store",
- "kodex-tools",
- "kodex-uds",
- "kodex-user-verification",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-cli",
- "kodex-utils-json-to-toml",
- "kodex-utils-path-uri",
- "kodex-utils-process",
- "kodex-utils-pty",
- "kodex-web-search-extension",
- "kodex-websocket-auth",
- "kodex-windows-sandbox",
- "core_test_support",
- "flate2",
- "futures",
- "hmac 0.12.1",
- "http 1.4.0",
- "keyring",
- "opentelemetry",
- "opentelemetry_sdk",
- "pretty_assertions",
- "rcgen",
- "rmcp",
- "serde",
- "serde_json",
- "serial_test",
- "sha2 0.10.9",
- "shlex",
- "sqlx",
- "tar",
- "tempfile",
- "test-case",
- "thiserror 2.0.18",
- "tikv-jemallocator",
- "time",
- "tokio",
- "tokio-rustls",
- "tokio-tungstenite",
- "tokio-util",
- "toml 0.9.11+spec-1.1.0",
- "toml_edit 0.24.0+spec-1.1.0",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
- "url",
- "uuid",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-app-server-client"
-version = "0.0.0"
-dependencies = [
- "kodex-app-server",
- "kodex-app-server-protocol",
- "kodex-arg0",
- "kodex-config",
- "kodex-core",
- "kodex-exec-server",
- "kodex-feedback",
- "kodex-protocol",
- "kodex-uds",
- "kodex-utils-absolute-path",
- "kodex-utils-rustls-provider",
- "futures",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tokio-tungstenite",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "kodex-app-server-daemon"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "blake3",
- "kodex-app-server-protocol",
- "kodex-app-server-transport",
- "kodex-http-client",
- "kodex-install-context",
- "kodex-uds",
- "kodex-utils-home-dir",
- "futures",
- "libc",
- "pretty_assertions",
- "semver",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tokio-tungstenite",
- "tracing",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-app-server-protocol"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-app-server-protocol-noop-macros",
- "kodex-experimental-api-macros",
- "kodex-extension-items",
- "kodex-history",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-secrets",
- "kodex-shell-command",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-path-uri",
- "kodex-utils-redacted-string",
- "inventory",
- "pretty_assertions",
- "rmcp",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "serde_with",
- "similar",
- "strum_macros 0.28.0",
- "tempfile",
- "thiserror 2.0.18",
- "tracing",
- "ts-rs",
- "uuid",
- "zstd",
-]
-
-[[package]]
-name = "kodex-app-server-protocol-noop-macros"
-version = "0.0.0"
-
-[[package]]
-name = "kodex-app-server-test-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-app-server-protocol",
- "kodex-core",
- "kodex-otel",
- "kodex-protocol",
- "kodex-utils-cli",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "tungstenite",
- "url",
- "uuid",
-]
-
-[[package]]
-name = "kodex-app-server-transport"
-version = "0.0.0"
-dependencies = [
- "axum",
- "base64 0.22.1",
- "chrono",
- "kodex-api",
- "kodex-app-server-protocol",
- "kodex-config",
- "kodex-core",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-protocol",
- "kodex-state",
- "kodex-uds",
- "kodex-utils-absolute-path",
- "kodex-utils-rustls-provider",
- "kodex-websocket-auth",
- "kodex-websocket-client",
- "futures",
- "gethostname",
- "httpdate",
- "libc",
- "owo-colors",
- "pretty_assertions",
- "rand 0.9.3",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "signal-hook",
- "tempfile",
- "time",
- "tokio",
- "tokio-tungstenite",
- "tokio-util",
- "tracing",
- "url",
- "uuid",
-]
-
-[[package]]
-name = "kodex-apply-patch"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "assert_matches",
- "kodex-exec-server",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-path-uri",
- "pretty_assertions",
- "similar",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tree-sitter",
- "tree-sitter-bash",
-]
-
-[[package]]
-name = "kodex-arg0"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-apply-patch",
- "kodex-async-utils",
- "kodex-exec-server",
- "kodex-install-context",
- "kodex-linux-sandbox",
- "kodex-sandboxing",
- "kodex-shell-escalation",
- "kodex-utils-absolute-path",
- "kodex-utils-home-dir",
- "kodex-utils-pty",
- "kodex-windows-sandbox",
- "dotenvy",
- "pathdiff",
- "pretty_assertions",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "kodex-async-utils"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "rand 0.9.3",
- "tokio",
- "tokio-util",
-]
-
-[[package]]
-name = "kodex-attachment-store"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "serde",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-aws-auth"
-version = "0.0.0"
-dependencies = [
- "aws-config",
- "aws-credential-types",
- "aws-sigv4",
- "aws-smithy-runtime-api",
- "aws-smithy-types",
- "aws-types",
- "bytes",
- "kodex-http-client",
- "kodex-utils-rustls-provider",
- "http 1.4.0",
- "http-body 1.0.1",
- "http-body-util",
- "pretty_assertions",
- "rcgen",
- "rustls",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tokio-rustls",
- "url",
-]
-
-[[package]]
-name = "kodex-backend-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-api",
- "kodex-backend-openapi-models",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-protocol",
- "http 1.4.0",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tokio",
- "url",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-backend-openapi-models"
-version = "0.0.0"
-dependencies = [
- "serde",
- "serde_json",
- "serde_with",
-]
-
-[[package]]
-name = "kodex-build-info"
-version = "0.0.0"
-dependencies = [
- "kodex-install-context",
- "pretty_assertions",
- "semver",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
-]
-
-[[package]]
-name = "kodex-bwrap"
-version = "0.0.0"
-dependencies = [
- "cc",
- "libc",
- "pkg-config",
-]
-
-[[package]]
-name = "kodex-chatgpt"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-connectors",
- "kodex-core",
- "kodex-git-utils",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-plugin",
- "kodex-utils-cargo-bin",
- "kodex-utils-cli",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "kodex-cli"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "app_test_support",
- "assert_cmd",
- "assert_matches",
- "chrono",
- "clap",
- "clap_complete",
- "kodex-api",
- "kodex-app-server",
- "kodex-app-server-daemon",
- "kodex-app-server-protocol",
- "kodex-app-server-test-client",
- "kodex-arg0",
- "kodex-aws-auth",
- "kodex-build-info",
- "kodex-chatgpt",
- "kodex-cloud-config",
- "kodex-cloud-tasks",
- "kodex-config",
- "kodex-core",
- "kodex-core-plugins",
- "kodex-exec",
- "kodex-exec-server",
- "kodex-execpolicy",
- "kodex-extension-api",
- "kodex-features",
- "kodex-git-attribution",
- "kodex-git-utils",
- "kodex-history",
- "kodex-home",
- "kodex-http-client",
- "kodex-install-context",
- "kodex-login",
- "kodex-mcp",
- "kodex-memories-write",
- "kodex-model-provider",
- "kodex-models-manager",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-responses-api-proxy",
- "kodex-rmcp-client",
- "kodex-rollout",
- "kodex-rollout-trace",
- "kodex-sandboxing",
- "kodex-skills-extension",
- "kodex-state",
- "kodex-stdio-to-uds",
- "kodex-tcp-tunnel",
- "kodex-terminal-detection",
- "kodex-thread-store",
- "kodex-tui",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-cli",
- "kodex-utils-path",
- "kodex-utils-path-uri",
- "kodex-utils-process",
- "kodex-utils-pty",
- "kodex-utils-redacted-string",
- "kodex-websocket-auth",
- "kodex-windows-sandbox",
- "crossterm",
- "flate2",
- "futures",
- "http 1.4.0",
- "insta",
- "jsonwebtoken",
- "libc",
- "os_info",
- "owo-colors",
- "predicates",
- "pretty_assertions",
- "regex-lite",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "sqlx",
- "supports-color 3.0.2",
- "sys-locale",
- "tar",
- "tempfile",
- "tikv-jemallocator",
- "tokio",
- "tokio-tungstenite",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
- "tracing-appender",
- "tracing-subscriber",
- "unicode-segmentation",
- "url",
- "vt100",
- "which 8.0.0",
- "windows-sys 0.52.0",
- "wiremock",
- "zstd",
-]
-
-[[package]]
-name = "kodex-client"
-version = "0.0.0"
-dependencies = [
- "kodex-http-client",
- "eventsource-stream",
- "futures",
- "http 1.4.0",
- "rand 0.9.3",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "kodex-cloud-config"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "chrono",
- "kodex-agent-identity",
- "kodex-async-utils",
- "kodex-backend-client",
- "kodex-config",
- "kodex-core",
- "kodex-http-client",
- "kodex-login",
- "kodex-otel",
- "kodex-protocol",
- "hmac 0.12.1",
- "pretty_assertions",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-cloud-tasks"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "clap",
- "kodex-cloud-tasks-client",
- "kodex-cloud-tasks-mock-client",
- "kodex-core",
- "kodex-git-utils",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-tui",
- "kodex-utils-cli",
- "crossterm",
- "http 1.4.0",
- "insta",
- "owo-colors",
- "pretty_assertions",
- "ratatui",
- "serde",
- "serde_json",
- "supports-color 3.0.2",
- "tokio",
- "tokio-stream",
- "tracing",
- "tracing-subscriber",
- "unicode-segmentation",
- "unicode-width 0.2.1",
-]
-
-[[package]]
-name = "kodex-cloud-tasks-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-api",
- "kodex-backend-client",
- "kodex-git-utils",
- "kodex-http-client",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "kodex-cloud-tasks-mock-client"
-version = "0.0.0"
-dependencies = [
- "chrono",
- "kodex-cloud-tasks-client",
- "diffy",
-]
-
-[[package]]
-name = "kodex-code-mode"
-version = "0.0.0"
-dependencies = [
- "kodex-code-mode-protocol",
- "kodex-http-client",
- "kodex-install-context",
- "kodex-otel",
- "kodex-protocol",
- "futures",
- "http-body-util",
- "pretty_assertions",
- "prost",
- "reqwest 0.12.28",
- "serde_json",
- "tokio",
- "tokio-util",
- "tonic",
- "tower",
- "tracing",
- "uuid",
-]
-
-[[package]]
-name = "kodex-code-mode-host"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "axum",
- "clap",
- "kodex-code-mode",
- "kodex-code-mode-protocol",
- "kodex-code-mode-runtime",
- "kodex-http-client",
- "kodex-otel",
- "kodex-otel-trace-websocket",
- "kodex-protocol",
- "kodex-utils-cargo-bin",
- "futures",
- "pretty_assertions",
- "prost",
- "serde_json",
- "tempfile",
- "tokio",
- "tokio-stream",
- "tokio-util",
- "tonic",
- "tracing",
- "tracing-subscriber",
- "uuid",
-]
-
-[[package]]
-name = "kodex-code-mode-protocol"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "glob",
- "pretty_assertions",
- "prost",
- "protoc-bin-vendored",
- "serde",
- "serde_json",
- "tokio",
- "tokio-util",
- "tonic",
- "tonic-prost",
- "tonic-prost-build",
-]
-
-[[package]]
-name = "kodex-code-mode-runtime"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-code-mode-protocol",
- "kodex-protocol",
- "deno_core_icudata",
- "futures",
- "opentelemetry",
- "pretty_assertions",
- "serde_json",
- "tokio",
- "tokio-util",
- "tracing",
- "v8",
-]
-
-[[package]]
-name = "kodex-collaboration-mode-templates"
-version = "0.0.0"
-
-[[package]]
-name = "kodex-config"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "kodex-execpolicy",
- "kodex-features",
- "kodex-file-system",
- "kodex-git-utils",
- "kodex-model-provider-info",
- "kodex-network-proxy",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path",
- "kodex-utils-path-uri",
- "kodex-utils-redacted-string",
- "kodex-windows-sandbox",
- "core-foundation 0.9.4",
- "dns-lookup",
- "dunce",
- "futures",
- "gethostname",
- "indexmap 2.14.0",
- "libc",
- "multimap",
- "pretty_assertions",
- "prost",
- "regex-lite",
- "schemars 0.8.22",
- "serde",
- "serde_ignored",
- "serde_json",
- "serde_path_to_error",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tokio-stream",
- "toml 0.9.11+spec-1.1.0",
- "toml_edit 0.24.0+spec-1.1.0",
- "tonic",
- "tonic-prost",
- "tonic-prost-build",
- "tracing",
- "wildmatch",
- "winapi-util",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-config-schema"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-config",
-]
-
-[[package]]
-name = "kodex-connectors"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "arc-swap",
- "kodex-config",
- "kodex-login",
- "kodex-otel",
- "kodex-plugin",
- "kodex-protocol",
- "indexmap 2.14.0",
- "pretty_assertions",
- "serde",
- "serde_json",
- "sha1 0.10.6",
- "tempfile",
- "tokio",
- "tracing",
- "urlencoding",
-]
-
-[[package]]
-name = "kodex-connectors-extension"
-version = "0.0.0"
-dependencies = [
- "kodex-connectors",
- "kodex-core-plugins",
- "kodex-file-system",
- "kodex-plugin",
- "kodex-utils-path-uri",
- "serde_json",
- "thiserror 2.0.18",
- "tracing",
-]
-
-[[package]]
-name = "kodex-context-fragments"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "kodex-utils-string",
- "pretty_assertions",
- "serde_json",
-]
-
-[[package]]
-name = "kodex-core"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "arc-swap",
- "assert_cmd",
- "assert_matches",
- "async-channel",
- "base64 0.22.1",
- "bm25",
- "chrono",
- "kodex-agent-graph-store",
- "kodex-agent-message-board-client",
- "kodex-agent-message-board-extension",
- "kodex-agent-roles",
- "kodex-analytics",
- "kodex-api",
- "kodex-app-server-protocol",
- "kodex-apply-patch",
- "kodex-async-utils",
- "kodex-attachment-store",
- "kodex-client",
- "kodex-code-mode",
- "kodex-config",
- "kodex-connectors",
- "kodex-context-fragments",
- "kodex-core-plugins",
- "kodex-diagnostics",
- "kodex-exec-server",
- "kodex-exec-server-test-support",
- "kodex-execpolicy",
- "kodex-extension-api",
- "kodex-extension-items",
- "kodex-features",
- "kodex-feedback",
- "kodex-file-system",
- "kodex-git-utils",
- "kodex-guardian-context",
- "kodex-guardian-reviewer",
- "kodex-history",
- "kodex-home",
- "kodex-hooks",
- "kodex-http-client",
- "kodex-image-generation-extension",
- "kodex-install-context",
- "kodex-login",
- "kodex-mcp",
- "kodex-memories-read",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-models-manager",
- "kodex-network-proxy",
- "kodex-otel",
- "kodex-plugin",
- "kodex-prompts",
- "kodex-protocol",
- "kodex-response-debug-context",
- "kodex-rmcp-client",
- "kodex-rollout",
- "kodex-rollout-trace",
- "kodex-sandboxing",
- "kodex-shell-command",
- "kodex-shell-escalation",
- "kodex-skills",
- "kodex-skills-extension",
- "kodex-state",
- "kodex-terminal-detection",
- "kodex-test-binary-support",
- "kodex-thread-store",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-audio",
- "kodex-utils-cache",
- "kodex-utils-cargo-bin",
- "kodex-utils-git-discovery",
- "kodex-utils-home-dir",
- "kodex-utils-image",
- "kodex-utils-output-truncation",
- "kodex-utils-path",
- "kodex-utils-path-uri",
- "kodex-utils-plugins",
- "kodex-utils-process",
- "kodex-utils-pty",
- "kodex-utils-redacted-string",
- "kodex-utils-stream-parser",
- "kodex-utils-string",
- "kodex-web-search-extension",
- "kodex-windows-sandbox",
- "core_test_support",
- "ctor 0.6.3",
- "dirs",
- "dunce",
- "eventsource-stream",
- "futures",
- "http 1.4.0",
- "iana-time-zone",
- "image",
- "indexmap 2.14.0",
- "insta",
- "libc",
- "maplit",
- "once_cell",
- "openssl-sys",
- "opentelemetry",
- "opentelemetry_sdk",
- "predicates",
- "pretty_assertions",
- "rand 0.9.3",
- "regex-lite",
- "rmcp",
- "serde",
- "serde_json",
- "serial_test",
- "sha1 0.10.6",
- "shlex",
- "similar",
- "tempfile",
- "test-case",
- "test-log",
- "thiserror 2.0.18",
- "tokio",
- "tokio-tungstenite",
- "tokio-util",
- "toml 0.9.11+spec-1.1.0",
- "toml_edit 0.24.0+spec-1.1.0",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
- "tracing-test",
- "url",
- "uuid",
- "walkdir",
- "which 8.0.0",
- "whoami 1.6.1",
- "wiremock",
- "zstd",
-]
-
-[[package]]
-name = "kodex-core-api"
-version = "0.0.0"
-dependencies = [
- "kodex-analytics",
- "kodex-app-server-protocol",
- "kodex-arg0",
- "kodex-config",
- "kodex-core",
- "kodex-exec-server",
- "kodex-extension-api",
- "kodex-features",
- "kodex-history",
- "kodex-home",
- "kodex-image-generation-extension",
- "kodex-login",
- "kodex-model-provider-info",
- "kodex-models-manager",
- "kodex-protocol",
- "kodex-state",
- "kodex-utils-absolute-path",
-]
-
-[[package]]
-name = "kodex-core-plugin-common"
-version = "0.0.0"
-dependencies = [
- "kodex-utils-absolute-path",
- "semver",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "kodex-core-plugins"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-analytics",
- "kodex-app-server-protocol",
- "kodex-config",
- "kodex-connectors",
- "kodex-core-plugin-common",
- "kodex-exec-server",
- "kodex-exec-server-test-support",
- "kodex-git-utils",
- "kodex-hooks",
- "kodex-http-client",
- "kodex-login",
- "kodex-mcp",
- "kodex-model-provider",
- "kodex-otel",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-shell-command",
- "kodex-skills",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-path",
- "kodex-utils-path-uri",
- "kodex-utils-plugins",
- "kodex-utils-process",
- "dirs",
- "flate2",
- "futures",
- "http 1.4.0",
- "libc",
- "pretty_assertions",
- "regex",
- "serde",
- "serde_json",
- "serde_with",
- "serde_yaml",
- "sha2 0.10.9",
- "tar",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
- "tracing-subscriber",
- "tracing-test",
- "url",
- "uuid",
- "wiremock",
- "zip",
-]
-
-[[package]]
-name = "kodex-diagnostics"
-version = "0.0.0"
-dependencies = [
- "libc",
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-exec"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "clap",
- "kodex-app-server-client",
- "kodex-app-server-protocol",
- "kodex-apply-patch",
- "kodex-arg0",
- "kodex-cloud-config",
- "kodex-config",
- "kodex-core",
- "kodex-features",
- "kodex-feedback",
- "kodex-git-utils",
- "kodex-history",
- "kodex-login",
- "kodex-model-provider-info",
- "kodex-otel",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-cli",
- "kodex-utils-oss",
- "kodex-utils-path-uri",
- "kodex-utils-sandbox-summary",
- "kodex-worktree",
- "core_test_support",
- "libc",
- "opentelemetry",
- "opentelemetry_sdk",
- "owo-colors",
- "predicates",
- "pretty_assertions",
- "serde",
- "serde_json",
- "supports-color 3.0.2",
- "tempfile",
- "tokio",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
- "ts-rs",
- "uuid",
- "walkdir",
- "wiremock",
- "zstd",
-]
-
-[[package]]
-name = "kodex-exec-server"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "arc-swap",
- "axum",
- "base64 0.22.1",
- "bytes",
- "clatter",
- "kodex-api",
- "kodex-build-info",
- "kodex-config",
- "kodex-core-plugin-common",
- "kodex-exec-server-protocol",
- "kodex-exec-server-test-support",
- "kodex-file-system",
- "kodex-file-watcher",
- "kodex-http-client",
- "kodex-network-proxy",
- "kodex-otel",
- "kodex-protocol",
- "kodex-sandboxing",
- "kodex-shell-command",
- "kodex-skills",
- "kodex-test-binary-support",
- "kodex-uds",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-home-dir",
- "kodex-utils-path-uri",
- "kodex-utils-process",
- "kodex-utils-pty",
- "kodex-utils-redacted-string",
- "kodex-utils-rustls-provider",
- "kodex-websocket-auth",
- "kodex-websocket-client",
- "ctor 0.6.3",
- "dirs",
- "futures",
- "http 1.4.0",
- "libc",
- "opentelemetry",
- "opentelemetry_sdk",
- "pretty_assertions",
- "prost",
- "rcgen",
- "rustix 1.1.4",
- "rustls",
- "serde",
- "serde_json",
- "serial_test",
- "tempfile",
- "test-case",
- "thiserror 2.0.18",
- "tokio",
- "tokio-tungstenite",
- "tokio-util",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
- "url",
- "uuid",
- "windows-sys 0.52.0",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-exec-server-protocol"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-file-system",
- "kodex-mxc-sandbox",
- "kodex-network-proxy",
- "kodex-protocol",
- "kodex-shell-command",
- "kodex-utils-path-uri",
- "pretty_assertions",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "kodex-exec-server-test-support"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-exec-server",
- "kodex-http-client",
- "futures",
- "prost",
- "serde_json",
- "tokio",
- "tokio-tungstenite",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-execpolicy"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-utils-absolute-path",
- "multimap",
- "pretty_assertions",
- "serde",
- "serde_json",
- "shlex",
- "starlark",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
-]
-
-[[package]]
-name = "kodex-experimental-api-macros"
-version = "0.0.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "kodex-extension-api"
-version = "0.0.0"
-dependencies = [
- "kodex-api",
- "kodex-config",
- "kodex-context-fragments",
- "kodex-exec-server-protocol",
- "kodex-file-system",
- "kodex-guardian-context",
- "kodex-history",
- "kodex-mcp",
- "kodex-protocol",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "futures",
- "pretty_assertions",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "kodex-extension-items"
-version = "0.0.0"
-dependencies = [
- "kodex-utils-absolute-path",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "ts-rs",
-]
-
-[[package]]
-name = "kodex-external-agent-migration"
-version = "0.0.0"
-dependencies = [
- "chrono",
- "kodex-analytics",
- "kodex-app-server-protocol",
- "kodex-config",
- "kodex-core",
- "kodex-core-plugins",
- "kodex-hooks",
- "kodex-login",
- "kodex-memories-write",
- "kodex-otel",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-thread-store",
- "kodex-utils-output-truncation",
- "pretty_assertions",
- "serde",
- "serde_json",
- "serde_yaml",
- "sha2 0.10.9",
- "tempfile",
- "tokio",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
-]
-
-[[package]]
-name = "kodex-features"
-version = "0.0.0"
-dependencies = [
- "kodex-network-proxy",
- "kodex-protocol",
- "kodex-utils-redacted-string",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
-]
-
-[[package]]
-name = "kodex-feedback"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "bytes",
- "kodex-http-client",
- "kodex-login",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-state",
- "flate2",
- "http 1.4.0",
- "httpdate",
- "log",
- "mime_guess",
- "pretty_assertions",
- "sentry",
- "serde_json",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-file-search"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "crossbeam-channel",
- "ignore",
- "nucleo",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "kodex-file-system"
-version = "0.0.0"
-dependencies = [
- "bytes",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "futures",
- "serde",
-]
-
-[[package]]
-name = "kodex-file-watcher"
-version = "0.0.0"
-dependencies = [
- "notify",
- "pretty_assertions",
- "tempfile",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-git-attribution"
-version = "0.0.0"
-dependencies = [
- "kodex-backend-client",
- "kodex-extension-api",
- "kodex-http-client",
- "kodex-login",
- "serde_json",
- "tokio",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-git-utils"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-file-system",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "kodex-utils-process",
- "kodex-utils-pty",
- "futures",
- "gix",
- "once_cell",
- "pretty_assertions",
- "regex",
- "schemars 0.8.22",
- "serde",
- "similar",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "ts-rs",
- "walkdir",
-]
-
-[[package]]
-name = "kodex-goal-extension"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-analytics",
- "kodex-core",
- "kodex-extension-api",
- "kodex-otel",
- "kodex-prompts",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-state",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-template",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-guardian-context"
-version = "0.0.0"
-dependencies = [
- "kodex-context-fragments",
- "kodex-history",
- "kodex-protocol",
- "pretty_assertions",
- "serde_json",
-]
-
-[[package]]
-name = "kodex-guardian-reviewer"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-analytics",
- "kodex-extension-api",
- "kodex-feedback",
- "kodex-guardian-context",
- "kodex-mcp",
- "kodex-otel",
- "kodex-prompts",
- "kodex-protocol",
- "opentelemetry",
- "opentelemetry_sdk",
- "pretty_assertions",
- "rand 0.9.3",
- "serde",
- "serde_json",
- "test-case",
- "tokio",
- "tokio-util",
- "tracing",
-]
-
-[[package]]
-name = "kodex-guardian-v2"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-analytics",
- "kodex-api",
- "kodex-config",
- "kodex-context-fragments",
- "kodex-core",
- "kodex-extension-api",
- "kodex-features",
- "kodex-guardian-context",
- "kodex-guardian-reviewer",
- "kodex-history",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-prompts",
- "kodex-protocol",
- "kodex-utils-cargo-bin",
- "core_test_support",
- "dirs",
- "http 1.4.0",
- "pretty_assertions",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "uuid",
- "wiremock",
- "zstd",
-]
-
-[[package]]
-name = "kodex-history"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-protocol",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "kodex-history-notes-extension"
-version = "0.0.0"
-dependencies = [
- "kodex-analytics",
- "kodex-client",
- "kodex-config",
- "kodex-core",
- "kodex-extension-api",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-protocol",
- "kodex-tools",
- "kodex-utils-output-truncation",
- "core_test_support",
- "http 1.4.0",
- "pretty_assertions",
- "serde_json",
- "tempfile",
- "tokio",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-home"
-version = "0.0.0"
-dependencies = [
- "kodex-extension-api",
- "kodex-utils-absolute-path",
- "pretty_assertions",
- "tempfile",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-hooks"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "async-channel",
- "chrono",
- "kodex-config",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-output-truncation",
- "kodex-utils-path-uri",
- "kodex-utils-process",
- "kodex-utils-pty",
- "futures",
- "libc",
- "pretty_assertions",
- "regex",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing",
- "uuid",
-]
-
-[[package]]
-name = "kodex-http-client"
-version = "0.0.0"
-dependencies = [
- "bytes",
- "kodex-utils-cargo-bin",
- "kodex-utils-rustls-provider",
- "futures",
- "http 1.4.0",
- "http-body 1.0.1",
- "httpdate",
- "native-tls",
- "opentelemetry",
- "opentelemetry_sdk",
- "pretty_assertions",
- "rcgen",
- "reqwest 0.12.28",
- "rustls",
- "rustls-native-certs",
- "rustls-pki-types",
- "rustls-platform-verifier",
- "serde",
- "serde_json",
- "serde_urlencoded",
- "sha2 0.10.9",
- "system-configuration",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
- "windows-sys 0.52.0",
- "zstd",
-]
-
-[[package]]
-name = "kodex-image-generation-extension"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-api",
- "kodex-core",
- "kodex-exec-server",
- "kodex-extension-api",
- "kodex-extension-items",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-protocol",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-image",
- "kodex-utils-path-uri",
- "http 1.4.0",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-install-context"
-version = "0.0.0"
-dependencies = [
- "kodex-utils-absolute-path",
- "kodex-utils-home-dir",
- "pretty_assertions",
- "semver",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "kodex-keyring-store"
-version = "0.0.0"
-dependencies = [
- "keyring",
- "pretty_assertions",
- "secret-service",
- "security-framework 3.5.1",
- "tracing",
-]
-
-[[package]]
-name = "kodex-linux-sandbox"
-version = "0.0.0"
-dependencies = [
- "clap",
- "kodex-core",
- "kodex-install-context",
- "kodex-network-proxy",
- "kodex-process-hardening",
- "kodex-protocol",
- "kodex-sandboxing",
- "kodex-uds",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "globset",
- "landlock",
- "libc",
- "pretty_assertions",
- "rustix 1.1.4",
- "seccompiler",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "test-case",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "kodex-lmstudio"
-version = "0.0.0"
-dependencies = [
- "kodex-core",
- "kodex-http-client",
- "kodex-model-provider-info",
- "serde_json",
- "tokio",
- "tracing",
- "which 8.0.0",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-login"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "chrono",
- "kodex-agent-identity",
- "kodex-config",
- "kodex-http-client",
- "kodex-keyring-store",
- "kodex-model-provider-info",
- "kodex-otel",
- "kodex-protocol",
- "kodex-secrets",
- "kodex-terminal-detection",
- "kodex-utils-process",
- "kodex-utils-template",
- "kodex-workload-identity",
- "core_test_support",
- "http 1.4.0",
- "jsonwebtoken",
- "keyring",
- "once_cell",
- "os_info",
- "pretty_assertions",
- "rand 0.9.3",
- "regex-lite",
- "serde",
- "serde_json",
- "serial_test",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 2.0.18",
- "tiny_http",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "url",
- "urlencoding",
- "webbrowser",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-mcp"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "arc-swap",
- "assert_matches",
- "async-channel",
- "kodex-api",
- "kodex-async-utils",
- "kodex-config",
- "kodex-connectors",
- "kodex-diagnostics",
- "kodex-exec-server",
- "kodex-exec-server-test-support",
- "kodex-login",
- "kodex-model-provider",
- "kodex-otel",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-rmcp-client",
- "kodex-utils-path-uri",
- "kodex-utils-plugins",
- "futures",
- "insta",
- "lru",
- "pretty_assertions",
- "regex-lite",
- "rmcp",
- "serde",
- "serde_json",
- "sha1 0.10.6",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tokio-util",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "kodex-mcp-extension"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "axum",
- "kodex-config",
- "kodex-connectors",
- "kodex-connectors-extension",
- "kodex-core",
- "kodex-core-plugins",
- "kodex-exec-server",
- "kodex-exec-server-test-support",
- "kodex-extension-api",
- "kodex-features",
- "kodex-login",
- "kodex-mcp",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "core_test_support",
- "futures",
- "pretty_assertions",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tokio-util",
- "tracing",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-memories-extension"
-version = "0.0.0"
-dependencies = [
- "kodex-core",
- "kodex-extension-api",
- "kodex-features",
- "kodex-otel",
- "kodex-protocol",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-output-truncation",
- "kodex-utils-template",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
-]
-
-[[package]]
-name = "kodex-memories-read"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "kodex-shell-command",
- "kodex-utils-absolute-path",
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-memories-write"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-backend-client",
- "kodex-config",
- "kodex-core",
- "kodex-features",
- "kodex-git-utils",
- "kodex-login",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-models-manager",
- "kodex-otel",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-rollout-trace",
- "kodex-secrets",
- "kodex-state",
- "kodex-terminal-detection",
- "kodex-utils-absolute-path",
- "kodex-utils-output-truncation",
- "kodex-utils-template",
- "core_test_support",
- "futures",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing",
- "uuid",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-mermaid"
-version = "0.0.0"
-dependencies = [
- "insta",
- "pretty_assertions",
- "unicode-width 0.2.1",
-]
-
-[[package]]
-name = "kodex-message-history"
-version = "0.0.0"
-dependencies = [
- "kodex-config",
- "memchr",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-model-provider"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "chrono",
- "kodex-agent-identity",
- "kodex-api",
- "kodex-aws-auth",
- "kodex-feedback",
- "kodex-http-client",
- "kodex-keyring-store",
- "kodex-login",
- "kodex-model-provider-info",
- "kodex-models-manager",
- "kodex-otel",
- "kodex-protocol",
- "kodex-response-debug-context",
- "kodex-secrets",
- "kodex-utils-process",
- "kodex-utils-redacted-string",
- "http 1.4.0",
- "pretty_assertions",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "tokio",
- "tracing",
- "url",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-model-provider-info"
-version = "0.0.0"
-dependencies = [
- "kodex-client",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-redacted-string",
- "http 1.4.0",
- "maplit",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "tempfile",
- "toml 0.9.11+spec-1.1.0",
- "url",
-]
-
-[[package]]
-name = "kodex-models-manager"
-version = "0.0.0"
-dependencies = [
- "chrono",
- "kodex-http-client",
- "kodex-login",
- "kodex-otel",
- "kodex-prompts",
- "kodex-protocol",
- "kodex-utils-output-truncation",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-mxc-sandbox"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "appcontainer_common",
- "kodex-network-proxy",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "kodex-windows-sandbox",
- "learning_mode_windows",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tracelogging",
- "windows-sys 0.61.2",
- "wxc_common",
-]
-
-[[package]]
-name = "kodex-network-proxy"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "chrono",
- "clap",
- "kodex-utils-absolute-path",
- "kodex-utils-home-dir",
- "kodex-utils-path-uri",
- "kodex-utils-rustls-provider",
- "kodex-windows-sandbox",
- "globset",
- "libc",
- "opentelemetry",
- "pretty_assertions",
- "rama-core",
- "rama-dns",
- "rama-http",
- "rama-http-backend",
- "rama-net",
- "rama-socks5",
- "rama-tcp",
- "rama-tls-rustls",
- "rama-unix",
- "rand 0.9.3",
- "rand_regex",
- "regex",
- "regex-automata",
- "regex-syntax",
- "rustls-native-certs",
- "schannel",
- "schemars 0.8.22",
- "security-framework 3.5.1",
- "serde",
- "serde_ignored",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 2.0.18",
- "time",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "url",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-ollama"
-version = "0.0.0"
-dependencies = [
- "assert_matches",
- "async-stream",
- "bytes",
- "kodex-core",
- "kodex-http-client",
- "kodex-model-provider-info",
- "futures",
- "memchr",
- "pretty_assertions",
- "semver",
- "serde_json",
- "tokio",
- "tracing",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-otel"
-version = "0.0.0"
-dependencies = [
- "bytes",
- "chrono",
- "kodex-api",
- "kodex-http-client",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-stream-parser",
- "kodex-utils-string",
- "eventsource-stream",
- "gethostname",
- "http 1.4.0",
- "libc",
- "opentelemetry",
- "opentelemetry-appender-tracing",
- "opentelemetry-http",
- "opentelemetry-otlp",
- "opentelemetry-semantic-conventions",
- "opentelemetry_sdk",
- "os_info",
- "pretty_assertions",
- "reqwest 0.12.28",
- "seccompiler",
- "serde",
- "serde_json",
- "strum_macros 0.28.0",
- "thiserror 2.0.18",
- "tokio",
- "tokio-tungstenite",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "kodex-otel-trace-websocket"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "axum",
- "futures",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-plugin"
-version = "0.0.0"
-dependencies = [
- "kodex-config",
- "kodex-core-plugin-common",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "kodex-utils-plugins",
- "pretty_assertions",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "kodex-process-hardening"
-version = "0.0.0"
-dependencies = [
- "libc",
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-prompts"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-collaboration-mode-templates",
- "kodex-context-fragments",
- "kodex-execpolicy",
- "kodex-git-utils",
- "kodex-guardian-context",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-template",
- "pretty_assertions",
- "tracing",
-]
-
-[[package]]
-name = "kodex-protocol"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chardetng",
- "chrono",
- "kodex-async-utils",
- "kodex-execpolicy",
- "kodex-extension-items",
- "kodex-http-client",
- "kodex-network-proxy",
- "kodex-utils-absolute-path",
- "kodex-utils-image",
- "kodex-utils-path-uri",
- "kodex-utils-redacted-string",
- "kodex-utils-string",
- "encoding_rs",
- "gix-url",
- "globset",
- "http 1.4.0",
- "icu_decimal",
- "icu_locale_core",
- "icu_provider",
- "landlock",
- "pretty_assertions",
- "quick-xml 0.41.0",
- "schemars 0.8.22",
- "seccompiler",
- "serde",
- "serde_json",
- "serde_with",
- "strum 0.27.2",
- "strum_macros 0.28.0",
- "sys-locale",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "ts-rs",
- "uuid",
- "wildmatch",
-]
-
-[[package]]
-name = "kodex-queue-extension"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-core",
- "kodex-extension-api",
- "kodex-protocol",
- "kodex-state",
- "kodex-thread-store",
- "kodex-utils-absolute-path",
- "core_test_support",
- "pretty_assertions",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "uuid",
-]
-
-[[package]]
-name = "kodex-realtime-webrtc"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-build-info",
- "kodex-install-context",
- "kodex-utils-pty",
- "ctor 0.6.3",
- "futures",
- "libc",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-response-debug-context"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-api",
- "http 1.4.0",
- "pretty_assertions",
- "serde_json",
-]
-
-[[package]]
-name = "kodex-responses-api-proxy"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-process-hardening",
- "ctor 0.6.3",
- "libc",
- "pretty_assertions",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "tiny_http",
- "zeroize",
-]
-
-[[package]]
-name = "kodex-rmcp-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "axum",
- "base64 0.22.1",
- "bytes",
- "kodex-api",
- "kodex-config",
- "kodex-exec-server",
- "kodex-http-client",
- "kodex-keyring-store",
- "kodex-network-proxy",
- "kodex-otel",
- "kodex-protocol",
- "kodex-secrets",
- "kodex-utils-cargo-bin",
- "kodex-utils-home-dir",
- "kodex-utils-path-uri",
- "kodex-utils-pty",
- "futures",
- "http 1.4.0",
- "keyring",
- "libc",
- "memchr",
- "oauth2",
- "pretty_assertions",
- "rmcp",
- "serde",
- "serde_json",
- "serial_test",
- "sha2 0.10.9",
- "sse-stream",
- "tempfile",
- "thiserror 2.0.18",
- "tiny_http",
- "tokio",
- "tokio-util",
- "tracing",
- "tracing-subscriber",
- "tracing-test",
- "url",
- "urlencoding",
- "webbrowser",
- "which 8.0.0",
- "windows-sys 0.52.0",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-rollout"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-extension-items",
- "kodex-file-search",
- "kodex-git-utils",
- "kodex-history",
- "kodex-otel",
- "kodex-protocol",
- "kodex-state",
- "kodex-utils-absolute-path",
- "kodex-utils-path",
- "kodex-utils-process",
- "pretty_assertions",
- "regex",
- "serde",
- "serde_json",
- "tempfile",
- "time",
- "tokio",
- "tracing",
- "uuid",
- "zstd",
-]
-
-[[package]]
-name = "kodex-rollout-trace"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-code-mode",
- "kodex-protocol",
- "http 1.4.0",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "tracing",
- "uuid",
-]
-
-[[package]]
-name = "kodex-sandboxing"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-mxc-sandbox",
- "kodex-network-proxy",
- "kodex-otel",
- "kodex-protocol",
- "kodex-uds",
- "kodex-utils-absolute-path",
- "kodex-utils-home-dir",
- "kodex-utils-path-uri",
- "kodex-utils-pty",
- "kodex-windows-sandbox",
- "dunce",
- "libc",
- "pretty_assertions",
- "regex-lite",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing",
- "url",
- "which 8.0.0",
-]
-
-[[package]]
-name = "kodex-secrets"
-version = "0.0.0"
-dependencies = [
- "age",
- "anyhow",
- "base64 0.22.1",
- "kodex-git-utils",
- "kodex-keyring-store",
- "keyring",
- "pretty_assertions",
- "rand 0.9.3",
- "regex",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "tracing",
-]
-
-[[package]]
-name = "kodex-shell-command"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "libc",
- "once_cell",
- "pretty_assertions",
- "regex",
- "serde",
- "serde_json",
- "shlex",
- "tempfile",
- "tree-sitter",
- "tree-sitter-bash",
- "tree-sitter-powershell",
- "url",
- "which 8.0.0",
-]
-
-[[package]]
-name = "kodex-shell-escalation"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "libc",
- "pretty_assertions",
- "serde",
- "serde_json",
- "socket2 0.6.3",
- "tempfile",
- "tokio",
- "tokio-util",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "kodex-skills"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "kodex-shell-command",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "include_dir",
- "pretty_assertions",
- "serde",
- "serde_yaml",
- "shlex",
- "thiserror 2.0.18",
- "tracing",
-]
-
-[[package]]
-name = "kodex-skills-extension"
-version = "0.0.0"
-dependencies = [
- "assert_matches",
- "blake3",
- "kodex-analytics",
- "kodex-config",
- "kodex-exec-server",
- "kodex-extension-api",
- "kodex-mcp",
- "kodex-models-manager",
- "kodex-otel",
- "kodex-protocol",
- "kodex-skills",
- "kodex-tools",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-path-uri",
- "kodex-utils-plugins",
- "kodex-utils-string",
- "dirs",
- "dunce",
- "futures",
- "insta",
- "opentelemetry_sdk",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "serde_yaml",
- "tempfile",
- "tokio",
- "toml 0.9.11+spec-1.1.0",
- "tracing",
-]
-
-[[package]]
-name = "kodex-state"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "chrono",
- "kodex-git-utils",
- "kodex-history",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "libsqlite3-sys",
- "log",
- "pretty_assertions",
- "scopeguard",
- "serde",
- "serde_json",
- "sqlx",
- "sqlx-macros",
- "sqlx-sqlite",
- "strum 0.27.2",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "uuid",
-]
-
-[[package]]
-name = "kodex-stdio-to-uds"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-uds",
- "kodex-utils-cargo-bin",
- "pretty_assertions",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "kodex-tcp-tunnel"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "bytes",
- "clap",
- "h3",
- "h3-quinn",
- "http 1.4.0",
- "pretty_assertions",
- "quinn",
- "rand 0.9.3",
- "rcgen",
- "rustls",
- "rustls-native-certs",
- "serde_json",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "kodex-terminal-detection"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "tracing",
-]
-
-[[package]]
-name = "kodex-test-binary-support"
-version = "0.0.0"
-dependencies = [
- "kodex-arg0",
- "tempfile",
-]
-
-[[package]]
-name = "kodex-thread-manager-sample"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "kodex-core-api",
- "serde_json",
- "tracing",
-]
-
-[[package]]
-name = "kodex-thread-store"
-version = "0.0.0"
-dependencies = [
- "chrono",
- "kodex-app-server-protocol",
- "kodex-extension-items",
- "kodex-git-utils",
- "kodex-install-context",
- "kodex-otel",
- "kodex-protocol",
- "kodex-rollout",
- "kodex-state",
- "kodex-utils-absolute-path",
- "kodex-utils-path",
- "kodex-utils-path-uri",
- "futures",
- "pretty_assertions",
- "pulldown-cmark",
- "serde",
- "serde_json",
- "sqlx",
- "sqlx-macros",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "uuid",
- "zstd",
-]
-
-[[package]]
-name = "kodex-tools"
-version = "0.0.0"
-dependencies = [
- "bitflags 2.13.1",
- "kodex-code-mode",
- "kodex-connectors",
- "kodex-extension-items",
- "kodex-features",
- "kodex-file-system",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-cargo-bin",
- "kodex-utils-output-truncation",
- "kodex-utils-path-uri",
- "kodex-utils-string",
- "jsonptr",
- "pretty_assertions",
- "rmcp",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
- "tracing",
- "urlencoding",
-]
-
-[[package]]
-name = "kodex-tui"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "app_test_support",
- "arboard",
- "assert_matches",
- "axum",
- "base64 0.22.1",
- "chrono",
- "clap",
- "kodex-ansi-escape",
- "kodex-app-server-client",
- "kodex-app-server-daemon",
- "kodex-app-server-protocol",
- "kodex-arg0",
- "kodex-backend-client",
- "kodex-build-info",
- "kodex-cloud-config",
- "kodex-config",
- "kodex-connectors",
- "kodex-context-fragments",
- "kodex-core-plugins",
- "kodex-exec-server",
- "kodex-features",
- "kodex-feedback",
- "kodex-file-search",
- "kodex-git-utils",
- "kodex-history",
- "kodex-http-client",
- "kodex-install-context",
- "kodex-login",
- "kodex-mcp",
- "kodex-mermaid",
- "kodex-message-history",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-models-manager",
- "kodex-otel",
- "kodex-plugin",
- "kodex-protocol",
- "kodex-realtime-webrtc",
- "kodex-rollout",
- "kodex-sandboxing",
- "kodex-shell-command",
- "kodex-state",
- "kodex-terminal-detection",
- "kodex-uds",
- "kodex-utils-absolute-path",
- "kodex-utils-approval-presets",
- "kodex-utils-cargo-bin",
- "kodex-utils-cli",
- "kodex-utils-elapsed",
- "kodex-utils-fuzzy-match",
- "kodex-utils-home-dir",
- "kodex-utils-oss",
- "kodex-utils-path",
- "kodex-utils-path-uri",
- "kodex-utils-plugins",
- "kodex-utils-sandbox-summary",
- "kodex-utils-sleep-inhibitor",
- "kodex-utils-string",
- "kodex-windows-sandbox",
- "kodex-worktree",
- "color-eyre",
- "core_test_support",
- "crossterm",
- "derive_more 2.1.1",
- "diffy",
- "dirs",
- "dunce",
- "futures",
- "http 1.4.0",
- "image",
- "insta",
- "itertools 0.14.0",
- "lazy_static",
- "libc",
- "objc2-app-kit",
- "objc2-foundation",
- "pathdiff",
- "pretty_assertions",
- "pulldown-cmark",
- "rand 0.9.3",
- "ratatui",
- "ratatui-macros",
- "regex-lite",
- "rmcp",
- "semver",
- "serde",
- "serde_json",
- "serial_test",
- "sha2 0.10.9",
- "shlex",
- "strum 0.27.2",
- "strum_macros 0.28.0",
- "supports-color 3.0.2",
- "syntect",
- "tempfile",
- "textwrap 0.16.2",
- "thiserror 2.0.18",
- "tokio",
- "tokio-stream",
- "tokio-tungstenite",
- "tokio-util",
- "toml 0.9.11+spec-1.1.0",
- "toml_edit 0.24.0+spec-1.1.0",
- "tracing",
- "tracing-appender",
- "tracing-subscriber",
- "two-face",
- "unicode-segmentation",
- "unicode-width 0.2.1",
- "url",
- "urlencoding",
- "uuid",
- "vt100",
- "webbrowser",
- "which 8.0.0",
- "windows-sys 0.52.0",
- "winsplit",
- "wiremock",
- "zbus",
-]
-
-[[package]]
-name = "kodex-uds"
-version = "0.0.0"
-dependencies = [
- "async-io",
- "libc",
- "pretty_assertions",
- "tempfile",
- "tokio",
- "tokio-util",
- "uds_windows",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-user-verification"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "core-foundation 0.10.1",
- "dirs",
- "objc2",
- "objc2-foundation",
- "objc2-local-authentication",
- "p256",
- "pretty_assertions",
- "security-framework 3.5.1",
- "security-framework-sys",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 2.0.18",
- "tracing",
-]
-
-[[package]]
-name = "kodex-utils-absolute-path"
-version = "0.0.0"
-dependencies = [
- "dirs",
- "dunce",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "tempfile",
- "ts-rs",
-]
-
-[[package]]
-name = "kodex-utils-approval-presets"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
-]
-
-[[package]]
-name = "kodex-utils-audio"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-protocol",
- "kodex-utils-cache",
- "kodex-utils-string",
- "pretty_assertions",
- "symphonia",
- "thiserror 2.0.18",
- "tracing",
-]
-
-[[package]]
-name = "kodex-utils-cache"
-version = "0.0.0"
-dependencies = [
- "lru",
- "sha1 0.10.6",
- "tokio",
-]
-
-[[package]]
-name = "kodex-utils-cargo-bin"
-version = "0.0.0"
-dependencies = [
- "assert_cmd",
- "runfiles",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "kodex-utils-cli"
-version = "0.0.0"
-dependencies = [
- "clap",
- "kodex-protocol",
- "kodex-shell-command",
- "pretty_assertions",
- "serde",
- "toml 0.9.11+spec-1.1.0",
-]
-
-[[package]]
-name = "kodex-utils-elapsed"
-version = "0.0.0"
-
-[[package]]
-name = "kodex-utils-fuzzy-match"
-version = "0.0.0"
-
-[[package]]
-name = "kodex-utils-git-discovery"
-version = "0.0.0"
-dependencies = [
- "kodex-git-utils",
- "kodex-utils-absolute-path",
- "futures",
- "pretty_assertions",
- "tempfile",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "kodex-utils-home-dir"
-version = "0.0.0"
-dependencies = [
- "kodex-utils-absolute-path",
- "dirs",
- "pretty_assertions",
- "tempfile",
-]
-
-[[package]]
-name = "kodex-utils-image"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-utils-cache",
- "divan",
- "image",
- "mime_guess",
- "png",
- "thiserror 2.0.18",
- "tokio",
-]
-
-[[package]]
-name = "kodex-utils-json-to-toml"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "serde_json",
- "toml 0.9.11+spec-1.1.0",
-]
-
-[[package]]
-name = "kodex-utils-oss"
-version = "0.0.0"
-dependencies = [
- "kodex-core",
- "kodex-lmstudio",
- "kodex-model-provider-info",
- "kodex-ollama",
-]
-
-[[package]]
-name = "kodex-utils-output-truncation"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "kodex-utils-string",
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-utils-path"
-version = "0.0.0"
-dependencies = [
- "kodex-utils-absolute-path",
- "dunce",
- "pretty_assertions",
- "tempfile",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-utils-path-uri"
-version = "0.0.0"
-dependencies = [
- "base64 0.22.1",
- "kodex-utils-absolute-path",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
- "ts-rs",
- "url",
- "urlencoding",
-]
-
-[[package]]
-name = "kodex-utils-plugins"
-version = "0.0.0"
-dependencies = [
- "kodex-exec-server",
- "kodex-exec-server-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "kodex-utils-process"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "tokio",
-]
-
-[[package]]
-name = "kodex-utils-pty"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "ctor 0.6.3",
- "filedescriptor",
- "lazy_static",
- "libc",
- "log",
- "portable-pty",
- "pretty_assertions",
- "shared_library",
- "tempfile",
- "tokio",
- "winapi",
-]
-
-[[package]]
-name = "kodex-utils-readiness"
-version = "0.0.0"
-dependencies = [
- "assert_matches",
- "thiserror 2.0.18",
- "time",
- "tokio",
-]
-
-[[package]]
-name = "kodex-utils-redacted-string"
-version = "0.0.0"
-dependencies = [
- "schemars 0.8.22",
- "serde",
-]
-
-[[package]]
-name = "kodex-utils-rustls-provider"
-version = "0.0.0"
-dependencies = [
- "rustls",
-]
-
-[[package]]
-name = "kodex-utils-sandbox-summary"
-version = "0.0.0"
-dependencies = [
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-path-uri",
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-utils-sleep-inhibitor"
-version = "0.0.0"
-dependencies = [
- "core-foundation 0.9.4",
- "libc",
- "tracing",
- "windows-sys 0.61.2",
-]
-
-[[package]]
-name = "kodex-utils-stream-parser"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-utils-string"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "regex-lite",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "kodex-utils-template"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
-]
-
-[[package]]
-name = "kodex-v8-poc"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "v8",
-]
-
-[[package]]
-name = "kodex-voice-host"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-install-context",
- "kodex-process-hardening",
- "kodex-realtime-webrtc",
- "kodex-utils-cargo-bin",
- "cpal",
- "crossbeam-queue",
- "futures",
- "gstreamer",
- "gstreamer-app",
- "gstreamer-audio",
- "libloading",
- "opus",
- "pretty_assertions",
- "rand 0.9.3",
- "rtc",
- "rubato",
- "sonora",
- "tempfile",
- "tokio",
- "webrtc",
-]
-
-[[package]]
-name = "kodex-web-search-extension"
-version = "0.0.0"
-dependencies = [
- "kodex-api",
- "kodex-core",
- "kodex-extension-api",
- "kodex-extension-items",
- "kodex-http-client",
- "kodex-login",
- "kodex-model-provider",
- "kodex-model-provider-info",
- "kodex-otel",
- "kodex-protocol",
- "kodex-tools",
- "http 1.4.0",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde_json",
- "url",
-]
-
-[[package]]
-name = "kodex-websocket-auth"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "clap",
- "kodex-utils-absolute-path",
- "constant_time_eq",
- "hmac 0.12.1",
- "http 1.4.0",
- "jsonwebtoken",
- "pretty_assertions",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "time",
-]
-
-[[package]]
-name = "kodex-websocket-client"
-version = "0.0.0"
-dependencies = [
- "kodex-http-client",
- "kodex-utils-rustls-provider",
- "futures",
- "pretty_assertions",
- "rcgen",
- "rustls",
- "tokio",
- "tokio-rustls",
- "tokio-tungstenite",
- "url",
-]
-
-[[package]]
-name = "kodex-windows-sandbox"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "chrono",
- "kodex-http-client",
- "kodex-otel",
- "kodex-protocol",
- "kodex-utils-absolute-path",
- "kodex-utils-process",
- "kodex-utils-pty",
- "kodex-utils-string",
- "dirs-next",
- "dunce",
- "glob",
- "pretty_assertions",
- "rand 0.8.6",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tracing-appender",
- "windows 0.58.0",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-windows-sandbox-service"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-cloud-config",
- "kodex-config",
- "kodex-core",
- "kodex-windows-sandbox",
- "pretty_assertions",
- "serde_json",
- "tokio",
- "toml 0.9.11+spec-1.1.0",
- "windows 0.58.0",
- "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "kodex-workload-identity"
-version = "0.0.0"
-dependencies = [
- "kodex-http-client",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
- "tokio",
- "url",
- "wiremock",
-]
-
-[[package]]
-name = "kodex-worktree"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "kodex-git-utils",
- "kodex-protocol",
- "dunce",
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "uuid",
-]
-
-[[package]]
 name = "color-eyre"
 version = "0.6.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5568,11 +2118,13 @@ dependencies = [
 
 [[package]]
 name = "core_test_support"
-version = "0.0.0"
+version = "0.156.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
  "base64 0.22.1",
+ "ctor 0.6.3",
+ "futures",
  "kodex-analytics",
  "kodex-arg0",
  "kodex-attachment-store",
@@ -5593,8 +2145,6 @@ dependencies = [
  "kodex-utils-absolute-path",
  "kodex-utils-cargo-bin",
  "kodex-utils-path-uri",
- "ctor 0.6.3",
- "futures",
  "notify",
  "opentelemetry",
  "opentelemetry_sdk",
@@ -9760,6 +6310,3456 @@ dependencies = [
  "windows-sys 0.60.2",
  "zbus",
  "zeroize",
+]
+
+[[package]]
+name = "kodex-agent-extension"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "core_test_support",
+ "kodex-core",
+ "kodex-protocol",
+ "pretty_assertions",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-agent-graph-store"
+version = "0.156.0"
+dependencies = [
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-agent-identity"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "chrono",
+ "crypto_box",
+ "ed25519-dalek",
+ "http 1.4.0",
+ "jsonwebtoken",
+ "kodex-http-client",
+ "kodex-protocol",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+]
+
+[[package]]
+name = "kodex-agent-message-board-client"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "eventsource-stream",
+ "futures",
+ "http 1.4.0",
+ "kodex-agent-message-board-extension",
+ "kodex-http-client",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-agent-message-board-extension"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "caseless",
+ "chrono",
+ "futures",
+ "kodex-extension-api",
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-tools",
+ "kodex-utils-output-truncation",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-agent-roles"
+version = "0.156.0"
+dependencies = [
+ "kodex-config",
+ "kodex-file-system",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "serde",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-analytics"
+version = "0.156.0"
+dependencies = [
+ "kodex-app-server-protocol",
+ "kodex-git-utils",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-utils-absolute-path",
+ "os_info",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "sha1 0.10.6",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-ansi-escape"
+version = "0.156.0"
+dependencies = [
+ "ansi-to-tui",
+ "ratatui",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-api"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "assert_matches",
+ "async-channel",
+ "base64 0.22.1",
+ "bytes",
+ "chrono",
+ "eventsource-stream",
+ "futures",
+ "http 1.4.0",
+ "kodex-client",
+ "kodex-http-client",
+ "kodex-protocol",
+ "kodex-utils-rustls-provider",
+ "kodex-websocket-client",
+ "pretty_assertions",
+ "rcgen",
+ "regex-lite",
+ "rustls",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-test",
+ "tokio-tungstenite",
+ "tokio-util",
+ "tracing",
+ "tungstenite",
+ "url",
+ "uuid",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-app-server"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "app_test_support",
+ "axum",
+ "base64 0.22.1",
+ "chrono",
+ "clap",
+ "core_test_support",
+ "flate2",
+ "futures",
+ "hmac 0.12.1",
+ "http 1.4.0",
+ "keyring",
+ "kodex-agent-extension",
+ "kodex-analytics",
+ "kodex-app-server-protocol",
+ "kodex-app-server-transport",
+ "kodex-arg0",
+ "kodex-aws-auth",
+ "kodex-backend-client",
+ "kodex-chatgpt",
+ "kodex-cloud-config",
+ "kodex-code-mode",
+ "kodex-config",
+ "kodex-connectors",
+ "kodex-core",
+ "kodex-core-plugins",
+ "kodex-diagnostics",
+ "kodex-exec-server",
+ "kodex-extension-api",
+ "kodex-external-agent-migration",
+ "kodex-features",
+ "kodex-feedback",
+ "kodex-file-search",
+ "kodex-file-watcher",
+ "kodex-git-attribution",
+ "kodex-git-utils",
+ "kodex-goal-extension",
+ "kodex-guardian-v2",
+ "kodex-history-notes-extension",
+ "kodex-home",
+ "kodex-hooks",
+ "kodex-http-client",
+ "kodex-image-generation-extension",
+ "kodex-login",
+ "kodex-mcp",
+ "kodex-mcp-extension",
+ "kodex-memories-extension",
+ "kodex-memories-write",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-models-manager",
+ "kodex-network-proxy",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-prompts",
+ "kodex-protocol",
+ "kodex-queue-extension",
+ "kodex-rmcp-client",
+ "kodex-rollout",
+ "kodex-sandboxing",
+ "kodex-shell-command",
+ "kodex-skills",
+ "kodex-skills-extension",
+ "kodex-state",
+ "kodex-thread-store",
+ "kodex-tools",
+ "kodex-uds",
+ "kodex-user-verification",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-cli",
+ "kodex-utils-json-to-toml",
+ "kodex-utils-path-uri",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "kodex-web-search-extension",
+ "kodex-websocket-auth",
+ "kodex-windows-sandbox",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "pretty_assertions",
+ "rcgen",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha2 0.10.9",
+ "shlex",
+ "sqlx",
+ "tar",
+ "tempfile",
+ "test-case",
+ "thiserror 2.0.18",
+ "tikv-jemallocator",
+ "time",
+ "tokio",
+ "tokio-rustls",
+ "tokio-tungstenite",
+ "tokio-util",
+ "toml 0.9.11+spec-1.1.0",
+ "toml_edit 0.24.0+spec-1.1.0",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+ "url",
+ "uuid",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-app-server-client"
+version = "0.156.0"
+dependencies = [
+ "futures",
+ "kodex-app-server",
+ "kodex-app-server-protocol",
+ "kodex-arg0",
+ "kodex-config",
+ "kodex-core",
+ "kodex-exec-server",
+ "kodex-feedback",
+ "kodex-protocol",
+ "kodex-uds",
+ "kodex-utils-absolute-path",
+ "kodex-utils-rustls-provider",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tokio-tungstenite",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "kodex-app-server-daemon"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "blake3",
+ "futures",
+ "kodex-app-server-protocol",
+ "kodex-app-server-transport",
+ "kodex-http-client",
+ "kodex-install-context",
+ "kodex-uds",
+ "kodex-utils-home-dir",
+ "libc",
+ "pretty_assertions",
+ "semver",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tokio-tungstenite",
+ "tracing",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-app-server-protocol"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "inventory",
+ "kodex-app-server-protocol-noop-macros",
+ "kodex-experimental-api-macros",
+ "kodex-extension-items",
+ "kodex-history",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-secrets",
+ "kodex-shell-command",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-path-uri",
+ "kodex-utils-redacted-string",
+ "pretty_assertions",
+ "rmcp",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "similar",
+ "strum_macros 0.28.0",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tracing",
+ "ts-rs",
+ "uuid",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-app-server-protocol-noop-macros"
+version = "0.156.0"
+
+[[package]]
+name = "kodex-app-server-test-client"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "kodex-app-server-protocol",
+ "kodex-core",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-utils-cli",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "tungstenite",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-app-server-transport"
+version = "0.156.0"
+dependencies = [
+ "axum",
+ "base64 0.22.1",
+ "chrono",
+ "futures",
+ "gethostname",
+ "httpdate",
+ "kodex-api",
+ "kodex-app-server-protocol",
+ "kodex-config",
+ "kodex-core",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-uds",
+ "kodex-utils-absolute-path",
+ "kodex-utils-rustls-provider",
+ "kodex-websocket-auth",
+ "kodex-websocket-client",
+ "libc",
+ "owo-colors",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "signal-hook",
+ "tempfile",
+ "time",
+ "tokio",
+ "tokio-tungstenite",
+ "tokio-util",
+ "tracing",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-apply-patch"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "assert_matches",
+ "kodex-exec-server",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "similar",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tree-sitter",
+ "tree-sitter-bash",
+]
+
+[[package]]
+name = "kodex-arg0"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "dotenvy",
+ "kodex-apply-patch",
+ "kodex-async-utils",
+ "kodex-exec-server",
+ "kodex-install-context",
+ "kodex-linux-sandbox",
+ "kodex-sandboxing",
+ "kodex-shell-escalation",
+ "kodex-utils-absolute-path",
+ "kodex-utils-home-dir",
+ "kodex-utils-pty",
+ "kodex-windows-sandbox",
+ "pathdiff",
+ "pretty_assertions",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-async-utils"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "rand 0.9.3",
+ "tokio",
+ "tokio-util",
+]
+
+[[package]]
+name = "kodex-attachment-store"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "serde",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-aws-auth"
+version = "0.156.0"
+dependencies = [
+ "aws-config",
+ "aws-credential-types",
+ "aws-sigv4",
+ "aws-smithy-runtime-api",
+ "aws-smithy-types",
+ "aws-types",
+ "bytes",
+ "http 1.4.0",
+ "http-body 1.0.1",
+ "http-body-util",
+ "kodex-http-client",
+ "kodex-utils-rustls-provider",
+ "pretty_assertions",
+ "rcgen",
+ "rustls",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-rustls",
+ "url",
+]
+
+[[package]]
+name = "kodex-backend-client"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "http 1.4.0",
+ "kodex-api",
+ "kodex-backend-openapi-models",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-backend-openapi-models"
+version = "0.156.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "serde_with",
+]
+
+[[package]]
+name = "kodex-build-info"
+version = "0.156.0"
+dependencies = [
+ "kodex-install-context",
+ "pretty_assertions",
+ "semver",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+]
+
+[[package]]
+name = "kodex-bwrap"
+version = "0.156.0"
+dependencies = [
+ "cc",
+ "libc",
+ "pkg-config",
+]
+
+[[package]]
+name = "kodex-chatgpt"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "kodex-connectors",
+ "kodex-core",
+ "kodex-git-utils",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-plugin",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-cli",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-cli"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "app_test_support",
+ "assert_cmd",
+ "assert_matches",
+ "chrono",
+ "clap",
+ "clap_complete",
+ "crossterm",
+ "flate2",
+ "futures",
+ "http 1.4.0",
+ "insta",
+ "jsonwebtoken",
+ "kodex-api",
+ "kodex-app-server",
+ "kodex-app-server-daemon",
+ "kodex-app-server-protocol",
+ "kodex-app-server-test-client",
+ "kodex-arg0",
+ "kodex-aws-auth",
+ "kodex-build-info",
+ "kodex-chatgpt",
+ "kodex-cloud-config",
+ "kodex-cloud-tasks",
+ "kodex-config",
+ "kodex-core",
+ "kodex-core-plugins",
+ "kodex-exec",
+ "kodex-exec-server",
+ "kodex-execpolicy",
+ "kodex-extension-api",
+ "kodex-features",
+ "kodex-git-attribution",
+ "kodex-git-utils",
+ "kodex-history",
+ "kodex-home",
+ "kodex-http-client",
+ "kodex-install-context",
+ "kodex-login",
+ "kodex-mcp",
+ "kodex-memories-write",
+ "kodex-model-provider",
+ "kodex-models-manager",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-responses-api-proxy",
+ "kodex-rmcp-client",
+ "kodex-rollout",
+ "kodex-rollout-trace",
+ "kodex-sandboxing",
+ "kodex-skills-extension",
+ "kodex-state",
+ "kodex-stdio-to-uds",
+ "kodex-tcp-tunnel",
+ "kodex-terminal-detection",
+ "kodex-thread-store",
+ "kodex-tui",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-cli",
+ "kodex-utils-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "kodex-utils-redacted-string",
+ "kodex-websocket-auth",
+ "kodex-windows-sandbox",
+ "libc",
+ "os_info",
+ "owo-colors",
+ "predicates",
+ "pretty_assertions",
+ "regex-lite",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "sqlx",
+ "supports-color 3.0.2",
+ "sys-locale",
+ "tar",
+ "tempfile",
+ "tikv-jemallocator",
+ "tokio",
+ "tokio-tungstenite",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
+ "unicode-segmentation",
+ "url",
+ "vt100",
+ "which 8.0.0",
+ "windows-sys 0.52.0",
+ "wiremock",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-client"
+version = "0.156.0"
+dependencies = [
+ "eventsource-stream",
+ "futures",
+ "http 1.4.0",
+ "kodex-http-client",
+ "rand 0.9.3",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "kodex-cloud-config"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "chrono",
+ "hmac 0.12.1",
+ "kodex-agent-identity",
+ "kodex-async-utils",
+ "kodex-backend-client",
+ "kodex-config",
+ "kodex-core",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-otel",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-cloud-tasks"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "clap",
+ "crossterm",
+ "http 1.4.0",
+ "insta",
+ "kodex-cloud-tasks-client",
+ "kodex-cloud-tasks-mock-client",
+ "kodex-core",
+ "kodex-git-utils",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-tui",
+ "kodex-utils-cli",
+ "owo-colors",
+ "pretty_assertions",
+ "ratatui",
+ "serde",
+ "serde_json",
+ "supports-color 3.0.2",
+ "tokio",
+ "tokio-stream",
+ "tracing",
+ "tracing-subscriber",
+ "unicode-segmentation",
+ "unicode-width 0.2.1",
+]
+
+[[package]]
+name = "kodex-cloud-tasks-client"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "kodex-api",
+ "kodex-backend-client",
+ "kodex-git-utils",
+ "kodex-http-client",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "kodex-cloud-tasks-mock-client"
+version = "0.156.0"
+dependencies = [
+ "chrono",
+ "diffy",
+ "kodex-cloud-tasks-client",
+]
+
+[[package]]
+name = "kodex-code-mode"
+version = "0.156.0"
+dependencies = [
+ "futures",
+ "http-body-util",
+ "kodex-code-mode-protocol",
+ "kodex-http-client",
+ "kodex-install-context",
+ "kodex-otel",
+ "kodex-protocol",
+ "pretty_assertions",
+ "prost",
+ "reqwest 0.12.28",
+ "serde_json",
+ "tokio",
+ "tokio-util",
+ "tonic",
+ "tower",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-code-mode-host"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "clap",
+ "futures",
+ "kodex-code-mode",
+ "kodex-code-mode-protocol",
+ "kodex-code-mode-runtime",
+ "kodex-http-client",
+ "kodex-otel",
+ "kodex-otel-trace-websocket",
+ "kodex-protocol",
+ "kodex-utils-cargo-bin",
+ "pretty_assertions",
+ "prost",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tokio-stream",
+ "tokio-util",
+ "tonic",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-code-mode-protocol"
+version = "0.156.0"
+dependencies = [
+ "glob",
+ "kodex-protocol",
+ "pretty_assertions",
+ "prost",
+ "protoc-bin-vendored",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-util",
+ "tonic",
+ "tonic-prost",
+ "tonic-prost-build",
+]
+
+[[package]]
+name = "kodex-code-mode-runtime"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "deno_core_icudata",
+ "futures",
+ "kodex-code-mode-protocol",
+ "kodex-protocol",
+ "opentelemetry",
+ "pretty_assertions",
+ "serde_json",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "v8",
+]
+
+[[package]]
+name = "kodex-collaboration-mode-templates"
+version = "0.156.0"
+
+[[package]]
+name = "kodex-config"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "core-foundation 0.9.4",
+ "dns-lookup",
+ "dunce",
+ "futures",
+ "gethostname",
+ "indexmap 2.14.0",
+ "kodex-execpolicy",
+ "kodex-features",
+ "kodex-file-system",
+ "kodex-git-utils",
+ "kodex-model-provider-info",
+ "kodex-network-proxy",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-redacted-string",
+ "kodex-windows-sandbox",
+ "libc",
+ "multimap",
+ "pretty_assertions",
+ "prost",
+ "regex-lite",
+ "schemars 0.8.22",
+ "serde",
+ "serde_ignored",
+ "serde_json",
+ "serde_path_to_error",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-stream",
+ "toml 0.9.11+spec-1.1.0",
+ "toml_edit 0.24.0+spec-1.1.0",
+ "tonic",
+ "tonic-prost",
+ "tonic-prost-build",
+ "tracing",
+ "wildmatch",
+ "winapi-util",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-config-schema"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "kodex-config",
+]
+
+[[package]]
+name = "kodex-connectors"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "indexmap 2.14.0",
+ "kodex-config",
+ "kodex-login",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "sha1 0.10.6",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "urlencoding",
+]
+
+[[package]]
+name = "kodex-connectors-extension"
+version = "0.156.0"
+dependencies = [
+ "kodex-connectors",
+ "kodex-core-plugins",
+ "kodex-file-system",
+ "kodex-plugin",
+ "kodex-utils-path-uri",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-context-fragments"
+version = "0.156.0"
+dependencies = [
+ "kodex-protocol",
+ "kodex-utils-string",
+ "pretty_assertions",
+ "serde_json",
+]
+
+[[package]]
+name = "kodex-core"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "assert_cmd",
+ "assert_matches",
+ "async-channel",
+ "base64 0.22.1",
+ "bm25",
+ "chrono",
+ "core_test_support",
+ "ctor 0.6.3",
+ "dirs",
+ "dunce",
+ "eventsource-stream",
+ "futures",
+ "http 1.4.0",
+ "iana-time-zone",
+ "image",
+ "indexmap 2.14.0",
+ "insta",
+ "kodex-agent-graph-store",
+ "kodex-agent-message-board-client",
+ "kodex-agent-message-board-extension",
+ "kodex-agent-roles",
+ "kodex-analytics",
+ "kodex-api",
+ "kodex-app-server-protocol",
+ "kodex-apply-patch",
+ "kodex-async-utils",
+ "kodex-attachment-store",
+ "kodex-client",
+ "kodex-code-mode",
+ "kodex-config",
+ "kodex-connectors",
+ "kodex-context-fragments",
+ "kodex-core-plugins",
+ "kodex-diagnostics",
+ "kodex-exec-server",
+ "kodex-exec-server-test-support",
+ "kodex-execpolicy",
+ "kodex-extension-api",
+ "kodex-extension-items",
+ "kodex-features",
+ "kodex-feedback",
+ "kodex-file-system",
+ "kodex-git-utils",
+ "kodex-guardian-context",
+ "kodex-guardian-reviewer",
+ "kodex-history",
+ "kodex-home",
+ "kodex-hooks",
+ "kodex-http-client",
+ "kodex-image-generation-extension",
+ "kodex-install-context",
+ "kodex-login",
+ "kodex-mcp",
+ "kodex-memories-read",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-models-manager",
+ "kodex-network-proxy",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-prompts",
+ "kodex-protocol",
+ "kodex-response-debug-context",
+ "kodex-rmcp-client",
+ "kodex-rollout",
+ "kodex-rollout-trace",
+ "kodex-sandboxing",
+ "kodex-shell-command",
+ "kodex-shell-escalation",
+ "kodex-skills",
+ "kodex-skills-extension",
+ "kodex-state",
+ "kodex-terminal-detection",
+ "kodex-test-binary-support",
+ "kodex-thread-store",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-audio",
+ "kodex-utils-cache",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-git-discovery",
+ "kodex-utils-home-dir",
+ "kodex-utils-image",
+ "kodex-utils-output-truncation",
+ "kodex-utils-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-plugins",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "kodex-utils-redacted-string",
+ "kodex-utils-stream-parser",
+ "kodex-utils-string",
+ "kodex-web-search-extension",
+ "kodex-windows-sandbox",
+ "libc",
+ "maplit",
+ "once_cell",
+ "openssl-sys",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "predicates",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "regex-lite",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha1 0.10.6",
+ "shlex",
+ "similar",
+ "tempfile",
+ "test-case",
+ "test-log",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-tungstenite",
+ "tokio-util",
+ "toml 0.9.11+spec-1.1.0",
+ "toml_edit 0.24.0+spec-1.1.0",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+ "tracing-test",
+ "url",
+ "uuid",
+ "walkdir",
+ "which 8.0.0",
+ "whoami 1.6.1",
+ "wiremock",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-core-api"
+version = "0.156.0"
+dependencies = [
+ "kodex-analytics",
+ "kodex-app-server-protocol",
+ "kodex-arg0",
+ "kodex-config",
+ "kodex-core",
+ "kodex-exec-server",
+ "kodex-extension-api",
+ "kodex-features",
+ "kodex-history",
+ "kodex-home",
+ "kodex-image-generation-extension",
+ "kodex-login",
+ "kodex-model-provider-info",
+ "kodex-models-manager",
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-utils-absolute-path",
+]
+
+[[package]]
+name = "kodex-core-plugin-common"
+version = "0.156.0"
+dependencies = [
+ "kodex-utils-absolute-path",
+ "semver",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "kodex-core-plugins"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "dirs",
+ "flate2",
+ "futures",
+ "http 1.4.0",
+ "kodex-analytics",
+ "kodex-app-server-protocol",
+ "kodex-config",
+ "kodex-connectors",
+ "kodex-core-plugin-common",
+ "kodex-exec-server",
+ "kodex-exec-server-test-support",
+ "kodex-git-utils",
+ "kodex-hooks",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-mcp",
+ "kodex-model-provider",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-shell-command",
+ "kodex-skills",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-plugins",
+ "kodex-utils-process",
+ "libc",
+ "pretty_assertions",
+ "regex",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "serde_yaml",
+ "sha2 0.10.9",
+ "tar",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+ "tracing-subscriber",
+ "tracing-test",
+ "url",
+ "uuid",
+ "wiremock",
+ "zip",
+]
+
+[[package]]
+name = "kodex-diagnostics"
+version = "0.156.0"
+dependencies = [
+ "libc",
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-exec"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap",
+ "core_test_support",
+ "kodex-app-server-client",
+ "kodex-app-server-protocol",
+ "kodex-apply-patch",
+ "kodex-arg0",
+ "kodex-cloud-config",
+ "kodex-config",
+ "kodex-core",
+ "kodex-features",
+ "kodex-feedback",
+ "kodex-git-utils",
+ "kodex-history",
+ "kodex-login",
+ "kodex-model-provider-info",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-cli",
+ "kodex-utils-oss",
+ "kodex-utils-path-uri",
+ "kodex-utils-sandbox-summary",
+ "kodex-worktree",
+ "libc",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "owo-colors",
+ "predicates",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "supports-color 3.0.2",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+ "ts-rs",
+ "uuid",
+ "walkdir",
+ "wiremock",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-exec-server"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "axum",
+ "base64 0.22.1",
+ "bytes",
+ "clatter",
+ "ctor 0.6.3",
+ "dirs",
+ "futures",
+ "http 1.4.0",
+ "kodex-api",
+ "kodex-build-info",
+ "kodex-config",
+ "kodex-core-plugin-common",
+ "kodex-exec-server-protocol",
+ "kodex-exec-server-test-support",
+ "kodex-file-system",
+ "kodex-file-watcher",
+ "kodex-http-client",
+ "kodex-network-proxy",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-sandboxing",
+ "kodex-shell-command",
+ "kodex-skills",
+ "kodex-test-binary-support",
+ "kodex-uds",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-home-dir",
+ "kodex-utils-path-uri",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "kodex-utils-redacted-string",
+ "kodex-utils-rustls-provider",
+ "kodex-websocket-auth",
+ "kodex-websocket-client",
+ "libc",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "pretty_assertions",
+ "prost",
+ "rcgen",
+ "rustix 1.1.4",
+ "rustls",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "tempfile",
+ "test-case",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-tungstenite",
+ "tokio-util",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+ "url",
+ "uuid",
+ "windows-sys 0.52.0",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-exec-server-protocol"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "kodex-file-system",
+ "kodex-mxc-sandbox",
+ "kodex-network-proxy",
+ "kodex-protocol",
+ "kodex-shell-command",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "kodex-exec-server-test-support"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "futures",
+ "kodex-exec-server",
+ "kodex-http-client",
+ "prost",
+ "serde_json",
+ "tokio",
+ "tokio-tungstenite",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-execpolicy"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "kodex-utils-absolute-path",
+ "multimap",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "shlex",
+ "starlark",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-experimental-api-macros"
+version = "0.156.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
+]
+
+[[package]]
+name = "kodex-extension-api"
+version = "0.156.0"
+dependencies = [
+ "futures",
+ "kodex-api",
+ "kodex-config",
+ "kodex-context-fragments",
+ "kodex-exec-server-protocol",
+ "kodex-file-system",
+ "kodex-guardian-context",
+ "kodex-history",
+ "kodex-mcp",
+ "kodex-protocol",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-extension-items"
+version = "0.156.0"
+dependencies = [
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "ts-rs",
+]
+
+[[package]]
+name = "kodex-external-agent-migration"
+version = "0.156.0"
+dependencies = [
+ "chrono",
+ "kodex-analytics",
+ "kodex-app-server-protocol",
+ "kodex-config",
+ "kodex-core",
+ "kodex-core-plugins",
+ "kodex-hooks",
+ "kodex-login",
+ "kodex-memories-write",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-thread-store",
+ "kodex-utils-output-truncation",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-features"
+version = "0.156.0"
+dependencies = [
+ "kodex-network-proxy",
+ "kodex-protocol",
+ "kodex-utils-redacted-string",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-feedback"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "flate2",
+ "http 1.4.0",
+ "httpdate",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-state",
+ "log",
+ "mime_guess",
+ "pretty_assertions",
+ "sentry",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-file-search"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "crossbeam-channel",
+ "ignore",
+ "nucleo",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-file-system"
+version = "0.156.0"
+dependencies = [
+ "bytes",
+ "futures",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "serde",
+]
+
+[[package]]
+name = "kodex-file-watcher"
+version = "0.156.0"
+dependencies = [
+ "notify",
+ "pretty_assertions",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-git-attribution"
+version = "0.156.0"
+dependencies = [
+ "kodex-backend-client",
+ "kodex-extension-api",
+ "kodex-http-client",
+ "kodex-login",
+ "serde_json",
+ "tokio",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-git-utils"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "futures",
+ "gix",
+ "kodex-file-system",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "once_cell",
+ "pretty_assertions",
+ "regex",
+ "schemars 0.8.22",
+ "serde",
+ "similar",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "ts-rs",
+ "walkdir",
+]
+
+[[package]]
+name = "kodex-goal-extension"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "kodex-analytics",
+ "kodex-core",
+ "kodex-extension-api",
+ "kodex-otel",
+ "kodex-prompts",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-state",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-template",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-guardian-context"
+version = "0.156.0"
+dependencies = [
+ "kodex-context-fragments",
+ "kodex-history",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde_json",
+]
+
+[[package]]
+name = "kodex-guardian-reviewer"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "kodex-analytics",
+ "kodex-extension-api",
+ "kodex-feedback",
+ "kodex-guardian-context",
+ "kodex-mcp",
+ "kodex-otel",
+ "kodex-prompts",
+ "kodex-protocol",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "serde",
+ "serde_json",
+ "test-case",
+ "tokio",
+ "tokio-util",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-guardian-v2"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "core_test_support",
+ "dirs",
+ "http 1.4.0",
+ "kodex-analytics",
+ "kodex-api",
+ "kodex-config",
+ "kodex-context-fragments",
+ "kodex-core",
+ "kodex-extension-api",
+ "kodex-features",
+ "kodex-guardian-context",
+ "kodex-guardian-reviewer",
+ "kodex-history",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-prompts",
+ "kodex-protocol",
+ "kodex-utils-cargo-bin",
+ "pretty_assertions",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "uuid",
+ "wiremock",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-history"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "kodex-protocol",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "kodex-history-notes-extension"
+version = "0.156.0"
+dependencies = [
+ "core_test_support",
+ "http 1.4.0",
+ "kodex-analytics",
+ "kodex-client",
+ "kodex-config",
+ "kodex-core",
+ "kodex-extension-api",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-protocol",
+ "kodex-tools",
+ "kodex-utils-output-truncation",
+ "pretty_assertions",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-home"
+version = "0.156.0"
+dependencies = [
+ "kodex-extension-api",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-hooks"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "async-channel",
+ "chrono",
+ "futures",
+ "kodex-config",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-output-truncation",
+ "kodex-utils-path-uri",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "libc",
+ "pretty_assertions",
+ "regex",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-http-client"
+version = "0.156.0"
+dependencies = [
+ "bytes",
+ "futures",
+ "http 1.4.0",
+ "http-body 1.0.1",
+ "httpdate",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-rustls-provider",
+ "native-tls",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "pretty_assertions",
+ "rcgen",
+ "reqwest 0.12.28",
+ "rustls",
+ "rustls-native-certs",
+ "rustls-pki-types",
+ "rustls-platform-verifier",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
+ "sha2 0.10.9",
+ "system-configuration",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+ "windows-sys 0.52.0",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-image-generation-extension"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "http 1.4.0",
+ "kodex-api",
+ "kodex-core",
+ "kodex-exec-server",
+ "kodex-extension-api",
+ "kodex-extension-items",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-protocol",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-image",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-install-context"
+version = "0.156.0"
+dependencies = [
+ "kodex-utils-absolute-path",
+ "kodex-utils-home-dir",
+ "pretty_assertions",
+ "semver",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "kodex-keyring-store"
+version = "0.156.0"
+dependencies = [
+ "keyring",
+ "pretty_assertions",
+ "secret-service",
+ "security-framework 3.5.1",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-linux-sandbox"
+version = "0.156.0"
+dependencies = [
+ "clap",
+ "globset",
+ "kodex-core",
+ "kodex-install-context",
+ "kodex-network-proxy",
+ "kodex-process-hardening",
+ "kodex-protocol",
+ "kodex-sandboxing",
+ "kodex-uds",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "landlock",
+ "libc",
+ "pretty_assertions",
+ "rustix 1.1.4",
+ "seccompiler",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "test-case",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "kodex-lmstudio"
+version = "0.156.0"
+dependencies = [
+ "kodex-core",
+ "kodex-http-client",
+ "kodex-model-provider-info",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "which 8.0.0",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-login"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "chrono",
+ "core_test_support",
+ "http 1.4.0",
+ "jsonwebtoken",
+ "keyring",
+ "kodex-agent-identity",
+ "kodex-config",
+ "kodex-http-client",
+ "kodex-keyring-store",
+ "kodex-model-provider-info",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-secrets",
+ "kodex-terminal-detection",
+ "kodex-utils-process",
+ "kodex-utils-template",
+ "kodex-workload-identity",
+ "once_cell",
+ "os_info",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "regex-lite",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tiny_http",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "url",
+ "urlencoding",
+ "webbrowser",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-mcp"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "assert_matches",
+ "async-channel",
+ "futures",
+ "insta",
+ "kodex-api",
+ "kodex-async-utils",
+ "kodex-config",
+ "kodex-connectors",
+ "kodex-diagnostics",
+ "kodex-exec-server",
+ "kodex-exec-server-test-support",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-rmcp-client",
+ "kodex-utils-path-uri",
+ "kodex-utils-plugins",
+ "lru",
+ "pretty_assertions",
+ "regex-lite",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "sha1 0.10.6",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "kodex-mcp-extension"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "core_test_support",
+ "futures",
+ "kodex-config",
+ "kodex-connectors",
+ "kodex-connectors-extension",
+ "kodex-core",
+ "kodex-core-plugins",
+ "kodex-exec-server",
+ "kodex-exec-server-test-support",
+ "kodex-extension-api",
+ "kodex-features",
+ "kodex-login",
+ "kodex-mcp",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-memories-extension"
+version = "0.156.0"
+dependencies = [
+ "kodex-core",
+ "kodex-extension-api",
+ "kodex-features",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-output-truncation",
+ "kodex-utils-template",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-memories-read"
+version = "0.156.0"
+dependencies = [
+ "kodex-protocol",
+ "kodex-shell-command",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-memories-write"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "core_test_support",
+ "futures",
+ "kodex-backend-client",
+ "kodex-config",
+ "kodex-core",
+ "kodex-features",
+ "kodex-git-utils",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-models-manager",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-rollout-trace",
+ "kodex-secrets",
+ "kodex-state",
+ "kodex-terminal-detection",
+ "kodex-utils-absolute-path",
+ "kodex-utils-output-truncation",
+ "kodex-utils-template",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "uuid",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-mermaid"
+version = "0.156.0"
+dependencies = [
+ "insta",
+ "pretty_assertions",
+ "unicode-width 0.2.1",
+]
+
+[[package]]
+name = "kodex-message-history"
+version = "0.156.0"
+dependencies = [
+ "kodex-config",
+ "memchr",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-model-provider"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "chrono",
+ "http 1.4.0",
+ "kodex-agent-identity",
+ "kodex-api",
+ "kodex-aws-auth",
+ "kodex-feedback",
+ "kodex-http-client",
+ "kodex-keyring-store",
+ "kodex-login",
+ "kodex-model-provider-info",
+ "kodex-models-manager",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-response-debug-context",
+ "kodex-secrets",
+ "kodex-utils-process",
+ "kodex-utils-redacted-string",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "url",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-model-provider-info"
+version = "0.156.0"
+dependencies = [
+ "http 1.4.0",
+ "kodex-client",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-redacted-string",
+ "maplit",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "tempfile",
+ "toml 0.9.11+spec-1.1.0",
+ "url",
+]
+
+[[package]]
+name = "kodex-models-manager"
+version = "0.156.0"
+dependencies = [
+ "chrono",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-otel",
+ "kodex-prompts",
+ "kodex-protocol",
+ "kodex-utils-output-truncation",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-mxc-sandbox"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "appcontainer_common",
+ "kodex-network-proxy",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "kodex-windows-sandbox",
+ "learning_mode_windows",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tracelogging",
+ "windows-sys 0.61.2",
+ "wxc_common",
+]
+
+[[package]]
+name = "kodex-network-proxy"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "chrono",
+ "clap",
+ "globset",
+ "kodex-utils-absolute-path",
+ "kodex-utils-home-dir",
+ "kodex-utils-path-uri",
+ "kodex-utils-rustls-provider",
+ "kodex-windows-sandbox",
+ "libc",
+ "opentelemetry",
+ "pretty_assertions",
+ "rama-core",
+ "rama-dns",
+ "rama-http",
+ "rama-http-backend",
+ "rama-net",
+ "rama-socks5",
+ "rama-tcp",
+ "rama-tls-rustls",
+ "rama-unix",
+ "rand 0.9.3",
+ "rand_regex",
+ "regex",
+ "regex-automata",
+ "regex-syntax",
+ "rustls-native-certs",
+ "schannel",
+ "schemars 0.8.22",
+ "security-framework 3.5.1",
+ "serde",
+ "serde_ignored",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 2.0.18",
+ "time",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "url",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-ollama"
+version = "0.156.0"
+dependencies = [
+ "assert_matches",
+ "async-stream",
+ "bytes",
+ "futures",
+ "kodex-core",
+ "kodex-http-client",
+ "kodex-model-provider-info",
+ "memchr",
+ "pretty_assertions",
+ "semver",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-otel"
+version = "0.156.0"
+dependencies = [
+ "bytes",
+ "chrono",
+ "eventsource-stream",
+ "gethostname",
+ "http 1.4.0",
+ "kodex-api",
+ "kodex-http-client",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-stream-parser",
+ "kodex-utils-string",
+ "libc",
+ "opentelemetry",
+ "opentelemetry-appender-tracing",
+ "opentelemetry-http",
+ "opentelemetry-otlp",
+ "opentelemetry-semantic-conventions",
+ "opentelemetry_sdk",
+ "os_info",
+ "pretty_assertions",
+ "reqwest 0.12.28",
+ "seccompiler",
+ "serde",
+ "serde_json",
+ "strum_macros 0.28.0",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-tungstenite",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "kodex-otel-trace-websocket"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "futures",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-plugin"
+version = "0.156.0"
+dependencies = [
+ "kodex-config",
+ "kodex-core-plugin-common",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-plugins",
+ "pretty_assertions",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "kodex-process-hardening"
+version = "0.156.0"
+dependencies = [
+ "libc",
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-prompts"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "kodex-collaboration-mode-templates",
+ "kodex-context-fragments",
+ "kodex-execpolicy",
+ "kodex-git-utils",
+ "kodex-guardian-context",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-template",
+ "pretty_assertions",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-protocol"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chardetng",
+ "chrono",
+ "encoding_rs",
+ "gix-url",
+ "globset",
+ "http 1.4.0",
+ "icu_decimal",
+ "icu_locale_core",
+ "icu_provider",
+ "kodex-async-utils",
+ "kodex-execpolicy",
+ "kodex-extension-items",
+ "kodex-http-client",
+ "kodex-network-proxy",
+ "kodex-utils-absolute-path",
+ "kodex-utils-image",
+ "kodex-utils-path-uri",
+ "kodex-utils-redacted-string",
+ "kodex-utils-string",
+ "landlock",
+ "pretty_assertions",
+ "quick-xml 0.41.0",
+ "schemars 0.8.22",
+ "seccompiler",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "strum 0.27.2",
+ "strum_macros 0.28.0",
+ "sys-locale",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "ts-rs",
+ "uuid",
+ "wildmatch",
+]
+
+[[package]]
+name = "kodex-queue-extension"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "core_test_support",
+ "kodex-core",
+ "kodex-extension-api",
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-thread-store",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-realtime-webrtc"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "ctor 0.6.3",
+ "futures",
+ "kodex-build-info",
+ "kodex-install-context",
+ "kodex-utils-pty",
+ "libc",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-response-debug-context"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "http 1.4.0",
+ "kodex-api",
+ "pretty_assertions",
+ "serde_json",
+]
+
+[[package]]
+name = "kodex-responses-api-proxy"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "ctor 0.6.3",
+ "kodex-process-hardening",
+ "libc",
+ "pretty_assertions",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "tiny_http",
+ "zeroize",
+]
+
+[[package]]
+name = "kodex-rmcp-client"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "base64 0.22.1",
+ "bytes",
+ "futures",
+ "http 1.4.0",
+ "keyring",
+ "kodex-api",
+ "kodex-config",
+ "kodex-exec-server",
+ "kodex-http-client",
+ "kodex-keyring-store",
+ "kodex-network-proxy",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-secrets",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-home-dir",
+ "kodex-utils-path-uri",
+ "kodex-utils-pty",
+ "libc",
+ "memchr",
+ "oauth2",
+ "pretty_assertions",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha2 0.10.9",
+ "sse-stream",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tiny_http",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "tracing-subscriber",
+ "tracing-test",
+ "url",
+ "urlencoding",
+ "webbrowser",
+ "which 8.0.0",
+ "windows-sys 0.52.0",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-rollout"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "kodex-extension-items",
+ "kodex-file-search",
+ "kodex-git-utils",
+ "kodex-history",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-state",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path",
+ "kodex-utils-process",
+ "pretty_assertions",
+ "regex",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "time",
+ "tokio",
+ "tracing",
+ "uuid",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-rollout-trace"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "http 1.4.0",
+ "kodex-code-mode",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-sandboxing"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "dunce",
+ "kodex-mxc-sandbox",
+ "kodex-network-proxy",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-uds",
+ "kodex-utils-absolute-path",
+ "kodex-utils-home-dir",
+ "kodex-utils-path-uri",
+ "kodex-utils-pty",
+ "kodex-windows-sandbox",
+ "libc",
+ "pretty_assertions",
+ "regex-lite",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "url",
+ "which 8.0.0",
+]
+
+[[package]]
+name = "kodex-secrets"
+version = "0.156.0"
+dependencies = [
+ "age",
+ "anyhow",
+ "base64 0.22.1",
+ "keyring",
+ "kodex-git-utils",
+ "kodex-keyring-store",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "regex",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-shell-command"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "libc",
+ "once_cell",
+ "pretty_assertions",
+ "regex",
+ "serde",
+ "serde_json",
+ "shlex",
+ "tempfile",
+ "tree-sitter",
+ "tree-sitter-bash",
+ "tree-sitter-powershell",
+ "url",
+ "which 8.0.0",
+]
+
+[[package]]
+name = "kodex-shell-escalation"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "libc",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "socket2 0.6.3",
+ "tempfile",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "kodex-skills"
+version = "0.156.0"
+dependencies = [
+ "include_dir",
+ "kodex-protocol",
+ "kodex-shell-command",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "serde",
+ "serde_yaml",
+ "shlex",
+ "thiserror 2.0.18",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-skills-extension"
+version = "0.156.0"
+dependencies = [
+ "assert_matches",
+ "blake3",
+ "dirs",
+ "dunce",
+ "futures",
+ "insta",
+ "kodex-analytics",
+ "kodex-config",
+ "kodex-exec-server",
+ "kodex-extension-api",
+ "kodex-mcp",
+ "kodex-models-manager",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-skills",
+ "kodex-tools",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-path-uri",
+ "kodex-utils-plugins",
+ "kodex-utils-string",
+ "opentelemetry_sdk",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "tempfile",
+ "tokio",
+ "toml 0.9.11+spec-1.1.0",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-state"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "kodex-git-utils",
+ "kodex-history",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "libsqlite3-sys",
+ "log",
+ "pretty_assertions",
+ "scopeguard",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "sqlx-macros",
+ "sqlx-sqlite",
+ "strum 0.27.2",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+]
+
+[[package]]
+name = "kodex-stdio-to-uds"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "kodex-uds",
+ "kodex-utils-cargo-bin",
+ "pretty_assertions",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-tcp-tunnel"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "clap",
+ "h3",
+ "h3-quinn",
+ "http 1.4.0",
+ "pretty_assertions",
+ "quinn",
+ "rand 0.9.3",
+ "rcgen",
+ "rustls",
+ "rustls-native-certs",
+ "serde_json",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "kodex-terminal-detection"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-test-binary-support"
+version = "0.156.0"
+dependencies = [
+ "kodex-arg0",
+ "tempfile",
+]
+
+[[package]]
+name = "kodex-thread-manager-sample"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "kodex-core-api",
+ "serde_json",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-thread-store"
+version = "0.156.0"
+dependencies = [
+ "chrono",
+ "futures",
+ "kodex-app-server-protocol",
+ "kodex-extension-items",
+ "kodex-git-utils",
+ "kodex-install-context",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-rollout",
+ "kodex-state",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+ "pulldown-cmark",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "sqlx-macros",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "uuid",
+ "zstd",
+]
+
+[[package]]
+name = "kodex-tools"
+version = "0.156.0"
+dependencies = [
+ "bitflags 2.13.1",
+ "jsonptr",
+ "kodex-code-mode",
+ "kodex-connectors",
+ "kodex-extension-items",
+ "kodex-features",
+ "kodex-file-system",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-output-truncation",
+ "kodex-utils-path-uri",
+ "kodex-utils-string",
+ "pretty_assertions",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tracing",
+ "urlencoding",
+]
+
+[[package]]
+name = "kodex-tui"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "app_test_support",
+ "arboard",
+ "assert_matches",
+ "axum",
+ "base64 0.22.1",
+ "chrono",
+ "clap",
+ "color-eyre",
+ "core_test_support",
+ "crossterm",
+ "derive_more 2.1.1",
+ "diffy",
+ "dirs",
+ "dunce",
+ "futures",
+ "http 1.4.0",
+ "image",
+ "insta",
+ "itertools 0.14.0",
+ "kodex-ansi-escape",
+ "kodex-app-server-client",
+ "kodex-app-server-daemon",
+ "kodex-app-server-protocol",
+ "kodex-arg0",
+ "kodex-backend-client",
+ "kodex-build-info",
+ "kodex-cloud-config",
+ "kodex-config",
+ "kodex-connectors",
+ "kodex-context-fragments",
+ "kodex-core-plugins",
+ "kodex-exec-server",
+ "kodex-features",
+ "kodex-feedback",
+ "kodex-file-search",
+ "kodex-git-utils",
+ "kodex-history",
+ "kodex-http-client",
+ "kodex-install-context",
+ "kodex-login",
+ "kodex-mcp",
+ "kodex-mermaid",
+ "kodex-message-history",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-models-manager",
+ "kodex-otel",
+ "kodex-plugin",
+ "kodex-protocol",
+ "kodex-realtime-webrtc",
+ "kodex-rollout",
+ "kodex-sandboxing",
+ "kodex-shell-command",
+ "kodex-state",
+ "kodex-terminal-detection",
+ "kodex-uds",
+ "kodex-utils-absolute-path",
+ "kodex-utils-approval-presets",
+ "kodex-utils-cargo-bin",
+ "kodex-utils-cli",
+ "kodex-utils-elapsed",
+ "kodex-utils-fuzzy-match",
+ "kodex-utils-home-dir",
+ "kodex-utils-oss",
+ "kodex-utils-path",
+ "kodex-utils-path-uri",
+ "kodex-utils-plugins",
+ "kodex-utils-sandbox-summary",
+ "kodex-utils-sleep-inhibitor",
+ "kodex-utils-string",
+ "kodex-windows-sandbox",
+ "kodex-worktree",
+ "lazy_static",
+ "libc",
+ "objc2-app-kit",
+ "objc2-foundation",
+ "pathdiff",
+ "pretty_assertions",
+ "pulldown-cmark",
+ "rand 0.9.3",
+ "ratatui",
+ "ratatui-macros",
+ "regex-lite",
+ "rmcp",
+ "semver",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha2 0.10.9",
+ "shlex",
+ "strum 0.27.2",
+ "strum_macros 0.28.0",
+ "supports-color 3.0.2",
+ "syntect",
+ "tempfile",
+ "textwrap 0.16.2",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-stream",
+ "tokio-tungstenite",
+ "tokio-util",
+ "toml 0.9.11+spec-1.1.0",
+ "toml_edit 0.24.0+spec-1.1.0",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
+ "two-face",
+ "unicode-segmentation",
+ "unicode-width 0.2.1",
+ "url",
+ "urlencoding",
+ "uuid",
+ "vt100",
+ "webbrowser",
+ "which 8.0.0",
+ "windows-sys 0.52.0",
+ "winsplit",
+ "wiremock",
+ "zbus",
+]
+
+[[package]]
+name = "kodex-uds"
+version = "0.156.0"
+dependencies = [
+ "async-io",
+ "libc",
+ "pretty_assertions",
+ "tempfile",
+ "tokio",
+ "tokio-util",
+ "uds_windows",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-user-verification"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "core-foundation 0.10.1",
+ "dirs",
+ "objc2",
+ "objc2-foundation",
+ "objc2-local-authentication",
+ "p256",
+ "pretty_assertions",
+ "security-framework 3.5.1",
+ "security-framework-sys",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-utils-absolute-path"
+version = "0.156.0"
+dependencies = [
+ "dirs",
+ "dunce",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "ts-rs",
+]
+
+[[package]]
+name = "kodex-utils-approval-presets"
+version = "0.156.0"
+dependencies = [
+ "kodex-protocol",
+]
+
+[[package]]
+name = "kodex-utils-audio"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "kodex-protocol",
+ "kodex-utils-cache",
+ "kodex-utils-string",
+ "pretty_assertions",
+ "symphonia",
+ "thiserror 2.0.18",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-utils-cache"
+version = "0.156.0"
+dependencies = [
+ "lru",
+ "sha1 0.10.6",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-utils-cargo-bin"
+version = "0.156.0"
+dependencies = [
+ "assert_cmd",
+ "runfiles",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "kodex-utils-cli"
+version = "0.156.0"
+dependencies = [
+ "clap",
+ "kodex-protocol",
+ "kodex-shell-command",
+ "pretty_assertions",
+ "serde",
+ "toml 0.9.11+spec-1.1.0",
+]
+
+[[package]]
+name = "kodex-utils-elapsed"
+version = "0.156.0"
+
+[[package]]
+name = "kodex-utils-fuzzy-match"
+version = "0.156.0"
+
+[[package]]
+name = "kodex-utils-git-discovery"
+version = "0.156.0"
+dependencies = [
+ "futures",
+ "kodex-git-utils",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "kodex-utils-home-dir"
+version = "0.156.0"
+dependencies = [
+ "dirs",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "tempfile",
+]
+
+[[package]]
+name = "kodex-utils-image"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "divan",
+ "image",
+ "kodex-utils-cache",
+ "mime_guess",
+ "png",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-utils-json-to-toml"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "serde_json",
+ "toml 0.9.11+spec-1.1.0",
+]
+
+[[package]]
+name = "kodex-utils-oss"
+version = "0.156.0"
+dependencies = [
+ "kodex-core",
+ "kodex-lmstudio",
+ "kodex-model-provider-info",
+ "kodex-ollama",
+]
+
+[[package]]
+name = "kodex-utils-output-truncation"
+version = "0.156.0"
+dependencies = [
+ "kodex-protocol",
+ "kodex-utils-string",
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-utils-path"
+version = "0.156.0"
+dependencies = [
+ "dunce",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "tempfile",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-utils-path-uri"
+version = "0.156.0"
+dependencies = [
+ "base64 0.22.1",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "ts-rs",
+ "url",
+ "urlencoding",
+]
+
+[[package]]
+name = "kodex-utils-plugins"
+version = "0.156.0"
+dependencies = [
+ "kodex-exec-server",
+ "kodex-exec-server-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-utils-process"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-utils-pty"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "ctor 0.6.3",
+ "filedescriptor",
+ "lazy_static",
+ "libc",
+ "log",
+ "portable-pty",
+ "pretty_assertions",
+ "shared_library",
+ "tempfile",
+ "tokio",
+ "winapi",
+]
+
+[[package]]
+name = "kodex-utils-readiness"
+version = "0.156.0"
+dependencies = [
+ "assert_matches",
+ "thiserror 2.0.18",
+ "time",
+ "tokio",
+]
+
+[[package]]
+name = "kodex-utils-redacted-string"
+version = "0.156.0"
+dependencies = [
+ "schemars 0.8.22",
+ "serde",
+]
+
+[[package]]
+name = "kodex-utils-rustls-provider"
+version = "0.156.0"
+dependencies = [
+ "rustls",
+]
+
+[[package]]
+name = "kodex-utils-sandbox-summary"
+version = "0.156.0"
+dependencies = [
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-path-uri",
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-utils-sleep-inhibitor"
+version = "0.156.0"
+dependencies = [
+ "core-foundation 0.9.4",
+ "libc",
+ "tracing",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "kodex-utils-stream-parser"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-utils-string"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "regex-lite",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "kodex-utils-template"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+]
+
+[[package]]
+name = "kodex-v8-poc"
+version = "0.156.0"
+dependencies = [
+ "pretty_assertions",
+ "v8",
+]
+
+[[package]]
+name = "kodex-voice-host"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "cpal",
+ "crossbeam-queue",
+ "futures",
+ "gstreamer",
+ "gstreamer-app",
+ "gstreamer-audio",
+ "kodex-install-context",
+ "kodex-process-hardening",
+ "kodex-realtime-webrtc",
+ "kodex-utils-cargo-bin",
+ "libloading",
+ "opus",
+ "pretty_assertions",
+ "rand 0.9.3",
+ "rtc",
+ "rubato",
+ "sonora",
+ "tempfile",
+ "tokio",
+ "webrtc",
+]
+
+[[package]]
+name = "kodex-web-search-extension"
+version = "0.156.0"
+dependencies = [
+ "http 1.4.0",
+ "kodex-api",
+ "kodex-core",
+ "kodex-extension-api",
+ "kodex-extension-items",
+ "kodex-http-client",
+ "kodex-login",
+ "kodex-model-provider",
+ "kodex-model-provider-info",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-tools",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde_json",
+ "url",
+]
+
+[[package]]
+name = "kodex-websocket-auth"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "clap",
+ "constant_time_eq",
+ "hmac 0.12.1",
+ "http 1.4.0",
+ "jsonwebtoken",
+ "kodex-utils-absolute-path",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "time",
+]
+
+[[package]]
+name = "kodex-websocket-client"
+version = "0.156.0"
+dependencies = [
+ "futures",
+ "kodex-http-client",
+ "kodex-utils-rustls-provider",
+ "pretty_assertions",
+ "rcgen",
+ "rustls",
+ "tokio",
+ "tokio-rustls",
+ "tokio-tungstenite",
+ "url",
+]
+
+[[package]]
+name = "kodex-windows-sandbox"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "chrono",
+ "dirs-next",
+ "dunce",
+ "glob",
+ "kodex-http-client",
+ "kodex-otel",
+ "kodex-protocol",
+ "kodex-utils-absolute-path",
+ "kodex-utils-process",
+ "kodex-utils-pty",
+ "kodex-utils-string",
+ "pretty_assertions",
+ "rand 0.8.6",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing-appender",
+ "windows 0.58.0",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-windows-sandbox-service"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "kodex-cloud-config",
+ "kodex-config",
+ "kodex-core",
+ "kodex-windows-sandbox",
+ "pretty_assertions",
+ "serde_json",
+ "tokio",
+ "toml 0.9.11+spec-1.1.0",
+ "windows 0.58.0",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "kodex-workload-identity"
+version = "0.156.0"
+dependencies = [
+ "kodex-http-client",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+ "url",
+ "wiremock",
+]
+
+[[package]]
+name = "kodex-worktree"
+version = "0.156.0"
+dependencies = [
+ "anyhow",
+ "dunce",
+ "kodex-git-utils",
+ "kodex-protocol",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "uuid",
 ]
 
 [[package]]

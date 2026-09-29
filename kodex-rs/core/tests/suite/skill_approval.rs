@@ -2,17 +2,6 @@
 #![cfg(unix)]
 
 use anyhow::Result;
-use kodex_core::TurnInputRequest;
-use kodex_protocol::config_types::CollaborationMode;
-use kodex_protocol::config_types::ModeKind;
-use kodex_protocol::config_types::Settings;
-use kodex_protocol::models::PermissionProfile;
-use kodex_protocol::protocol::AskForApproval;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::ExecApprovalRequestEvent;
-use kodex_protocol::protocol::GranularApprovalConfig;
-use kodex_protocol::protocol::ThreadSettingsOverrides;
-use kodex_protocol::user_input::UserInput;
 use core_test_support::responses::mount_function_call_agent_response;
 use core_test_support::responses::start_mock_server;
 use core_test_support::skip_if_no_network;
@@ -24,6 +13,17 @@ use core_test_support::wait_for_event_match;
 use core_test_support::zsh_fork::build_zsh_fork_test;
 use core_test_support::zsh_fork::restrictive_workspace_write_profile;
 use core_test_support::zsh_fork::zsh_fork_runtime;
+use kodex_core::TurnInputRequest;
+use kodex_protocol::config_types::CollaborationMode;
+use kodex_protocol::config_types::ModeKind;
+use kodex_protocol::config_types::Settings;
+use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::protocol::AskForApproval;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::ExecApprovalRequestEvent;
+use kodex_protocol::protocol::GranularApprovalConfig;
+use kodex_protocol::protocol::ThreadSettingsOverrides;
+use kodex_protocol::user_input::UserInput;
 use std::fs;
 use std::path::Path;
 use std::path::PathBuf;

@@ -15,10 +15,10 @@ use std::cell::RefCell;
 use std::time::Duration;
 use std::time::Instant;
 
-use kodex_config::types::Tui;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyModifiers;
+use kodex_config::types::Tui;
 use ratatui::buffer::Buffer;
 use ratatui::layout::Rect;
 use unicode_width::UnicodeWidthStr;

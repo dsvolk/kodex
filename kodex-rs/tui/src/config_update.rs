@@ -4,6 +4,8 @@
 //! when a config mutation must be owned by the app server rather than written
 //! to the local `config.toml` directly.
 
+use color_eyre::eyre::Result;
+use color_eyre::eyre::WrapErr;
 use kodex_app_server_client::AppServerRequestHandle;
 use kodex_app_server_client::TypedRequestError;
 use kodex_app_server_protocol::ClientRequest;
@@ -31,8 +33,6 @@ use kodex_protocol::config_types::TrustLevel;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::LegacyAppPathString;
 use kodex_utils_path_uri::PathConvention;
-use color_eyre::eyre::Result;
-use color_eyre::eyre::WrapErr;
 use serde_json::Value as JsonValue;
 use std::fmt::Display;
 use std::path::Path;

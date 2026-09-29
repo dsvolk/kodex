@@ -1,9 +1,9 @@
 #![cfg(not(target_os = "windows"))]
 #![allow(clippy::unwrap_used)]
 
-use kodex_login::default_client::KODEX_INTERNAL_ORIGINATOR_OVERRIDE_ENV_VAR;
 use core_test_support::responses;
 use core_test_support::test_kodex_exec::test_kodex_exec;
+use kodex_login::default_client::KODEX_INTERNAL_ORIGINATOR_OVERRIDE_ENV_VAR;
 use wiremock::matchers::header;
 
 /// Verify that when the server reports an error, `kodex-exec` exits with a

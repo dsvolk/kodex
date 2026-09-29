@@ -3,6 +3,9 @@
 use std::sync::Arc;
 
 use anyhow::Result;
+use core_test_support::responses;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_core::TurnInputRequest;
 use kodex_core::config::ConfigBuilder;
 use kodex_login::AuthManager;
@@ -18,9 +21,6 @@ use kodex_model_provider_info::ModelProviderInfo;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use tempfile::TempDir;

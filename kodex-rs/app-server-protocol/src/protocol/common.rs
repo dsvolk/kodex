@@ -2071,8 +2071,8 @@ mod tests {
     use kodex_protocol::config_types::MultiAgentMode;
     use kodex_protocol::models::BUILT_IN_PERMISSION_PROFILE_READ_ONLY;
     use kodex_protocol::parse_command::ParsedCommand;
-    use kodex_protocol::protocol::KodexResponseHandoffMode;
     use kodex_protocol::protocol::ConversationTextRole;
+    use kodex_protocol::protocol::KodexResponseHandoffMode;
     use kodex_protocol::protocol::RealtimeConversationVersion;
     use kodex_protocol::protocol::RealtimeOutputModality;
     use kodex_protocol::protocol::RealtimeVoice;

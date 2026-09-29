@@ -6,15 +6,15 @@ use crate::chatwidget::tests::helpers::normalize_snapshot_paths;
 use crate::chatwidget::tests::helpers::render_bottom_popup;
 use crate::history_cell::HistoryRenderMode;
 use crate::history_cell::PlainHistoryCell;
+use crossterm::event::MouseButton;
+use crossterm::event::MouseEvent;
+use crossterm::event::MouseEventKind;
 use kodex_app_server_protocol::ItemCompletedNotification;
 use kodex_app_server_protocol::Turn;
 use kodex_app_server_protocol::TurnCompletedNotification;
 use kodex_app_server_protocol::TurnItemsView;
 use kodex_app_server_protocol::TurnStartedNotification;
 use kodex_protocol::config_types::ModeKind;
-use crossterm::event::MouseButton;
-use crossterm::event::MouseEvent;
-use crossterm::event::MouseEventKind;
 use pretty_assertions::assert_eq;
 
 async fn select_transcript(

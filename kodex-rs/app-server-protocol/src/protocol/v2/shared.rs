@@ -4,8 +4,8 @@ use kodex_experimental_api_macros::ExperimentalApi;
 use kodex_protocol::config_types::ApprovalsReviewer as CoreApprovalsReviewer;
 use kodex_protocol::config_types::SandboxMode as CoreSandboxMode;
 use kodex_protocol::protocol::AskForApproval as CoreAskForApproval;
-use kodex_protocol::protocol::KodexErrorInfo as CoreKodexErrorInfo;
 use kodex_protocol::protocol::GranularApprovalConfig as CoreGranularApprovalConfig;
+use kodex_protocol::protocol::KodexErrorInfo as CoreKodexErrorInfo;
 use kodex_protocol::protocol::NonSteerableTurnKind as CoreNonSteerableTurnKind;
 #[cfg(test)]
 use schemars::r#gen::SchemaGenerator;

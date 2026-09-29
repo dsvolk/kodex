@@ -1,4 +1,10 @@
 use anyhow::Result;
+use core_test_support::TempDirExt;
+use core_test_support::responses::start_mock_server;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::local_selections;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_core::config::Constrained;
 use kodex_protocol::config_types::CollaborationMode;
 use kodex_protocol::config_types::ModeKind;
@@ -6,12 +12,6 @@ use kodex_protocol::config_types::Settings;
 use kodex_protocol::protocol::AskForApproval;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::Op;
-use core_test_support::TempDirExt;
-use core_test_support::responses::start_mock_server;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::local_selections;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use tempfile::TempDir;
 
 fn collab_mode_with_instructions(instructions: Option<&str>) -> CollaborationMode {

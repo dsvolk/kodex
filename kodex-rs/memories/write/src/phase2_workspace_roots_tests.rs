@@ -1,9 +1,9 @@
 use super::agent;
 use crate::memory_root;
-use kodex_model_provider::create_model_provider;
-use kodex_protocol::protocol::SandboxPolicy;
 use core_test_support::responses::start_mock_server;
 use core_test_support::test_kodex::test_kodex;
+use kodex_model_provider::create_model_provider;
+use kodex_protocol::protocol::SandboxPolicy;
 use pretty_assertions::assert_eq;
 use std::sync::Arc;
 use tempfile::TempDir;

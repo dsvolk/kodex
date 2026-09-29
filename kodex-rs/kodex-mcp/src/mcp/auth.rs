@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use anyhow::Result;
+use futures::FutureExt;
+use futures::future::join_all;
 use kodex_config::McpServerAuth;
 use kodex_config::McpServerConfig;
 use kodex_config::McpServerTransportConfig;
@@ -18,8 +20,6 @@ use kodex_rmcp_client::determine_streamable_http_auth_status;
 use kodex_rmcp_client::determine_streamable_http_auth_status_from_credentials;
 use kodex_rmcp_client::discover_streamable_http_oauth;
 use kodex_rmcp_client::resolve_mcp_oauth_callback_url;
-use futures::FutureExt;
-use futures::future::join_all;
 use tracing::warn;
 
 use crate::runtime::McpRuntimeContext;

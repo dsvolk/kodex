@@ -4,14 +4,14 @@ use std::time::Duration;
 
 use anyhow::Context;
 use anyhow::Result;
+use http::HeaderMap;
+use keyring::Error as KeyringError;
 use kodex_config::types::AuthKeyringBackendKind;
 use kodex_config::types::OAuthCredentialsStoreMode;
 use kodex_exec_server::RouteAwareHttpClient;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_keyring_store::DefaultKeyringStore;
-use http::HeaderMap;
-use keyring::Error as KeyringError;
 use oauth2::AccessToken;
 use oauth2::RefreshToken;
 use oauth2::TokenResponse;

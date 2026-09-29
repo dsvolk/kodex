@@ -18,7 +18,7 @@ from ._initialize_metadata import _split_user_agent
 from ._message_router import MessageRouter, _TurnSubscription
 from ._runtime_requirements import CheckoutCapabilities, require_runtime_version
 from ._version import __version__ as SDK_VERSION
-from .errors import KodexError, InvalidRequestError, TransportClosedError
+from .errors import InvalidRequestError, KodexError, TransportClosedError
 from .generated.notification_registry import NOTIFICATION_MODELS
 from .generated.v2_all import (
     AccountLoginCompletedNotification,

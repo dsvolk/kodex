@@ -20,6 +20,7 @@ use std::sync::Arc;
 #[cfg(test)]
 use std::time::Duration;
 
+use futures::future::BoxFuture;
 use kodex_analytics::GuardianReviewAnalyticsResult;
 use kodex_analytics::GuardianReviewSessionAnalyticsParams;
 use kodex_analytics::GuardianReviewSessionKind;
@@ -42,14 +43,13 @@ use kodex_protocol::models::ResponseItem;
 use kodex_protocol::openai_models::GuardianScope;
 use kodex_protocol::openai_models::InputModality;
 use kodex_protocol::openai_models::ReasoningEffort as ReasoningEffortConfig;
-use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::Event;
 use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::Op;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
 use kodex_protocol::protocol::TokenUsage;
-use futures::future::BoxFuture;
 use serde_json::Value;
 use tokio::sync::Mutex;
 use tokio_util::sync::CancellationToken;

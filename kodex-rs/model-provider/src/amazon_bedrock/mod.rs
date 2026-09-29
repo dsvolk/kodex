@@ -454,11 +454,11 @@ mod error_tests;
 mod tests {
     use std::num::NonZeroU64;
 
+    use http::HeaderValue;
     use kodex_login::auth::BedrockAccessKeysAuth;
     use kodex_login::auth::BedrockApiKeyAuth;
     use kodex_model_provider_info::AwsAuthRefreshConfig;
     use kodex_protocol::config_types::ModelProviderAuthInfo;
-    use http::HeaderValue;
     use pretty_assertions::assert_eq;
 
     use super::*;

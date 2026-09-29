@@ -1,6 +1,8 @@
 use std::sync::Arc;
 
 use anyhow::Result;
+use core_test_support::responses::strip_metadata;
+use core_test_support::responses::strip_response_item_id;
 use kodex_core::build_prompt_input;
 use kodex_core::config::ConfigBuilder;
 use kodex_core::config::ConfigOverrides;
@@ -9,8 +11,6 @@ use kodex_home::KodexHomeUserInstructionsProvider;
 use kodex_protocol::models::ContentItem;
 use kodex_protocol::models::ResponseItem;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses::strip_metadata;
-use core_test_support::responses::strip_response_item_id;
 use pretty_assertions::assert_eq;
 use tempfile::TempDir;
 

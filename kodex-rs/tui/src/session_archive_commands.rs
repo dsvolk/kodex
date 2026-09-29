@@ -19,6 +19,9 @@ use crate::legacy_core::config::resolve_profile_v2_config_path;
 use crate::named_session_lookup::SessionCollection;
 use crate::named_session_lookup::display_label;
 use crate::named_session_lookup::lookup;
+use color_eyre::eyre::Result;
+use color_eyre::eyre::WrapErr;
+use color_eyre::eyre::eyre;
 use kodex_app_server_protocol::Thread as AppServerThread;
 use kodex_arg0::Arg0DispatchPaths;
 use kodex_config::CloudConfigBundleLoader;
@@ -30,9 +33,6 @@ use kodex_protocol::ThreadId;
 use kodex_utils_cli::CliConfigOverrides;
 use kodex_utils_home_dir::find_kodex_home;
 use kodex_utils_oss::get_default_model_for_oss_provider;
-use color_eyre::eyre::Result;
-use color_eyre::eyre::WrapErr;
-use color_eyre::eyre::eyre;
 
 use super::RemoteAppServerEndpoint;
 

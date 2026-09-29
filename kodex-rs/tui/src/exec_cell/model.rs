@@ -13,9 +13,9 @@ use std::time::Instant;
 
 use super::live_output::LiveCommandOutput;
 use crate::history_cell::ActivityGroup;
+use itertools::Either;
 use kodex_app_server_protocol::CommandExecutionSource as ExecCommandSource;
 use kodex_protocol::parse_command::ParsedCommand;
-use itertools::Either;
 
 #[derive(Debug, Default)]
 pub(crate) struct CommandOutput {

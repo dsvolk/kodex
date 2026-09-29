@@ -439,8 +439,8 @@ fn parse_canonical_key(canonical_key: &str) -> Option<SecretListEntry> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use kodex_keyring_store::tests::MockKeyringStore;
     use keyring::Error as KeyringError;
+    use kodex_keyring_store::tests::MockKeyringStore;
     use pretty_assertions::assert_eq;
 
     static MCP_OAUTH_CACHE_TEST_LOCK: Mutex<()> = Mutex::new(());

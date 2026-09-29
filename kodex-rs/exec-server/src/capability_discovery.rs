@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 use std::io;
 
+use futures::StreamExt;
 use kodex_exec_server_protocol::CapabilityRootDiscoverRequest;
 use kodex_exec_server_protocol::CapabilityRootDiscovery;
 use kodex_exec_server_protocol::CapabilityRootsDiscoverParams;
@@ -14,7 +15,6 @@ use kodex_file_system::FileSystemSandboxContext;
 use kodex_file_system::WalkEntryKind;
 use kodex_file_system::WalkOptions;
 use kodex_utils_path_uri::PathUri;
-use futures::StreamExt;
 use serde::Deserialize;
 use serde_json::Value;
 

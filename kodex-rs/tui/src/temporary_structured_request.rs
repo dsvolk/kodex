@@ -1,5 +1,6 @@
 //! Run isolated structured requests through existing app-server methods.
 
+use color_eyre::eyre::eyre;
 use kodex_app_server_client::AppServerRequestHandle;
 use kodex_app_server_client::TypedRequestError;
 use kodex_app_server_protocol::AskForApproval;
@@ -24,7 +25,6 @@ use kodex_app_server_protocol::TurnStatus;
 use kodex_app_server_protocol::UserInput;
 use kodex_protocol::models::BUILT_IN_PERMISSION_PROFILE_READ_ONLY;
 use kodex_protocol::openai_models::ReasoningEffort;
-use color_eyre::eyre::eyre;
 use serde_json::Value;
 use std::time::Duration;
 use tokio::sync::mpsc::UnboundedReceiver;

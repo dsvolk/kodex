@@ -1,6 +1,15 @@
 //! Cross-trace admission links and phase boundaries through a real blocked tool.
 //! Each case uses an isolated process so SQLite workers share its tracing collector.
 
+use core_test_support::responses::ev_assistant_message;
+use core_test_support::responses::ev_completed;
+use core_test_support::responses::ev_function_call;
+use core_test_support::responses::ev_response_created;
+use core_test_support::responses::mount_sse_once;
+use core_test_support::responses::sse;
+use core_test_support::responses::start_mock_server;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_core::RecoverTurnRequest;
 use kodex_core::StartIfIdleSubmission;
 use kodex_core::StartThreadOptions;
@@ -12,15 +21,6 @@ use kodex_protocol::dynamic_tools::DynamicToolSpec;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::Op;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses::ev_assistant_message;
-use core_test_support::responses::ev_completed;
-use core_test_support::responses::ev_function_call;
-use core_test_support::responses::ev_response_created;
-use core_test_support::responses::mount_sse_once;
-use core_test_support::responses::sse;
-use core_test_support::responses::start_mock_server;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use opentelemetry::KeyValue;
 use opentelemetry::trace::TracerProvider as _;
 use opentelemetry_sdk::propagation::TraceContextPropagator;

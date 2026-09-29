@@ -1,8 +1,8 @@
 //! Model-switch compaction must retain the historical model/program pair across replay.
 
 use super::*;
-use kodex_core::KodexThread;
 use kodex_core::ForkSnapshot;
+use kodex_core::KodexThread;
 use kodex_core::StartThreadOptions;
 use kodex_core::TurnStartOptions;
 use kodex_protocol::turn_input::CyberAccessProgram;

@@ -2,9 +2,9 @@
 //! steal the reader's position in the owned transcript.
 
 use super::*;
-use kodex_app_server_protocol::RateLimitResetCreditsSummary;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
+use kodex_app_server_protocol::RateLimitResetCreditsSummary;
 use pretty_assertions::assert_eq;
 
 fn hold_older_history(app: &mut App, tui: &mut crate::tui::Tui) {

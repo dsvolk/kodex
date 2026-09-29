@@ -1,4 +1,5 @@
 use crate::error::ApiError;
+use http::StatusCode;
 use kodex_client::Request;
 use kodex_client::RequestTelemetry;
 use kodex_client::Response;
@@ -6,7 +7,6 @@ use kodex_client::RetryPolicy;
 use kodex_client::StreamResponse;
 use kodex_client::TransportError;
 use kodex_client::run_with_retry;
-use http::StatusCode;
 use std::future::Future;
 use std::sync::Arc;
 use std::time::Duration;

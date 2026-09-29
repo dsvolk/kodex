@@ -1,9 +1,6 @@
 //! Direct-call metadata coverage, including malformed calls and metadata budgets.
 
 use anyhow::Result;
-use kodex_features::Feature;
-use kodex_mcp::KODEX_APPS_MCP_SERVER_NAME;
-use kodex_model_provider::RemoteCompactionSupport;
 use core_test_support::apps_test_server::AppsTestServer;
 use core_test_support::apps_test_server::SEARCH_CALENDAR_LIST_TOOL;
 use core_test_support::apps_test_server::SEARCH_CALENDAR_NAMESPACE;
@@ -11,6 +8,9 @@ use core_test_support::apps_test_server::recorded_apps_tool_calls;
 use core_test_support::apps_test_server::search_capable_apps_builder;
 use core_test_support::responses::ev_function_call_with_namespace;
 use core_test_support::wait_for_mcp_server;
+use kodex_features::Feature;
+use kodex_mcp::KODEX_APPS_MCP_SERVER_NAME;
+use kodex_model_provider::RemoteCompactionSupport;
 use wiremock::Mock;
 use wiremock::Request;
 use wiremock::ResponseTemplate;
@@ -19,10 +19,6 @@ use wiremock::matchers::method;
 use wiremock::matchers::path;
 use wiremock::matchers::path_regex;
 
-use kodex_protocol::models::PermissionProfile;
-use kodex_protocol::protocol::AskForApproval;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::Op;
 use core_test_support::apps_test_server::configure_search_capable_model;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
@@ -36,6 +32,10 @@ use core_test_support::responses::start_websocket_server;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::protocol::AskForApproval;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::Op;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

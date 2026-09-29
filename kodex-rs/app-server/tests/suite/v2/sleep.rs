@@ -1,6 +1,7 @@
 use anyhow::Result;
 use app_test_support::MockResponsesConfig;
 use app_test_support::TestAppServer;
+use core_test_support::responses;
 use kodex_app_server_protocol::ClientRequest;
 use kodex_app_server_protocol::CurrentTimeReadResponse;
 use kodex_app_server_protocol::ItemCompletedNotification;
@@ -16,7 +17,6 @@ use kodex_app_server_protocol::TurnStartParams;
 use kodex_app_server_protocol::TurnStartResponse;
 use kodex_app_server_protocol::TurnStatus;
 use kodex_app_server_protocol::UserInput as V2UserInput;
-use core_test_support::responses;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::time::Duration;

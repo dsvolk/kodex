@@ -1,10 +1,10 @@
 use std::io;
 
+use http_body_util::BodyExt;
 use kodex_code_mode_protocol::grpc::code_mode_host_client::CodeModeHostClient;
 use kodex_code_mode_protocol::host::MAX_FRAME_BYTES;
 use kodex_http_client::ClientRouteClass;
 use kodex_http_client::HttpClientFactory;
-use http_body_util::BodyExt;
 use tonic::body::Body;
 use tonic::codegen::http::Request;
 use tonic::codegen::http::Response;
