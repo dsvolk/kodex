@@ -51,7 +51,7 @@ OPENSSL_CC="${musl_linker}" bash "$(dirname "${BASH_SOURCE[0]}")/install-musl-op
 
 zig_target="${TARGET/-unknown-linux-musl/-linux-musl}"
 runner_temp="${RUNNER_TEMP:-/tmp}"
-tool_root="${runner_temp}/codex-musl-tools-${TARGET}"
+tool_root="${runner_temp}/kodex-musl-tools-${TARGET}"
 mkdir -p "${tool_root}"
 
 libcap_root="${tool_root}/libcap-${libcap_version}"

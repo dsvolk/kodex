@@ -1,0 +1,33 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-core-api"
+version.workspace = true
+
+[lib]
+doctest = false
+name = "kodex_core_api"
+path = "src/lib.rs"
+test = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-app-server-protocol = { workspace = true }
+kodex-arg0 = { workspace = true }
+kodex-analytics = { workspace = true }
+kodex-config = { workspace = true }
+kodex-core = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-home = { workspace = true }
+kodex-history = { workspace = true }
+kodex-image-generation-extension = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-features = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-models-manager = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-state = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }

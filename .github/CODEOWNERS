@@ -1,17 +1,17 @@
 # Core crate ownership.
-/codex-rs/arg0/ @openai/codex-core-agent-team
-/codex-rs/codex-mcp/ @openai/codex-core-agent-team
-/codex-rs/core/ @openai/codex-core-agent-team
-/codex-rs/exec-server/ @openai/codex-core-agent-team
-/codex-rs/exec-server-protocol/ @openai/codex-core-agent-team
-/codex-rs/ext/extension-api/ @openai/codex-core-agent-team
-/codex-rs/prompts/ @openai/codex-core-agent-team
-/codex-rs/utils/path-uri/ @openai/codex-core-agent-team
+/kodex-rs/arg0/ @openai/kodex-core-agent-team
+/kodex-rs/kodex-mcp/ @openai/kodex-core-agent-team
+/kodex-rs/core/ @openai/kodex-core-agent-team
+/kodex-rs/exec-server/ @openai/kodex-core-agent-team
+/kodex-rs/exec-server-protocol/ @openai/kodex-core-agent-team
+/kodex-rs/ext/extension-api/ @openai/kodex-core-agent-team
+/kodex-rs/prompts/ @openai/kodex-core-agent-team
+/kodex-rs/utils/path-uri/ @openai/kodex-core-agent-team
 
-# Keep macOS AKV signing changes reviewed by Codex maintainers.
-/.github/actions/setup-akv-pkcs11-codesigning/ @openai/codex-core-agent-team
-/.github/scripts/macos-signing/ @openai/codex-core-agent-team
-/.github/workflows/rust-release.yml @openai/codex-core-agent-team
+# Keep macOS AKV signing changes reviewed by Kodex maintainers.
+/.github/actions/setup-akv-pkcs11-codesigning/ @openai/kodex-core-agent-team
+/.github/scripts/macos-signing/ @openai/kodex-core-agent-team
+/.github/workflows/rust-release.yml @openai/kodex-core-agent-team
 
 # Keep ownership changes reviewed by the same team.
-/.github/CODEOWNERS @openai/codex-core-agent-team
+/.github/CODEOWNERS @openai/kodex-core-agent-team

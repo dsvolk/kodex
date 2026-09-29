@@ -1,0 +1,84 @@
+[package]
+name = "kodex-exec"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+autotests = false
+
+[[bin]]
+name = "kodex-exec"
+path = "src/main.rs"
+
+[lib]
+name = "kodex_exec"
+path = "src/lib.rs"
+doctest = false
+
+[[test]]
+name = "all"
+path = "tests/all.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+kodex-arg0 = { workspace = true }
+kodex-app-server-client = { workspace = true }
+kodex-app-server-protocol = { workspace = true }
+kodex-cloud-config = { workspace = true }
+kodex-config = { workspace = true }
+kodex-core = { workspace = true }
+kodex-features = { workspace = true }
+kodex-feedback = { workspace = true }
+kodex-git-utils = { workspace = true }
+kodex-history = { workspace = true }
+kodex-login = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-otel = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-rollout = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-cli = { workspace = true }
+kodex-utils-oss = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+kodex-utils-sandbox-summary = { workspace = true }
+kodex-worktree = { workspace = true }
+owo-colors = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+supports-color = { workspace = true }
+tokio = { workspace = true, features = [
+    "io-std",
+    "macros",
+    "process",
+    "rt-multi-thread",
+    "signal",
+] }
+tracing = { workspace = true, features = ["log"] }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+ts-rs = { workspace = true, features = [
+    "uuid-impl",
+    "serde-json-impl",
+    "no-serde-warnings",
+] }
+uuid = { workspace = true }
+
+
+[dev-dependencies]
+assert_cmd = { workspace = true }
+kodex-apply-patch = { workspace = true }
+kodex-utils-cargo-bin = { workspace = true }
+core_test_support = { workspace = true }
+libc = { workspace = true }
+opentelemetry = { workspace = true }
+opentelemetry_sdk = { workspace = true }
+predicates = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+uuid = { workspace = true }
+walkdir = { workspace = true }
+wiremock = { workspace = true }
+zstd = { workspace = true }

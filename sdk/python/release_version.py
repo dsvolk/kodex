@@ -7,14 +7,14 @@ from pathlib import Path
 from typing import Sequence
 
 _PYTHON_RUNTIME_VERSION_PATTERN = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(?:a[0-9]+(?:\.post[0-9]+)?)?")
-_NORMALIZED_CODEX_VERSION_PATTERN = re.compile(
+_NORMALIZED_KODEX_VERSION_PATTERN = re.compile(
     r"[0-9]+(?:\.[0-9]+)*(?:(?:a|b|rc)[0-9]+)?(?:\.post[0-9]+)?"
 )
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Resolve a Python runtime version or Codex release tag to both versions."
+        description="Resolve a Python runtime version or Kodex release tag to both versions."
     )
     parser.add_argument("python_version")
     parser.add_argument("--github-output", type=Path, required=True)
@@ -22,7 +22,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         python_version, release_tag = resolve_python_runtime_release(
-            normalize_codex_version(args.python_version)
+            normalize_kodex_version(args.python_version)
         )
     except RuntimeError as exc:
         print(exc, file=sys.stderr)
@@ -41,15 +41,15 @@ def resolve_python_runtime_release(python_version: str) -> tuple[str, str]:
             "alpha post-release, for example 0.136.0, 0.136.0a2, or "
             f"0.136.0a2.post1; found {python_version}"
         )
-    return python_version, codex_release_tag(python_version)
+    return python_version, kodex_release_tag(python_version)
 
 
-def codex_release_tag(version: str) -> str:
-    return f"rust-v{codex_release_version(version)}"
+def kodex_release_tag(version: str) -> str:
+    return f"rust-v{kodex_release_version(version)}"
 
 
-def codex_release_version(version: str) -> str:
-    normalized = normalize_codex_version(version)
+def kodex_release_version(version: str) -> str:
+    normalized = normalize_kodex_version(version)
     alpha_hotfix = re.fullmatch(
         r"([0-9]+(?:\.[0-9]+)*)a([0-9]+)\.post([0-9]+)",
         normalized,
@@ -67,7 +67,7 @@ def codex_release_version(version: str) -> str:
     return f"{base}-{prerelease_name}.{number}"
 
 
-def normalize_codex_version(version: str) -> str:
+def normalize_kodex_version(version: str) -> str:
     normalized = version.strip()
     if normalized.startswith("rust-v"):
         normalized = normalized.removeprefix("rust-v")
@@ -79,8 +79,8 @@ def normalize_codex_version(version: str) -> str:
     normalized = re.sub(r"-beta\.?([0-9]+)$", r"b\1", normalized)
     normalized = re.sub(r"-rc\.?([0-9]+)$", r"rc\1", normalized)
 
-    if _NORMALIZED_CODEX_VERSION_PATTERN.fullmatch(normalized) is None:
-        raise RuntimeError(f"Could not normalize Codex version {version!r} to a PEP 440 version")
+    if _NORMALIZED_KODEX_VERSION_PATTERN.fullmatch(normalized) is None:
+        raise RuntimeError(f"Could not normalize Kodex version {version!r} to a PEP 440 version")
     return normalized
 
 

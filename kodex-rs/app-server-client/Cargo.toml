@@ -1,0 +1,40 @@
+[package]
+name = "kodex-app-server-client"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "kodex_app_server_client"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-app-server = { workspace = true }
+kodex-app-server-protocol = { workspace = true }
+kodex-arg0 = { workspace = true }
+kodex-config = { workspace = true }
+kodex-core = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-feedback = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-uds = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-rustls-provider = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["sync", "time", "rt"] }
+tokio-tungstenite = { workspace = true }
+toml = { workspace = true }
+tracing = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

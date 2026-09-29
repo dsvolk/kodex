@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "stdio-to-uds",
+    crate_name = "kodex_stdio_to_uds",
+)

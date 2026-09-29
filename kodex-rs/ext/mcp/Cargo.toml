@@ -1,0 +1,45 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "kodex-mcp-extension"
+version.workspace = true
+
+[lib]
+name = "kodex_mcp_extension"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+kodex-core = { workspace = true }
+kodex-core-plugins = { workspace = true }
+kodex-config = { workspace = true }
+kodex-connectors = { workspace = true }
+kodex-connectors-extension = { workspace = true }
+kodex-exec-server = { workspace = true }
+kodex-extension-api = { workspace = true }
+kodex-features = { workspace = true }
+kodex-mcp = { workspace = true }
+kodex-plugin = { workspace = true }
+kodex-protocol = { workspace = true }
+kodex-utils-absolute-path = { workspace = true }
+kodex-utils-path-uri = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true, features = ["sync"] }
+
+[dev-dependencies]
+core_test_support = { workspace = true }
+axum = { workspace = true }
+kodex-exec-server-test-support = { workspace = true }
+kodex-login = { workspace = true }
+futures = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+tokio-util = { workspace = true, features = ["rt"] }
+wiremock = { workspace = true }

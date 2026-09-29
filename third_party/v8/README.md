@@ -3,14 +3,14 @@
 This directory wires the `v8` crate to exact-version Bazel inputs.
 Bazel consumer builds use:
 
-- Codex-published sandbox archive/binding pairs on Darwin and GNU Linux (x64
+- Kodex-published sandbox archive/binding pairs on Darwin and GNU Linux (x64
   and arm64), with checksums pinned from the trusted release manifests
-- the existing Codex-published Windows MSVC archives
+- the existing Kodex-published Windows MSVC archives
 - source-built V8 archives on musl Linux and Windows GNU
 
 Local Cargo builds still use upstream prebuilt `rusty_v8` archives by default.
 Selected Cargo CI, release, and package builds override
-`RUSTY_V8_ARCHIVE`/`RUSTY_V8_SRC_BINDING_PATH` with Codex release assets. Bazel
+`RUSTY_V8_ARCHIVE`/`RUSTY_V8_SRC_BINDING_PATH` with Kodex release assets. Bazel
 sets those variables independently in `MODULE.bazel`, selecting the pair above
 for its consumers. All Bazel compilation modes use the same published V8
 release archive on supported platforms.
@@ -31,12 +31,12 @@ Current pinned versions:
 
 Use this as the maintainer flow for a version bump:
 
-1. Bump the `v8` crate version and refresh `codex-rs/Cargo.lock`.
+1. Bump the `v8` crate version and refresh `kodex-rs/Cargo.lock`.
 2. Update the Bazel versioned inputs in `MODULE.bazel`, then refresh the
    matching checksum manifest and generated checksums as described below.
 3. Publish a release-candidate PR and validate that `v8-canary` passes.
 4. If the canary is green, publish the release tag and release build.
-5. Independently verify the published Codex-built checksum manifests and record
+5. Independently verify the published Kodex-built checksum manifests and record
    their SHA-256 digests in
    `third_party/v8/rusty_v8_<version>_release_manifests.sha256`.
 6. Once the release build completes, rerun the build on the candidate branch
@@ -101,7 +101,7 @@ The same run also builds the matching sandbox pair targets:
 The workflow also builds sandbox-enabled
 `x86_64-pc-windows-msvc` and `aarch64-pc-windows-msvc` archive/binding pairs
 from upstream `rusty_v8` source. Those ABI-specific outputs cannot be produced
-by Codex's Bazel Windows GNU toolchain.
+by Kodex's Bazel Windows GNU toolchain.
 
 The Bazel graph pins the same libc++, libc++abi, and llvm-libc source revisions
 used by `rusty_v8 v150.4.0`, compiles published artifact targets with
@@ -128,10 +128,10 @@ it cannot truthfully reproduce upstream's `*-pc-windows-msvc` archives until we
 add a real MSVC-targeting C++ toolchain to the Bazel graph.
 
 Release and CI Cargo builds for Darwin and Linux use `RUSTY_V8_ARCHIVE` plus a
-downloaded `RUSTY_V8_SRC_BINDING_PATH` to point at those `openai/codex` release
+downloaded `RUSTY_V8_SRC_BINDING_PATH` to point at those `openai/kodex` release
 assets directly. We do not use `RUSTY_V8_MIRROR` because the upstream `v8` crate
 hardcodes a `v<crate_version>` tag layout, while our artifacts are published
 under `rusty-v8-v<crate_version>`.
 
 Do not mix artifacts across crate versions. The archive and binding must match
-the exact resolved `v8` crate version in `codex-rs/Cargo.lock`.
+the exact resolved `v8` crate version in `kodex-rs/Cargo.lock`.

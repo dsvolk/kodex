@@ -1,4 +1,4 @@
-"""Validate and compare the version formats used by Codex releases."""
+"""Validate and compare the version formats used by Kodex releases."""
 
 import re
 import sys

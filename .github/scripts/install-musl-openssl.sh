@@ -15,7 +15,7 @@ esac
 # security release until that crate catches up, keeping the existing 3.x ABI.
 openssl_version="3.6.4"
 openssl_sha256="9bffaa1ad1e07b354c21bd3324ec02fa15579f45a7d0494b3e74bc449b7333ef"
-openssl_root="${RUNNER_TEMP:-/tmp}/codex-musl-tools-${TARGET}/openssl-${openssl_version}"
+openssl_root="${RUNNER_TEMP:-/tmp}/kodex-musl-tools-${TARGET}/openssl-${openssl_version}"
 openssl_prefix="${openssl_root}/prefix"
 
 if [[ ! -f "${openssl_prefix}/.complete" ]]; then

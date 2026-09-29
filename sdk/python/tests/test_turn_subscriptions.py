@@ -6,12 +6,12 @@ from itertools import chain
 
 import pytest
 
-from openai_codex import AsyncCodex
-from openai_codex._run import _collect_turn_result
-from openai_codex.api import AsyncThread, AsyncTurnHandle, Thread, TurnHandle
-from openai_codex.async_client import AsyncCodexClient
-from openai_codex.client import CodexClient
-from openai_codex.errors import TransportClosedError
+from openai_kodex import AsyncKodex
+from openai_kodex._run import _collect_turn_result
+from openai_kodex.api import AsyncThread, AsyncTurnHandle, Thread, TurnHandle
+from openai_kodex.async_client import AsyncKodexClient
+from openai_kodex.client import KodexClient
+from openai_kodex.errors import TransportClosedError
 
 
 def turn_events(client, *, status="completed"):
@@ -57,7 +57,7 @@ def turn_events(client, *, status="completed"):
 
 @pytest.mark.parametrize("consumed", [False, True])
 def test_late_join_starts_with_future_events(consumed):
-    client = CodexClient()
+    client = KodexClient()
     original = TurnHandle(client, "thread-1", "turn-1")
     events = turn_events(client)
     client._router.route_notification(events[0])
@@ -77,7 +77,7 @@ def test_late_join_starts_with_future_events(consumed):
 
 
 def test_consumed_deltas_are_released_while_turn_is_active():
-    client = CodexClient()
+    client = KodexClient()
     subscription = client._subscribe_turn_notifications("turn-1")
     state = client._router._turn_states["turn-1"]
     for index in range(1000):
@@ -98,7 +98,7 @@ def test_consumed_deltas_are_released_while_turn_is_active():
 
 
 def test_slow_subscriber_keeps_unread_deltas_until_it_consumes_them():
-    client = CodexClient()
+    client = KodexClient()
     fast = client._subscribe_turn_notifications("turn-1")
     slow = client._subscribe_turn_notifications("turn-1")
     event = client._coerce_notification(
@@ -117,9 +117,9 @@ def test_slow_subscriber_keeps_unread_deltas_until_it_consumes_them():
 @pytest.mark.parametrize("low_level", [False, True])
 @pytest.mark.parametrize("completed", [False, True])
 def test_events_or_failure_before_turn_start_returns(monkeypatch, async_api, low_level, completed):
-    codex = AsyncCodex()
-    codex._initialized = True
-    client = codex._client._sync if async_api else CodexClient()
+    kodex = AsyncKodex()
+    kodex._initialized = True
+    client = kodex._client._sync if async_api else KodexClient()
 
     def request_raw(method, params):
         assert method == "turn/start"
@@ -129,8 +129,8 @@ def test_events_or_failure_before_turn_start_returns(monkeypatch, async_api, low
         return {"turn": {"id": "turn-1", "status": "inProgress", "items": []}}
 
     monkeypatch.setattr(client, "_request_raw", request_raw)
-    public = codex._client if async_api else client
-    thread = AsyncThread(codex, "thread-1") if async_api else Thread(client, "thread-1")
+    public = kodex._client if async_api else client
+    thread = AsyncThread(kodex, "thread-1") if async_api else Thread(client, "thread-1")
 
     async def value(call):
         return await call if async_api else call
@@ -154,7 +154,7 @@ def test_events_or_failure_before_turn_start_returns(monkeypatch, async_api, low
 
 
 def test_pending_join_starts_at_request_while_original_handle_finishes():
-    client = CodexClient()
+    client = KodexClient()
     original = TurnHandle(client, "thread-1", "turn-1")
     events = turn_events(client)
     unknown = [client._coerce_notification(name, {"turnId": "turn-1"}) for name in ("old", "live")]
@@ -180,7 +180,7 @@ def test_pending_join_starts_at_request_while_original_handle_finishes():
 
 
 def test_failed_start_releases_early_completed_state():
-    client = CodexClient()
+    client = KodexClient()
     with pytest.raises(ValueError, match="request failed"):
         with client._router.pending_turn("thread-1"):
             for event in turn_events(client):
@@ -191,7 +191,7 @@ def test_failed_start_releases_early_completed_state():
 
 
 def test_closing_one_stream_leaves_other_subscriber_intact():
-    client = CodexClient()
+    client = KodexClient()
     original = TurnHandle(client, "thread-1", "turn-1")
     joined = TurnHandle(client, "thread-1", "turn-1")
     events = turn_events(client)
@@ -207,7 +207,7 @@ def test_closing_one_stream_leaves_other_subscriber_intact():
 
 @pytest.mark.parametrize("failure", ["transport", "model"])
 def test_both_handles_observe_failure_and_release_state(failure):
-    client = CodexClient()
+    client = KodexClient()
     handles = [TurnHandle(client, "thread-1", "turn-1") for _ in range(2)]
     if failure == "transport":
         client._router.fail_all(TransportClosedError("transport failed"))
@@ -221,7 +221,7 @@ def test_both_handles_observe_failure_and_release_state(failure):
 
 
 def test_abandoned_handle_releases_completed_history():
-    client = CodexClient()
+    client = KodexClient()
     handle = TurnHandle(client, "thread-1", "turn-1")
     for event in turn_events(client):
         client._router.route_notification(event)
@@ -233,11 +233,11 @@ def test_abandoned_handle_releases_completed_history():
 
 def test_cancelled_async_consumer_leaves_other_handle_intact():
     async def scenario():
-        codex = AsyncCodex()
-        codex._initialized = True
-        client = codex._client._sync
-        original = AsyncTurnHandle(codex, "thread-1", "turn-1")
-        joined = AsyncTurnHandle(codex, "thread-1", "turn-1")
+        kodex = AsyncKodex()
+        kodex._initialized = True
+        client = kodex._client._sync
+        original = AsyncTurnHandle(kodex, "thread-1", "turn-1")
+        joined = AsyncTurnHandle(kodex, "thread-1", "turn-1")
         task = asyncio.create_task(original.run())
         await asyncio.sleep(0)  # Let the stream enter its wait before cancelling it.
         task.cancel()
@@ -253,7 +253,7 @@ def test_cancelled_async_consumer_leaves_other_handle_intact():
 
 def test_cancelled_turn_start_releases_result_after_response(monkeypatch):
     async def scenario():
-        client = AsyncCodexClient()
+        client = AsyncKodexClient()
         entered = threading.Event()
         respond = threading.Event()
         released = threading.Event()
@@ -295,7 +295,7 @@ def test_cancelled_turn_start_releases_result_after_response(monkeypatch):
 
 def test_cancelled_queued_start_does_not_send_a_request(monkeypatch):
     with ThreadPoolExecutor(max_workers=1) as executor:
-        monkeypatch.setattr("openai_codex.async_client._TURN_START_EXECUTOR", executor)
+        monkeypatch.setattr("openai_kodex.async_client._TURN_START_EXECUTOR", executor)
         release_worker = threading.Event()
         worker_started = threading.Event()
         request_sent = threading.Event()
@@ -306,7 +306,7 @@ def test_cancelled_queued_start_does_not_send_a_request(monkeypatch):
 
         occupied = executor.submit(occupy_worker)
         assert worker_started.wait(timeout=5)
-        client = AsyncCodexClient()
+        client = AsyncKodexClient()
         monkeypatch.setattr(client._sync, "_start_turn", lambda *args, **kwargs: request_sent.set())
 
         async def scenario():
@@ -326,7 +326,7 @@ def test_cancelled_queued_start_does_not_send_a_request(monkeypatch):
 
 
 def test_low_level_start_keeps_implicit_registration_and_explicit_unregister(monkeypatch):
-    client = CodexClient()
+    client = KodexClient()
 
     def request_raw(method, params):
         for event in turn_events(client):
