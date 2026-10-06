@@ -5,7 +5,7 @@ expression: "format!(\"enabled:\\n{}\\n---\\ndisabled:\\n{}\", text(after), text
 ---
 enabled:
 
-  >_ OpenAI Kodex (v0.156.0)
+  >_ OpenAI Kodex (v0.160.1)
      /tmp/project
 
   Pull up a prompt.
@@ -51,7 +51,7 @@ enabled:
 ---
 disabled:
 
-  >_ OpenAI Kodex (v0.156.0)
+  >_ OpenAI Kodex (v0.160.1)
      /tmp/project
 
   Pull up a prompt.

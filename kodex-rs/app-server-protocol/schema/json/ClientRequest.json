@@ -295,14 +295,6 @@
       ],
       "type": "object"
     },
-    "KodexResponseHandoffMode": {
-      "enum": [
-        "thinking",
-        "commentary",
-        "bemTags"
-      ],
-      "type": "string"
-    },
     "CollaborationMode": {
       "description": "Collaboration mode for a Kodex session.",
       "properties": {
@@ -1700,6 +1692,14 @@
         }
       },
       "type": "object"
+    },
+    "KodexResponseHandoffMode": {
+      "enum": [
+        "thinking",
+        "commentary",
+        "bemTags"
+      ],
+      "type": "string"
     },
     "LegacyAppPathString": {
       "type": "string"

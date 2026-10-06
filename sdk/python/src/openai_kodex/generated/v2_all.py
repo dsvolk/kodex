@@ -538,96 +538,6 @@ class ClientInfo(BaseModel):
     version: str
 
 
-class KodexErrorInfoValue(Enum):
-    context_window_exceeded = "contextWindowExceeded"
-    session_budget_exceeded = "sessionBudgetExceeded"
-    usage_limit_exceeded = "usageLimitExceeded"
-    rate_limit_exceeded = "rateLimitExceeded"
-    flex_unavailable = "flexUnavailable"
-    server_overloaded = "serverOverloaded"
-    cyber_policy = "cyberPolicy"
-    misalignment_policy_violation = "misalignmentPolicyViolation"
-    too_many_denials = "tooManyDenials"
-    internal_server_error = "internalServerError"
-    unauthorized = "unauthorized"
-    bad_request = "badRequest"
-    thread_rollback_failed = "threadRollbackFailed"
-    sandbox_error = "sandboxError"
-    other = "other"
-
-
-class HttpConnectionFailed(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
-
-
-class HttpConnectionFailedKodexErrorInfo(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-        populate_by_name=True,
-    )
-    http_connection_failed: Annotated[HttpConnectionFailed, Field(alias="httpConnectionFailed")]
-
-
-class ResponseStreamConnectionFailed(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
-
-
-class ResponseStreamConnectionFailedKodexErrorInfo(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-        populate_by_name=True,
-    )
-    response_stream_connection_failed: Annotated[
-        ResponseStreamConnectionFailed, Field(alias="responseStreamConnectionFailed")
-    ]
-
-
-class ResponseStreamDisconnected(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
-
-
-class ResponseStreamDisconnectedKodexErrorInfo(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-        populate_by_name=True,
-    )
-    response_stream_disconnected: Annotated[
-        ResponseStreamDisconnected, Field(alias="responseStreamDisconnected")
-    ]
-
-
-class ResponseTooManyFailedAttempts(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
-
-
-class ResponseTooManyFailedAttemptsKodexErrorInfo(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-        populate_by_name=True,
-    )
-    response_too_many_failed_attempts: Annotated[
-        ResponseTooManyFailedAttempts, Field(alias="responseTooManyFailedAttempts")
-    ]
-
-
-class KodexResponseHandoffMode(Enum):
-    thinking = "thinking"
-    commentary = "commentary"
-    bem_tags = "bemTags"
-
-
 class CollabAgentStatus(Enum):
     pending_init = "pendingInit"
     running = "running"
@@ -2196,6 +2106,96 @@ class InternalChatMessageMetadataPassthrough(BaseModel):
         populate_by_name=True,
     )
     turn_id: str | None = None
+
+
+class KodexErrorInfoValue(Enum):
+    context_window_exceeded = "contextWindowExceeded"
+    session_budget_exceeded = "sessionBudgetExceeded"
+    usage_limit_exceeded = "usageLimitExceeded"
+    rate_limit_exceeded = "rateLimitExceeded"
+    flex_unavailable = "flexUnavailable"
+    server_overloaded = "serverOverloaded"
+    cyber_policy = "cyberPolicy"
+    misalignment_policy_violation = "misalignmentPolicyViolation"
+    too_many_denials = "tooManyDenials"
+    internal_server_error = "internalServerError"
+    unauthorized = "unauthorized"
+    bad_request = "badRequest"
+    thread_rollback_failed = "threadRollbackFailed"
+    sandbox_error = "sandboxError"
+    other = "other"
+
+
+class HttpConnectionFailed(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
+
+
+class HttpConnectionFailedKodexErrorInfo(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        populate_by_name=True,
+    )
+    http_connection_failed: Annotated[HttpConnectionFailed, Field(alias="httpConnectionFailed")]
+
+
+class ResponseStreamConnectionFailed(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
+
+
+class ResponseStreamConnectionFailedKodexErrorInfo(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        populate_by_name=True,
+    )
+    response_stream_connection_failed: Annotated[
+        ResponseStreamConnectionFailed, Field(alias="responseStreamConnectionFailed")
+    ]
+
+
+class ResponseStreamDisconnected(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
+
+
+class ResponseStreamDisconnectedKodexErrorInfo(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        populate_by_name=True,
+    )
+    response_stream_disconnected: Annotated[
+        ResponseStreamDisconnected, Field(alias="responseStreamDisconnected")
+    ]
+
+
+class ResponseTooManyFailedAttempts(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    http_status_code: Annotated[int | None, Field(alias="httpStatusCode", ge=0)] = None
+
+
+class ResponseTooManyFailedAttemptsKodexErrorInfo(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        populate_by_name=True,
+    )
+    response_too_many_failed_attempts: Annotated[
+        ResponseTooManyFailedAttempts, Field(alias="responseTooManyFailedAttempts")
+    ]
+
+
+class KodexResponseHandoffMode(Enum):
+    thinking = "thinking"
+    commentary = "commentary"
+    bem_tags = "bemTags"
 
 
 class LegacyAppPathString(RootModel[str]):
@@ -7608,49 +7608,6 @@ class FuzzyFileSearchRequest(BaseModel):
     params: FuzzyFileSearchParams
 
 
-class ActiveTurnNotSteerable(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    turn_kind: Annotated[NonSteerableTurnKind, Field(alias="turnKind")]
-
-
-class ActiveTurnNotSteerableKodexErrorInfo(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid",
-        populate_by_name=True,
-    )
-    active_turn_not_steerable: Annotated[
-        ActiveTurnNotSteerable, Field(alias="activeTurnNotSteerable")
-    ]
-
-
-class KodexErrorInfo(
-    RootModel[
-        KodexErrorInfoValue
-        | HttpConnectionFailedKodexErrorInfo
-        | ResponseStreamConnectionFailedKodexErrorInfo
-        | ResponseStreamDisconnectedKodexErrorInfo
-        | ResponseTooManyFailedAttemptsKodexErrorInfo
-        | ActiveTurnNotSteerableKodexErrorInfo
-    ]
-):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    root: Annotated[
-        KodexErrorInfoValue
-        | HttpConnectionFailedKodexErrorInfo
-        | ResponseStreamConnectionFailedKodexErrorInfo
-        | ResponseStreamDisconnectedKodexErrorInfo
-        | ResponseTooManyFailedAttemptsKodexErrorInfo
-        | ActiveTurnNotSteerableKodexErrorInfo,
-        Field(
-            description="This translation layer make sure that we expose kodex error code in camel case.\n\nWhen an upstream HTTP status is available (for example, from the Responses API or a provider), it is forwarded in `httpStatusCode` on the relevant `kodexErrorInfo` variant."
-        ),
-    ]
-
-
 class CollabAgentState(BaseModel):
     model_config = ConfigDict(
         populate_by_name=True,
@@ -8451,6 +8408,49 @@ class HooksListResponse(BaseModel):
         populate_by_name=True,
     )
     data: list[HooksListEntry]
+
+
+class ActiveTurnNotSteerable(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    turn_kind: Annotated[NonSteerableTurnKind, Field(alias="turnKind")]
+
+
+class ActiveTurnNotSteerableKodexErrorInfo(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        populate_by_name=True,
+    )
+    active_turn_not_steerable: Annotated[
+        ActiveTurnNotSteerable, Field(alias="activeTurnNotSteerable")
+    ]
+
+
+class KodexErrorInfo(
+    RootModel[
+        KodexErrorInfoValue
+        | HttpConnectionFailedKodexErrorInfo
+        | ResponseStreamConnectionFailedKodexErrorInfo
+        | ResponseStreamDisconnectedKodexErrorInfo
+        | ResponseTooManyFailedAttemptsKodexErrorInfo
+        | ActiveTurnNotSteerableKodexErrorInfo
+    ]
+):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    root: Annotated[
+        KodexErrorInfoValue
+        | HttpConnectionFailedKodexErrorInfo
+        | ResponseStreamConnectionFailedKodexErrorInfo
+        | ResponseStreamDisconnectedKodexErrorInfo
+        | ResponseTooManyFailedAttemptsKodexErrorInfo
+        | ActiveTurnNotSteerableKodexErrorInfo,
+        Field(
+            description="This translation layer make sure that we expose kodex error code in camel case.\n\nWhen an upstream HTTP status is available (for example, from the Responses API or a provider), it is forwarded in `httpStatusCode` on the relevant `kodexErrorInfo` variant."
+        ),
+    ]
 
 
 class ListMcpServerStatusParams(BaseModel):

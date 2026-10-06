@@ -63,7 +63,6 @@ use kodex_protocol::items::TurnItem;
 use kodex_protocol::models::ImageReference;
 use kodex_protocol::models::ResponseItem;
 use kodex_protocol::openai_models::CodeModeToolMessages;
-use kodex_protocol::openai_models::ReasoningEffort;
 use kodex_protocol::openai_models::ToolMessage;
 use kodex_protocol::openai_models::ToolMode;
 use kodex_protocol::protocol::EnvironmentConfigState;
