@@ -194,18 +194,12 @@ async fn guardian_conversation_history(scenario: HistoryScenario) -> anyhow::Res
                 "requires approval on the parent",
             ),
         ] {
-            let current_config = test.kodex.config().await;
             let mut config = test.config.clone();
             config.config_layer_stack = config.config_layer_stack.with_user_config(
                 &config.kodex_home.join("config.toml"),
                 toml::from_str(policy)?,
             )?;
-            assert_eq!(
-                test.kodex
-                    .refresh_runtime_config(current_config, config)
-                    .await,
-                kodex_core::ConfigRefreshOutcome::Published
-            );
+            test.kodex.refresh_runtime_config(config).await;
             let followup =
                 responses::mount_sse_sequence(&server, review_responses(label, &actions[1..]))
                     .await;

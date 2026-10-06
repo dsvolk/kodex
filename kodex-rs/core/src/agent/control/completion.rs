@@ -8,13 +8,11 @@ use crate::TurnStartOptions;
 use crate::agent::api::AgentTurnOutcome;
 use crate::agent_communication::AgentCommunicationContext;
 use crate::agent_communication::AgentCommunicationKind;
-use crate::session_prefix::format_guardian_interruption_message;
 use crate::session_prefix::format_inter_agent_completion_message;
 use kodex_protocol::AgentPath;
 use kodex_protocol::items::SubAgentActivityItem;
 use kodex_protocol::protocol::AgentStatus;
 use kodex_protocol::protocol::InterAgentCommunication;
-use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentActivityKind;
 use kodex_protocol::protocol::SubAgentSource;
@@ -87,21 +85,11 @@ impl LocalAgentControl {
             }
         }
 
-        let message = match (&status, outcome.error_info) {
-            (AgentStatus::Errored(error), Some(KodexErrorInfo::TooManyDenials)) => {
-                Some(format_guardian_interruption_message(
-                    parent_agent_path.clone(),
-                    child_agent_path.clone(),
-                    error,
-                ))
-            }
-            _ => format_inter_agent_completion_message(
-                parent_agent_path.clone(),
-                child_agent_path.clone(),
-                &status,
-            ),
-        };
-        let Some(message) = message else {
+        let Some(message) = format_inter_agent_completion_message(
+            parent_agent_path.clone(),
+            child_agent_path.clone(),
+            &status,
+        ) else {
             return;
         };
         // `communication` owns the message. Keep a second copy only when the

@@ -20,7 +20,6 @@ use kodex_protocol::SessionId;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::Result;
 use kodex_protocol::protocol::AgentStatus;
-use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::MultiAgentVersion;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::TokenUsage;
@@ -226,8 +225,6 @@ pub struct AgentTurnOutcome {
     pub parent_turn_id: Option<String>,
     pub initiating_agent_path: Option<AgentPath>,
     pub status: AgentStatus,
-    /// Typed reason used to choose guidance in the parent notification.
-    pub error_info: Option<KodexErrorInfo>,
 }
 
 /// Settings shared by the tree. A service tier of `None` restores the default tier.

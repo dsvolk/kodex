@@ -1479,12 +1479,6 @@ async fn run_auto_compact(
 ) -> KodexResult<()> {
     let turn_context = &step_context.turn;
     let _profile_guard = turn_context.turn_timing_state.begin_compaction();
-    let _compaction_span = trace_span!(
-        "kodex.compaction",
-        kodex.turn.phase = "compaction",
-        conversation.id = %sess.thread_id,
-        turn.id = %turn_context.sub_id,
-    );
     if turn_context.config.features.enabled(Feature::TokenBudget) {
         // Compaction is the reset request, so force a new context window
         // instead of consuming a pending `new_context` tool request.
@@ -2553,13 +2547,6 @@ async fn try_run_sampling_request(
         turn_context.provider.info().name.as_str(),
     );
     let sampling_timing_guard = turn_context.turn_timing_state.begin_sampling();
-    // Do not enter this span: overlapping tools must not retain it past sampling.
-    let sampling_span = trace_span!(
-        "kodex.sampling",
-        kodex.turn.phase = "sampling",
-        conversation.id = %sess.thread_id,
-        turn.id = %turn_context.sub_id,
-    );
     let uses_sequential_cutoff_reasoning_summaries = turn_context
         .config
         .features
@@ -2800,14 +2787,6 @@ async fn try_run_sampling_request(
                         .enabled(Feature::DeferMailboxPreemption)
                     && sess.input_queue.has_pending_mailbox_items().await
                 {
-                    tracing::event!(
-                        name: "kodex.mailbox_preemption",
-                        target: "kodex_otel.trace_safe",
-                        tracing::Level::INFO,
-                        event.name = "kodex.mailbox_preemption",
-                        conversation.id = %sess.thread_id,
-                        turn.id = %turn_context.sub_id,
-                    );
                     break Ok(SamplingRequestResult {
                         needs_follow_up: true,
                         last_agent_message,
@@ -3148,7 +3127,6 @@ async fn try_run_sampling_request(
             }
         }
     };
-    drop(sampling_span);
     drop(sampling_timing_guard);
 
     flush_assistant_text_segments_all(
@@ -3159,16 +3137,13 @@ async fn try_run_sampling_request(
     )
     .await;
 
-    if !in_flight.is_empty() {
-        let _tool_blocking_timing_guard = turn_context.turn_timing_state.begin_tool_blocking();
-        let _tool_blocking_span = trace_span!(
-            "kodex.tool_blocking",
-            kodex.turn.phase = "tool_blocking",
-            conversation.id = %sess.thread_id,
-            turn.id = %turn_context.sub_id,
-        );
-        drain_in_flight(&mut in_flight, sess.clone(), &step_context).await?;
-    }
+    let tool_blocking_timing_guard = if in_flight.is_empty() {
+        None
+    } else {
+        Some(turn_context.turn_timing_state.begin_tool_blocking())
+    };
+    drain_in_flight(&mut in_flight, sess.clone(), &step_context).await?;
+    drop(tool_blocking_timing_guard);
 
     if should_emit_token_count {
         // A tool call such as request_user_input can intentionally pause the turn. Emit token

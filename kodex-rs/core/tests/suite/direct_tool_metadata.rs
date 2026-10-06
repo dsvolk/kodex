@@ -389,13 +389,9 @@ async fn direct_call_metadata_during_compaction_respects_provider_support(
         })
         .expect("source user message")["content"];
     if !metadata_enabled {
-        let current_config = test.kodex.config().await;
         let mut config = test.config.clone();
         config.features.disable(Feature::ExecutedToolCallMetadata)?;
-        let _ = test
-            .kodex
-            .refresh_runtime_config(current_config, config)
-            .await;
+        test.kodex.refresh_runtime_config(config).await;
     }
     test.kodex.submit(Op::Compact).await?;
     wait_for_event(&test.kodex, |event| {

@@ -45,7 +45,6 @@ pub use kodex_network_proxy::NetworkUnixSocketPermissions;
 pub use kodex_protocol::mcp_policy::EnvironmentMcpPolicy;
 pub use kodex_protocol::protocol::EnvironmentConfig;
 pub use kodex_thread::BackgroundTerminalInfo;
-pub use kodex_thread::ConfigRefreshOutcome;
 pub use kodex_thread::GuardianAuthorizationVersion;
 pub use kodex_thread::GuardianRootMessage;
 pub use kodex_thread::GuardianRootSnapshot;

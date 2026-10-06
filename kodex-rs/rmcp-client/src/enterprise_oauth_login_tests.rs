@@ -19,6 +19,7 @@ use kodex_http_client::OutboundProxyPolicy;
 use oauth2::TokenResponse;
 use pretty_assertions::assert_eq;
 use serde_json::json;
+use sha2::Digest;
 use tokio::io::AsyncReadExt;
 use tokio::io::AsyncWriteExt;
 use tracing_test::traced_test;
@@ -238,6 +239,12 @@ async fn enterprise_public_api_storage_and_privacy() -> Result<()> {
     let server = MockServer::start().await;
     let issuer = format!("{}/idp", server.uri());
     metadata(&server, &issuer).await;
+    assert!(
+        login(&issuer, Some(&format!("{}/callback", server.uri())))
+            .await
+            .is_err(),
+        "an occupied registered callback port must not silently move"
+    );
     let assertion = format!(
         "{}.{}.signature",
         URL_SAFE_NO_PAD.encode(r#"{"alg":"ES256"}"#),
@@ -277,31 +284,31 @@ async fn enterprise_public_api_storage_and_privacy() -> Result<()> {
             })
             .collect::<Vec<_>>();
         assert_eq!(token_requests.len(), login_index + 1);
-        let token_request = &token_requests[login_index];
-        assert!(!token_request.headers.contains_key("authorization"));
-        let mut token_form = url::form_urlencoded::parse(&token_request.body)
+        let token_form = url::form_urlencoded::parse(&token_requests[login_index].body)
             .into_owned()
             .collect::<HashMap<_, _>>();
-        let verifier = oauth2::PkceCodeVerifier::new(
-            token_form.remove("code_verifier").expect("PKCE verifier"),
+        assert_eq!(
+            token_form.get("grant_type").map(String::as_str),
+            Some("authorization_code")
+        );
+        assert!(!token_form.contains_key("resource"));
+        assert_eq!(
+            token_form.get("redirect_uri"),
+            Some(
+                authorization_query
+                    .get("redirect_uri")
+                    .expect("authorization redirect URI")
+            )
         );
         assert_eq!(
-            oauth2::PkceCodeChallenge::from_code_verifier_sha256(&verifier).as_str(),
-            authorization_query["code_challenge"],
+            authorization_query
+                .get("code_challenge_method")
+                .map(String::as_str),
+            Some("S256")
         );
-        assert_eq!(authorization_query["code_challenge_method"], "S256");
-        assert_eq!(
-            token_form,
-            HashMap::from([
-                ("grant_type".to_string(), "authorization_code".to_string()),
-                ("code".to_string(), SECRET.to_string()),
-                ("client_id".to_string(), "enterprise-client".to_string()),
-                (
-                    "redirect_uri".to_string(),
-                    authorization_query["redirect_uri"].clone()
-                ),
-            ])
-        );
+        let verifier = token_form.get("code_verifier").expect("PKCE verifier");
+        let challenge = URL_SAFE_NO_PAD.encode(sha2::Sha256::digest(verifier.as_bytes()));
+        assert_eq!(authorization_query.get("code_challenge"), Some(&challenge));
         assert!(
             keyring
                 .values
@@ -374,23 +381,13 @@ async fn enterprise_public_api_storage_and_privacy() -> Result<()> {
             .all(|value| value.get_secret().is_err())
     );
 
-    // Failed replacement setup leaves the existing attempt valid.
-    let retained = complete_login(&issuer).await?;
-    assert!(
-        login(&issuer, Some(&format!("{}/callback", server.uri())))
-            .await
-            .is_err(),
-        "an occupied registered callback port must not silently move"
-    );
-    retained.commit_if(|| async { Some(()) }).await?;
-
-    // A newer start fences a delayed callback even across Kodex processes.
+    // Rejected old attempts neither write nor delete a newer grant.
     let old = complete_login(&issuer).await?;
     complete_login(&issuer)
         .await?
         .commit_if(|| async { Some(()) })
         .await?;
-    assert!(old.commit_if(|| async { Some(()) }).await.is_err());
+    assert!(old.commit_if(|| async { None::<()> }).await.is_err());
     assert!(
         keyring
             .values

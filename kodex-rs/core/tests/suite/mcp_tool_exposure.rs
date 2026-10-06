@@ -414,13 +414,8 @@ async fn rapid_mcp_refreshes_coalesce_to_the_latest_config() -> Result<()> {
         .await?;
 
     contributor.block_next.store(true, Ordering::SeqCst);
-    let current_config = test.kodex.config().await;
-    let _ = test
-        .kodex
-        .refresh_runtime_config(
-            current_config,
-            config_with_mcp_marker(&test.config, "config-a"),
-        )
+    test.kodex
+        .refresh_runtime_config(config_with_mcp_marker(&test.config, "config-a"))
         .await;
     tokio::time::timeout(Duration::from_secs(5), contributor.entered.acquire())
         .await
@@ -428,21 +423,11 @@ async fn rapid_mcp_refreshes_coalesce_to_the_latest_config() -> Result<()> {
         .expect("entered semaphore should remain open")
         .forget();
 
-    let current_config = test.kodex.config().await;
-    let _ = test
-        .kodex
-        .refresh_runtime_config(
-            current_config,
-            config_with_mcp_marker(&test.config, "config-b"),
-        )
+    test.kodex
+        .refresh_runtime_config(config_with_mcp_marker(&test.config, "config-b"))
         .await;
-    let current_config = test.kodex.config().await;
-    let _ = test
-        .kodex
-        .refresh_runtime_config(
-            current_config,
-            config_with_mcp_marker(&test.config, "config-c"),
-        )
+    test.kodex
+        .refresh_runtime_config(config_with_mcp_marker(&test.config, "config-c"))
         .await;
     contributor.release.add_permits(1);
 
@@ -662,17 +647,13 @@ async fn timeout_refresh_replaces_pending_startup_and_reuses_ready_connection() 
         )
         .await?;
 
-    let current_config = test.kodex.config().await;
     let mut refresh_config = test.config.clone();
     let mut servers = refresh_config.mcp_servers.get().clone();
     for config in servers.values_mut() {
         config.startup_timeout_sec = None;
     }
     refresh_config.mcp_servers.set(servers)?;
-    let _ = test
-        .kodex
-        .refresh_mcp_config(current_config, refresh_config)
-        .await;
+    test.kodex.refresh_mcp_config(refresh_config).await;
     // Publish without waiting for the held initialize to finish.
     let error = test
         .kodex
@@ -880,7 +861,6 @@ async fn out_of_band_resource_read_reconciles_the_published_mcp_runtime() -> Res
         .expect("thread start should capture the MCP resource client");
     assert!(!resource_client.has_server("refreshed").await);
 
-    let current_config = test.kodex.config().await;
     let mut refresh_config = test.config.clone();
     let user_config_path = refresh_config.kodex_home.join("config.toml");
     let user_config: toml::Value = toml::from_str(&format!(
@@ -904,10 +884,7 @@ startup_timeout_sec = 0.1
     refresh_config.config_layer_stack = refresh_config
         .config_layer_stack
         .with_user_config(&user_config_path, user_config)?;
-    let _ = test
-        .kodex
-        .refresh_runtime_config(current_config, refresh_config)
-        .await;
+    test.kodex.refresh_runtime_config(refresh_config).await;
     test.kodex.submit(Op::RefreshMcpServers).await?;
 
     let _ = test
@@ -1178,7 +1155,6 @@ async fn deferred_tool_world_state_tracks_initial_unchanged_and_removed_namespac
         "equivalent bindings must preserve MCP handlers and reuse the search index"
     );
 
-    let current_config = test.kodex.config().await;
     let mut refresh_config = test.config.clone();
     let user_config_path = refresh_config.kodex_home.join("config.toml");
     let user_config = toml::from_str(
@@ -1190,10 +1166,7 @@ enabled = false
     refresh_config.config_layer_stack = refresh_config
         .config_layer_stack
         .with_user_config(&user_config_path, user_config)?;
-    let _ = test
-        .kodex
-        .refresh_runtime_config(current_config, refresh_config)
-        .await;
+    test.kodex.refresh_runtime_config(refresh_config).await;
     test.kodex.submit(Op::RefreshMcpServers).await?;
     test.submit_turn("inspect removed deferred tools").await?;
 

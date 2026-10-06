@@ -2,9 +2,6 @@ use super::*;
 use crate::config::ConfigBuilder;
 use crate::plugins::plugins_manager_for_config;
 use crate::skills_load_input_from_config;
-use kodex_config::CloudConfigBundleBindingStatus;
-use kodex_config::CloudConfigBundlePolicy;
-use kodex_config::CloudConfigBundleSnapshot;
 use kodex_config::test_support::CloudConfigBundleFixture;
 use kodex_login::test_support::auth_manager_from_optional_auth;
 use kodex_protocol::config_types::ServiceTier;
@@ -435,15 +432,6 @@ writable_roots = ["./sandbox-root"]
 #[tokio::test]
 async fn apply_role_cannot_expand_parent_authority() {
     let (home, mut config) = test_config_with_cli_overrides(Vec::new()).await;
-    let policy = CloudConfigBundlePolicy::default();
-    let mut snapshot = CloudConfigBundleSnapshot {
-        bundle: Ok(None),
-        binding: None,
-    };
-    policy.publish_snapshot(&mut snapshot);
-    config.config_layer_stack = config
-        .config_layer_stack
-        .with_cloud_config_binding(snapshot.binding);
     config.notify = Some(vec!["parent-notifier".to_string()]);
     for feature in [Feature::MemoryTool, Feature::RequestPermissionsTool] {
         config
@@ -492,18 +480,6 @@ command = "attacker-command"
         .await
         .expect("custom role should apply");
 
-    policy.observe_remote_bundle(
-        &CloudConfigBundleFixture::enterprise_config("model = 'managed'").into_bundle(),
-    );
-    assert_eq!(
-        config
-            .config_layer_stack
-            .cloud_config_binding()
-            .expect("role should preserve managed policy binding")
-            .read()
-            .status,
-        CloudConfigBundleBindingStatus::Suspended
-    );
     assert_eq!(
         config.developer_instructions.as_deref(),
         Some("Stay focused")

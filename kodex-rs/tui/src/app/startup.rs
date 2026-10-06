@@ -881,8 +881,6 @@ See the Kodex keymap documentation for supported actions and examples."
             startup_pending_protected_request: false,
             rate_limit_hard_stop_generation: 0,
             rate_limit_refresh_state: Default::default(),
-            pending_mcp_login_start: None,
-            active_mcp_login_ids: HashMap::new(),
             pending_plugin_enabled_writes: HashMap::new(),
             pending_hook_enabled_writes: HashMap::new(),
             recap: recap::RecapState::default(),
@@ -1021,6 +1019,12 @@ See the Kodex keymap documentation for supported actions and examples."
         // already has data and available reset credits can be surfaced, without
         // delaying the initial frame render.
         if requires_openai_auth && has_chatgpt_account {
+            crate::security_setup::prefetch(
+                &app.config,
+                &app_server,
+                app.app_event_tx.clone(),
+                app.chat_widget.security_setup_request_id,
+            );
             crate::daybreak::prefetch_notice(
                 &app.config,
                 &app_server,

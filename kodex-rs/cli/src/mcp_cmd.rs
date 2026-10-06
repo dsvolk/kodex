@@ -8,7 +8,6 @@ use anyhow::bail;
 use clap::ArgGroup;
 use clap::builder::TypedValueParser;
 use kodex_config::types::AppToolApproval;
-use kodex_config::types::McpServerAuth;
 use kodex_config::types::McpServerConfig;
 use kodex_config::types::McpServerOAuthConfig;
 use kodex_config::types::McpServerTransportConfig;
@@ -29,7 +28,6 @@ use kodex_mcp::McpRuntimeContext;
 use kodex_mcp::apply_http_headers_helper;
 use kodex_mcp::compute_auth_statuses;
 use kodex_mcp::discover_supported_scopes;
-use kodex_mcp::ema_auth_scope;
 use kodex_mcp::oauth_login_support;
 use kodex_mcp::resolve_oauth_callback;
 use kodex_mcp::resolve_oauth_scopes;
@@ -38,7 +36,6 @@ use kodex_rmcp_client::McpOAuthCallbackMode;
 use kodex_rmcp_client::McpOAuthClientRegistration;
 use kodex_rmcp_client::OAuthDiscoveryTimeout;
 use kodex_rmcp_client::StreamableHttpRedirectMode;
-use kodex_rmcp_client::delete_enterprise_oauth_tokens;
 use kodex_rmcp_client::delete_oauth_tokens;
 use kodex_rmcp_client::resolve_mcp_oauth_callback_url;
 use kodex_utils_cli::CliConfigOverrides;
@@ -641,36 +638,6 @@ async fn run_logout(config: &Config, logout_args: LogoutArgs) -> Result<()> {
     let server = mcp_servers
         .get(&name)
         .ok_or_else(|| anyhow!("No MCP server named '{name}' found in configuration."))?;
-
-    if matches!(server.auth, McpServerAuth::EmaAuth) {
-        let auth_manager =
-            AuthManager::shared_from_config(config, /*enable_kodex_api_key_env*/ true).await?;
-        let auth = auth_manager.auth().await;
-        let scope = ema_auth_scope(auth.as_ref())
-            .context("Sign in to your Kodex account before removing enterprise authorization")?;
-        // Cleanup must remain available even when this server is no longer eligible
-        // for EMA (for example, after disabling the feature or changing its transport).
-        let profile = config
-            .mcp_enterprise_managed_auth
-            .as_ref()
-            .context("EMA logout requires a trusted enterprise IdP profile")?;
-        let idp = &profile.idp;
-        let credential_name = idp.credential_name(&scope);
-        match delete_enterprise_oauth_tokens(
-            &credential_name,
-            &idp.issuer,
-            config.auth_keyring_backend_kind(),
-        )
-        .await
-        {
-            Ok(true) => println!(
-                "Removed the shared enterprise authorization used by EMA MCP servers (selected via '{name}')."
-            ),
-            Ok(false) => println!("No shared enterprise authorization is stored."),
-            Err(_) => return Err(anyhow!("failed to delete enterprise authorization")),
-        }
-        return Ok(());
-    }
 
     let url = match &server.transport {
         McpServerTransportConfig::StreamableHttp { url, .. } => url.clone(),

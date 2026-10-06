@@ -27,7 +27,6 @@ enum Boundary {
     Commentary,
 }
 
-#[tracing_test::traced_test]
 #[test_case(Boundary::Reasoning, false; "reasoning_default")]
 #[test_case(Boundary::Commentary, false; "commentary_default")]
 #[test_case(Boundary::Reasoning, true; "reasoning_deferred")]
@@ -140,19 +139,6 @@ async fn mailbox_preemption_preserves_response_when_deferred(
     })
     .await;
 
-    let logs = String::from_utf8(
-        tracing_test::internal::global_buf()
-            .lock()
-            .expect("test log buffer is not poisoned")
-            .clone(),
-    )?;
-    let thread_id = test.session_configured.thread_id.to_string();
-    assert_eq!(
-        logs.lines()
-            .filter(|line| line.contains("kodex.mailbox_preemption") && line.contains(&thread_id))
-            .count(),
-        usize::from(!defer_mailbox_preemption),
-    );
     let requests = streaming
         .requests()
         .await

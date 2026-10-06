@@ -729,26 +729,18 @@ async fn runtime_trust_reload_refreshes_project_instructions() -> Result<()> {
         vec![global_agents.clone(), project_agents.clone()]
     );
 
-    let current_config = test.kodex.config().await;
-    let mut untrusted_config = current_config.as_ref().clone();
+    let mut untrusted_config = (*test.kodex.config().await).clone();
     untrusted_config.active_project.trust_level = Some(TrustLevel::Untrusted);
-    let _ = test
-        .kodex
-        .refresh_runtime_config(current_config, untrusted_config)
-        .await;
+    test.kodex.refresh_runtime_config(untrusted_config).await;
     test.submit_turn("untrusted project").await?;
     assert_eq!(
         test.kodex.instruction_sources().await,
         vec![global_agents.clone()]
     );
 
-    let current_config = test.kodex.config().await;
-    let mut trusted_config = current_config.as_ref().clone();
+    let mut trusted_config = (*test.kodex.config().await).clone();
     trusted_config.active_project.trust_level = Some(TrustLevel::Trusted);
-    let _ = test
-        .kodex
-        .refresh_runtime_config(current_config, trusted_config)
-        .await;
+    test.kodex.refresh_runtime_config(trusted_config).await;
     test.submit_turn("trusted again").await?;
     assert_eq!(
         test.kodex.instruction_sources().await,

@@ -248,21 +248,14 @@ async fn running_thread_uses_refreshed_optional_mcp_startup_grace(
     );
 
     let refreshed_grace = Duration::from_millis(250);
-    let current_config = fixture.kodex.config().await;
     let mut refreshed_config = fixture.config.clone();
     refreshed_config.mcp_optional_startup_grace = refreshed_grace;
     match refresh_path {
         ConfigRefreshPath::Runtime => {
-            let _ = fixture
-                .kodex
-                .refresh_runtime_config(current_config, refreshed_config)
-                .await;
+            fixture.kodex.refresh_runtime_config(refreshed_config).await;
         }
         ConfigRefreshPath::Mcp => {
-            let _ = fixture
-                .kodex
-                .refresh_mcp_config(current_config, refreshed_config)
-                .await;
+            fixture.kodex.refresh_mcp_config(refreshed_config).await;
         }
     }
     assert_eq!(

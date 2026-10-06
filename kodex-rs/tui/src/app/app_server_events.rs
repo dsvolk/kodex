@@ -278,25 +278,6 @@ impl App {
             ServerNotification::McpServerStatusUpdated(_) => {
                 self.refresh_mcp_startup_expected_servers_from_config();
             }
-            ServerNotification::McpServerOauthLoginCompleted(notification) => {
-                // The start response identifies the new attempt. Hold completions until then
-                // so a replacement's cancellation cannot appear as a fresh login failure.
-                if let Some(pending) = self.pending_mcp_login_start.as_mut()
-                    && pending.name == notification.name
-                {
-                    pending.completions.push(notification.clone());
-                    return;
-                }
-                if notification.login_id.is_some() {
-                    if notification.login_id.as_ref()
-                        != self.active_mcp_login_ids.get(&notification.name)
-                    {
-                        return;
-                    }
-                    self.active_mcp_login_ids.remove(&notification.name);
-                }
-            }
-
             ServerNotification::AccountRateLimitsUpdated(notification) => {
                 let workspace_hard_stop = matches!(
                     notification.rate_limits.rate_limit_reached_type,
@@ -326,6 +307,7 @@ impl App {
                 self.agents_overview.usage_disabled = false;
                 self.repaint_agents_overview();
                 self.chat_widget.cyber_policy_notice = Default::default();
+                self.chat_widget.invalidate_security_setup();
                 if let Some(crate::pager_overlay::Overlay::Analytics(view)) = &mut self.overlay {
                     view.refresh();
                 }
@@ -360,6 +342,12 @@ impl App {
                     has_kodex_backend_auth,
                 );
                 if self.chat_widget.has_chatgpt_account() {
+                    crate::security_setup::prefetch(
+                        &self.config,
+                        app_server_client,
+                        self.app_event_tx.clone(),
+                        self.chat_widget.security_setup_request_id,
+                    );
                     crate::daybreak::prefetch_notice(
                         &self.config,
                         app_server_client,

@@ -184,12 +184,6 @@ pub(super) fn server_notification_thread_target(
         }
         ServerNotification::Warning(notification) => notification.thread_id.as_deref(),
         ServerNotification::GuardianWarning(notification) => Some(notification.thread_id.as_str()),
-        ServerNotification::McpServerOauthLoginCompleted(notification) => {
-            match notification.thread_id.as_deref() {
-                Some(thread_id) => Some(thread_id),
-                None => return ServerNotificationThreadTarget::AppScoped,
-            }
-        }
         ServerNotification::McpServerStatusUpdated(notification) => {
             match notification.thread_id.as_deref() {
                 Some(thread_id) => Some(thread_id),
@@ -198,6 +192,7 @@ pub(super) fn server_notification_thread_target(
         }
         ServerNotification::ProjectChanged(_)
         | ServerNotification::SkillsChanged(_)
+        | ServerNotification::McpServerOauthLoginCompleted(_)
         | ServerNotification::AccountUpdated(_)
         | ServerNotification::GatewayOAuthChanged(_)
         | ServerNotification::AccountRateLimitsUpdated(_)

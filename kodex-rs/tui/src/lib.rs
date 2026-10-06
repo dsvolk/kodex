@@ -131,6 +131,7 @@ mod experimental_features;
 mod markdown_copy;
 mod permission_discovery;
 mod pets;
+mod security_setup;
 mod worktree_browser;
 pub use custom_terminal::Terminal;
 mod assistant_directives;
@@ -294,8 +295,7 @@ async fn start_embedded_app_server(
     environment_manager: Arc<EnvironmentManager>,
     embedded_network_policy: kodex_app_server_client::EmbeddedNetworkPolicy,
 ) -> color_eyre::Result<InProcessAppServerClient> {
-    // Keep embedded startup state off the caller's stack during session transitions.
-    Box::pin(start_embedded_app_server_with(
+    start_embedded_app_server_with(
         arg0_paths,
         config,
         cli_kv_overrides,
@@ -308,7 +308,7 @@ async fn start_embedded_app_server(
         environment_manager,
         embedded_network_policy,
         InProcessAppServerClient::start,
-    ))
+    )
     .await
 }
 

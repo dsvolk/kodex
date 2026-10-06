@@ -774,7 +774,6 @@ non_code_mode_only = true
             wait_agent_enabled: Some(false),
             disable_direct_message: Some(true),
             message_board_in_memory: Some(true),
-            message_board_remote: None,
             non_code_mode_only: Some(true),
         }))
     );

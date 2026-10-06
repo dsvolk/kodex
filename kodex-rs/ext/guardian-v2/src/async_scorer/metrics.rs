@@ -4,7 +4,6 @@ use std::time::Duration;
 
 use kodex_api::ApiError;
 use kodex_api::TransportError;
-use kodex_core::context::GuardianContextMode;
 use kodex_extension_api::ExtensionMetrics;
 
 use super::sampler::LunaSamplerError;
@@ -62,7 +61,6 @@ pub(super) fn sampler_failure_reason(error: &LunaSamplerError) -> &'static str {
 
 pub(super) fn record_classification(
     metrics: Option<&dyn ExtensionMetrics>,
-    context_mode: GuardianContextMode,
     duration: Duration,
     outcome: &str,
     failure_reason: Option<&str>,
@@ -70,10 +68,7 @@ pub(super) fn record_classification(
     let Some(metrics) = metrics else {
         return;
     };
-    let mut tags = vec![
-        ("outcome", outcome),
-        ("context_mode", context_mode.as_str()),
-    ];
+    let mut tags = vec![("outcome", outcome)];
     if let Some(reason) = failure_reason {
         tags.push(("failure_reason", reason));
     }

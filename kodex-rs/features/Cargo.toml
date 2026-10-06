@@ -15,7 +15,6 @@ workspace = true
 [dependencies]
 kodex-network-proxy = { workspace = true }
 kodex-protocol = { workspace = true }
-kodex-utils-redacted-string = { workspace = true }
 schemars = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 toml = { workspace = true }

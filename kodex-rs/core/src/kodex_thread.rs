@@ -161,18 +161,6 @@ pub struct KodexThreadSettingsOverrides {
     pub disabled_plugin_ids: Option<Vec<String>>,
 }
 
-/// Result of publishing a loaded configuration snapshot for a thread.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-#[must_use]
-pub enum ConfigRefreshOutcome {
-    /// The resolved configuration was published.
-    Published,
-    /// The captured owner changed; the caller must reload before retrying.
-    Stale,
-    /// Resolution failed and a configuration disabling enterprise MCP was published.
-    Rejected,
-}
-
 pub use kodex_guardian_context::GuardianRootMessage;
 
 /// Authorization state that changes on genuine user input or history resets.
@@ -997,36 +985,14 @@ impl KodexThread {
 
     /// Refresh the thread's layer-backed user config state from a caller-supplied
     /// config snapshot. Thread-scoped layers and session-static settings remain
-    /// unchanged. A stale owner requires reloading from the current config before retrying.
-    pub async fn refresh_runtime_config(
-        &self,
-        expected_config: Arc<crate::config::Config>,
-        next_config: crate::config::Config,
-    ) -> ConfigRefreshOutcome {
-        Box::pin(
-            self.session
-                .refresh_runtime_config(expected_config, next_config),
-        )
-        .await
-    }
-
-    /// Revokes enterprise MCP authority from the current owner after a failed reload.
-    pub async fn disable_mcp_enterprise_auth(&self) {
-        self.session.disable_mcp_enterprise_auth().await;
+    /// unchanged.
+    pub async fn refresh_runtime_config(&self, next_config: crate::config::Config) {
+        self.session.refresh_runtime_config(next_config).await;
     }
 
     /// Refresh MCP configuration and managed requirements without reloading unrelated settings.
-    /// A stale owner requires reloading from the current config before retrying.
-    pub async fn refresh_mcp_config(
-        &self,
-        expected_config: Arc<crate::config::Config>,
-        next_config: crate::config::Config,
-    ) -> ConfigRefreshOutcome {
-        Box::pin(
-            self.session
-                .refresh_mcp_config(expected_config, next_config),
-        )
-        .await
+    pub async fn refresh_mcp_config(&self, next_config: crate::config::Config) {
+        self.session.refresh_mcp_config(next_config).await;
     }
 
     /// Refreshes this thread's Apps tools before returning their runtime state.

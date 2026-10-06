@@ -4,7 +4,7 @@ assertion_line: 1389
 expression: rendered
 ---
 ╭─────────────────────────────────────────────────╮
-│ ✨ Update available! 0.156.0 -> 9.9.9           │
+│ ✨ Update available! 0.160.1 -> 9.9.9           │
 │ Run pnpm add -g @openai/kodex to update.        │
 │                                                 │
 │ See full release notes:                         │

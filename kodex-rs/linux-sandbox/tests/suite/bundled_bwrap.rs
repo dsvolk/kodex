@@ -2,9 +2,7 @@
 
 use kodex_linux_sandbox::BUNDLED_BWRAP_DIGEST_VERIFICATION_FAILURE_EXIT_CODE;
 use kodex_protocol::models::PermissionProfile;
-use kodex_utils_cargo_bin::copy_executable;
 use pretty_assertions::assert_eq;
-use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -29,14 +27,11 @@ fn bazel_build_rejects_tampered_bundled_bwrap() {
     std::fs::create_dir(&resources).expect("package resource directory should be created");
 
     let sandbox_binary = package.path().join("kodex-linux-sandbox");
-    copy_executable(
-        Path::new(env!("CARGO_BIN_EXE_kodex-linux-sandbox")),
-        &sandbox_binary,
-    )
-    .expect("sandbox binary should be copied into the package");
+    std::fs::copy(env!("CARGO_BIN_EXE_kodex-linux-sandbox"), &sandbox_binary)
+        .expect("sandbox binary should be copied into the package");
 
     let bundled_bwrap = resources.join("bwrap");
-    copy_executable(&bwrap_binary, &bundled_bwrap)
+    std::fs::copy(&bwrap_binary, &bundled_bwrap)
         .expect("built bwrap should be copied into the package");
 
     let permission_profile = serde_json::to_string(&PermissionProfile::read_only())

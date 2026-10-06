@@ -22,7 +22,6 @@ use kodex_app_server_protocol::GetAccountRateLimitsResponse;
 use kodex_app_server_protocol::MarketplaceAddResponse;
 use kodex_app_server_protocol::MarketplaceRemoveResponse;
 use kodex_app_server_protocol::MarketplaceUpgradeResponse;
-use kodex_app_server_protocol::McpServerOauthLoginResponse;
 use kodex_app_server_protocol::McpServerStatus;
 use kodex_app_server_protocol::McpServerStatusDetail;
 use kodex_app_server_protocol::PluginInstallResponse;
@@ -279,6 +278,11 @@ pub(crate) struct AgentsOverviewThreadRefresh {
 #[allow(clippy::large_enum_variant)]
 #[derive(Debug, IntoStaticStr)]
 pub(crate) enum AppEvent {
+    SecuritySetupLoaded {
+        request_id: uuid::Uuid,
+        identity: crate::security_setup::Identity,
+        notice: crate::security_setup::Notice,
+    },
     OpenDaemonMenu,
     ConfirmDaemonUpdate(crate::update_action::DaemonUpdateSource),
     RunDaemonUpdate(crate::update_action::DaemonUpdateSource),
@@ -1066,16 +1070,6 @@ pub(crate) enum AppEvent {
     FetchMcpInventory {
         detail: McpServerStatusDetail,
         thread_id: Option<ThreadId>,
-    },
-
-    StartMcpLogin {
-        name: String,
-        thread_id: ThreadId,
-    },
-
-    McpLoginStarted {
-        request_id: String,
-        result: Result<McpServerOauthLoginResponse, String>,
     },
 
     /// Result of fetching MCP inventory via app-server RPCs.

@@ -18,8 +18,6 @@ use kodex_config::AbsolutePathBuf;
 use kodex_config::CloudConfigBundle;
 use kodex_config::CloudConfigBundleLoadError;
 use kodex_config::CloudConfigBundleLoadErrorCode;
-use kodex_config::CloudConfigBundlePolicy;
-use kodex_config::CloudConfigBundleSnapshot;
 use kodex_login::AuthManager;
 use kodex_login::KodexAuth;
 use kodex_login::RefreshTokenError;
@@ -84,8 +82,7 @@ pub(crate) struct CloudConfigBundleService<C> {
     cache_enabled: bool,
     kodex_home: AbsolutePathBuf,
     timeout: Duration,
-    latest_bundle: OnceCell<Mutex<CloudConfigBundleSnapshot>>,
-    pub(crate) policy: CloudConfigBundlePolicy,
+    latest_bundle: OnceCell<Mutex<Result<Option<CloudConfigBundle>, CloudConfigBundleLoadError>>>,
 }
 
 impl<C> CloudConfigBundleService<C>
@@ -107,7 +104,6 @@ where
             kodex_home,
             timeout,
             latest_bundle: OnceCell::new(),
-            policy: CloudConfigBundlePolicy::default(),
         }
     }
 
@@ -119,24 +115,12 @@ where
     pub(crate) async fn get_latest(
         &self,
     ) -> Result<Option<CloudConfigBundle>, CloudConfigBundleLoadError> {
-        self.get_latest_snapshot().await.bundle
-    }
-
-    pub(crate) async fn get_latest_snapshot(&self) -> CloudConfigBundleSnapshot {
-        self.latest_snapshot().await.lock().await.clone()
-    }
-
-    async fn latest_snapshot(&self) -> &Mutex<CloudConfigBundleSnapshot> {
         self.latest_bundle
-            .get_or_init(|| async {
-                let mut snapshot = CloudConfigBundleSnapshot {
-                    bundle: self.load_startup_bundle_with_timeout().await,
-                    binding: None,
-                };
-                self.policy.publish_snapshot(&mut snapshot);
-                Mutex::new(snapshot)
-            })
+            .get_or_init(|| async { Mutex::new(self.load_startup_bundle_with_timeout().await) })
             .await
+            .lock()
+            .await
+            .clone()
     }
 
     pub(crate) async fn load_startup_bundle_with_timeout(
@@ -342,7 +326,6 @@ where
         bundle: CloudConfigBundle,
     ) -> Result<Option<CloudConfigBundle>, CloudConfigBundleLoadError> {
         emit_fetch_attempt_metric(trigger, attempt, "success", /*status_code*/ None);
-        let revision = self.policy.observe_remote_bundle(&bundle);
         if let Err(err) = validate_bundle(&bundle, &self.kodex_home) {
             emit_fetch_final_metric(
                 trigger,
@@ -357,19 +340,15 @@ where
 
         let (chatgpt_user_id, account_id) = auth_identity(auth);
         if self.cache_enabled
-            && let Some(revision) = revision
-        {
-            let result = match self
+            && let Err(err) = self
                 .cache
-                .prepare(chatgpt_user_id, account_id, bundle.clone())
+                .save(chatgpt_user_id, account_id, bundle.clone())
                 .await
-            {
-                Ok(staged) => staged.publish_if_current(revision).await,
-                Err(err) => Err(err),
-            };
-            if let Err(err) = result {
-                tracing::warn!(error = %err, "Failed to write cloud config bundle cache");
-            }
+        {
+            tracing::warn!(
+                error = %err,
+                "Failed to write cloud config bundle cache"
+            );
         }
 
         emit_fetch_final_metric(
@@ -509,7 +488,7 @@ where
             let mut refresh_interval = CLOUD_CONFIG_BUNDLE_CACHE_REFRESH_INTERVAL;
             if let Some(latest_bundle) = self.latest_bundle.get()
                 && matches!(
-                    &latest_bundle.lock().await.bundle,
+                    &*latest_bundle.lock().await,
                     Err(error) if error.code() == CloudConfigBundleLoadErrorCode::Timeout
                 )
             {
@@ -574,15 +553,8 @@ where
             return;
         };
         let mut latest = latest.lock().await;
-        if result.is_ok() {
-            *latest = CloudConfigBundleSnapshot {
-                bundle: result,
-                binding: None,
-            };
-            self.policy.publish_snapshot(&mut latest);
-        } else if latest.bundle.is_err() {
-            latest.bundle = result;
-            latest.binding = None;
+        if result.is_ok() || latest.is_err() {
+            *latest = result;
         }
     }
 }

@@ -1694,7 +1694,7 @@ async fn root_switch_preserves_idle_root_with_running_subagent() -> Result<()> {
 
 #[tokio::test]
 async fn overview_selection_applies_user_permissions_only_to_unloaded_threads() -> Result<()> {
-    let mut app = Box::pin(make_test_app()).await;
+    let mut app = make_test_app().await;
     trust_fixture_folders(&mut app);
     std::fs::write(
         app.config.kodex_home.join("config.toml"),
@@ -1724,14 +1724,15 @@ async fn overview_selection_applies_user_permissions_only_to_unloaded_threads() 
     }
     let mut app_server =
         Box::pin(crate::start_embedded_app_server_for_picker(&server_config)).await?;
-    let loaded = Box::pin(app_server.resume_thread(
-        &crate::local_settings::LocalSettings::from(&server_config),
-        server_config.clone(),
-        thread_ids[0],
-        crate::app_server_session::ResumeModelSettings::RestoreFromThread,
-    ))
-    .await?
-    .session;
+    let loaded = app_server
+        .resume_thread(
+            &crate::local_settings::LocalSettings::from(&server_config),
+            server_config.clone(),
+            thread_ids[0],
+            crate::app_server_session::ResumeModelSettings::RestoreFromThread,
+        )
+        .await?
+        .session;
     app.runtime_approvals_reviewer_override = Some(ApprovalsReviewer::AutoReview);
     app.harness_overrides.sandbox_mode = Some(kodex_protocol::config_types::SandboxMode::ReadOnly);
     app.harness_overrides.approval_policy =
@@ -1784,20 +1785,22 @@ async fn overview_selection_applies_user_permissions_only_to_unloaded_threads() 
                 AskForApproval::UnlessTrusted,
             ));
         }
-        Box::pin(app.select_agents_overview_thread(&mut tui, &mut app_server, thread_id)).await?;
+        app.select_agents_overview_thread(&mut tui, &mut app_server, thread_id)
+            .await?;
         assert_eq!(
             app.runtime_approvals_reviewer_override,
             (thread_id == thread_ids[2] || thread_id == thread_ids[3])
                 .then_some(ApprovalsReviewer::User)
         );
-        let observed = Box::pin(app_server.resume_thread(
-            &app.local_settings,
-            app.config.clone(),
-            thread_id,
-            crate::app_server_session::ResumeModelSettings::PreserveExistingThread,
-        ))
-        .await?
-        .session;
+        let observed = app_server
+            .resume_thread(
+                &app.local_settings,
+                app.config.clone(),
+                thread_id,
+                crate::app_server_session::ResumeModelSettings::PreserveExistingThread,
+            )
+            .await?
+            .session;
         assert_eq!(
             (
                 app.primary_thread_id,
@@ -1821,7 +1824,8 @@ async fn overview_selection_applies_user_permissions_only_to_unloaded_threads() 
     app.loader_overrides.system_requirements_path = Some(requirements.to_path_buf());
     let view = app.agents_overview_view(Vec::new(), /*selected_thread_id*/ None);
     app.chat_widget.show_bottom_pane_view(Box::new(view));
-    Box::pin(app.select_agents_overview_thread(&mut tui, &mut app_server, thread_ids[4])).await?;
+    app.select_agents_overview_thread(&mut tui, &mut app_server, thread_ids[4])
+        .await?;
     assert_eq!(
         (
             app.primary_thread_id,
@@ -2239,7 +2243,7 @@ async fn resume_failure_keeps_command_center_available() {
 
 #[tokio::test]
 async fn resume_picker_round_trip_preserves_each_threads_input() -> Result<()> {
-    let mut app = Box::pin(make_test_app()).await;
+    let mut app = make_test_app().await;
     trust_fixture_folders(&mut app);
     std::fs::write(
         app.config.kodex_home.join("config.toml"),
@@ -2276,11 +2280,11 @@ async fn resume_picker_round_trip_preserves_each_threads_input() -> Result<()> {
     for target in targets.iter().chain(&targets) {
         let view = app.agents_overview_view(Vec::new(), /*selected_thread_id*/ None);
         app.chat_widget.show_bottom_pane_view(Box::new(view));
-        Box::pin(app.apply_resume_picker_selection(
+        app.apply_resume_picker_selection(
             &mut tui,
             &mut server,
             SessionSelection::Resume(target.clone()),
-        ))
+        )
         .await?;
         assert_eq!(app.chat_widget.thread_id(), Some(target.thread_id));
         if expected_states.len() < targets.len() {
@@ -2338,7 +2342,7 @@ async fn resume_picker_round_trip_preserves_each_threads_input() -> Result<()> {
 
 #[tokio::test]
 async fn command_center_handles_resume_failure_and_success() -> Result<()> {
-    let mut app = Box::pin(make_test_app()).await;
+    let mut app = make_test_app().await;
     trust_fixture_folders(&mut app);
     std::fs::write(
         app.config.kodex_home.join("config.toml"),
@@ -2361,7 +2365,7 @@ async fn command_center_handles_resume_failure_and_success() -> Result<()> {
     let mut tui = crate::tui::test_support::make_test_tui()?;
     let mut server = Box::pin(crate::start_embedded_app_server_for_picker(&app.config)).await?;
     assert!(matches!(
-        Box::pin(app.apply_resume_picker_selection(
+        app.apply_resume_picker_selection(
             &mut tui,
             &mut server,
             SessionSelection::Resume(SessionTarget {
@@ -2370,7 +2374,7 @@ async fn command_center_handles_resume_failure_and_success() -> Result<()> {
                 cwd: None,
                 history_mode: None,
             })
-        ))
+        )
         .await?,
         AppRunControl::Continue
     ));
@@ -2385,7 +2389,7 @@ async fn command_center_handles_resume_failure_and_success() -> Result<()> {
     app.chat_widget
         .handle_key_event(KeyEvent::new(KeyCode::Esc, KeyModifiers::NONE));
     assert!(matches!(
-        Box::pin(app.apply_resume_picker_selection(
+        app.apply_resume_picker_selection(
             &mut tui,
             &mut server,
             SessionSelection::Resume(SessionTarget {
@@ -2394,7 +2398,7 @@ async fn command_center_handles_resume_failure_and_success() -> Result<()> {
                 cwd: None,
                 history_mode: None,
             })
-        ))
+        )
         .await?,
         AppRunControl::Continue
     ));

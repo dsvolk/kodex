@@ -6,6 +6,7 @@ use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_core::TurnInputRequest;
 use kodex_core::config::Constrained;
 use kodex_features::Feature;
 use kodex_protocol::AgentPath;
@@ -14,7 +15,7 @@ use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::protocol::AskForApproval;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::InterAgentCommunication;
-use kodex_protocol::protocol::Op;
+use kodex_protocol::turn_input::TurnInput;
 use pretty_assertions::assert_eq;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
@@ -89,13 +90,10 @@ async fn encrypted_parent_reply_survives_incremental_guardian_reviews() -> anyho
         /*trigger_turn*/ true,
     );
     let expected = serde_json::to_value(communication.to_model_input_item())?;
-    // TurnComplete can arrive before the previous turn finishes teardown. Queue
-    // the reply through the same mailbox path used by real agent messages.
     test.kodex
-        .submit(Op::InterAgentCommunication {
+        .start_turn_if_idle(TurnInputRequest::new(TurnInput::InterAgentCommunication(
             communication,
-            start_options: Default::default(),
-        })
+        )))
         .await?;
     wait_for_event(&test.kodex, |event| {
         matches!(event, EventMsg::TurnComplete(_))

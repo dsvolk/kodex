@@ -12,8 +12,6 @@ use crate::tools::MULTI_AGENT_V2_NAMESPACE_DESCRIPTION;
 use chrono::DateTime;
 use chrono::Utc;
 use futures::future::BoxFuture;
-use kodex_agent_message_board_client::AccessToken;
-use kodex_agent_message_board_client::RemoteAgentMessageBoard;
 use kodex_agent_message_board_extension::AgentMessageBoard;
 use kodex_agent_message_board_extension::InMemoryMessageBoards;
 use kodex_agent_message_board_extension::LocalAgentMessageBoard;
@@ -22,7 +20,6 @@ use kodex_agent_message_board_extension::NotificationDelivery;
 use kodex_agent_message_board_extension::PostPreview;
 use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_features::Feature;
-use kodex_http_client::ClientRouteClass;
 use kodex_protocol::AgentPath;
 use kodex_protocol::SessionId;
 use kodex_protocol::ThreadId;
@@ -46,18 +43,14 @@ pub fn install_agent_message_board(
         |config: &Config| config.multi_agent_v2.tool_namespace.clone(),
         move |config: &Config, tree, caller| {
             let in_memory = config.multi_agent_v2.message_board_in_memory;
-            // MAv2 supplies tree paths; ephemeral runtimes must not open local SQLite.
+            // MAv2 supplies tree paths; ephemeral runtimes must not open durable storage.
             if !config.features.enabled(Feature::AgentMessageBoard)
                 || !config.features.enabled(Feature::MultiAgentV2)
-                || (config.ephemeral
-                    && !in_memory
-                    && config.multi_agent_v2.message_board_remote.is_none())
+                || (config.ephemeral && !in_memory)
             {
                 return Box::pin(async { Ok(None) });
             }
             let sqlite = config.sqlite_config().clone();
-            let remote = config.multi_agent_v2.message_board_remote.clone();
-            let http_factory = config.http_client_factory();
             let in_memory_boards = Arc::clone(&in_memory_boards);
             let host = Arc::new(LocalBoardHost {
                 manager: manager.clone(),
@@ -65,28 +58,7 @@ pub fn install_agent_message_board(
                 caller,
             });
             Box::pin(async move {
-                let board: Arc<dyn AgentMessageBoard> = if let Some(remote) = remote {
-                    let token = match remote.bearer_token_env_var {
-                        Some(name) => std::env::var(name).map_err(|_| KodexErr::InvalidRequest(
-                            "message-board credential environment variable is missing or invalid".into(),
-                        ))?,
-                        None => remote.bearer_token.ok_or_else(|| KodexErr::InvalidRequest(
-                            "remote message board requires a credential".into(),
-                        ))?.into_inner(),
-                    };
-                    let token = AccessToken::new(token)
-                        .map_err(|err| KodexErr::InvalidRequest(err.to_string()))?;
-                    let http = http_factory
-                        .build_client(&remote.url, ClientRouteClass::Api)
-                        .map_err(|err| KodexErr::Io(std::io::Error::other(err)))?;
-                    let board = RemoteAgentMessageBoard::new(http, &remote.url, tree, token)
-                        .map_err(|err| KodexErr::InvalidRequest(err.to_string()))?
-                        .with_clock(move |caller| {
-                            let host = host.clone();
-                            Box::pin(async move { host.current_time(caller).await })
-                        });
-                    Arc::new(board)
-                } else if in_memory {
+                let board: Arc<dyn AgentMessageBoard> = if in_memory {
                     Arc::new(in_memory_boards.open(tree, host).await)
                 } else {
                     Arc::new(LocalAgentMessageBoard::open(&sqlite, tree, host).await?)

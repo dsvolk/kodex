@@ -64,7 +64,6 @@ export type { ChatgptAuthTokensRefreshParams } from "./ChatgptAuthTokensRefreshP
 export type { ChatgptAuthTokensRefreshReason } from "./ChatgptAuthTokensRefreshReason";
 export type { ChatgptAuthTokensRefreshResponse } from "./ChatgptAuthTokensRefreshResponse";
 export type { CliAuthCredentialsStoreMode } from "./CliAuthCredentialsStoreMode";
-export type { KodexErrorInfo } from "./KodexErrorInfo";
 export type { CollabAgentState } from "./CollabAgentState";
 export type { CollabAgentStatus } from "./CollabAgentStatus";
 export type { CollabAgentTool } from "./CollabAgentTool";
@@ -240,6 +239,7 @@ export type { ItemCompletedNotification } from "./ItemCompletedNotification";
 export type { ItemGuardianApprovalReviewCompletedNotification } from "./ItemGuardianApprovalReviewCompletedNotification";
 export type { ItemGuardianApprovalReviewStartedNotification } from "./ItemGuardianApprovalReviewStartedNotification";
 export type { ItemStartedNotification } from "./ItemStartedNotification";
+export type { KodexErrorInfo } from "./KodexErrorInfo";
 export type { ListMcpServerStatusParams } from "./ListMcpServerStatusParams";
 export type { ListMcpServerStatusResponse } from "./ListMcpServerStatusResponse";
 export type { LoginAccountParams } from "./LoginAccountParams";

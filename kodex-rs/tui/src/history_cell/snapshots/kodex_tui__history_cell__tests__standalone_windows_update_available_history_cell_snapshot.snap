@@ -4,7 +4,7 @@ assertion_line: 1380
 expression: rendered
 ---
 ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ ✨ Update available! 0.156.0 -> 9.9.9                                                                      │
+│ ✨ Update available! 0.160.1 -> 9.9.9                                                                      │
 │ Run powershell -ExecutionPolicy Bypass -c '$env:KODEX_NON_INTERACTIVE=1; irm                               │
 │ https://chatgpt.com/kodex/install.ps1 | iex' to update.                                                    │
 │                                                                                                            │

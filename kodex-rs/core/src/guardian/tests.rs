@@ -3449,8 +3449,7 @@ async fn guardian_review_routes_required_actions(
         | RequiredGuardianReview::LiveManagedModelWithGuardianV2 => {
             Arc::make_mut(&mut context.model_info).slug = "required-action-model".to_string();
             // The admitted turn has neither this model nor the new requirement.
-            let current_config = session.get_config().await;
-            let mut config = current_config.as_ref().clone();
+            let mut config = session.get_config().await.as_ref().clone();
             let requirements = kodex_config::ConfigRequirements {
                 auto_review_required_models: Some(Sourced::new(
                     std::collections::BTreeSet::from([context.model_info.slug.clone()]),
@@ -3467,7 +3466,7 @@ async fn guardian_review_routes_required_actions(
                 requirements,
                 config.config_layer_stack.requirements_toml().clone(),
             )?;
-            let _ = session.refresh_mcp_config(current_config, config).await;
+            session.refresh_mcp_config(config).await;
             (
                 guardian_exec_command_request("shell-live-managed-model"),
                 ApprovalRequestReasons::default(),
