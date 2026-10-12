@@ -1,0 +1,17 @@
+[package]
+name = "kodex-utils-oss"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+kodex-core = { workspace = true }
+kodex-lmstudio = { workspace = true }
+kodex-model-provider-info = { workspace = true }
+kodex-ollama = { workspace = true }
+
+[lib]
+doctest = false

@@ -3,21 +3,21 @@
 version: 2
 updates:
   - package-ecosystem: bun
-    directory: .github/actions/codex
+    directory: .github/actions/kodex
     schedule:
       interval: weekly
     cooldown:
       default-days: 7
   - package-ecosystem: cargo
     directories:
-      - codex-rs
-      - codex-rs/*
+      - kodex-rs
+      - kodex-rs/*
     schedule:
       interval: weekly
     cooldown:
       default-days: 7
   - package-ecosystem: docker
-    directory: codex-cli
+    directory: kodex-cli
     schedule:
       interval: weekly
     cooldown:
@@ -29,7 +29,7 @@ updates:
     cooldown:
       default-days: 7
   - package-ecosystem: rust-toolchain
-    directory: codex-rs
+    directory: kodex-rs
     schedule:
       interval: weekly
     cooldown:

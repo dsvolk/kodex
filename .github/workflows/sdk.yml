@@ -21,7 +21,7 @@ jobs:
           set -euo pipefail
           docker run --rm \
             --user "$(id -u):$(id -g)" \
-            -e HOME=/tmp/codex-python-sdk-home \
+            -e HOME=/tmp/kodex-python-sdk-home \
             -e UV_LINK_MODE=copy \
             -v "${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE}" \
             -w "${GITHUB_WORKSPACE}/sdk/python" \
@@ -32,7 +32,7 @@ jobs:
               /tmp/build/bin/uv build --wheel --out-dir /tmp/dist
               python -m venv /tmp/installed
               /tmp/build/bin/uv pip install --python /tmp/installed/bin/python /tmp/dist/*.whl
-              env -u PYTHONPATH -u CODEX_EXEC_PATH /tmp/installed/bin/python tests/installed_sdk_smoke.py
+              env -u PYTHONPATH -u KODEX_EXEC_PATH /tmp/installed/bin/python tests/installed_sdk_smoke.py
             '
 
   sdks:
@@ -74,7 +74,7 @@ jobs:
           target: x86_64-unknown-linux-gnu
           cache-scope: sdk
 
-      - name: Build codex and the code-mode host with Bazel
+      - name: Build kodex and the code-mode host with Bazel
         id: build_bazel
         env:
           BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
@@ -92,8 +92,8 @@ jobs:
             --build_metadata=COMMIT_SHA=${GITHUB_SHA} \
             --build_metadata=TAG_job=sdk \
             -- \
-            //codex-rs/cli:codex \
-            //codex-rs/code-mode-host:codex-code-mode-host
+            //kodex-rs/cli:kodex \
+            //kodex-rs/code-mode-host:kodex-code-mode-host
 
           cquery_output="$(
             ./.github/scripts/run-bazel-ci.sh \
@@ -101,7 +101,7 @@ jobs:
               cquery \
               --output=files \
               -- \
-              'set(//codex-rs/cli:codex //codex-rs/code-mode-host:codex-code-mode-host)' \
+              'set(//kodex-rs/cli:kodex //kodex-rs/code-mode-host:kodex-code-mode-host)' \
               | grep -E '^(/|bazel-out/)'
           )"
           mapfile -t bazel_output_paths <<< "${cquery_output}"
@@ -115,13 +115,13 @@ jobs:
           install_dir="${GITHUB_WORKSPACE}/.tmp/sdk-ci"
           mkdir -p "${install_dir}"
           install -m 755 "${bazel_output_paths[@]}" "${install_dir}"
-          echo "CODEX_EXEC_PATH=${install_dir}/codex" >> "$GITHUB_ENV"
+          echo "KODEX_EXEC_PATH=${install_dir}/kodex" >> "$GITHUB_ENV"
 
-      - name: Warm up Bazel-built codex
+      - name: Warm up Bazel-built kodex
         shell: bash
         run: |
           set -euo pipefail
-          "${CODEX_EXEC_PATH}" --version
+          "${KODEX_EXEC_PATH}" --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

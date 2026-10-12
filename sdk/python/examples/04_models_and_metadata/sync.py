@@ -9,10 +9,10 @@ from _bootstrap import ensure_local_sdk_src, runtime_config, server_label
 
 ensure_local_sdk_src()
 
-from openai_codex import Codex
+from openai_kodex import Kodex
 
-with Codex(config=runtime_config()) as codex:
-    print("server:", server_label(codex.metadata))
-    models = codex.models()
+with Kodex(config=runtime_config()) as kodex:
+    print("server:", server_label(kodex.metadata))
+    models = kodex.models()
     print("models.count:", len(models.data))
     print("models:", ", ".join(model.id for model in models.data[:5]))

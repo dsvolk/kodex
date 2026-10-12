@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "git-utils",
+    crate_name = "kodex_git_utils",
+)

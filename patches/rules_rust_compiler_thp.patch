@@ -10,7 +10,7 @@ diff --git a/rust/private/rustc.bzl b/rust/private/rustc.bzl
 +    if (
 +        tool_file == toolchain.rustc and
 +        toolchain.exec_triple.str in ("x86_64-unknown-linux-gnu", "aarch64-unknown-linux-gnu") and
-+        crate_info.root.short_path.startswith("codex-rs/")
++        crate_info.root.short_path.startswith("kodex-rs/")
 +    ):
 +        process_wrapper_flags.add("--try-rustc-thp", "true")
 +

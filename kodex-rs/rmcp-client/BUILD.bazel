@@ -1,0 +1,9 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "rmcp-client",
+    crate_name = "kodex_rmcp_client",
+    extra_binaries = [
+        "//kodex-rs/cli:kodex",
+    ],
+)

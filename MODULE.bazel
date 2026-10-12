@@ -1,4 +1,4 @@
-module(name = "codex")
+module(name = "kodex")
 
 bazel_dep(name = "bazel_lib", version = "3.2.2")
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
@@ -9,7 +9,7 @@ bazel_dep(name = "protobuf", version = "34.0.bcr.1", repo_name = "com_google_pro
 bazel_dep(name = "llvm", version = "0.8.11")
 bazel_dep(name = "windows_support", version = "0.2.0")
 
-# Patch hermetic LLVM for Codex's custom libc++ and Windows gnullvm runtime
+# Patch hermetic LLVM for Kodex's custom libc++ and Windows gnullvm runtime
 # needs that have not landed upstream.
 single_version_override(
     module_name = "llvm",
@@ -313,8 +313,8 @@ register_toolchains("//bazel/toolchains/prost:toolchain")
 
 crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
 crate.from_cargo(
-    cargo_lock = "//codex-rs:Cargo.lock",
-    cargo_toml = "//codex-rs:Cargo.toml",
+    cargo_lock = "//kodex-rs:Cargo.lock",
+    cargo_toml = "//kodex-rs:Cargo.toml",
     platform_triples = [
         "aarch64-unknown-linux-gnu",
         "aarch64-unknown-linux-musl",
@@ -494,22 +494,22 @@ crate.annotation(
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-codex_release_archive = use_extension(
-    "//bazel/extensions:codex_release_archive.bzl",
-    "codex_release_archive",
+kodex_release_archive = use_extension(
+    "//bazel/extensions:kodex_release_archive.bzl",
+    "kodex_release_archive",
 )
-codex_release_archive.release(
+kodex_release_archive.release(
     sha256 = "8b711520beddf385467b8da4d2c93736637c6ba1e46811cf0d8606b7c490b6f6",
     version = "0.156.1",
 )
-codex_release_archive.release(
+kodex_release_archive.release(
     sha256 = "71a28d362c96ac9829bf8203a2c71be451aeb726adb843167fdaf0eae8fe7dd9",
     version = "0.145.0",
 )
 use_repo(
-    codex_release_archive,
-    "codex_release_0.145.0_linux_x86_64",
-    "codex_release_0.156.1_linux_x86_64",
+    kodex_release_archive,
+    "kodex_release_0.145.0_linux_x86_64",
+    "kodex_release_0.156.1_linux_x86_64",
 )
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
@@ -615,7 +615,7 @@ crate.annotation(
         "CMAKE": "$${pwd}/$(CMAKE)",
         "CMAKE_GENERATOR": "Ninja",
         "CMAKE_TOOLCHAIN_FILE": "$(execpath @@//third_party/voice:opus-toolchain.cmake)",
-        "CODEX_VOICE_NINJA": "$${pwd}/$(NINJA)",
+        "KODEX_VOICE_NINJA": "$${pwd}/$(NINJA)",
     },
     build_script_toolchains = [
         "@rules_foreign_cc//toolchains:current_cmake_toolchain",
@@ -826,7 +826,7 @@ http_file(
     downloaded_file_path = "rusty_v8_release_aarch64-pc-windows-msvc.lib.gz",
     sha256 = "54722842af36b74248c403ff531254efac6ff65d281198bab0c6350fc1188ad4",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/rusty_v8_ptrcomp_sandbox_release_aarch64-pc-windows-msvc.lib.gz",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/rusty_v8_ptrcomp_sandbox_release_aarch64-pc-windows-msvc.lib.gz",
     ],
 )
 
@@ -835,7 +835,7 @@ http_file(
     downloaded_file_path = "rusty_v8_release_x86_64-pc-windows-msvc.lib.gz",
     sha256 = "732ec5da4243aa166799780c8519a5eea6f32f6e47657a323342794dc3c239d6",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/rusty_v8_ptrcomp_sandbox_release_x86_64-pc-windows-msvc.lib.gz",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/rusty_v8_ptrcomp_sandbox_release_x86_64-pc-windows-msvc.lib.gz",
     ],
 )
 
@@ -844,7 +844,7 @@ http_file(
     downloaded_file_path = "librusty_v8_ptrcomp_sandbox_release_aarch64-apple-darwin.a.gz",
     sha256 = "00adbb48798848c77550441c68673a5e8529b8e1b73eabcdee232cb39b40f4a1",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_aarch64-apple-darwin.a.gz",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_aarch64-apple-darwin.a.gz",
     ],
 )
 
@@ -853,7 +853,7 @@ http_file(
     downloaded_file_path = "src_binding_ptrcomp_sandbox_release_aarch64-apple-darwin.rs",
     sha256 = "ca5adf0cf89c9a70ad460ae73648b2fe89b74aa113b3cb7f757b6a02b758394f",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_aarch64-apple-darwin.rs",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_aarch64-apple-darwin.rs",
     ],
 )
 
@@ -862,7 +862,7 @@ http_file(
     downloaded_file_path = "librusty_v8_ptrcomp_sandbox_release_aarch64-unknown-linux-gnu.a.gz",
     sha256 = "d1517eed405468537029b005d5fe997ec74d5c8d351f916b3a6df20b7d2811ba",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_aarch64-unknown-linux-gnu.a.gz",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_aarch64-unknown-linux-gnu.a.gz",
     ],
 )
 
@@ -871,7 +871,7 @@ http_file(
     downloaded_file_path = "src_binding_ptrcomp_sandbox_release_aarch64-unknown-linux-gnu.rs",
     sha256 = "7727826ae479bdb645e807239fb12d1f8e2e23de7a6cf16f5ee592690d1d8506",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_aarch64-unknown-linux-gnu.rs",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_aarch64-unknown-linux-gnu.rs",
     ],
 )
 
@@ -880,7 +880,7 @@ http_file(
     downloaded_file_path = "librusty_v8_ptrcomp_sandbox_release_x86_64-apple-darwin.a.gz",
     sha256 = "e0d9bb64e8b3a034c2930c83972f3f35760211148342fa0407b38250ef330856",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_x86_64-apple-darwin.a.gz",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_x86_64-apple-darwin.a.gz",
     ],
 )
 
@@ -889,7 +889,7 @@ http_file(
     downloaded_file_path = "src_binding_ptrcomp_sandbox_release_x86_64-apple-darwin.rs",
     sha256 = "ca5adf0cf89c9a70ad460ae73648b2fe89b74aa113b3cb7f757b6a02b758394f",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_x86_64-apple-darwin.rs",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_x86_64-apple-darwin.rs",
     ],
 )
 
@@ -898,7 +898,7 @@ http_file(
     downloaded_file_path = "librusty_v8_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.a.gz",
     sha256 = "a35c75d1f26e6a983885a45b33490a4ebe54f05050568b32b89cfb421b30b583",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.a.gz",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.a.gz",
     ],
 )
 
@@ -907,7 +907,7 @@ http_file(
     downloaded_file_path = "src_binding_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.rs",
     sha256 = "7727826ae479bdb645e807239fb12d1f8e2e23de7a6cf16f5ee592690d1d8506",
     urls = [
-        "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.rs",
+        "https://github.com/openai/kodex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.rs",
     ],
 )
 

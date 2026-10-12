@@ -1,15 +1,15 @@
 {
-  "name": "@openai/codex-sdk",
+  "name": "@openai/kodex-sdk",
   "version": "0.0.0-dev",
-  "description": "TypeScript SDK for Codex APIs.",
+  "description": "TypeScript SDK for Kodex APIs.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openai/codex.git",
+    "url": "git+https://github.com/openai/kodex.git",
     "directory": "sdk/typescript"
   },
   "keywords": [
     "openai",
-    "codex",
+    "kodex",
     "sdk",
     "typescript",
     "api"

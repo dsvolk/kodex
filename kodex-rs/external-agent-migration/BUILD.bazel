@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "external-agent-migration",
+    crate_name = "kodex_external_agent_migration",
+)

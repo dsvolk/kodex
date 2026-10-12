@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "agent-message-board",
+    crate_name = "kodex_agent_message_board_extension",
+)

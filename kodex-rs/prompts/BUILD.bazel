@@ -1,0 +1,7 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "prompts",
+    compile_data = glob(["templates/**"]),
+    crate_name = "kodex_prompts",
+)

@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "mxc-sandbox",
+    crate_name = "kodex_mxc_sandbox",
+)

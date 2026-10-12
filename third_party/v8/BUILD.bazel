@@ -100,7 +100,7 @@ alias(
     }),
 )
 
-# A GNU Codex release archive carries Chromium's namespaced libc++ runtime.
+# A GNU Kodex release archive carries Chromium's namespaced libc++ runtime.
 # Bazel also links its own libc++. Both keep their exception classes in std::,
 # so prefer the toolchain definitions of just those shared ABI entry points.
 # Inputs remain checksum-verified and immutable; only the Bazel output changes.

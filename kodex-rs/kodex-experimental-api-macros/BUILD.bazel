@@ -1,0 +1,7 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "kodex-experimental-api-macros",
+    crate_name = "kodex_experimental_api_macros",
+    proc_macro = True,
+)

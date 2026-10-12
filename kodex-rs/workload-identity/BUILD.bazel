@@ -1,0 +1,6 @@
+load("//:defs.bzl", "kodex_rust_crate")
+
+kodex_rust_crate(
+    name = "workload-identity",
+    crate_name = "kodex_workload_identity",
+)

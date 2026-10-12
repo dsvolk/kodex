@@ -1,4 +1,4 @@
-"""Validate Codex releases and check whether their GitHub channel pointers can advance."""
+"""Validate Kodex releases and check whether their GitHub channel pointers can advance."""
 
 import argparse
 import json
