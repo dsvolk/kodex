@@ -8,6 +8,7 @@ use std::time::Duration;
 
 use anyhow::Result;
 use base64::Engine;
+use core_test_support::skip_if_no_network;
 use kodex_config::types::AuthCredentialsStoreMode;
 use kodex_http_client::HttpClientBuilder;
 use kodex_login::AuthKeyringBackendKind;
@@ -17,7 +18,6 @@ use kodex_login::LoginSuccessPage;
 use kodex_login::LoginSuccessPageBrand;
 use kodex_login::ServerOptions;
 use kodex_login::run_login_server;
-use core_test_support::skip_if_no_network;
 use pretty_assertions::assert_eq;
 use tempfile::tempdir;
 use url::Url;

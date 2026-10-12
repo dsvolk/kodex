@@ -1,12 +1,12 @@
 //! Feedback event contracts for titles, report grouping, and lossless comment bodies.
 
-use crate::KodexFeedback;
 use crate::FeedbackUploadOptions;
+use crate::KodexFeedback;
 use crate::UPLOAD_TIMEOUT;
-use kodex_http_client::HttpClientFactory;
-use kodex_http_client::OutboundProxyPolicy;
 use flate2::read::GzDecoder;
 use http::StatusCode;
+use kodex_http_client::HttpClientFactory;
+use kodex_http_client::OutboundProxyPolicy;
 use pretty_assertions::assert_eq;
 use sentry::protocol::Event;
 use sentry::protocol::Exception;

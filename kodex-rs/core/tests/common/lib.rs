@@ -2,9 +2,9 @@
 
 use anyhow::Context as _;
 use anyhow::ensure;
+use ctor::ctor;
 use kodex_arg0::Arg0PathEntryGuard;
 use kodex_utils_cargo_bin::CargoBinError;
-use ctor::ctor;
 use std::sync::OnceLock;
 use tempfile::TempDir;
 
@@ -31,9 +31,9 @@ pub mod process;
 pub mod responses;
 pub mod startup;
 pub mod streaming_sse;
+mod test_environment;
 pub mod test_kodex;
 pub mod test_kodex_exec;
-mod test_environment;
 pub mod tracing;
 pub mod zsh_fork;
 

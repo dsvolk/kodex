@@ -3,6 +3,7 @@ mod common;
 #[cfg(unix)]
 use anyhow::Context;
 use anyhow::Result;
+use futures::TryStreamExt;
 use kodex_exec_server::Environment;
 use kodex_exec_server::ExecServerClient;
 use kodex_exec_server::ExecServerError;
@@ -18,7 +19,6 @@ use kodex_exec_server::RemoteExecServerConnectArgs;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_utils_path_uri::PathUri;
-use futures::TryStreamExt;
 use pretty_assertions::assert_eq;
 use std::sync::Arc;
 #[cfg(any(unix, windows))]

@@ -1,14 +1,14 @@
 //! Exercises Bedrock service-tier selection through provider catalogs and HTTP requests.
 
+use core_test_support::responses;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
 use kodex_login::KodexAuth;
 use kodex_login::auth::BedrockApiKeyAuth;
 use kodex_model_provider_info::AMAZON_BEDROCK_PROVIDER_ID;
 use kodex_model_provider_info::AMAZON_BEDROCK_RUNTIME_PROVIDER_ID;
 use kodex_model_provider_info::built_in_model_providers;
 use kodex_protocol::openai_models::ModelServiceTier;
-use core_test_support::responses;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 
 #[test_case::test_case(AMAZON_BEDROCK_PROVIDER_ID, "openai.gpt-6-astra"; "mantle")]

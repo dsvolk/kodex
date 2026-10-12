@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
 use anyhow::bail;
+use futures::FutureExt;
+use futures::future::BoxFuture;
 use kodex_hooks::HookMcpCall;
 use kodex_hooks::HookMcpExecutor;
 use kodex_mcp::McpRuntime;
 use kodex_protocol::ThreadId;
-use futures::FutureExt;
-use futures::future::BoxFuture;
 use serde_json::Value;
 
 pub(crate) struct CoreHookMcpExecutor {

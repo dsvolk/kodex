@@ -15,6 +15,7 @@ use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tracing::debug;
 use tracing::warn;
 
+use http::HeaderMap;
 use kodex_api::AuthError;
 use kodex_api::AuthProvider;
 use kodex_http_client::HttpClientFactory;
@@ -25,7 +26,6 @@ use kodex_utils_rustls_provider::ensure_rustls_crypto_provider;
 use kodex_websocket_client::WebSocketConnection;
 use kodex_websocket_client::WebSocketConnector;
 use kodex_websocket_client::WebSocketTlsMode;
-use http::HeaderMap;
 
 use crate::ExecServerClient;
 use crate::ExecServerError;

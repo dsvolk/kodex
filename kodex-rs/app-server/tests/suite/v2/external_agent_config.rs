@@ -8,6 +8,7 @@ use app_test_support::TestAppServer;
 use app_test_support::create_mock_responses_server_repeating_assistant;
 use app_test_support::start_analytics_events_server;
 use app_test_support::write_chatgpt_auth;
+use core_test_support::responses;
 #[cfg(unix)]
 use kodex_app_server_protocol::ConfigReadParams;
 #[cfg(unix)]
@@ -47,7 +48,6 @@ use kodex_app_server_protocol::UserInput;
 #[cfg(unix)]
 use kodex_app_server_protocol::WriteStatus;
 use kodex_config::types::AuthCredentialsStoreMode;
-use core_test_support::responses;
 use pretty_assertions::assert_eq;
 use std::path::Path;
 use std::path::PathBuf;

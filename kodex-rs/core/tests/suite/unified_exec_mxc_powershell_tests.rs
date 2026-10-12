@@ -2,12 +2,12 @@
 
 use anyhow::Context;
 use anyhow::Result;
-use kodex_protocol::models::PermissionProfile;
-use kodex_shell_command::shell_detect::DetectedShell;
-use kodex_shell_command::shell_detect::ShellType;
 use core_test_support::responses::mount_function_call_agent_response;
 use core_test_support::test_kodex::TestKodexHarness;
 use core_test_support::test_kodex::test_kodex;
+use kodex_protocol::models::PermissionProfile;
+use kodex_shell_command::shell_detect::DetectedShell;
+use kodex_shell_command::shell_detect::ShellType;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::path::PathBuf;

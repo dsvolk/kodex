@@ -11,7 +11,7 @@ from _bootstrap import ensure_local_sdk_src, runtime_config
 
 ensure_local_sdk_src()
 
-from openai_kodex import Kodex, ExternalMessage, Sandbox
+from openai_kodex import ExternalMessage, Kodex, Sandbox
 
 with Kodex(config=runtime_config()) as kodex:
     thread = kodex.thread_start(sandbox=Sandbox.read_only)

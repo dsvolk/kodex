@@ -4,10 +4,10 @@ use crate::error::ApiError;
 use crate::provider::Provider;
 use crate::search::SearchRequest;
 use crate::search::SearchResponse;
-use kodex_client::HttpTransport;
-use kodex_client::RequestTelemetry;
 use http::HeaderMap;
 use http::Method;
+use kodex_client::HttpTransport;
+use kodex_client::RequestTelemetry;
 use serde_json::to_value;
 use std::sync::Arc;
 
@@ -64,6 +64,7 @@ mod tests {
     use crate::search::SearchInput;
     use crate::search::SearchQuery;
     use crate::search::SearchSettings;
+    use http::StatusCode;
     use kodex_client::Request;
     use kodex_client::RequestBody;
     use kodex_client::Response;
@@ -73,7 +74,6 @@ mod tests {
     use kodex_protocol::models::ContentItem;
     use kodex_protocol::models::ImageReference;
     use kodex_protocol::models::ResponseItem;
-    use http::StatusCode;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use std::sync::Mutex;

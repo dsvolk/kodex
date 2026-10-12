@@ -2,6 +2,9 @@
 
 use std::sync::Arc;
 
+use core::time::Duration;
+use core_test_support::load_default_config_for_test;
+use core_test_support::wait_for_event;
 use kodex_core::NewThread;
 use kodex_history::InitialHistory;
 use kodex_history::ResumedHistory;
@@ -17,9 +20,6 @@ use kodex_protocol::protocol::TurnContextItem;
 use kodex_protocol::protocol::TurnStartedEvent;
 use kodex_protocol::protocol::UserMessageEvent;
 use kodex_protocol::protocol::WarningEvent;
-use core::time::Duration;
-use core_test_support::load_default_config_for_test;
-use core_test_support::wait_for_event;
 use tempfile::TempDir;
 
 fn resume_history(

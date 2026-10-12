@@ -14,15 +14,15 @@ use crate::keymap::KeymapContext;
 use crate::pager_overlay::TranscriptHistoryState;
 use crate::test_support::test_path_display;
 use crate::tui::Tui;
+use crossterm::event::KeyCode;
+use crossterm::event::KeyEvent;
+use crossterm::event::KeyModifiers;
 use kodex_app_server_protocol::ToolRequestUserInputOption;
 use kodex_app_server_protocol::ToolRequestUserInputParams;
 use kodex_app_server_protocol::ToolRequestUserInputQuestion;
 use kodex_config::types::KeybindingSpec;
 use kodex_config::types::KeybindingsSpec;
 use kodex_config::types::TuiKeymap;
-use crossterm::event::KeyCode;
-use crossterm::event::KeyEvent;
-use crossterm::event::KeyModifiers;
 use pretty_assertions::assert_eq;
 
 async fn chord_app() -> Result<(Box<App>, Tui, AppServerSession)> {

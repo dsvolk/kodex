@@ -1,8 +1,8 @@
 //! Exercises both startup pipelines through model requests and committed versioned state.
 
 use super::*;
-use kodex_protocol::MemoryVersion;
 use core_test_support::responses::sse_response;
+use kodex_protocol::MemoryVersion;
 use pretty_assertions::assert_eq;
 use wiremock::Mock;
 use wiremock::matchers::method;

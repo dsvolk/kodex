@@ -1,7 +1,7 @@
+use http::Method;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_http_client::RequestBuilder;
 use kodex_http_client::RouteAwareClientPool;
-use http::Method;
 use std::fmt::Debug;
 
 /// Builds requests whose URL is also used to resolve their outbound route.

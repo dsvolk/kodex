@@ -1,19 +1,22 @@
 #![allow(clippy::unwrap_used)]
 
 use anyhow::Result;
+use core_test_support::apps_test_server::AppsTestServer;
+use core_test_support::responses::start_mock_server;
+use core_test_support::skip_if_no_network;
 use kodex_config::McpServerTransportConfig;
 use kodex_core::config::ConfigBuilder;
 use kodex_core::config::Constrained;
 use kodex_core::plugins_manager_for_config;
 use kodex_exec_server_test_support::environment_manager_without_environments;
 use kodex_login::AuthManager;
-use kodex_login::KodexAuth;
 use kodex_login::ExternalAuth;
 use kodex_login::ExternalAuthFuture;
 use kodex_login::ExternalAuthRefreshContext;
+use kodex_login::KodexAuth;
+use kodex_mcp::EffectiveMcpServer;
 use kodex_mcp::KODEX_APPS_MCP_SERVER_NAME;
 use kodex_mcp::KodexAppsToolsCache;
-use kodex_mcp::EffectiveMcpServer;
 use kodex_mcp::McpRuntime;
 use kodex_mcp::McpRuntimeContext;
 use kodex_mcp::McpRuntimeInput;
@@ -21,9 +24,6 @@ use kodex_mcp::McpStartupPolicy;
 use kodex_mcp::McpToolCatalogCache;
 use kodex_protocol::mcp::ClientMcpExtensions;
 use kodex_protocol::protocol::AskForApproval;
-use core_test_support::apps_test_server::AppsTestServer;
-use core_test_support::responses::start_mock_server;
-use core_test_support::skip_if_no_network;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

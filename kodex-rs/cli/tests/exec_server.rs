@@ -23,6 +23,8 @@ use std::time::Instant;
 
 use anyhow::Context;
 use anyhow::Result;
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_exec_server::EnvironmentInfo;
 use kodex_exec_server::ExecParams;
 use kodex_exec_server::ExecServerClient;
@@ -34,8 +36,6 @@ use kodex_exec_server::ProcessId;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
 use kodex_utils_cargo_bin::copy_executable;
-use futures::SinkExt;
-use futures::StreamExt;
 use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
 use pretty_assertions::assert_eq;

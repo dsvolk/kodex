@@ -3,14 +3,14 @@ use std::time::Duration;
 
 use crate::AuthProvider;
 use bytes::Bytes;
-use kodex_http_client::HttpResponse;
-use kodex_http_client::RequestBuilder;
-use kodex_http_client::RouteAwareClientPool;
-use kodex_http_client::RouteAwareRequestError;
 use futures::Stream;
 use http::Method;
 use http::StatusCode;
 use http::header::CONTENT_LENGTH;
+use kodex_http_client::HttpResponse;
+use kodex_http_client::RequestBuilder;
+use kodex_http_client::RouteAwareClientPool;
+use kodex_http_client::RouteAwareRequestError;
 use serde::Deserialize;
 use tokio::time::Instant;
 use uuid::Uuid;
@@ -481,10 +481,10 @@ mod retry_tests;
 #[cfg(test)]
 mod tests {
     use super::*;
+    use http::header::HeaderValue;
     use kodex_http_client::ClientRouteClass;
     use kodex_http_client::HttpClientFactory;
     use kodex_http_client::OutboundProxyPolicy;
-    use http::header::HeaderValue;
     use pretty_assertions::assert_eq;
     use std::sync::Arc;
     use std::sync::atomic::AtomicUsize;

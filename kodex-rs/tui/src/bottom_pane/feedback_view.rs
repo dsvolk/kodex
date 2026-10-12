@@ -1,8 +1,8 @@
-use kodex_feedback::KODEX_APP_DIRECTORY_CACHE_ATTACHMENT_FILENAME;
-use kodex_feedback::KODEX_APPS_TOOLS_CACHE_ATTACHMENT_FILENAME;
 use kodex_feedback::DOCTOR_REPORT_ATTACHMENT_FILENAME;
 use kodex_feedback::FEEDBACK_DIAGNOSTICS_ATTACHMENT_FILENAME;
 use kodex_feedback::FeedbackDiagnostics;
+use kodex_feedback::KODEX_APP_DIRECTORY_CACHE_ATTACHMENT_FILENAME;
+use kodex_feedback::KODEX_APPS_TOOLS_CACHE_ATTACHMENT_FILENAME;
 use kodex_feedback::WINDOWS_SANDBOX_LOG_ATTACHMENT_FILENAME;
 use ratatui::style::Stylize;
 use ratatui::text::Line;

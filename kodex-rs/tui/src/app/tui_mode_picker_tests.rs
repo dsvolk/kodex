@@ -4,9 +4,9 @@ use crate::app::tests::make_test_app_with_channels;
 use crate::app_event::AppEvent;
 use crate::chatwidget::tests::helpers::render_bottom_popup;
 use crate::legacy_core::config::ConfigBuilder;
+use crossterm::event::KeyCode;
 use kodex_config::LoaderOverrides;
 use kodex_utils_absolute_path::AbsolutePathBuf;
-use crossterm::event::KeyCode;
 use pretty_assertions::assert_eq;
 
 #[tokio::test]

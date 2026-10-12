@@ -7,6 +7,13 @@
 
 use std::time::Duration;
 
+use futures::FutureExt;
+use futures::StreamExt;
+use futures::future::BoxFuture;
+use http::HeaderMap;
+use http::HeaderName;
+use http::HeaderValue;
+use http::Method;
 use kodex_exec_server_protocol::JSONRPCErrorError;
 use kodex_http_client::ClientRouteClass;
 use kodex_http_client::HttpClientFactory;
@@ -16,13 +23,6 @@ use kodex_protocol::shell_environment::KODEX_EXEC_SERVER_NOISE_AUTH_TOKEN_ENV_VA
 use kodex_protocol::shell_environment::OPENAI_FEDERATION_RULE_ID_ENV_VAR;
 use kodex_protocol::shell_environment::OPENAI_IDENTITY_TOKEN_FILE_ENV_VAR;
 use kodex_protocol::shell_environment::OPENAI_WORKLOAD_IDENTITY_CONTEXT_ENV_VAR;
-use futures::FutureExt;
-use futures::StreamExt;
-use futures::future::BoxFuture;
-use http::HeaderMap;
-use http::HeaderName;
-use http::HeaderValue;
-use http::Method;
 use tracing::Instrument;
 use url::Url;
 

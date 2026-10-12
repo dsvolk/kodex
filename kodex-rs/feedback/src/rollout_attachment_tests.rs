@@ -48,8 +48,8 @@ impl Drop for Fixture {
 
 #[tokio::test]
 async fn feedback_upload_archives_two_rollouts_that_can_be_extracted_and_read() -> Result<()> {
-    use kodex_http_client::OutboundProxyPolicy;
     use flate2::read::GzDecoder;
+    use kodex_http_client::OutboundProxyPolicy;
     use sentry::protocol::Envelope;
     use sentry::protocol::EnvelopeItem;
     use wiremock::Mock;

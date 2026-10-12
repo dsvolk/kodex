@@ -1,6 +1,7 @@
 use anyhow::Context;
 use anyhow::Result;
 use base64::Engine;
+use core_test_support::skip_if_no_network;
 use kodex_config::types::AuthCredentialsStoreMode;
 use kodex_login::AuthDotJson;
 use kodex_login::AuthKeyringBackendKind;
@@ -14,7 +15,6 @@ use kodex_login::save_auth;
 use kodex_login::token_data::IdTokenInfo;
 use kodex_login::token_data::TokenData;
 use kodex_protocol::auth::AuthMode;
-use core_test_support::skip_if_no_network;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

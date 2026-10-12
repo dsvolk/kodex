@@ -1,4 +1,5 @@
 use anyhow::Result;
+use core_test_support::test_path_buf;
 use kodex_protocol::SessionId;
 use kodex_protocol::ThreadId;
 use kodex_protocol::protocol::EventMsg;
@@ -11,7 +12,6 @@ use kodex_protocol::protocol::ThreadSource;
 use kodex_protocol::protocol::TokenCountEvent;
 use kodex_protocol::protocol::TokenUsage;
 use kodex_protocol::protocol::TokenUsageInfo;
-use core_test_support::test_path_buf;
 use serde_json::json;
 use std::fs;
 use std::fs::FileTimes;

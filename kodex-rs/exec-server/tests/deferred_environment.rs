@@ -2,6 +2,9 @@ use std::sync::Arc;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 
+use futures::FutureExt;
+use futures::future::BoxFuture;
+use futures::poll;
 use kodex_exec_server::EnvironmentReadyInfo;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::NoiseChannelPublicKey;
@@ -11,9 +14,6 @@ use kodex_exec_server_test_support::environment_manager_without_environments;
 use kodex_protocol::capabilities::CapabilityRootLocation;
 use kodex_protocol::capabilities::SelectedCapabilityRoot;
 use kodex_utils_path_uri::PathUri;
-use futures::FutureExt;
-use futures::future::BoxFuture;
-use futures::poll;
 use pretty_assertions::assert_eq;
 
 #[derive(Default)]

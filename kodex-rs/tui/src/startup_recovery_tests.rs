@@ -1,10 +1,10 @@
 //! Verify unsent startup text survives edits, buffered pastes, and handoff.
 
 use super::*;
-use kodex_protocol::user_input::ByteRange;
-use kodex_protocol::user_input::TextElement;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
+use kodex_protocol::user_input::ByteRange;
+use kodex_protocol::user_input::TextElement;
 use pretty_assertions::assert_eq;
 
 fn snapshot(text: &str) -> ComposerDraftSnapshot {

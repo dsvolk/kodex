@@ -2,6 +2,11 @@ use std::io::Cursor;
 
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
+use image::DynamicImage;
+use image::GenericImageView;
+use image::ImageBuffer;
+use image::ImageFormat;
+use image::Rgba;
 use kodex_attachment_store::AttachmentStoreError;
 use kodex_attachment_store::AttachmentStoreErrorKind;
 use kodex_attachment_store::InlineAttachmentStore;
@@ -14,11 +19,6 @@ use kodex_protocol::models::FunctionCallOutputPayload;
 use kodex_protocol::models::ImageReference;
 use kodex_protocol::models::InternalChatMessageMetadataPassthrough;
 use kodex_utils_image::data_url_from_bytes;
-use image::DynamicImage;
-use image::GenericImageView;
-use image::ImageBuffer;
-use image::ImageFormat;
-use image::Rgba;
 use pretty_assertions::assert_eq;
 
 use super::*;

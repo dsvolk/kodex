@@ -1,5 +1,8 @@
 //! Verifies connector-scoped exposure, server restrictions, and MCP dispatch.
 
+use core_test_support::apps_test_server::AppsTestServer;
+use core_test_support::apps_test_server::search_capable_apps_builder;
+use core_test_support::responses;
 use kodex_core::config::Config;
 use kodex_extension_api::ExtensionFuture;
 use kodex_extension_api::ExtensionRegistryBuilder;
@@ -9,9 +12,6 @@ use kodex_extension_api::McpServerContributor;
 use kodex_features::Feature;
 use kodex_protocol::config_types::ToolExposureSurface;
 use kodex_protocol::openai_models::ToolMode;
-use core_test_support::apps_test_server::AppsTestServer;
-use core_test_support::apps_test_server::search_capable_apps_builder;
-use core_test_support::responses;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::sync::Arc;

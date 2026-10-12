@@ -4,11 +4,11 @@ use std::sync::atomic::Ordering;
 use std::time::Duration;
 
 use anyhow::Result;
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_exec_server_protocol::JSONRPCMessage;
 use kodex_exec_server_protocol::JSONRPCResponse;
 use kodex_exec_server_protocol::RequestId;
-use futures::SinkExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use tokio::io::AsyncRead;
 use tokio::io::AsyncWrite;

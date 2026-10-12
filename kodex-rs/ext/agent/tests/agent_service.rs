@@ -1,11 +1,11 @@
 use anyhow::Result;
-use kodex_agent_extension::AgentInvocation;
-use kodex_agent_extension::AgentRunner;
-use kodex_protocol::protocol::EventMsg;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
+use kodex_agent_extension::AgentInvocation;
+use kodex_agent_extension::AgentRunner;
+use kodex_protocol::protocol::EventMsg;
 use pretty_assertions::assert_eq;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

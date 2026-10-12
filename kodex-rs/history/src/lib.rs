@@ -6,10 +6,10 @@ pub use heartbeat::Heartbeat;
 pub use heartbeat::UserInputOrigin;
 
 mod compaction_resume_metadata;
-pub use kodex_protocol::turn_input::TurnAttribution;
 pub use compaction_resume_metadata::CompactionResumeMetadata;
 pub use compaction_resume_metadata::PreviousTurnSettings;
 pub use compaction_resume_metadata::resume_multi_agent_version;
+pub use kodex_protocol::turn_input::TurnAttribution;
 
 mod compaction_checkpoint;
 pub use compaction_checkpoint::CompactionCheckpoint;

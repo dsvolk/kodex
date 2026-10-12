@@ -71,11 +71,11 @@ fn new_startup_decoration_tracks_draft_and_session_action() {
 #[tokio::test]
 async fn configured_welcome_opt_out_disables_blossom_and_clicks() -> anyhow::Result<()> {
     use clap::Parser;
-    use kodex_config::LoaderOverrides;
     use crossterm::event::KeyModifiers;
     use crossterm::event::MouseButton;
     use crossterm::event::MouseEvent;
     use crossterm::event::MouseEventKind;
+    use kodex_config::LoaderOverrides;
     let kodex_home = tempfile::tempdir()?;
     let cli = crate::Cli::try_parse_from(["kodex"])?;
     let area = Rect::new(

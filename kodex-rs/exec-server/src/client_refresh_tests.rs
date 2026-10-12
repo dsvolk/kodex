@@ -7,8 +7,8 @@ use std::time::Duration;
 
 use anyhow::Result;
 use bytes::Bytes;
-use kodex_config::ScopedSkillsConfig;
 use futures::future::BoxFuture;
+use kodex_config::ScopedSkillsConfig;
 use pretty_assertions::assert_eq;
 use tokio::net::TcpListener;
 use tokio::sync::Notify;

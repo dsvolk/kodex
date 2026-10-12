@@ -3,6 +3,9 @@
 use std::sync::Arc;
 
 use anyhow::Result;
+use core_test_support::responses::start_mock_server;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_core::TurnInputRequest;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::NetworkPolicyController;
@@ -14,9 +17,6 @@ use kodex_login::AuthManager;
 use kodex_login::AuthRouteConfig;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::responses::start_mock_server;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use tempfile::TempDir;

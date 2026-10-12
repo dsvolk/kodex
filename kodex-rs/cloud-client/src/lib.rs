@@ -13,13 +13,13 @@ pub use types::Event;
 pub use types::ResumeRequest;
 pub use types::RpcStatus;
 
+use futures::StreamExt;
+use futures::stream::BoxStream;
+use http_body_util::BodyExt;
 use kodex_http_client::ClientRouteClass;
 use kodex_http_client::HttpClientBuilder;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::RouteAwareClientPool;
-use futures::StreamExt;
-use futures::stream::BoxStream;
-use http_body_util::BodyExt;
 use std::io;
 use std::time::Duration;
 use tonic::body::Body;

@@ -2,13 +2,13 @@ use super::MetadataOverrideFileSystem;
 use super::create_test_git_repo;
 use super::resolve_root_git_project_for_trust;
 use super::write_linked_worktree_metadata;
+use core_test_support::PathBufExt;
 use kodex_exec_server::LOCAL_FS;
 use kodex_git_utils::resolve_root_git_project_uri_for_trust;
 #[cfg(unix)]
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path::normalize_for_path_comparison;
 use kodex_utils_path_uri::PathUri;
-use core_test_support::PathBufExt;
 use pretty_assertions::assert_eq;
 use std::fs;
 use tempfile::TempDir;

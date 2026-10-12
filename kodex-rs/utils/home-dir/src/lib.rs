@@ -1,5 +1,5 @@
-use kodex_utils_absolute_path::AbsolutePathBuf;
 use dirs::home_dir;
+use kodex_utils_absolute_path::AbsolutePathBuf;
 use std::path::PathBuf;
 
 /// Returns the path to the Kodex configuration directory, which can be
@@ -65,8 +65,8 @@ fn find_kodex_home_from_env(kodex_home_env: Option<&str>) -> std::io::Result<Abs
 #[cfg(test)]
 mod tests {
     use super::find_kodex_home_from_env;
-    use kodex_utils_absolute_path::AbsolutePathBuf;
     use dirs::home_dir;
+    use kodex_utils_absolute_path::AbsolutePathBuf;
     use pretty_assertions::assert_eq;
     use std::fs;
     use std::io::ErrorKind;

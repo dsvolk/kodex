@@ -1,7 +1,7 @@
-use kodex_http_client::ByteStream;
-use kodex_http_client::StreamError;
 use eventsource_stream::Eventsource;
 use futures::StreamExt;
+use kodex_http_client::ByteStream;
+use kodex_http_client::StreamError;
 use tokio::sync::mpsc;
 use tokio::time::Duration;
 use tokio::time::timeout;

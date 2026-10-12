@@ -28,8 +28,8 @@ use serde::Serialize;
 use std::time::Duration;
 
 use crate::AgentThreadId;
-use crate::KodexTurnId;
 use crate::ExecutionStatus;
+use crate::KodexTurnId;
 use crate::RawTraceEventPayload;
 
 pub(crate) struct KodexTurnTraceEvent {

@@ -11,11 +11,11 @@ use std::sync::PoisonError;
 use crate::agent::control::AgentTreeMembership;
 use crate::agent::control::AgentTreeTeardownGuard;
 use crate::thread_manager::thread_store_error_kind;
+use futures::future::BoxFuture;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErrKind;
 use kodex_protocol::protocol::Op;
 use kodex_thread_store::LiveThreadInitGuard;
-use futures::future::BoxFuture;
 use tokio::sync::Mutex;
 
 use super::SessionIo;

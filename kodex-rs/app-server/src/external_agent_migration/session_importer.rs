@@ -6,6 +6,7 @@ use std::sync::Arc;
 
 use chrono::DateTime;
 use chrono::Utc;
+use futures::StreamExt;
 use kodex_arg0::Arg0DispatchPaths;
 use kodex_core::ThreadManager;
 use kodex_core::config::ConfigOverrides;
@@ -42,7 +43,6 @@ use kodex_thread_store::ThreadMetadataPatch;
 use kodex_thread_store::ThreadPersistenceMetadata;
 use kodex_thread_store::ThreadStore;
 use kodex_thread_store::UpdateThreadMetadataParams;
-use futures::StreamExt;
 use tokio::sync::Semaphore;
 
 use crate::config_manager::ConfigManager;

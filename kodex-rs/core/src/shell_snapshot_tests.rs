@@ -9,6 +9,8 @@ use crate::tools::runtimes::RuntimePathPrepends;
 use crate::tools::runtimes::maybe_wrap_shell_lc_with_snapshot;
 #[cfg(unix)]
 use crate::tools::runtimes::prepare_brokered_shell_snapshot_env;
+use core_test_support::PathBufExt;
+use core_test_support::PathExt;
 #[cfg(unix)]
 use kodex_network_proxy::CredentialProviderConfig;
 #[cfg(unix)]
@@ -17,8 +19,6 @@ use kodex_network_proxy::NetworkProxyConfig;
 use kodex_protocol::config_types::EnvironmentVariablePattern;
 #[cfg(unix)]
 use kodex_protocol::models::PermissionProfile;
-use core_test_support::PathBufExt;
-use core_test_support::PathExt;
 use pretty_assertions::assert_eq;
 #[cfg(unix)]
 use std::os::unix::ffi::OsStrExt;

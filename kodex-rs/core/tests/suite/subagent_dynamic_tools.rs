@@ -1,14 +1,6 @@
 //! Verifies fresh V2 subagents can use inherited client tools when enabled.
 
 use anyhow::Result;
-use kodex_core::StartThreadOptions;
-use kodex_features::Feature;
-use kodex_protocol::dynamic_tools::DynamicToolCallOutputContentItem;
-use kodex_protocol::dynamic_tools::DynamicToolFunctionSpec;
-use kodex_protocol::dynamic_tools::DynamicToolResponse;
-use kodex_protocol::dynamic_tools::DynamicToolSpec;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::Op;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
 use core_test_support::responses::ev_function_call;
@@ -21,6 +13,14 @@ use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
 use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
+use kodex_core::StartThreadOptions;
+use kodex_features::Feature;
+use kodex_protocol::dynamic_tools::DynamicToolCallOutputContentItem;
+use kodex_protocol::dynamic_tools::DynamicToolFunctionSpec;
+use kodex_protocol::dynamic_tools::DynamicToolResponse;
+use kodex_protocol::dynamic_tools::DynamicToolSpec;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::Op;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::time::Duration;

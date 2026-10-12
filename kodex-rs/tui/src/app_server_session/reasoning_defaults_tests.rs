@@ -2,8 +2,8 @@
 
 use super::*;
 use crate::legacy_core::config::ConfigBuilder;
-use kodex_app_server_protocol::ServerNotification;
 use core_test_support::responses;
+use kodex_app_server_protocol::ServerNotification;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 

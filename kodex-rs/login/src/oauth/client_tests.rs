@@ -3,11 +3,11 @@
 use std::collections::BTreeMap;
 
 use base64::Engine;
-use kodex_http_client::HttpClient;
-use kodex_http_client::HttpClientBuilder;
 use http::HeaderMap;
 use http::HeaderValue;
 use http::StatusCode;
+use kodex_http_client::HttpClient;
+use kodex_http_client::HttpClientBuilder;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

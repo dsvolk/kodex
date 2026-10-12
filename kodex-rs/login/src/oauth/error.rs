@@ -2,9 +2,9 @@
 
 use std::fmt;
 
+use http::StatusCode;
 use kodex_http_client::HttpError;
 use kodex_http_client::HttpResponse;
-use http::StatusCode;
 use serde_json::Value;
 
 use crate::oauth::diagnostics::redact_error_url;

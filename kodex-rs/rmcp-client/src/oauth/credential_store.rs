@@ -18,10 +18,10 @@ use std::sync::Weak;
 
 use anyhow::Context;
 use anyhow::Result;
+use futures::future::BoxFuture;
 use kodex_config::McpServerOAuthConfig;
 use kodex_keyring_store::DefaultKeyringStore;
 use kodex_keyring_store::KeyringStore;
-use futures::future::BoxFuture;
 use oauth2::Scope;
 use oauth2::TokenResponse;
 use rmcp::transport::auth::AuthError;

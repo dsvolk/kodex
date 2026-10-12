@@ -1,6 +1,11 @@
 //! Managed policies and explicit user goals reach Guardian through their distinct trusted sources.
 
 use anyhow::Context;
+use core_test_support::context_snapshot;
+use core_test_support::context_snapshot::ContextSnapshotOptions;
+use core_test_support::responses;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
 use kodex_config::test_support::CloudConfigBundleFixture;
 use kodex_core::config::Constrained;
 use kodex_core::context::UserGoalUpdate;
@@ -8,11 +13,6 @@ use kodex_prompts::ResolvedModelMessages;
 use kodex_protocol::config_types::ApprovalsReviewer;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::protocol::AskForApproval;
-use core_test_support::context_snapshot;
-use core_test_support::context_snapshot::ContextSnapshotOptions;
-use core_test_support::responses;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 

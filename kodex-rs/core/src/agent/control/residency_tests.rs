@@ -1,9 +1,9 @@
 use crate::StartThreadOptions;
 use crate::ThreadManager;
 use crate::agent::LocalAgentControl;
-use crate::kodex_thread::KodexThread;
 use crate::config::Config;
 use crate::config::test_config;
+use crate::kodex_thread::KodexThread;
 use crate::thread_manager::ThreadManagerState;
 use kodex_features::Feature;
 use kodex_login::KodexAuth;

@@ -1,5 +1,7 @@
 #![allow(clippy::expect_used)]
 
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_exec_server_protocol::JSONRPCError;
 use kodex_exec_server_protocol::JSONRPCErrorError;
 use kodex_exec_server_protocol::JSONRPCMessage;
@@ -14,8 +16,6 @@ use kodex_protocol::permissions::FileSystemSandboxPolicy;
 use kodex_protocol::permissions::FileSystemSpecialPath;
 use kodex_protocol::permissions::NetworkSandboxPolicy;
 use kodex_utils_path_uri::PathUri;
-use futures::SinkExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use tokio::net::TcpListener;
 use tokio::net::TcpStream;

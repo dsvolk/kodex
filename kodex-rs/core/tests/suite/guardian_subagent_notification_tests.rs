@@ -1,17 +1,17 @@
 //! Guardian circuit breakers notify the parent without changing the child's interrupted state.
 
 use super::*;
+use core_test_support::ThreadIdle;
+use core_test_support::streaming_sse::StreamingSseChunk;
+use core_test_support::streaming_sse::start_streaming_sse_server;
 use kodex_config::config_toml::CircuitBreakAction;
 use kodex_core::config::Constrained;
 use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_protocol::config_types::ApprovalsReviewer;
-use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::ErrorEvent;
+use kodex_protocol::protocol::KodexErrorInfo;
 use kodex_protocol::protocol::MultiAgentVersion;
 use kodex_protocol::protocol::TurnAbortReason;
-use core_test_support::ThreadIdle;
-use core_test_support::streaming_sse::StreamingSseChunk;
-use core_test_support::streaming_sse::start_streaming_sse_server;
 use pretty_assertions::assert_eq;
 use std::sync::Arc;
 use test_case::test_case;

@@ -3,11 +3,11 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use anyhow::Result;
-use kodex_exec_server::HttpClient;
-use kodex_protocol::protocol::McpAuthStatus;
 use futures::FutureExt;
 use http::HeaderMap;
 use http::header::AUTHORIZATION;
+use kodex_exec_server::HttpClient;
+use kodex_protocol::protocol::McpAuthStatus;
 use rmcp::transport::AuthorizationManager;
 use rmcp::transport::auth::AuthError;
 use tracing::debug;
@@ -309,6 +309,7 @@ mod tests {
     use axum::http::StatusCode;
     use axum::http::header::WWW_AUTHENTICATE;
     use axum::routing::get;
+    use futures::future::BoxFuture;
     use kodex_exec_server::ExecServerError;
     use kodex_exec_server::HttpRedirectPolicy;
     use kodex_exec_server::HttpRequestParams;
@@ -317,7 +318,6 @@ mod tests {
     use kodex_exec_server::RouteAwareHttpClient;
     use kodex_http_client::HttpClientFactory;
     use kodex_http_client::OutboundProxyPolicy;
-    use futures::future::BoxFuture;
     use pretty_assertions::assert_eq;
     use serial_test::serial;
     use std::collections::HashMap;

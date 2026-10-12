@@ -2,6 +2,7 @@
 
 use std::time::Duration;
 
+use futures::FutureExt;
 use kodex_config::types::AuthKeyringBackendKind;
 use kodex_config::types::OAuthCredentialsStoreMode;
 use kodex_exec_server::Environment;
@@ -9,7 +10,6 @@ use kodex_rmcp_client::ElicitationAction;
 use kodex_rmcp_client::ElicitationResponse;
 use kodex_rmcp_client::McpProtocolMode;
 use kodex_rmcp_client::RmcpClient;
-use futures::FutureExt;
 use opentelemetry::trace::TracerProvider as _;
 use opentelemetry_sdk::trace::InMemorySpanExporter;
 use opentelemetry_sdk::trace::SdkTracerProvider;

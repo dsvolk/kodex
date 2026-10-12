@@ -2,12 +2,12 @@
 
 use std::path::PathBuf;
 
-use kodex_config::types::KeybindingSpec;
-use kodex_config::types::KeybindingsSpec;
-use kodex_config::types::TuiKeymap;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyModifiers;
+use kodex_config::types::KeybindingSpec;
+use kodex_config::types::KeybindingsSpec;
+use kodex_config::types::TuiKeymap;
 use pretty_assertions::assert_eq;
 
 use super::super::super::chat_composer_history::HistoryEntry;

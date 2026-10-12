@@ -1,8 +1,8 @@
+use http::StatusCode;
 use kodex_api::ApiError;
 use kodex_api::TransportError;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::KodexErrorDetails;
-use http::StatusCode;
 
 pub(super) const CREDENTIAL_EXPORT_CONFIG_ERROR_PREFIX: &str =
     "AWS credential export configuration error:";

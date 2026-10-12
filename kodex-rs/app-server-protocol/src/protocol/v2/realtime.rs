@@ -1,7 +1,7 @@
 use crate::JsonSchema;
 use crate::TS;
-use kodex_protocol::protocol::KodexResponseHandoffMode;
 use kodex_protocol::protocol::ConversationTextRole;
+use kodex_protocol::protocol::KodexResponseHandoffMode;
 use kodex_protocol::protocol::RealtimeAudioFrame as CoreRealtimeAudioFrame;
 use kodex_protocol::protocol::RealtimeConversationVersion;
 use kodex_protocol::protocol::RealtimeOutputModality;

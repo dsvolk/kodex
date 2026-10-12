@@ -1,10 +1,10 @@
 #![cfg(not(target_os = "windows"))]
 
 use anyhow::Result;
-use kodex_protocol::models::PermissionProfile;
 use core_test_support::assert_regex_match;
 use core_test_support::skip_if_no_network;
 use core_test_support::skip_if_target_windows;
+use kodex_protocol::models::PermissionProfile;
 use pretty_assertions::assert_eq;
 
 use crate::suite::apply_patch_cli::apply_patch_harness;

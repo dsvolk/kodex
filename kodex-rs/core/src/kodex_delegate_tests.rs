@@ -1,5 +1,6 @@
 use super::*;
 use async_channel::bounded;
+use futures::FutureExt;
 use kodex_extension_api::ExtensionFuture;
 use kodex_extension_api::ExtensionRegistryBuilder;
 use kodex_extension_api::ThreadLifecycleContributor;
@@ -14,7 +15,6 @@ use kodex_protocol::protocol::McpStartupUpdateEvent;
 use kodex_protocol::protocol::RawResponseItemEvent;
 use kodex_protocol::protocol::TurnAbortReason;
 use kodex_protocol::protocol::TurnAbortedEvent;
-use futures::FutureExt;
 use pretty_assertions::assert_eq;
 use std::sync::Arc;
 use std::sync::atomic::AtomicUsize;

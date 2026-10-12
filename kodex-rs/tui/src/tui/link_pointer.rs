@@ -7,9 +7,9 @@ use std::io::Write;
 use std::sync::atomic::AtomicU8;
 use std::sync::atomic::Ordering;
 
-use kodex_terminal_detection::TerminalName;
 use crossterm::event::MouseEvent;
 use crossterm::event::MouseEventKind;
+use kodex_terminal_detection::TerminalName;
 
 use super::Tui;
 use super::TuiEvent;

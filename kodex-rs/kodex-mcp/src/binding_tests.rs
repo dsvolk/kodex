@@ -4,6 +4,7 @@ use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 
+use futures::FutureExt;
 use kodex_config::AppToolApproval;
 use kodex_config::Constrained;
 use kodex_config::types::ApprovalsReviewer;
@@ -12,7 +13,6 @@ use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::protocol::AskForApproval;
 use kodex_rmcp_client::InProcessTransportFactory;
 use kodex_rmcp_client::RmcpClient;
-use futures::FutureExt;
 use pretty_assertions::assert_eq;
 use rmcp::model::JsonObject;
 use rmcp::model::Tool;

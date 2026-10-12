@@ -7,6 +7,11 @@ mod fake_bwrap;
 use anyhow::Context as _;
 use base64::Engine as _;
 use base64::engine::general_purpose::STANDARD;
+use common::exec_server::exec_server;
+#[cfg(target_os = "linux")]
+use common::exec_server::exec_server_with_env;
+#[cfg(target_os = "linux")]
+use fake_bwrap::write_fake_bwrap;
 use kodex_exec_server::CAPABILITY_ROOTS_DISCOVER_METHOD;
 use kodex_exec_server::CapabilityRootDiscovery;
 use kodex_exec_server::CapabilityRootsDiscoverParams;
@@ -39,11 +44,6 @@ use kodex_protocol::permissions::FileSystemSpecialPath;
 use kodex_protocol::permissions::NetworkSandboxPolicy;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathUri;
-use common::exec_server::exec_server;
-#[cfg(target_os = "linux")]
-use common::exec_server::exec_server_with_env;
-#[cfg(target_os = "linux")]
-use fake_bwrap::write_fake_bwrap;
 use pretty_assertions::assert_eq;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

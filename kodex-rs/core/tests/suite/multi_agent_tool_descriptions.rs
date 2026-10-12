@@ -1,15 +1,15 @@
 //! Verifies V2 catalog tool messages change only their selected description or parameter schema.
 
 use anyhow::Result;
-use kodex_core::config::AgentRoleConfig;
-use kodex_features::Feature;
-use kodex_protocol::openai_models::ToolMessages;
-use kodex_protocol::protocol::MultiAgentVersion;
 use core_test_support::responses::mount_sse_sequence;
 use core_test_support::responses::sse_completed;
 use core_test_support::responses::start_mock_server;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
+use kodex_core::config::AgentRoleConfig;
+use kodex_features::Feature;
+use kodex_protocol::openai_models::ToolMessages;
+use kodex_protocol::protocol::MultiAgentVersion;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;

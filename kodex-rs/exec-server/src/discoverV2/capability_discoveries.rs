@@ -4,9 +4,9 @@ use std::collections::HashMap;
 use std::io;
 use std::sync::Arc;
 
+use futures::StreamExt;
 use kodex_file_system::ExecutorFileSystem;
 use kodex_skills::parse_skill_frontmatter_metadata;
-use futures::StreamExt;
 use serde::Deserialize;
 use serde::Serialize;
 

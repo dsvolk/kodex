@@ -1,12 +1,12 @@
 use std::path::Path;
 
 use anyhow::Result;
-use kodex_extension_api::McpToolInfo;
-use kodex_extension_api::McpToolSource;
-use kodex_login::KodexAuth;
 use core_test_support::responses;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_kodex::test_kodex;
+use kodex_extension_api::McpToolInfo;
+use kodex_extension_api::McpToolSource;
+use kodex_login::KodexAuth;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 

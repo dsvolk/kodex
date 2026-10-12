@@ -1,8 +1,8 @@
 //! Tests for cumulative MCP attribution restoration and checkpoint acknowledgements.
 
 use super::*;
-use kodex_history::KodexHarnessMetadata;
 use kodex_history::CompactedItem;
+use kodex_history::KodexHarnessMetadata;
 use kodex_history::ResponseItemEnvelope;
 use kodex_protocol::models::ResponseItem;
 use pretty_assertions::assert_eq;

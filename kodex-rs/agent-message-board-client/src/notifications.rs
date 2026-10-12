@@ -2,6 +2,7 @@
 //! Provisioning and durable board ownership belong to the research host.
 
 use crate::RemoteAgentMessageBoard;
+use futures::channel::oneshot;
 use kodex_agent_message_board_extension::MessageBoardHost;
 use kodex_extension_api::ExtensionData;
 use kodex_extension_api::ExtensionFuture;
@@ -14,7 +15,6 @@ use kodex_extension_api::TurnStartPhase;
 use kodex_extension_api::TurnStopInput;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErrKind;
-use futures::channel::oneshot;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio_util::task::AbortOnDropHandle;

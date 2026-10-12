@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use http::HeaderMap;
 use kodex_api::AuthError;
 use kodex_api::AuthProvider;
 use kodex_api::SharedAuthProvider;
@@ -16,7 +17,6 @@ use kodex_model_provider_info::ModelProviderAwsAuthInfo;
 use kodex_model_provider_info::ModelProviderInfo;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::Result;
-use http::HeaderMap;
 
 use crate::BearerAuthProvider;
 use crate::shared_state::process_shared_state;
@@ -353,11 +353,11 @@ impl AuthProvider for BedrockSigV4AuthProvider {
 mod tests {
     use std::num::NonZeroU64;
 
+    use http::HeaderValue;
     use kodex_api::AuthProvider;
     use kodex_login::auth::BedrockAccessKeysAuth;
     use kodex_login::auth::BedrockApiKeyAuth;
     use kodex_model_provider_info::AwsCredentialExportConfig;
-    use http::HeaderValue;
     use pretty_assertions::assert_eq;
 
     use super::*;

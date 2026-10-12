@@ -5,13 +5,13 @@ use std::time::Duration;
 use std::time::Instant;
 
 use anyhow::Result;
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_api::AuthProvider;
 use kodex_http_client::DestinationPolicy;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::NetworkPolicyController;
 use kodex_http_client::OutboundProxyPolicy;
-use http::HeaderMap;
-use http::HeaderValue;
 use pretty_assertions::assert_eq;
 use tokio::io::AsyncReadExt;
 use tokio::io::AsyncWriteExt;

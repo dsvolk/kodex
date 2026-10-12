@@ -191,9 +191,9 @@ fn bytes_to_hex(bytes: &[u8; 32]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use kodex_install_context::KodexPackageLayout;
     use kodex_install_context::InstallContext;
     use kodex_install_context::InstallMethod;
+    use kodex_install_context::KodexPackageLayout;
     use pretty_assertions::assert_eq;
     use std::fs;
     use tempfile::NamedTempFile;

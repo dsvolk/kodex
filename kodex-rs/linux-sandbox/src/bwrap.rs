@@ -29,6 +29,9 @@ use std::path::PathBuf;
 use std::process::Command;
 
 use crate::linux_run_main::synthetic_mount_registry_root;
+use globset::GlobBuilder;
+use globset::GlobSet;
+use globset::GlobSetBuilder;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::Result;
 use kodex_protocol::permissions::is_protected_metadata_name;
@@ -39,9 +42,6 @@ use kodex_protocol::protocol::FileSystemSpecialPath;
 use kodex_protocol::protocol::WritableRoot;
 use kodex_sandboxing::find_pre_sandbox_executable_in_path;
 use kodex_utils_absolute_path::AbsolutePathBuf;
-use globset::GlobBuilder;
-use globset::GlobSet;
-use globset::GlobSetBuilder;
 
 /// Linux "platform defaults" that keep common system binaries and dynamic
 /// libraries readable when a split filesystem policy requests `:minimal`.

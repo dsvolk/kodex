@@ -4,7 +4,6 @@
 use anyhow::Context;
 use clap::Args;
 use clap::ValueEnum;
-use kodex_utils_absolute_path::AbsolutePathBuf;
 use constant_time_eq::constant_time_eq_32;
 use http::HeaderMap;
 use http::StatusCode;
@@ -13,6 +12,7 @@ use jsonwebtoken::Algorithm;
 use jsonwebtoken::DecodingKey;
 use jsonwebtoken::Validation;
 use jsonwebtoken::decode;
+use kodex_utils_absolute_path::AbsolutePathBuf;
 use serde::Deserialize;
 use sha2::Digest;
 use sha2::Sha256;

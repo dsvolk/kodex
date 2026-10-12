@@ -3,6 +3,7 @@
 use super::*;
 use crate::suite::settings_commits::COMMITTED_MODEL;
 use crate::suite::settings_commits::PauseAfterCommit;
+use core_test_support::ThreadIdle;
 use kodex_core::TurnInputRequest;
 use kodex_core::config::Config;
 use kodex_extension_api::ExtensionFuture;
@@ -14,7 +15,6 @@ use kodex_extension_api::ToolLifecycleFuture;
 use kodex_extension_api::ToolStartInput;
 use kodex_protocol::protocol::Op;
 use kodex_protocol::user_input::UserInput;
-use core_test_support::ThreadIdle;
 use pretty_assertions::assert_eq;
 use std::sync::Arc;
 use std::sync::Mutex;

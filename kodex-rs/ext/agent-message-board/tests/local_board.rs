@@ -16,6 +16,7 @@ use std::sync::atomic::Ordering;
 
 use chrono::DateTime;
 use chrono::Utc;
+use futures::future::BoxFuture;
 use kodex_agent_message_board_extension::*;
 use kodex_protocol::AgentPath;
 use kodex_protocol::SessionId;
@@ -23,7 +24,6 @@ use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErr;
 use kodex_protocol::error::Result;
 use kodex_state::SqliteConfig;
-use futures::future::BoxFuture;
 use pretty_assertions::assert_eq;
 
 struct Host {

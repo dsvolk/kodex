@@ -1,6 +1,6 @@
+use indexmap::IndexMap;
 use kodex_plugin::AppConnectorId;
 use kodex_plugin::AppDeclaration;
-use indexmap::IndexMap;
 use serde::Deserialize;
 use serde_json::Value;
 

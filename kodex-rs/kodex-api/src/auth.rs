@@ -1,6 +1,6 @@
+use http::HeaderMap;
 use kodex_client::Request;
 use kodex_client::TransportError;
-use http::HeaderMap;
 use std::future::Future;
 use std::pin::Pin;
 use std::sync::Arc;

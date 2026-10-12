@@ -1,12 +1,12 @@
 //! Tool item, Code Mode correlation, and artifact event tests.
 
 use crate::events::AppServerRpcTransport;
+use crate::events::FinalApprovalOutcome;
 use crate::events::KodexAppServerClientMetadata;
 use crate::events::KodexCommandExecutionEventParams;
 use crate::events::KodexCommandExecutionEventRequest;
 use crate::events::KodexRuntimeMetadata;
 use crate::events::KodexToolItemEventBase;
-use crate::events::FinalApprovalOutcome;
 use crate::events::ToolEventType;
 use crate::events::ToolItemTerminalStatus;
 use crate::events::TrackEventRequest;

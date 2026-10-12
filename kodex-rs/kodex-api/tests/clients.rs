@@ -5,6 +5,9 @@ use std::time::Duration;
 
 use anyhow::Result;
 use bytes::Bytes;
+use http::HeaderMap;
+use http::HeaderValue;
+use http::StatusCode;
 use kodex_api::ApiError;
 use kodex_api::AuthError;
 use kodex_api::AuthProvider;
@@ -24,9 +27,6 @@ use kodex_protocol::models::ContentItem;
 use kodex_protocol::models::ResponseItem;
 use kodex_protocol::protocol::SessionSource;
 use kodex_protocol::protocol::SubAgentSource;
-use http::HeaderMap;
-use http::HeaderValue;
-use http::StatusCode;
 use pretty_assertions::assert_eq;
 use serde_json::value::RawValue;
 

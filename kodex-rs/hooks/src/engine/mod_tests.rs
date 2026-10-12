@@ -5,6 +5,8 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use std::time::Duration;
 
+use futures::FutureExt;
+use futures::future::BoxFuture;
 use kodex_config::AbsolutePathBuf;
 use kodex_config::ConfigLayerEntry;
 use kodex_config::ConfigLayerSource;
@@ -32,8 +34,6 @@ use kodex_protocol::protocol::HookOutputEntryKind;
 use kodex_protocol::protocol::HookRunStatus;
 use kodex_protocol::protocol::HookSource;
 use kodex_protocol::protocol::HookTrustStatus;
-use futures::FutureExt;
-use futures::future::BoxFuture;
 use pretty_assertions::assert_eq;
 use tempfile::tempdir;
 use tokio::sync::Notify;

@@ -1,8 +1,8 @@
 //! Multiple denied files must not prevent sandbox startup or expose protected contents.
 
 use super::LONG_TIMEOUT_MS;
-use super::kodex_linux_sandbox_exe;
 use super::create_env_from_core_vars;
+use super::kodex_linux_sandbox_exe;
 use super::run_cmd_result_with_permission_profile_for_cwd;
 use super::should_skip_bwrap_tests;
 use kodex_protocol::models::PermissionProfile;

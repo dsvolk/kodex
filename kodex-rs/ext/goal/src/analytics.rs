@@ -1,6 +1,6 @@
 use kodex_analytics::AnalyticsEventsClient;
-use kodex_analytics::KodexGoalEvent;
 use kodex_analytics::GoalEventKind;
+use kodex_analytics::KodexGoalEvent;
 
 #[derive(Clone)]
 pub(crate) struct GoalAnalytics {

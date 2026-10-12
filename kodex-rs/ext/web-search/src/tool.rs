@@ -1,3 +1,5 @@
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_api::SearchClient;
 use kodex_api::SearchCommands;
 use kodex_api::SearchQuery;
@@ -30,8 +32,6 @@ use kodex_tools::ResponsesApiNamespace;
 use kodex_tools::ResponsesApiNamespaceTool;
 use kodex_tools::ToolExposure;
 use kodex_tools::default_namespace_description;
-use http::HeaderMap;
-use http::HeaderValue;
 use url::Url;
 
 use crate::history::recent_input;

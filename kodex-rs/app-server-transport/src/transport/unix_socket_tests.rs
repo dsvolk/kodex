@@ -9,13 +9,13 @@ use super::start_control_socket_acceptor;
 use super::unix_socket::acquire_removable_app_server_startup_lock;
 #[cfg(unix)]
 use super::unix_socket::try_acquire_removable_app_server_startup_lock;
+use futures::SinkExt;
+use futures::StreamExt;
 use kodex_app_server_protocol::JSONRPCMessage;
 use kodex_app_server_protocol::JSONRPCNotification;
 use kodex_core::config::find_kodex_home;
 use kodex_uds::UnixStream;
 use kodex_utils_absolute_path::AbsolutePathBuf;
-use futures::SinkExt;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 use std::io::Result as IoResult;
 use std::path::Path;

@@ -7,12 +7,12 @@ use std::process::Stdio;
 use std::time::Duration;
 
 use self::http_client::StartupSyncHttpClient;
+use http::Method;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::RequestBuilder;
 use kodex_login::default_client::default_headers;
 use kodex_otel::CURATED_PLUGINS_STARTUP_SYNC_FINAL_METRIC;
 use kodex_otel::CURATED_PLUGINS_STARTUP_SYNC_METRIC;
-use http::Method;
 use serde::Deserialize;
 use tempfile::TempDir;
 use tracing::warn;

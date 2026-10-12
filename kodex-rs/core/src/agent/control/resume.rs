@@ -3,8 +3,8 @@
 
 use super::LocalAgentControl;
 use crate::agent::types::LiveAgent;
-use crate::kodex_thread::ThreadConfigSnapshot;
 use crate::config::Config;
+use crate::kodex_thread::ThreadConfigSnapshot;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::KodexErrorDetails;
 use kodex_protocol::error::Result as KodexResult;

@@ -1,6 +1,12 @@
 //! Exercises managed provider routing and conflict diagnostics through real turns.
 
 use anyhow::Result;
+use core_test_support::responses::ev_completed;
+use core_test_support::responses::ev_response_created;
+use core_test_support::responses::mount_models_once;
+use core_test_support::responses::mount_sse_once;
+use core_test_support::responses::sse;
+use core_test_support::test_kodex::test_kodex;
 use kodex_config::LoaderOverrides;
 use kodex_config::config_toml::ConfigToml;
 use kodex_config::test_support::CloudConfigBundleFixture;
@@ -9,12 +15,6 @@ use kodex_core::config::ConfigBuilder;
 use kodex_core::config::ConfigOverrides;
 use kodex_login::KodexAuth;
 use kodex_models_manager::bundled_models_response;
-use core_test_support::responses::ev_completed;
-use core_test_support::responses::ev_response_created;
-use core_test_support::responses::mount_models_once;
-use core_test_support::responses::mount_sse_once;
-use core_test_support::responses::sse;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 use tempfile::tempdir;
 use test_case::test_case;

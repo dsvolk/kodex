@@ -1,5 +1,7 @@
 use std::time::Instant;
 
+use http::Method;
+use http::StatusCode;
 use kodex_api::AuthError;
 use kodex_api::AuthProvider;
 use kodex_http_client::NetworkPolicy;
@@ -7,8 +9,6 @@ use kodex_http_client::NetworkPolicyDenied;
 use kodex_http_client::Request;
 use kodex_websocket_client::WebSocketConnection;
 use kodex_websocket_client::WebSocketConnector;
-use http::Method;
-use http::StatusCode;
 use serde::Deserialize;
 use serde::Serialize;
 use tokio::time::sleep;

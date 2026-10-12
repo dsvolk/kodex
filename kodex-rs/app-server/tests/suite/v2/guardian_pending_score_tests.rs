@@ -1,9 +1,9 @@
 //! A later LOW releases its own review without releasing an earlier pending review.
 
 use super::*;
+use futures::StreamExt;
 use kodex_app_server_protocol::GuardianApprovalReviewStatus;
 use kodex_app_server_protocol::ItemGuardianApprovalReviewCompletedNotification;
-use futures::StreamExt;
 use pretty_assertions::assert_eq;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

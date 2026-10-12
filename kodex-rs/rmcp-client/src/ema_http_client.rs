@@ -8,6 +8,7 @@ use std::sync::MutexGuard;
 use std::sync::PoisonError;
 use std::time::Duration;
 
+use futures::future::BoxFuture;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::HttpClient;
 use kodex_exec_server::HttpHeader;
@@ -15,7 +16,6 @@ use kodex_exec_server::HttpRedirectPolicy;
 use kodex_exec_server::HttpRequestParams;
 use kodex_exec_server::HttpRequestResponse;
 use kodex_exec_server::HttpResponseBodyStream;
-use futures::future::BoxFuture;
 use tokio::sync::OwnedRwLockReadGuard;
 use tokio::sync::RwLock;
 use tokio::sync::Semaphore;

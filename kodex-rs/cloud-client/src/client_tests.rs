@@ -1,12 +1,12 @@
 //! Exercises native HTTP/2 framing, metadata, trailers and cancellation with synthetic data.
 use super::*;
 use bytes::Bytes;
-use kodex_http_client::OutboundProxyPolicy;
 use http_body_util::StreamBody;
 use hyper::body::Frame;
 use hyper::service::service_fn;
 use hyper_util::rt::TokioExecutor;
 use hyper_util::rt::TokioIo;
+use kodex_http_client::OutboundProxyPolicy;
 use pretty_assertions::assert_eq;
 use std::convert::Infallible;
 use tokio::sync::mpsc;

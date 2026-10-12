@@ -1,9 +1,9 @@
 //! Applies discovered routing and keeps requests within the selected ChatGPT backend.
 
+use http::HeaderValue;
 use kodex_login::WorkspaceRouting;
 use kodex_login::WorkspaceRoutingSession;
 use kodex_login::default_client::ClientRedirectPolicy;
-use http::HeaderValue;
 use std::io;
 use std::sync::Arc;
 use tokio::sync::Mutex;

@@ -5,6 +5,7 @@ use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 use std::time::Duration;
 
+use futures::FutureExt;
 use kodex_exec_server::Environment;
 use kodex_rmcp_client::Elicitation;
 use kodex_rmcp_client::ElicitationAction;
@@ -14,7 +15,6 @@ use kodex_rmcp_client::LocalStdioServerLauncher;
 use kodex_rmcp_client::McpProtocolMode;
 use kodex_rmcp_client::RmcpClient;
 use kodex_rmcp_client::StdioServerLauncher;
-use futures::FutureExt;
 use pretty_assertions::assert_eq;
 use rmcp::model::ClientCapabilities;
 use rmcp::model::ElicitRequestParams;

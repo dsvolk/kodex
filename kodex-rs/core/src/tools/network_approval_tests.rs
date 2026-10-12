@@ -1,13 +1,13 @@
 use super::*;
 use crate::sandboxing::SandboxPermissions;
+use core_test_support::PathBufExt;
+use core_test_support::test_path_buf;
+use futures::poll;
 use kodex_network_proxy::BlockedRequestArgs;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::permissions::NetworkSandboxPolicy;
 use kodex_protocol::protocol::AskForApproval;
 use kodex_utils_path_uri::PathUri;
-use core_test_support::PathBufExt;
-use core_test_support::test_path_buf;
-use futures::poll;
 use pretty_assertions::assert_eq;
 use std::time::Duration;
 use test_case::test_case;

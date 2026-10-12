@@ -1,4 +1,5 @@
 use super::ContextInput;
+use core_test_support::responses::user_message_item;
 use kodex_extension_api::ConversationHistorySnapshot;
 use kodex_extension_api::ResponseItem;
 use kodex_guardian_context::ContextTarget;
@@ -13,7 +14,6 @@ use kodex_protocol::models::ReasoningItemContent;
 use kodex_protocol::models::ReasoningItemReasoningSummary;
 use kodex_protocol::protocol::InterAgentCommunication;
 use kodex_protocol::protocol::TruncationPolicy;
-use core_test_support::responses::user_message_item;
 use pretty_assertions::assert_eq;
 
 use super::MANUAL_APPROVAL_DEVELOPER_PREFIX;

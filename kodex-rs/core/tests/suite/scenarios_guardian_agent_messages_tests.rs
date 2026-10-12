@@ -1,5 +1,11 @@
 //! Guardian retains native encrypted parent replies across incremental reviews.
 
+use core_test_support::context_snapshot;
+use core_test_support::context_snapshot::ContextSnapshotOptions;
+use core_test_support::responses;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
+use core_test_support::wait_for_event;
 use kodex_core::config::Constrained;
 use kodex_protocol::AgentPath;
 use kodex_protocol::config_types::ApprovalsReviewer;
@@ -8,12 +14,6 @@ use kodex_protocol::protocol::AskForApproval;
 use kodex_protocol::protocol::EventMsg;
 use kodex_protocol::protocol::InterAgentCommunication;
 use kodex_protocol::protocol::Op;
-use core_test_support::context_snapshot;
-use core_test_support::context_snapshot::ContextSnapshotOptions;
-use core_test_support::responses;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
-use core_test_support::wait_for_event;
 use pretty_assertions::assert_eq;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

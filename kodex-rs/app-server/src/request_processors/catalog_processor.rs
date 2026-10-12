@@ -1,12 +1,12 @@
 use super::*;
 use crate::model_catalog::ModelCatalog;
+use futures::StreamExt;
 use kodex_config::ConfigPathContext;
 use kodex_core::config::permission_profile_catalog;
 use kodex_hooks::HookListEntryHandler;
 use kodex_utils_absolute_path::AbsolutePathBufGuard;
 use kodex_utils_path_uri::PathConvention;
 use kodex_utils_path_uri::PathUri;
-use futures::StreamExt;
 
 #[derive(Clone)]
 pub(crate) struct CatalogRequestProcessor {

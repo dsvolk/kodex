@@ -25,12 +25,12 @@ use kodex_git_utils::recent_commits;
 use kodex_git_utils::resolve_root_git_project_uri_for_trust;
 // Existing trust fixtures check both entry points through this shared wrapper.
 use self::resolve_native_and_portable_trust_roots as resolve_root_git_project_for_trust;
-use kodex_utils_absolute_path::AbsolutePathBuf;
-use kodex_utils_path::normalize_for_path_comparison;
-use kodex_utils_path_uri::PathUri;
 use core_test_support::PathBufExt;
 use core_test_support::PathExt;
 use core_test_support::skip_if_sandbox;
+use kodex_utils_absolute_path::AbsolutePathBuf;
+use kodex_utils_path::normalize_for_path_comparison;
+use kodex_utils_path_uri::PathUri;
 use pretty_assertions::assert_eq;
 use std::collections::HashMap;
 use std::fs;

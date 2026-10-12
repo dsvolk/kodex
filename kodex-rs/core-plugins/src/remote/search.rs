@@ -7,8 +7,8 @@ use super::authenticated_request;
 use super::build_remote_plugin_summary;
 use super::ensure_chatgpt_auth;
 use super::send_and_decode;
-use kodex_login::KodexAuth;
 use http::Method;
+use kodex_login::KodexAuth;
 use tracing::instrument;
 use url::Url;
 

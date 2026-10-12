@@ -16,6 +16,7 @@ use std::sync::Weak;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 
+use indexmap::IndexMap;
 use kodex_code_mode::CellId;
 use kodex_features::Feature;
 use kodex_features::Features;
@@ -30,7 +31,6 @@ use kodex_protocol::models::ToolResultMetadata;
 use kodex_protocol::models::executed_tool_call_metadata_bytes;
 use kodex_protocol::models::normalize_executed_tool_call_arguments;
 use kodex_protocol::openai_models::ToolMode;
-use indexmap::IndexMap;
 use serde_json::Value as JsonValue;
 
 use crate::session::session::Session;

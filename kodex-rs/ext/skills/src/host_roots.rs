@@ -2,6 +2,8 @@ use std::collections::HashSet;
 use std::io;
 use std::sync::Arc;
 
+use dirs::home_dir;
+use futures::StreamExt;
 use kodex_config::ConfigLayerSource;
 use kodex_config::ConfigLayerStack;
 use kodex_config::default_project_root_markers;
@@ -15,8 +17,6 @@ use kodex_skills::system_cache_root_dir;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathUri;
 use kodex_utils_plugins::PluginSkillRoot;
-use dirs::home_dir;
-use futures::StreamExt;
 use toml::Value as TomlValue;
 
 use crate::loader::HostSkillRoot;

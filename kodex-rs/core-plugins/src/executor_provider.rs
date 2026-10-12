@@ -3,6 +3,7 @@
 
 use crate::PluginProvider;
 use crate::manifest::parse_plugin_manifest_uri;
+use futures::StreamExt;
 use kodex_exec_server::CapabilityRootDiscovery;
 use kodex_exec_server::EnvironmentManager;
 use kodex_exec_server::ExecutorFileSystem;
@@ -16,7 +17,6 @@ use kodex_protocol::capabilities::SelectedCapabilityRoot;
 use kodex_utils_path_uri::PathUri;
 use kodex_utils_path_uri::PathUriParseError;
 use kodex_utils_plugins::DISCOVERABLE_PLUGIN_MANIFEST_PATHS;
-use futures::StreamExt;
 use std::io;
 use std::sync::Arc;
 use thiserror::Error;

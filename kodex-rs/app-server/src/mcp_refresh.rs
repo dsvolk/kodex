@@ -1,6 +1,6 @@
 use crate::config_manager::ConfigManager;
-use kodex_core::KodexThread;
 use kodex_core::ConfigRefreshOutcome;
+use kodex_core::KodexThread;
 use kodex_core::ThreadManager;
 use kodex_core::config::Config;
 use std::io;

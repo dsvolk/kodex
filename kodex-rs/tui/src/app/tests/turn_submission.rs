@@ -1,7 +1,7 @@
 use super::*;
 use crate::chatwidget::UserMessage;
-use kodex_app_server_protocol::KodexErrorInfo;
 use kodex_app_server_protocol::ErrorNotification;
+use kodex_app_server_protocol::KodexErrorInfo;
 use kodex_app_server_protocol::ThreadGoalStatus;
 use kodex_protocol::models::ManagedFileSystemPermissions;
 use kodex_protocol::permissions::FileSystemAccessMode;

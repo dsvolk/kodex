@@ -8,6 +8,9 @@ use std::sync::OnceLock;
 use std::sync::PoisonError;
 
 use async_channel::Sender;
+use futures::FutureExt;
+use futures::future::BoxFuture;
+use futures::future::Shared;
 use kodex_exec_server::Environment;
 use kodex_exec_server::EnvironmentConnectionState;
 use kodex_exec_server::EnvironmentInfo;
@@ -32,9 +35,6 @@ use kodex_protocol::protocol::TurnEnvironmentSelection;
 use kodex_skills_extension::EnvironmentSkillRequirements;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_path_uri::PathUri;
-use futures::FutureExt;
-use futures::future::BoxFuture;
-use futures::future::Shared;
 use tokio::sync::watch;
 use tokio_util::task::AbortOnDropHandle;
 use tracing::Instrument;
@@ -1318,6 +1318,8 @@ mod tests {
     use std::time::Duration;
 
     use crate::config::PermissionProfileSnapshot;
+    use futures::SinkExt;
+    use futures::StreamExt;
     use kodex_exec_server::Environment;
     use kodex_exec_server::ExecServerRuntimeOptions;
     use kodex_exec_server::LOCAL_ENVIRONMENT_ID;
@@ -1334,8 +1336,6 @@ mod tests {
     use kodex_protocol::sandbox::SandboxType;
     use kodex_utils_absolute_path::AbsolutePathBuf;
     use kodex_utils_path_uri::PathUri;
-    use futures::SinkExt;
-    use futures::StreamExt;
     use pretty_assertions::assert_eq;
     use serde_json::Value;
     use tokio::net::TcpListener;

@@ -1,8 +1,8 @@
 use crate::rate_limits::RateLimitError;
+use http::StatusCode;
 use kodex_client::TransportError;
 use kodex_http_client::RetryAfter;
 use kodex_protocol::protocol::MisalignmentErrorDetails;
-use http::StatusCode;
 use serde_json::Value;
 use thiserror::Error;
 

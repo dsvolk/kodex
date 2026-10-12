@@ -19,8 +19,8 @@ use crate::hook_runtime::PostCompactHookOutcome;
 use crate::hook_runtime::PreCompactHookOutcome;
 use crate::hook_runtime::run_post_compact_hooks;
 use crate::hook_runtime::run_pre_compact_hooks;
-use crate::responses_metadata::KodexResponsesMetadata;
 use crate::responses_metadata::CompactionTurnMetadata;
+use crate::responses_metadata::KodexResponsesMetadata;
 use crate::responses_retry::ResponsesStreamRequest;
 use crate::responses_retry::ResponsesStreamRetryState;
 use crate::responses_retry::handle_response_stream_error;
@@ -28,6 +28,7 @@ use crate::session::RequestEffortUsage;
 use crate::session::session::Session;
 use crate::session::step_context::StepContext;
 use crate::session::turn_context::TurnContext;
+use futures::StreamExt;
 use kodex_analytics::CompactionImplementation;
 use kodex_analytics::CompactionPhase;
 use kodex_analytics::CompactionReason;
@@ -54,7 +55,6 @@ use kodex_rollout_trace::CompactionCheckpointTracePayload;
 use kodex_rollout_trace::InferenceTraceContext;
 use kodex_utils_output_truncation::approx_token_count;
 use kodex_utils_output_truncation::truncate_text;
-use futures::StreamExt;
 
 #[path = "compact_remote_v2_attempt.rs"]
 mod attempt;

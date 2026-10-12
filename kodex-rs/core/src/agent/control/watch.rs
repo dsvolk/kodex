@@ -4,11 +4,11 @@
 use super::LocalAgentControl;
 use crate::agent::api::AgentInfo;
 use crate::agent::types::LiveAgent;
-use kodex_protocol::ThreadId;
-use kodex_protocol::error::Result as KodexResult;
 use futures::StreamExt;
 use futures::stream;
 use futures::stream::BoxStream;
+use kodex_protocol::ThreadId;
+use kodex_protocol::error::Result as KodexResult;
 use std::sync::Arc;
 
 /// An initial runtime snapshot followed by coalesced status changes. The stream ends

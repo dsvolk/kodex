@@ -7,8 +7,8 @@ pub(super) mod command_center;
 #[path = "agents_overview_grouping.rs"]
 mod grouping;
 
-pub(super) use kodex_config::types::AgentsOverviewGrouping;
 use grouping::model_name;
+pub(super) use kodex_config::types::AgentsOverviewGrouping;
 
 use super::agents_overview::AGENTS_OVERVIEW_VIEW_ID;
 use super::agents_overview_details::AgentsOverviewDetails;
@@ -35,14 +35,14 @@ use crate::terminal_hyperlinks::mark_buffer_hyperlinks;
 use crate::terminal_hyperlinks::plain_hyperlink_lines;
 use crate::terminal_hyperlinks::remap_wrapped_line;
 use crate::terminal_hyperlinks::visible_lines;
+use crossterm::event::KeyCode;
+use crossterm::event::KeyEvent;
+use crossterm::event::KeyModifiers;
 use kodex_app_server_protocol::Thread;
 use kodex_app_server_protocol::ThreadActiveFlag;
 use kodex_app_server_protocol::ThreadStatus;
 use kodex_protocol::ThreadId;
 use kodex_protocol::openai_models::ReasoningEffort;
-use crossterm::event::KeyCode;
-use crossterm::event::KeyEvent;
-use crossterm::event::KeyModifiers;
 use ratatui::buffer::Buffer;
 use ratatui::layout::Constraint;
 use ratatui::layout::Layout;

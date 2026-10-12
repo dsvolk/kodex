@@ -3,6 +3,8 @@ use std::sync::Mutex;
 
 use anyhow::Context;
 use anyhow::Result;
+use http::HeaderMap;
+use http::HeaderValue;
 use kodex_api::AuthProvider;
 use kodex_exec_server::ExecServerClient;
 use kodex_exec_server::NoiseChannelIdentity;
@@ -11,8 +13,6 @@ use kodex_exec_server::NoiseRendezvousConnectBundle;
 use kodex_exec_server::RemoteEnvironmentConfig;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
-use http::HeaderMap;
-use http::HeaderValue;
 use tokio::net::TcpListener;
 use tokio::time::timeout;
 use tokio_util::task::AbortOnDropHandle;

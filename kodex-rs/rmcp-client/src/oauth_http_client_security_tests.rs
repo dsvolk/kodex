@@ -3,6 +3,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use anyhow::Result;
+use futures::future::BoxFuture;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::HttpClient;
 use kodex_exec_server::HttpRequestParams;
@@ -11,7 +12,6 @@ use kodex_exec_server::HttpResponseBodyStream;
 use kodex_exec_server::RouteAwareHttpClient;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
-use futures::future::BoxFuture;
 use pretty_assertions::assert_eq;
 use rmcp::transport::auth::AuthorizationManager;
 use rmcp::transport::auth::AuthorizationMetadata;

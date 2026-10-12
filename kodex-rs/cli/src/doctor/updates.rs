@@ -9,12 +9,12 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::time::Duration;
 
+use http::Method;
 use kodex_core::config::Config;
 use kodex_http_client::ClientRouteClass;
 use kodex_http_client::RouteAwareClientPool;
 use kodex_install_context::InstallContext;
 use kodex_install_context::InstallMethod;
-use http::Method;
 use serde::Deserialize;
 #[cfg(target_os = "macos")]
 use url::Url;

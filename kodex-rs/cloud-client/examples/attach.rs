@@ -1,10 +1,10 @@
 //! Standalone consumer; prints event kinds without logging payloads.
+use futures::StreamExt;
 use kodex_cloud_client::Client;
 use kodex_cloud_client::Credentials;
 use kodex_cloud_client::ResumeRequest;
 use kodex_http_client::HttpClientFactory;
 use kodex_http_client::OutboundProxyPolicy;
-use futures::StreamExt;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

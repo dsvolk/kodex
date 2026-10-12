@@ -1,6 +1,7 @@
 use std::collections::BTreeMap;
 
 use crate::merge::merge_toml_values;
+use indexmap::IndexMap;
 use kodex_network_proxy::InjectedHeaderConfig;
 use kodex_network_proxy::MitmHookActionsConfig;
 use kodex_network_proxy::MitmHookBodyConfig;
@@ -12,7 +13,6 @@ use kodex_network_proxy::NetworkProxyConfig;
 use kodex_network_proxy::NetworkUnixSocketPermission as ProxyNetworkUnixSocketPermission;
 use kodex_network_proxy::normalize_host;
 use kodex_protocol::permissions::FileSystemAccessMode;
-use indexmap::IndexMap;
 use schemars::JsonSchema;
 use serde::Deserialize;
 use serde::Serialize;

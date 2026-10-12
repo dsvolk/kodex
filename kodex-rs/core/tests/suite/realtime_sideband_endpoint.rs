@@ -3,15 +3,6 @@
 //! adding bearer credentials.
 
 use anyhow::Result;
-use kodex_login::AuthHeaders;
-use kodex_login::KodexAuth;
-use kodex_protocol::protocol::KodexResponseHandoffMode;
-use kodex_protocol::protocol::ConversationStartParams;
-use kodex_protocol::protocol::ConversationStartTransport;
-use kodex_protocol::protocol::EventMsg;
-use kodex_protocol::protocol::Op;
-use kodex_protocol::protocol::RealtimeConversationVersion;
-use kodex_protocol::protocol::RealtimeOutputModality;
 use core_test_support::responses::start_mock_server;
 use core_test_support::responses::start_websocket_server;
 use core_test_support::skip_if_no_network;
@@ -20,6 +11,15 @@ use core_test_support::wait_for_event;
 use core_test_support::wait_for_event_match;
 use http::HeaderMap;
 use http::HeaderValue;
+use kodex_login::AuthHeaders;
+use kodex_login::KodexAuth;
+use kodex_protocol::protocol::ConversationStartParams;
+use kodex_protocol::protocol::ConversationStartTransport;
+use kodex_protocol::protocol::EventMsg;
+use kodex_protocol::protocol::KodexResponseHandoffMode;
+use kodex_protocol::protocol::Op;
+use kodex_protocol::protocol::RealtimeConversationVersion;
+use kodex_protocol::protocol::RealtimeOutputModality;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use test_case::test_case;

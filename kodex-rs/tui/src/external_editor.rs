@@ -4,13 +4,13 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Stdio;
 
+use color_eyre::eyre::Report;
+use color_eyre::eyre::Result;
 #[cfg(windows)]
 use kodex_protocol::permissions::FileSystemPath;
 use kodex_protocol::permissions::FileSystemSandboxPolicy;
 #[cfg(windows)]
 use kodex_protocol::permissions::FileSystemSpecialPath;
-use color_eyre::eyre::Report;
-use color_eyre::eyre::Result;
 use tempfile::Builder;
 use thiserror::Error;
 use tokio::process::Command;

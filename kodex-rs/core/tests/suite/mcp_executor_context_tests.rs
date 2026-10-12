@@ -4,6 +4,10 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 use anyhow::Result;
+use core_test_support::responses::start_mock_server;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::environment_config_for_selection;
+use core_test_support::test_kodex::test_kodex;
 use kodex_core::StartThreadOptions;
 use kodex_core::config::Config;
 use kodex_extension_api::ExtensionFuture;
@@ -18,10 +22,6 @@ use kodex_protocol::capabilities::SelectedCapabilityRoot;
 use kodex_protocol::protocol::EnvironmentConfigState;
 use kodex_protocol::protocol::TurnEnvironmentRequest;
 use kodex_protocol::protocol::TurnEnvironmentSelection;
-use core_test_support::responses::start_mock_server;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::environment_config_for_selection;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 
 #[derive(Default)]

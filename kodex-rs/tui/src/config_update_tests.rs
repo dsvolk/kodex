@@ -2,10 +2,10 @@ use super::*;
 use crate::history_cell::HistoryCell;
 use crate::legacy_core::config::ConfigBuilder;
 use crate::legacy_core::config::ConfigOverrides;
+use color_eyre::eyre::WrapErr;
 use kodex_app_server_client::AppServerClient;
 use kodex_app_server_protocol::ThreadStartParams;
 use kodex_app_server_protocol::ThreadStartResponse;
-use color_eyre::eyre::WrapErr;
 use pretty_assertions::assert_eq;
 use std::path::Path;
 

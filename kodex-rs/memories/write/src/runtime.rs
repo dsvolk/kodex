@@ -1,5 +1,6 @@
 use crate::metrics::MEMORY_STORAGE_BYTES;
 use crate::workspace::memory_storage_bytes;
+use futures::StreamExt;
 use kodex_core::KodexThread;
 use kodex_core::ModelClient;
 use kodex_core::NewThread;
@@ -39,7 +40,6 @@ use kodex_protocol::user_input::UserInput;
 use kodex_rollout_trace::InferenceTraceContext;
 use kodex_state::MemoryStore;
 use kodex_terminal_detection::user_agent;
-use futures::StreamExt;
 use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;

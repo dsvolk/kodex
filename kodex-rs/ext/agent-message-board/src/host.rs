@@ -3,10 +3,10 @@
 use crate::PostPreview;
 use chrono::DateTime;
 use chrono::Utc;
+use futures::future::BoxFuture;
 use kodex_protocol::AgentPath;
 use kodex_protocol::ThreadId;
 use kodex_protocol::error::Result;
-use futures::future::BoxFuture;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NotificationDelivery {

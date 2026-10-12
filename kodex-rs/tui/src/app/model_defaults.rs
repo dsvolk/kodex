@@ -5,12 +5,12 @@
 
 use super::App;
 use crate::app_server_session::AppServerSession;
+use color_eyre::eyre::Result;
 use kodex_app_server_client::AppServerRequestHandle;
 use kodex_app_server_protocol::ConfigEdit;
 use kodex_app_server_protocol::WriteStatus;
 use kodex_protocol::config_types::ModeKind;
 use kodex_protocol::openai_models::ReasoningEffort;
-use color_eyre::eyre::Result;
 
 impl App {
     pub(super) async fn select_session_model(

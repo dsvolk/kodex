@@ -19,6 +19,7 @@ use std::time::Duration;
 use std::time::Instant;
 
 use anyhow::Context as _;
+use futures::FutureExt as _;
 use kodex_config::types::AuthKeyringBackendKind;
 use kodex_config::types::OAuthCredentialsStoreMode;
 use kodex_exec_server::Environment;
@@ -31,7 +32,6 @@ use kodex_rmcp_client::ElicitationAction;
 use kodex_rmcp_client::ElicitationResponse;
 use kodex_rmcp_client::RmcpClient;
 use kodex_utils_cargo_bin::CargoBinError;
-use futures::FutureExt as _;
 use pretty_assertions::assert_eq;
 use rmcp::model::CallToolResult;
 use rmcp::model::ClientCapabilities;

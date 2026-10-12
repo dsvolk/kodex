@@ -6,10 +6,10 @@ use super::super::tests::type_chars_humanlike;
 use crate::keymap::KeyChordMatch;
 use crate::keymap::KeyChordMatcher;
 use crate::keymap::RuntimeKeymap;
-use kodex_config::types::TuiKeymap;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyModifiers;
+use kodex_config::types::TuiKeymap;
 use pretty_assertions::assert_eq;
 
 #[test]

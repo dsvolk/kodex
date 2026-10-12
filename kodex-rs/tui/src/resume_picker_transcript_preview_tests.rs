@@ -2,6 +2,7 @@ use super::*;
 use crate::legacy_core::config::ConfigBuilder;
 use app_test_support::create_mock_responses_server_sequence;
 use app_test_support::write_mock_responses_config_toml;
+use core_test_support::responses;
 use kodex_app_server_client::AppServerEvent;
 use kodex_app_server_protocol::ClientRequest;
 use kodex_app_server_protocol::ImageReference;
@@ -20,7 +21,6 @@ use kodex_protocol::protocol::ThreadRolledBackEvent;
 use kodex_protocol::protocol::UserMessageEvent;
 use kodex_rollout::CompactedItem;
 use kodex_rollout::RolloutLine;
-use core_test_support::responses;
 use pretty_assertions::assert_eq;
 use tempfile::tempdir;
 

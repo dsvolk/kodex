@@ -1,5 +1,8 @@
 //! Verifies default Bedrock catalogs select V2 and expose its collaboration tools.
 
+use core_test_support::responses;
+use core_test_support::skip_if_no_network;
+use core_test_support::test_kodex::test_kodex;
 use kodex_features::Feature;
 use kodex_login::KodexAuth;
 use kodex_login::auth::BedrockApiKeyAuth;
@@ -7,9 +10,6 @@ use kodex_model_provider_info::AMAZON_BEDROCK_PROVIDER_ID;
 use kodex_model_provider_info::AMAZON_BEDROCK_RUNTIME_PROVIDER_ID;
 use kodex_model_provider_info::built_in_model_providers;
 use kodex_protocol::protocol::MultiAgentVersion;
-use core_test_support::responses;
-use core_test_support::skip_if_no_network;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 
 #[test_case::test_case(AMAZON_BEDROCK_PROVIDER_ID, "openai.gpt-5.6-sol"; "mantle")]

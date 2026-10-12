@@ -30,8 +30,8 @@ use serde::Serialize;
 use serde::de::DeserializeOwned;
 use tokio::sync::watch;
 
-use self::persistence::load_cached_kodex_apps_server_info;
 use self::persistence::load_cached_connector_runtime_for_identity;
+use self::persistence::load_cached_kodex_apps_server_info;
 use self::persistence::persist_kodex_apps_cache;
 use self::persistence::server_info_cache_path;
 use self::persistence::tools_cache_path;

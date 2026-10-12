@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::io;
 
+use futures::StreamExt;
 use kodex_exec_server::CapabilityRootDiscovery;
 use kodex_exec_server::EnvironmentAccess;
 use kodex_exec_server::EnvironmentAccessExt;
@@ -14,7 +15,6 @@ use kodex_skills::SkillPolicy;
 use kodex_skills::parse_skill_frontmatter_metadata;
 use kodex_utils_path_uri::PathUri;
 use kodex_utils_plugins::SkillDiscoveryMode;
-use futures::StreamExt;
 
 use super::MAX_QUALIFIED_NAME_LEN;
 use super::discovery::DirectorySymlinkPolicy;

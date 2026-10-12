@@ -1,10 +1,10 @@
 use super::*;
 use crate::session::session::Session;
 use crate::session::step_context::StepContext;
+use futures::future::BoxFuture;
 use kodex_protocol::DEFAULT_FUNCTION_NAMESPACE;
 use kodex_protocol::models::ResponseItem;
 use kodex_utils_output_truncation::TruncationPolicy;
-use futures::future::BoxFuture;
 use pretty_assertions::assert_eq;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;

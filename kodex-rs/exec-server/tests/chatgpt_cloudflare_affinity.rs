@@ -15,6 +15,8 @@ use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
 
+use common::exec_server::ExecServerHarness;
+use common::exec_server::exec_server_with_env;
 use kodex_exec_server::HttpRedirectPolicy;
 use kodex_exec_server::HttpRequestParams;
 use kodex_exec_server::HttpRequestResponse;
@@ -22,8 +24,6 @@ use kodex_exec_server::InitializeParams;
 use kodex_exec_server_protocol::JSONRPCMessage;
 use kodex_exec_server_protocol::JSONRPCResponse;
 use kodex_exec_server_protocol::RequestId;
-use common::exec_server::ExecServerHarness;
-use common::exec_server::exec_server_with_env;
 use pretty_assertions::assert_eq;
 use rcgen::BasicConstraints;
 use rcgen::CertificateParams;

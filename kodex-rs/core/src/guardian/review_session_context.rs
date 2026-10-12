@@ -4,10 +4,10 @@
 use kodex_features::Feature;
 use kodex_protocol::models::ResponseItem;
 
-use crate::kodex_thread::GuardianAuthorizationVersion;
 use crate::config::ManagedFeatures;
 use crate::context::GuardianContextMode;
 use crate::context_manager::ContextManager;
+use crate::kodex_thread::GuardianAuthorizationVersion;
 use crate::session::session::Session;
 
 #[derive(Clone, Copy, PartialEq, Eq)]

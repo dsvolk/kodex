@@ -17,8 +17,8 @@ use std::time::Duration;
 
 use anyhow::Context;
 use anyhow::Result;
-use kodex_utils_path_uri::PathUri;
 use futures::TryStreamExt;
+use kodex_utils_path_uri::PathUri;
 use pretty_assertions::assert_eq;
 use tokio::process::Command;
 use tokio::time::timeout;

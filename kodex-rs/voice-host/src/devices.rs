@@ -26,7 +26,6 @@ use std::sync::atomic::Ordering;
 use std::time::Duration;
 use std::time::Instant;
 
-use kodex_realtime_webrtc::AudioDeviceKind;
 use cpal::FromSample;
 use cpal::Sample;
 use cpal::SampleFormat;
@@ -34,6 +33,7 @@ use cpal::SizedSample;
 use cpal::traits::DeviceTrait;
 use cpal::traits::HostTrait;
 use cpal::traits::StreamTrait;
+use kodex_realtime_webrtc::AudioDeviceKind;
 
 use buffers::BLOCK;
 use buffers::Buffers;

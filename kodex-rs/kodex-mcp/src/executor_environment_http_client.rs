@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
+use futures::future::BoxFuture;
 use kodex_exec_server::ExecServerError;
 use kodex_exec_server::HttpClient;
 use kodex_exec_server::HttpHeader;
 use kodex_exec_server::HttpRequestParams;
 use kodex_exec_server::HttpRequestResponse;
 use kodex_exec_server::HttpResponseBodyStream;
-use futures::future::BoxFuture;
 
 pub(crate) struct ExecutorEnvironmentHttpClient {
     pub(crate) bearer_token_env_var: String,

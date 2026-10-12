@@ -9,9 +9,9 @@ from app_server_helpers import TINY_PNG_BYTES, streaming_response
 
 from openai_kodex import (
     AsyncKodex,
-    Kodex,
     ExternalMessage,
     ImageInput,
+    Kodex,
     LocalImageInput,
     SkillInput,
     TextInput,

@@ -10,10 +10,11 @@ use crate::agent::types::AgentMetadata;
 use crate::agent::types::LiveAgent;
 use crate::agent::types::MessageDeliveryMode;
 use crate::agent::types::SpawnAgentOptions;
+use crate::config::Config;
 use crate::kodex_thread::GuardianRootSnapshot;
 use crate::kodex_thread::ThreadConfigSnapshot;
-use crate::config::Config;
 use crate::rollout_budget::RolloutBudgetReminder;
+use futures::future::BoxFuture;
 use kodex_protocol::AgentPath;
 use kodex_protocol::SessionId;
 use kodex_protocol::ThreadId;
@@ -26,7 +27,6 @@ use kodex_protocol::protocol::TokenUsage;
 use kodex_protocol::turn_input::TurnStartOptions;
 use kodex_protocol::user_input::UserInput;
 use kodex_rollout_trace::ThreadTraceContext;
-use futures::future::BoxFuture;
 
 // Keep dynamic dispatch a compile-time property of the contract.
 const _: Option<&dyn AgentControl> = None;

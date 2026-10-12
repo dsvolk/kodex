@@ -3,6 +3,7 @@ use std::ffi::OsString;
 use std::sync::Arc;
 use std::time::Duration;
 
+use futures::FutureExt;
 use kodex_config::types::AuthKeyringBackendKind;
 use kodex_config::types::OAuthCredentialsStoreMode;
 use kodex_exec_server::Environment;
@@ -13,7 +14,6 @@ use kodex_rmcp_client::LocalStdioServerLauncher;
 use kodex_rmcp_client::McpProtocolMode;
 use kodex_rmcp_client::RmcpClient;
 use kodex_rmcp_client::StdioServerLauncher;
-use futures::FutureExt;
 use rmcp::model::ClientCapabilities;
 use rmcp::model::Implementation;
 use rmcp::model::InitializeRequestParams;

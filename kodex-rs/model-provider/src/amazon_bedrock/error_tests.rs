@@ -1,6 +1,9 @@
 use std::num::NonZeroU64;
 use std::time::Duration;
 
+use http::HeaderMap;
+use http::HeaderValue;
+use http::StatusCode;
 use kodex_api::ApiError;
 use kodex_api::TransportError;
 use kodex_http_client::RetryAfter;
@@ -8,9 +11,6 @@ use kodex_model_provider_info::AwsCredentialExportConfig;
 use kodex_model_provider_info::ModelProviderAwsAuthInfo;
 use kodex_model_provider_info::ModelProviderInfo;
 use kodex_protocol::error::KodexErrorDetails;
-use http::HeaderMap;
-use http::HeaderValue;
-use http::StatusCode;
 use pretty_assertions::assert_eq;
 
 use super::AmazonBedrockModelProvider;

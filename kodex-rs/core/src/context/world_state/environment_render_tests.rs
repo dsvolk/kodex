@@ -2,6 +2,7 @@ use crate::context::world_state::test_support::FragmentSectionTestExt as _;
 use crate::shell::ShellType;
 
 use super::*;
+use core_test_support::test_path_buf;
 use kodex_protocol::models::PermissionProfile;
 use kodex_protocol::permissions::FileSystemAccessMode;
 use kodex_protocol::permissions::FileSystemPath;
@@ -12,7 +13,6 @@ use kodex_protocol::permissions::NetworkSandboxPolicy;
 use kodex_protocol::permissions::project_roots_glob_pattern;
 use kodex_utils_absolute_path::AbsolutePathBuf;
 use kodex_utils_absolute_path::test_support::PathBufExt;
-use core_test_support::test_path_buf;
 use pretty_assertions::assert_eq;
 use std::path::Path;
 use std::path::PathBuf;

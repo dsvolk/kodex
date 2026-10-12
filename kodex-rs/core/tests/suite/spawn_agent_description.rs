@@ -2,6 +2,16 @@
 #![allow(clippy::unwrap_used)]
 
 use anyhow::Result;
+use core_test_support::responses::ResponsesRequest;
+use core_test_support::responses::ev_completed;
+use core_test_support::responses::ev_response_created;
+use core_test_support::responses::mount_models_once;
+use core_test_support::responses::mount_sse_once;
+use core_test_support::responses::mount_sse_sequence;
+use core_test_support::responses::namespace_child_tool;
+use core_test_support::responses::sse;
+use core_test_support::responses::start_mock_server;
+use core_test_support::test_kodex::test_kodex;
 use kodex_core::config::AgentRoleConfig;
 use kodex_core::config::Config;
 use kodex_features::Feature;
@@ -21,16 +31,6 @@ use kodex_protocol::openai_models::TruncationPolicyConfig;
 use kodex_protocol::openai_models::default_input_modalities;
 use kodex_protocol::protocol::MULTI_AGENT_MODE_OPEN_TAG;
 use kodex_protocol::protocol::MultiAgentVersion;
-use core_test_support::responses::ResponsesRequest;
-use core_test_support::responses::ev_completed;
-use core_test_support::responses::ev_response_created;
-use core_test_support::responses::mount_models_once;
-use core_test_support::responses::mount_sse_once;
-use core_test_support::responses::mount_sse_sequence;
-use core_test_support::responses::namespace_child_tool;
-use core_test_support::responses::sse;
-use core_test_support::responses::start_mock_server;
-use core_test_support::test_kodex::test_kodex;
 use pretty_assertions::assert_eq;
 use serde_json::Value;
 use std::time::Duration;

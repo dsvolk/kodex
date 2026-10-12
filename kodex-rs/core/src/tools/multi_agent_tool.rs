@@ -4,6 +4,7 @@
 use crate::session::session::Session;
 use crate::tools::context::ToolInvocation;
 use crate::tools::registry::CoreToolRuntime;
+use futures::future::BoxFuture;
 use kodex_tools::JsonSchema;
 use kodex_tools::ResponsesApiNamespace;
 use kodex_tools::ResponsesApiNamespaceTool;
@@ -12,7 +13,6 @@ use kodex_tools::ToolExposure;
 use kodex_tools::ToolName;
 use kodex_tools::ToolSearchInfo;
 use kodex_tools::ToolSpec;
-use futures::future::BoxFuture;
 use std::sync::Arc;
 
 pub(crate) const MULTI_AGENT_V2_NAMESPACE_DESCRIPTION: &str =

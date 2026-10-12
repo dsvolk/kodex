@@ -1,9 +1,6 @@
 //! Exercises resolved local MXC selection in a real thread and snapshots its permission context.
 
 use anyhow::Result;
-use kodex_protocol::models::PermissionProfile;
-use kodex_protocol::permissions::NetworkSandboxPolicy;
-use kodex_protocol::sandbox::SandboxType;
 use core_test_support::context_snapshot;
 use core_test_support::context_snapshot::ContextSnapshotOptions;
 use core_test_support::responses::ev_completed;
@@ -11,6 +8,9 @@ use core_test_support::responses::mount_sse_once;
 use core_test_support::responses::sse;
 use core_test_support::responses::start_mock_server;
 use core_test_support::test_kodex::test_kodex;
+use kodex_protocol::models::PermissionProfile;
+use kodex_protocol::permissions::NetworkSandboxPolicy;
+use kodex_protocol::sandbox::SandboxType;
 use pretty_assertions::assert_eq;
 
 #[test_case::test_case(true; "preferred")]

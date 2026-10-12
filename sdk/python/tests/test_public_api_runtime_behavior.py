@@ -12,8 +12,8 @@ import openai_kodex.api as public_api_module
 from openai_kodex.api import (
     ApprovalMode,
     AsyncKodex,
-    Kodex,
     ExternalMessage,
+    Kodex,
     Sandbox,
     TextInput,
 )

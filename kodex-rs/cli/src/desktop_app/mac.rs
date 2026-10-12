@@ -351,8 +351,8 @@ fn parse_hdiutil_attach_mount_point(output: &str) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
-    use super::kodex_new_thread_url;
     use super::find_existing_kodex_app_path;
+    use super::kodex_new_thread_url;
     use super::open_kodex_app;
     use super::parse_hdiutil_attach_mount_point;
     use super::verify_kodex_app_bundle;
